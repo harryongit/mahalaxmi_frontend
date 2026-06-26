@@ -1,29 +1,64 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import { useLenis } from "@/lib/use-lenis";
+import { Loader } from "@/components/temple/Loader";
+import { Navbar } from "@/components/temple/Navbar";
+import { Hero } from "@/components/temple/Hero";
+import {
+  About,
+  History,
+  Architecture,
+  Rituals,
+  Festivals,
+  VirtualDarshan,
+  Donate,
+  Events,
+  Testimonials,
+  Location,
+  Gallery,
+} from "@/components/temple/Sections";
+import { Footer } from "@/components/temple/Footer";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Your App" },
-      { name: "description", content: "Replace this with a one-sentence description of your app." },
-      { property: "og:title", content: "Your App" },
-      { property: "og:description", content: "Replace this with a one-sentence description of your app." },
+      { title: "Shri Mandir — A Sacred Journey of Devotion" },
+      {
+        name: "description",
+        content:
+          "Step into a centuries-old sanctuary. Explore the history, architecture, rituals, festivals and live darshan of Shri Mandir.",
+      },
+      { property: "og:title", content: "Shri Mandir — A Sacred Journey of Devotion" },
+      { property: "og:description", content: "A cinematic, immersive online experience of an ancient temple." },
+      { property: "og:url", content: "/" },
     ],
+    links: [{ rel: "canonical", href: "/" }],
   }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
+  const [loaded, setLoaded] = useState(false);
+  useLenis();
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <>
+      <Loader onDone={() => setLoaded(true)} />
+      <main className={`relative ${loaded ? "" : "overflow-hidden h-screen"}`}>
+        <Navbar />
+        <Hero />
+        <About />
+        <History />
+        <Architecture />
+        <Rituals />
+        <Gallery />
+        <Festivals />
+        <VirtualDarshan />
+        <Donate />
+        <Events />
+        <Testimonials />
+        <Location />
+        <Footer />
+      </main>
+    </>
   );
 }
