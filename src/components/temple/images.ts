@@ -1,0 +1,23 @@
+export const IMG = {
+  hero: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=2000&q=80&auto=format&fit=crop",
+  heroAlt: "https://images.unsplash.com/photo-1609952542890-3c9a3d2bd07a?w=2000&q=80&auto=format&fit=crop",
+  about: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?w=1600&q=80&auto=format&fit=crop",
+  architecture: "https://images.unsplash.com/photo-1604608672806-2fc5b62cdd8b?w=2000&q=80&auto=format&fit=crop",
+  festival: "https://images.unsplash.com/photo-1604608672516-f1b9b4b0e3c5?w=2000&q=80&auto=format&fit=crop",
+  darshan: "https://images.unsplash.com/photo-1582632431821-ef1b1d4f5a39?w=2000&q=80&auto=format&fit=crop",
+  location: "https://images.unsplash.com/photo-1567253187379-cd8d05fe517d?w=1600&q=80&auto=format&fit=crop",
+  gallery: [
+    "https://images.unsplash.com/photo-1532375810709-75b1da00537c?w=1200&q=80&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1604608672516-f1b9b4b0e3c5?w=1200&q=80&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1609952542890-3c9a3d2bd07a?w=1200&q=80&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=1200&q=80&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1567253187379-cd8d05fe517d?w=1200&q=80&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1602938539364-1f1b95bf6e44?w=1200&q=80&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1604608672806-2fc5b62cdd8b?w=1200&q=80&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?w=1200&q=80&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=1200&q=80&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1582632431821-ef1b1d4f5a39?w=1200&q=80&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1545315003-c5ad6226c272?w=1200&q=80&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1518002054494-3a6f94352e9d?w=1200&q=80&auto=format&fit=crop",
+  ],
+};
