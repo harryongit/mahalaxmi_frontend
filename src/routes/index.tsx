@@ -52,9 +52,11 @@ function Index() {
         <History />
         <Architecture />
         <Rituals />
-        <Gallery />
+        <GalleryBento />
         <Festivals />
+        <UtsavBanner />
         <VirtualDarshan />
+
         <Donate />
         <Events />
         <Testimonials />
