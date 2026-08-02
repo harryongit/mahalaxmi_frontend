@@ -15,9 +15,11 @@ import {
   Events,
   Testimonials,
   Location,
-  Gallery,
 } from "@/components/temple/Sections";
+import { GalleryBento } from "@/components/temple/GalleryBento";
+import { UtsavBanner } from "@/components/temple/UtsavBanner";
 import { Footer } from "@/components/temple/Footer";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -50,9 +52,11 @@ function Index() {
         <History />
         <Architecture />
         <Rituals />
-        <Gallery />
+        <GalleryBento />
         <Festivals />
+        <UtsavBanner />
         <VirtualDarshan />
+
         <Donate />
         <Events />
         <Testimonials />
