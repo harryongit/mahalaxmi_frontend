@@ -1,4 +1,5 @@
-@import "tailwindcss" source(none);
+@import "tailwindcss";
+@source "../app";
 @source "../src";
 @import "tw-animate-css";
 
@@ -41,13 +42,13 @@
 :root {
   --radius: 0.75rem;
   /* Brand palette */
-  --background: oklch(0.975 0.012 85);          /* #FCF9F3 */
-  --foreground: oklch(0.30 0.025 60);           /* dark stone */
+  --background: oklch(0.975 0.012 85); /* #FCF9F3 */
+  --foreground: oklch(0.3 0.025 60); /* dark stone */
   --stone-deep: oklch(0.25 0.02 60);
-  --saffron: oklch(0.72 0.18 55);               /* deep saffron */
-  --gold: oklch(0.80 0.14 85);                  /* warm gold */
-  --maroon: oklch(0.38 0.12 25);                /* maroon */
-  --card: oklch(0.99 0.005 85);                 /* soft white */
+  --saffron: oklch(0.72 0.18 55); /* deep saffron */
+  --gold: oklch(0.8 0.14 85); /* warm gold */
+  --maroon: oklch(0.38 0.12 25); /* maroon */
+  --card: oklch(0.99 0.005 85); /* soft white */
   --card-foreground: var(--foreground);
   --popover: var(--card);
   --popover-foreground: var(--foreground);
@@ -56,13 +57,13 @@
   --secondary: var(--maroon);
   --secondary-foreground: oklch(0.99 0.005 85);
   --muted: oklch(0.94 0.012 80);
-  --muted-foreground: oklch(0.50 0.02 60);
+  --muted-foreground: oklch(0.5 0.02 60);
   --accent: var(--gold);
   --accent-foreground: oklch(0.25 0.02 60);
   --destructive: oklch(0.55 0.22 27);
   --destructive-foreground: oklch(0.99 0 0);
   --border: oklch(0.88 0.015 75);
-  --input: oklch(0.90 0.012 75);
+  --input: oklch(0.9 0.012 75);
   --ring: var(--gold);
 }
 
@@ -76,11 +77,30 @@
 }
 
 @layer base {
-  * { border-color: var(--color-border); }
-  html, body { background-color: var(--color-background); color: var(--color-foreground); }
-  body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
-  h1,h2,h3,h4,h5 { font-family: var(--font-display); letter-spacing: -0.01em; }
-  ::selection { background: color-mix(in oklab, var(--gold) 50%, transparent); color: var(--stone-deep); }
+  * {
+    border-color: var(--color-border);
+  }
+  html,
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+  body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--gold) 50%, transparent);
+    color: var(--stone-deep);
+  }
 }
 
 @utility container-temple {
@@ -91,7 +111,7 @@
 }
 
 @utility text-gradient-gold {
-  background: linear-gradient(135deg, oklch(0.85 0.14 85), oklch(0.70 0.17 55), oklch(0.55 0.14 35));
+  background: linear-gradient(135deg, oklch(0.85 0.14 85), oklch(0.7 0.17 55), oklch(0.55 0.14 35));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -108,20 +128,25 @@
   font-weight: 500;
   font-size: 0.95rem;
   letter-spacing: 0.02em;
-  color: oklch(0.20 0.02 60);
+  color: oklch(0.2 0.02 60);
   background: linear-gradient(135deg, oklch(0.88 0.14 88), oklch(0.74 0.17 60));
-  box-shadow: 0 10px 30px -10px color-mix(in oklab, var(--gold) 60%, transparent),
-              inset 0 1px 0 rgba(255,255,255,0.5);
-  transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s, filter .35s;
+  box-shadow:
+    0 10px 30px -10px color-mix(in oklab, var(--gold) 60%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  transition:
+    transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 0.35s,
+    filter 0.35s;
   overflow: hidden;
   isolation: isolate;
 }
 @utility btn-gold-hover {
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 18px 48px -10px color-mix(in oklab, var(--gold) 70%, transparent),
-                0 0 0 1px color-mix(in oklab, var(--gold) 40%, transparent),
-                inset 0 1px 0 rgba(255,255,255,0.6);
+    box-shadow:
+      0 18px 48px -10px color-mix(in oklab, var(--gold) 70%, transparent),
+      0 0 0 1px color-mix(in oklab, var(--gold) 40%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6);
     filter: brightness(1.05);
   }
 }
@@ -139,7 +164,7 @@
   border: 1px solid color-mix(in oklab, var(--gold) 50%, transparent);
   background: color-mix(in oklab, black 25%, transparent);
   backdrop-filter: blur(10px);
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   &:hover {
     background: color-mix(in oklab, var(--gold) 25%, transparent);
     border-color: var(--gold);
@@ -158,7 +183,9 @@
 }
 
 @utility hover-lift {
-  transition: transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .5s;
+  transition:
+    transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 0.5s;
   &:hover {
     transform: translateY(-6px);
     box-shadow: 0 25px 50px -20px color-mix(in oklab, var(--maroon) 40%, transparent);
@@ -166,60 +193,143 @@
 }
 
 @utility divider-ornate {
-  display: flex; align-items: center; gap: 1rem; color: var(--gold);
-  &::before, &::after {
-    content: ""; flex: 1; height: 1px;
-    background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--gold) 60%, transparent), transparent);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--gold);
+  &::before,
+  &::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in oklab, var(--gold) 60%, transparent),
+      transparent
+    );
   }
 }
 
 /* Animations */
 @keyframes float-up {
-  0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { transform: translateY(-10vh) translateX(40px) rotate(180deg); opacity: 0; }
+  0% {
+    transform: translateY(100vh) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-10vh) translateX(40px) rotate(180deg);
+    opacity: 0;
+  }
 }
 @keyframes drift-down {
-  0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
-  10% { opacity: 0.9; }
-  90% { opacity: 0.9; }
-  100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+  0% {
+    transform: translateY(-10vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.9;
+  }
+  90% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(110vh) rotate(360deg);
+    opacity: 0;
+  }
 }
 @keyframes flicker {
-  0%,100% { opacity: 1; transform: scaleY(1); }
-  50% { opacity: 0.85; transform: scaleY(0.95); }
+  0%,
+  100% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scaleY(0.95);
+  }
 }
 @keyframes swing {
-  0%,100% { transform: rotate(-4deg); }
-  50% { transform: rotate(4deg); }
+  0%,
+  100% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
 }
 @keyframes ripple-pulse {
-  0% { transform: scale(1); opacity: .6; }
-  100% { transform: scale(2.4); opacity: 0; }
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
 }
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 @keyframes scroll-x {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 @keyframes glow-pulse {
-  0%,100% { box-shadow: 0 0 30px color-mix(in oklab, var(--gold) 40%, transparent); }
-  50% { box-shadow: 0 0 60px color-mix(in oklab, var(--gold) 70%, transparent); }
+  0%,
+  100% {
+    box-shadow: 0 0 30px color-mix(in oklab, var(--gold) 40%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 60px color-mix(in oklab, var(--gold) 70%, transparent);
+  }
 }
 
-.animate-flicker { animation: flicker 1.6s ease-in-out infinite; transform-origin: bottom; }
-.animate-swing { animation: swing 3.2s ease-in-out infinite; transform-origin: top center; }
-.animate-glow-pulse { animation: glow-pulse 3s ease-in-out infinite; }
-.animate-scroll-x { animation: scroll-x 40s linear infinite; }
+.animate-flicker {
+  animation: flicker 1.6s ease-in-out infinite;
+  transform-origin: bottom;
+}
+.animate-swing {
+  animation: swing 3.2s ease-in-out infinite;
+  transform-origin: top center;
+}
+.animate-glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+.animate-scroll-x {
+  animation: scroll-x 40s linear infinite;
+}
 
 /* Smooth scroll via Lenis */
-html.lenis, html.lenis body { height: auto; }
-.lenis.lenis-smooth { scroll-behavior: auto !important; }
-.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
-.lenis.lenis-stopped { overflow: hidden; }
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}

@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -74,15 +76,12 @@ export function Loader({ onDone }: { onDone: () => void }) {
                 ॐ
               </span>
             </motion.div>
-            <div className="font-serif text-3xl tracking-wide text-gradient-gold">
-              Shri Mandir
-            </div>
+            <div className="font-serif text-3xl tracking-wide text-gradient-gold">Shri Mandir</div>
             <div className="w-64 h-px bg-white/15 overflow-hidden">
               <motion.div
                 className="h-full"
                 style={{
-                  background:
-                    "linear-gradient(90deg, oklch(0.85 0.14 85), oklch(0.70 0.17 55))",
+                  background: "linear-gradient(90deg, oklch(0.85 0.14 85), oklch(0.70 0.17 55))",
                 }}
                 animate={{ width: `${pct}%` }}
                 transition={{ ease: "linear", duration: 0.1 }}

@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiMenuAlt4, HiX } from "react-icons/hi";
@@ -32,25 +34,25 @@ export function Navbar() {
         initial={{ y: -30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.7, ease: "easeOut" }}
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-          solid
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${solid
             ? "bg-[color-mix(in_oklab,var(--background)_88%,transparent)] backdrop-blur-xl border-b border-[color-mix(in_oklab,var(--gold)_25%,transparent)] shadow-[0_10px_30px_-20px_rgba(80,40,0,0.25)]"
             : "bg-transparent"
-        }`}
+          }`}
       >
         <div className="container-temple flex items-center justify-between py-4">
           <a href="#home" className="flex items-center gap-3 group">
             <span
               className="grid size-10 place-items-center rounded-full"
               style={{
-                background:
-                  "radial-gradient(circle, oklch(0.92 0.16 88), oklch(0.70 0.17 55))",
+                background: "radial-gradient(circle, oklch(0.92 0.16 88), oklch(0.70 0.17 55))",
                 boxShadow: "0 6px 20px -6px color-mix(in oklab, var(--gold) 60%, transparent)",
               }}
             >
               <span className="text-lg font-serif text-[oklch(0.20_0.02_60)]">ॐ</span>
             </span>
-            <span className={`font-serif text-xl tracking-wide ${solid ? "text-foreground" : "text-white drop-shadow"}`}>
+            <span
+              className={`font-serif text-xl tracking-wide ${solid ? "text-foreground" : "text-white drop-shadow"}`}
+            >
               Shri Mandir
             </span>
           </a>
@@ -60,16 +62,20 @@ export function Navbar() {
               <a
                 key={l.href}
                 href={l.href}
-                className={`relative text-sm font-medium tracking-wide transition-colors ${
-                  solid ? "text-foreground/80 hover:text-foreground" : "text-white/85 hover:text-white"
-                } after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-px after:w-full after:scale-x-0 after:origin-right after:bg-[var(--gold)] after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-left`}
+                className={`relative text-sm font-medium tracking-wide transition-colors ${solid
+                    ? "text-foreground/80 hover:text-foreground"
+                    : "text-white/85 hover:text-white"
+                  } after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-px after:w-full after:scale-x-0 after:origin-right after:bg-[var(--gold)] after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-left`}
               >
                 {l.label}
               </a>
             ))}
           </nav>
 
-          <a href="#donate" className="hidden lg:inline-flex btn-gold btn-gold-hover !py-2 !px-5 !text-sm">
+          <a
+            href="#donate"
+            className="hidden lg:inline-flex btn-gold btn-gold-hover !py-2 !px-5 !text-sm"
+          >
             Donate
           </a>
 
@@ -117,7 +123,11 @@ export function Navbar() {
                   {l.label}
                 </motion.a>
               ))}
-              <a href="#donate" onClick={() => setOpen(false)} className="mt-6 btn-gold btn-gold-hover">
+              <a
+                href="#donate"
+                onClick={() => setOpen(false)}
+                className="mt-6 btn-gold btn-gold-hover"
+              >
                 Donate Now
               </a>
             </nav>

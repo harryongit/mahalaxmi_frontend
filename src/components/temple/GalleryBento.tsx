@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiX, HiChevronLeft, HiChevronRight } from "react-icons/hi";
@@ -98,8 +100,7 @@ export function GalleryBento() {
                 <span
                   className="pointer-events-none absolute inset-2 rounded-[20px] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
                   style={{
-                    background:
-                      "linear-gradient(180deg, transparent 40%, rgba(20,8,2,0.75) 100%)",
+                    background: "linear-gradient(180deg, transparent 40%, rgba(20,8,2,0.75) 100%)",
                   }}
                 />
                 <span className="pointer-events-none absolute bottom-6 left-6 right-6 translate-y-3 text-left text-sm font-light text-white opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">

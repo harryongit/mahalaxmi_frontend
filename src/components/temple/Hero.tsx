@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { HiOutlineArrowDown } from "react-icons/hi";
@@ -122,8 +124,7 @@ export function Hero() {
           <div
             className="absolute left-1/2 -translate-x-1/2 -top-16 w-24 h-24 rounded-full pointer-events-none"
             style={{
-              background:
-                "radial-gradient(circle, rgba(255,200,120,0.4), transparent 60%)",
+              background: "radial-gradient(circle, rgba(255,200,120,0.4), transparent 60%)",
             }}
           />
         </div>
@@ -163,8 +164,8 @@ export function Hero() {
           transition={{ delay: 0.75, duration: 0.9 }}
           className="mt-6 max-w-xl text-sm md:text-base text-white/80 font-light"
         >
-          Where ancient stones still whisper prayers — a thousand years of devotion,
-          carved in silence, glowing in light.
+          Where ancient stones still whisper prayers — a thousand years of devotion, carved in
+          silence, glowing in light.
         </motion.p>
 
         <motion.div
@@ -173,8 +174,12 @@ export function Hero() {
           transition={{ delay: 0.95, duration: 0.8 }}
           className="mt-10 flex flex-wrap items-center justify-center gap-4"
         >
-          <a href="#about" className="btn-gold btn-gold-hover">Explore the Temple</a>
-          <a href="#darshan" className="btn-ghost-gold">Virtual Darshan</a>
+          <a href="#about" className="btn-gold btn-gold-hover">
+            Explore the Temple
+          </a>
+          <a href="#darshan" className="btn-ghost-gold">
+            Virtual Darshan
+          </a>
         </motion.div>
 
         <motion.div
@@ -219,7 +224,10 @@ function Smoke() {
 
 function FlyingBirds() {
   return (
-    <svg className="absolute top-[18%] left-0 w-full h-24 opacity-70 pointer-events-none" viewBox="0 0 1200 100">
+    <svg
+      className="absolute top-[18%] left-0 w-full h-24 opacity-70 pointer-events-none"
+      viewBox="0 0 1200 100"
+    >
       {[0, 1, 2, 3, 4].map((i) => (
         <g key={i}>
           <path

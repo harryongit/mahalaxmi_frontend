@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useMemo, useState } from "react";
 import { HiArrowRight } from "react-icons/hi";
 import { IMG } from "./images";
@@ -56,8 +58,8 @@ export function UtsavBanner() {
                 Diwali <em className="not-italic text-gradient-gold italic">Deep Utsav</em>
               </h2>
               <p className="mt-5 max-w-md text-white/75 leading-relaxed">
-                108,000 diyas will light the sanctuary in a single evening of prayer,
-                music, and prasad. Reserve your seat now.
+                108,000 diyas will light the sanctuary in a single evening of prayer, music, and
+                prasad. Reserve your seat now.
               </p>
 
               <div className="mt-9 flex flex-wrap gap-3">

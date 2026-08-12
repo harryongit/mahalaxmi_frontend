@@ -1,8 +1,16 @@
+"use client";
+
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 
 // Lightweight floating particles / petals using pure CSS animations.
-export function Particles({ count = 14, kind = "dust" }: { count?: number; kind?: "dust" | "petal" | "spark" }) {
+export function Particles({
+  count = 14,
+  kind = "dust",
+}: {
+  count?: number;
+  kind?: "dust" | "petal" | "spark";
+}) {
   // reduce on mobile
   const [n, setN] = useState(count);
   useEffect(() => {
@@ -12,15 +20,16 @@ export function Particles({ count = 14, kind = "dust" }: { count?: number; kind?
     return () => window.removeEventListener("resize", apply);
   }, [count]);
 
-  const items = useMemo(() =>
-    Array.from({ length: n }).map((_, i) => ({
-      id: i,
-      left: Math.random() * 100,
-      size: kind === "petal" ? 10 + Math.random() * 14 : 2 + Math.random() * 4,
-      delay: Math.random() * 12,
-      duration: 14 + Math.random() * 18,
-      drift: Math.random() > 0.5 ? "float-up" : "drift-down",
-    })),
+  const items = useMemo(
+    () =>
+      Array.from({ length: n }).map((_, i) => ({
+        id: i,
+        left: Math.random() * 100,
+        size: kind === "petal" ? 10 + Math.random() * 14 : 2 + Math.random() * 4,
+        delay: Math.random() * 12,
+        duration: 14 + Math.random() * 18,
+        drift: Math.random() > 0.5 ? "float-up" : "drift-down",
+      })),
     [n, kind],
   );
 
