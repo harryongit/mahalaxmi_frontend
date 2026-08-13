@@ -3,6 +3,7 @@
 import { useLenis } from "@/src/lib/use-lenis";
 import { Navbar } from "@/src/components/temple/Navbar";
 import { Rituals } from "@/src/components/temple/Sections";
+import { BookingWidget } from "@/src/components/temple/BookingWidget";
 import { Footer } from "@/src/components/temple/Footer";
 import { motion } from "framer-motion";
 
@@ -62,6 +63,7 @@ export default function RitualsPage() {
         </section>
 
         <Rituals />
+        <BookingWidget />
         <Footer />
       </main>
     </>

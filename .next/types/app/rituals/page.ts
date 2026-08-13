@@ -1,4 +1,4 @@
-// File: C:\Users\Laptop On Rent 200\Documents\New folder\mahalaxmi-frontend\app\rituals\page.tsx
+// File: C:\Users\raman\Pictures\Mahalaxmi\divine-ascent\app\rituals\page.tsx
 import * as entry from '../../../../app/rituals/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

@@ -1,4 +1,4 @@
-// File: C:\Users\Laptop On Rent 200\Documents\New folder\mahalaxmi-frontend\app\gallery\page.tsx
+// File: C:\Users\raman\Pictures\Mahalaxmi\divine-ascent\app\gallery\page.tsx
 import * as entry from '../../../../app/gallery/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
