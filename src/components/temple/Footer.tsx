@@ -11,15 +11,12 @@ export function Footer() {
       <div className="container-temple grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
         <div>
           <div className="flex items-center gap-3">
-            <span
-              className="grid size-10 place-items-center rounded-full"
-              style={{
-                background: "radial-gradient(circle, oklch(0.92 0.16 88), oklch(0.70 0.17 55))",
-              }}
-            >
-              <span className="text-lg font-serif text-[oklch(0.20_0.02_60)]">ॐ</span>
-            </span>
-            <span className="font-serif text-xl text-gradient-gold">Shri Mandir</span>
+            <img
+              src="/logo.png"
+              alt="Ambabai Mahalaxmi Kolhapur Logo"
+              className="size-10 rounded-full object-cover"
+            />
+            <span className="font-serif text-xl text-gradient-gold">Ambabai Mahalaxmi Kolhapur</span>
           </div>
           <p className="mt-5 max-w-sm text-sm text-white/65 leading-relaxed">
             A living sanctuary of devotion, art and silence — open to every seeker, every day, since
@@ -84,7 +81,7 @@ export function Footer() {
       </div>
 
       <div className="container-temple mt-16 pt-8 border-t border-white/10 flex flex-wrap items-center justify-between gap-4 text-xs text-white/55">
-        <div>© {new Date().getFullYear()} Shri Mandir. All rights reserved.</div>
+        <div>© {new Date().getFullYear()} Ambabai Mahalaxmi Kolhapur. All rights reserved.</div>
         <div className="flex gap-5">
           <a href="#" className="hover:text-white">
             Privacy

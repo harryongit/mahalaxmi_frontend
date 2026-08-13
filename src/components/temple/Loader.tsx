@@ -65,18 +65,19 @@ export function Loader({ onDone }: { onDone: () => void }) {
               initial={{ scale: 0.85, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.9, ease: "easeOut" }}
-              className="relative size-24 rounded-full grid place-items-center animate-glow-pulse"
+              className="relative size-24 rounded-full grid place-items-center animate-glow-pulse overflow-hidden"
               style={{
                 background:
                   "radial-gradient(circle, oklch(0.92 0.16 88) 0%, oklch(0.72 0.18 55) 70%)",
               }}
             >
-              {/* Om symbol */}
-              <span className="text-4xl font-serif" style={{ color: "oklch(0.18 0.03 40)" }}>
-                ॐ
-              </span>
+              <img
+                src="/logo.png"
+                alt="Ambabai Mahalaxmi Kolhapur Logo"
+                className="size-20 object-contain"
+              />
             </motion.div>
-            <div className="font-serif text-3xl tracking-wide text-gradient-gold">Shri Mandir</div>
+            <div className="font-serif text-3xl tracking-wide text-gradient-gold">Ambabai Mahalaxmi</div>
             <div className="w-64 h-px bg-white/15 overflow-hidden">
               <motion.div
                 className="h-full"

@@ -5,16 +5,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { HiMenuAlt4, HiX } from "react-icons/hi";
 
 const links = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "History", href: "#history" },
-  { label: "Architecture", href: "#architecture" },
-  { label: "Rituals", href: "#rituals" },
-  { label: "Gallery", href: "#gallery" },
-  { label: "Festivals", href: "#festivals" },
-  { label: "Darshan", href: "#darshan" },
-  { label: "Donate", href: "#donate" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Rituals", href: "/rituals" },
+  { label: "Gallery", href: "/gallery" },
+  { label: "Festivals", href: "/festivals" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export function Navbar() {
@@ -40,20 +36,16 @@ export function Navbar() {
           }`}
       >
         <div className="container-temple flex items-center justify-between py-4">
-          <a href="#home" className="flex items-center gap-3 group">
-            <span
-              className="grid size-10 place-items-center rounded-full"
-              style={{
-                background: "radial-gradient(circle, oklch(0.92 0.16 88), oklch(0.70 0.17 55))",
-                boxShadow: "0 6px 20px -6px color-mix(in oklab, var(--gold) 60%, transparent)",
-              }}
-            >
-              <span className="text-lg font-serif text-[oklch(0.20_0.02_60)]">ॐ</span>
-            </span>
+          <a href="/" className="flex items-center gap-3 group">
+            <img
+              src="/logo.png"
+              alt="Ambabai Mahalaxmi Kolhapur Logo"
+              className="size-10 rounded-full object-cover"
+            />
             <span
               className={`font-serif text-xl tracking-wide ${solid ? "text-foreground" : "text-white drop-shadow"}`}
             >
-              Shri Mandir
+              Ambabai Mahalaxmi
             </span>
           </a>
 
@@ -100,7 +92,7 @@ export function Navbar() {
             style={{ background: "radial-gradient(circle at 70% 0%, #2a1a0b, #0a0604)" }}
           >
             <div className="flex items-center justify-between px-6 py-4">
-              <span className="font-serif text-xl text-gradient-gold">Shri Mandir</span>
+              <span className="font-serif text-xl text-gradient-gold">Ambabai Mahalaxmi</span>
               <button
                 aria-label="Close menu"
                 className="grid size-10 place-items-center rounded-full bg-white/10 text-white"

@@ -1,4 +1,4 @@
-// File: C:\Users\Laptop On Rent 200\Documents\New folder\divine-ascent\app\layout.tsx
+// File: C:\Users\Laptop On Rent 200\Documents\New folder\mahalaxmi-frontend\app\layout.tsx
 import * as entry from '../../../app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

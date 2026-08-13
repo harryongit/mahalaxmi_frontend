@@ -47,8 +47,8 @@ function AdminSidebar() {
       <div className="relative z-10">
         {/* Brand Logo Header */}
         <div className="flex items-center gap-3.5 mb-8 pb-6 border-b border-amber-900/40">
-          <div className="size-11 rounded-2xl bg-gradient-to-br from-amber-500 to-amber-700 text-stone-950 font-serif font-bold text-xl flex items-center justify-center shadow-lg shadow-amber-950/60 border border-amber-300/40">
-            🛕
+          <div className="size-11 rounded-2xl overflow-hidden shadow-lg shadow-amber-950/60 border border-amber-300/40">
+            <img src="/logo.png" alt="Logo" className="size-full object-cover" />
           </div>
           <div>
             <h1 className="font-serif text-xl font-bold tracking-wide text-amber-200 leading-tight">

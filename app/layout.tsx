@@ -7,12 +7,12 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Shri Mandir — A Sacred Journey of Devotion",
+  title: "Ambabai Mahalaxmi Kolhapur — A Sacred Journey of Devotion",
   description:
-    "Step into a centuries-old sanctuary. Explore the history, architecture, daily rituals and live darshan of Shri Mandir.",
+    "Step into a centuries-old sanctuary. Explore the history, architecture, daily rituals and live darshan of Ambabai Mahalaxmi Kolhapur.",
   openGraph: {
-    title: "Shri Mandir — A Sacred Journey of Devotion",
-    description: "A cinematic, immersive online experience of an ancient temple.",
+    title: "Ambabai Mahalaxmi Kolhapur — A Sacred Journey of Devotion",
+    description: "A cinematic, immersive online experience of Ambabai Mahalaxmi Temple, Kolhapur.",
     type: "website",
   },
   twitter: {
@@ -24,6 +24,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
+        <link rel="icon" href="/logo.png" />
+        <link rel="apple-touch-icon" href="/logo.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link

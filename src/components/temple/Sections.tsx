@@ -70,7 +70,7 @@ export function About() {
           </Reveal>
           <Reveal delay={0.2}>
             <p className="mt-6 text-foreground/75 leading-relaxed max-w-xl">
-              For nearly a millennium, Shri Mandir has stood as a living testament to devotion.
+              For nearly a millennium, Ambabai Mahalaxmi Kolhapur has stood as a living testament to devotion.
               Built by master sculptors and consecrated under the morning star, its sanctum still
               holds the same lamp that was first lit by the founding priest.
             </p>
@@ -834,7 +834,7 @@ export function Location() {
                 <div>
                   <div className="font-medium">Address</div>
                   <div className="text-sm opacity-80">
-                    12 Temple Street, Old Town, Tamil Nadu 600001
+                    Mahalaxmi Temple Road, Kolhapur, Maharashtra 416012
                   </div>
                 </div>
               </li>
@@ -859,7 +859,7 @@ export function Location() {
               <li className="flex gap-4">
                 <HiOutlineMail className="size-5 mt-1 text-[var(--saffron)]" />
                 <div>
-                  <div className="font-medium">hello@shrimandir.org</div>
+                  <div className="font-medium">hello@ambabaimahalaxmi.org</div>
                   <div className="text-sm opacity-80">
                     For events, donations and volunteer inquiries.
                   </div>
