@@ -789,6 +789,285 @@ export function Testimonials() {
   );
 }
 
+/* ----------------------- PUJA SERVICES ----------------------- */
+const pujaServicesData = [
+  {
+    title: "1. KUMKUMARCHAN",
+    price: "₹551",
+    description: "Kumkumarchan will be performed on silver Paduka in the name of the devotee.",
+    availableOn: ["Ghatasthapana", "Lalita Panchami", "Ashtami", "Khandi Navami", "Dasara / Dussehra"],
+    availability: "22 September to 7 October"
+  },
+  {
+    title: "2. PADYA PUJA",
+    price: "₹551",
+    description: "Padya Puja will be performed on silver Paduka in the name of the devotee.",
+    availableOn: ["Ghatasthapana", "Lalita Panchami", "Ashtami", "Khandi Navami", "Dasara / Dussehra"],
+    availability: "22 September to 7 October"
+  },
+  {
+    title: "3. PANCHAMRUT ABHISHEK",
+    price: "₹751",
+    description: "One person can sit for the pooja after wearing Sovale / Dhoti. Family members can sit behind and watch the pooja.",
+    availableOn: ["Ghatasthapana", "Lalita Panchami", "Ashtami", "Khandi Navami", "Dasara / Dussehra"],
+    availability: "22 September to 7 October"
+  },
+  {
+    title: "4. KULACHAR",
+    price: "₹5,001",
+    includes: ["Panchamrut Abhishek", "Naivedya", "Suwasini Bhojan", "Brahman Bhojan", "Kumarika Bhojan", "One Saptashati Path"],
+    availableOn: ["Ghatasthapana", "Lalita Panchami", "Ashtami", "Khandi Navami", "Dasara / Dussehra"],
+    availability: "22 September to 7 October"
+  },
+  {
+    title: "5. SAHASTRA NAMAVALI PUJA",
+    price: "₹7,001",
+    includes: ["Mahapuja", "Abhishek", "Laxmi Sahastra Namavali", "Kumkumarchan", "Shreesukta Abhishek"],
+    availableOn: ["Ghatasthapana", "Lalita Panchami", "Ashtami", "Khandi Navami", "Dasara / Dussehra"],
+    availability: "22 September to 7 October"
+  },
+  {
+    title: "6. SHREESUKTA HAVAN",
+    price: "₹11,001",
+    includes: ["Abhishek", "Puja", "Kumkumarchan", "16 Paath Shreesukta Havan"],
+    availableOn: ["Ghatasthapana", "Lalita Panchami", "Ashtami", "Khandi Navami", "Dasara / Dussehra"],
+    availability: "22 September to 7 October"
+  },
+  {
+    title: "7. NAVACHANDI HAVAN & PATH",
+    price: "₹25,001",
+    includes: ["Durga Saptashati 10 Paath", "Abhishek", "Kumkumarchan", "Durga Saptashati 1 Paath Havan"],
+    availableOn: ["Ghatasthapana", "Lalita Panchami", "Ashtami", "Khandi Navami", "Dasara / Dussehra"],
+    availability: "22 September to 7 October"
+  }
+];
+
+export function PujaServices() {
+  return (
+    <section id="puja-services" className="relative py-28 md:py-40 bg-[oklch(0.13_0.02_60)] text-white overflow-hidden">
+      {/* Background glow matching the theme */}
+      <div
+        aria-hidden
+        className="absolute inset-0 opacity-20 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse at 50% 0%, rgba(212,160,60,0.25), transparent 70%)",
+        }}
+      />
+      <div className="container-temple relative">
+        <div className="text-center max-w-2xl mx-auto">
+          <Reveal>
+            <SectionEyebrow>🌺 Mahalaxmi Puja</SectionEyebrow>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <h2 className="font-serif text-[clamp(2.25rem,4.5vw,3.75rem)] mt-6 leading-[1.05]">
+              Sacred <span className="text-gradient-gold">Puja Services</span>
+            </h2>
+          </Reveal>
+        </div>
+
+        <div className="mt-16 grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          {pujaServicesData.map((s, i) => (
+            <Reveal key={s.title} delay={i * 0.1}>
+              <div className="h-full rounded-2xl glass-dark p-8 hover-lift flex flex-col border border-[color-mix(in_oklab,var(--gold)_25%,transparent)] transition-all hover:border-[color-mix(in_oklab,var(--gold)_50%,transparent)]">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 pb-5 border-b border-white/10">
+                  <div className="font-serif text-2xl text-[var(--gold)]">
+                    {s.title}
+                  </div>
+                  <div className="text-xl font-medium text-[var(--saffron)] whitespace-nowrap">
+                    {s.price}
+                  </div>
+                </div>
+                
+                <div className="flex-1 mt-6 space-y-6">
+                  {s.description && (
+                    <p className="text-sm text-white/85 leading-relaxed">
+                      {s.description}
+                    </p>
+                  )}
+                  
+                  {s.includes && (
+                    <div>
+                      <div className="text-[10px] uppercase tracking-[0.2em] opacity-80 mb-3 font-medium text-[var(--gold)]">
+                        Includes
+                      </div>
+                      <ul className="space-y-2">
+                        {s.includes.map((item, j) => (
+                          <li key={j} className="flex items-start gap-3 text-sm text-white/80">
+                            <span className="text-[var(--gold)] opacity-80 mt-0.5 text-xs">✦</span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  <div className="pt-4 border-t border-white/5 space-y-4">
+                    {s.availableOn && (
+                      <div>
+                        <div className="text-[10px] uppercase tracking-[0.2em] opacity-80 mb-2 text-white/60">
+                          Available On
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                          {s.availableOn.map((day, j) => (
+                            <span key={j} className="text-xs bg-white/5 border border-white/10 px-2 py-1 rounded text-white/80">
+                              {day}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {s.availability && (
+                      <div>
+                        <div className="text-[10px] uppercase tracking-[0.2em] opacity-80 mb-1 text-white/60">
+                          Availability Period
+                        </div>
+                        <div className="text-sm text-[var(--saffron)]">{s.availability}</div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className="mt-8">
+                  <button className="btn-ghost-gold w-full justify-center !text-white !border-[color-mix(in_oklab,var(--gold)_50%,transparent)]">
+                    Book Now
+                  </button>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ----------------------- ADD-ON SEVA ----------------------- */
+const addOnServicesData = [
+  {
+    title: "REGULAR OTEE",
+    price: "₹351",
+    description: "Nariyal, Halad, Kunkum, Khaan, Tandul, Phutane, etc. will be offered in the devotee's name.",
+    availability: "22 September to 7 October"
+  },
+  {
+    title: "SAREE OTEE",
+    price: "₹1,201",
+    description: "Saree + Regular Otee will be offered in the devotee's name.",
+    availability: "22 September to 7 October"
+  },
+  {
+    title: "PURANPOLI NAIVEDYA",
+    price: "₹300",
+    description: "Naivedya will be offered in the devotee's name.",
+    availability: "22 September to 7 October"
+  },
+  {
+    title: "PURANPOLI MEAL",
+    price: "₹300 per person",
+    description: "Meal for one person.",
+    availability: "22 September to 7 October"
+  },
+  {
+    title: "BRAHMAN, SUWASINI & KUMARIKA BHOJAN",
+    price: "₹1,201",
+    description: "Bhojan for Brahman, Kumarika and Suwasini.",
+    availability: "22 September to 7 October"
+  },
+  {
+    title: "ANNADAN",
+    price: "Custom",
+    minPrice: "₹10",
+    description: "Every Friday, Sakhar Phutane / Sweet Upama / Shabudana Khichadi will be given as Prasad.",
+    availability: "22 September to 7 October",
+    customAmount: true
+  },
+  {
+    title: "GOU SEVA",
+    price: "Custom",
+    description: "Allow devotees to enter any amount for Gou Seva.",
+    customAmount: true
+  },
+  {
+    title: "COURIER CHARGES",
+    price: "₹100",
+    description: "Courier charges for Prasad home delivery."
+  }
+];
+
+export function AddOnServices() {
+  return (
+    <section id="addon-services" className="relative py-20 md:py-28 bg-[oklch(0.13_0.02_60)] text-white overflow-hidden border-t border-white/5">
+      <div className="container-temple relative">
+        <div className="text-center max-w-2xl mx-auto">
+          <Reveal>
+            <SectionEyebrow>Additional Offerings</SectionEyebrow>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <h2 className="font-serif text-[clamp(2.25rem,4.5vw,3.75rem)] mt-6 leading-[1.05]">
+              Add-On <span className="text-gradient-gold">Seva</span>
+            </h2>
+          </Reveal>
+        </div>
+
+        <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {addOnServicesData.map((s, i) => (
+            <Reveal key={s.title} delay={i * 0.05}>
+              <div className="h-full rounded-2xl glass-dark p-6 hover-lift flex flex-col border border-[color-mix(in_oklab,var(--gold)_15%,transparent)] hover:border-[color-mix(in_oklab,var(--gold)_40%,transparent)]">
+                <div className="flex-1 space-y-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <h3 className="font-serif text-xl text-[var(--gold)]">{s.title}</h3>
+                    {s.price !== "Custom" && (
+                      <span className="text-[var(--saffron)] font-medium text-sm whitespace-nowrap bg-white/5 px-2 py-1 rounded-md">
+                        {s.price}
+                      </span>
+                    )}
+                  </div>
+                  
+                  {s.description && (
+                    <p className="text-sm text-white/70">
+                      {s.description}
+                    </p>
+                  )}
+                  
+                  {s.availability && (
+                    <div>
+                      <div className="text-[10px] uppercase tracking-[0.2em] opacity-80 text-white/50 mb-1">
+                        Available
+                      </div>
+                      <div className="text-xs text-white/80">{s.availability}</div>
+                    </div>
+                  )}
+
+                  {s.customAmount && (
+                    <div className="mt-4 pt-4 border-t border-white/10">
+                      <label className="text-[10px] uppercase tracking-[0.2em] opacity-80 text-white/50 block mb-2">
+                        {s.minPrice ? `Amount (Min ${s.minPrice})` : "Enter Amount (₹)"}
+                      </label>
+                      <input 
+                        type="number" 
+                        min={s.minPrice ? s.minPrice.replace(/\D/g,'') : "1"}
+                        placeholder="₹ Amount" 
+                        className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-[var(--gold)] focus:ring-1 focus:ring-[var(--gold)] transition-colors"
+                      />
+                    </div>
+                  )}
+                </div>
+                
+                <div className="mt-6 pt-4">
+                  <button className="btn-gold w-full justify-center !py-2.5 !text-sm">
+                    Add to Booking
+                  </button>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ----------------------- LOCATION ----------------------- */
 export function Location() {
   return (
