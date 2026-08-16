@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { HiArrowRight } from "react-icons/hi";
 import { IMG } from "./images";
 import { Reveal } from "./effects";
@@ -78,12 +79,12 @@ export function UtsavBanner() {
                 ))}
               </div>
 
-              <a
-                href="#donate"
+              <Link
+                href="/festivals"
                 className="mt-10 inline-flex items-center gap-2 rounded-full bg-card px-7 py-3.5 text-sm font-medium text-[var(--maroon)] transition-transform duration-300 hover:-translate-y-0.5"
               >
                 Reserve My Seat <HiArrowRight />
-              </a>
+              </Link>
             </div>
           </div>
         </Reveal>

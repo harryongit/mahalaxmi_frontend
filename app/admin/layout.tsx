@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   HiOutlineChartPie,
   HiOutlinePhotograph,
@@ -10,27 +10,24 @@ import {
   HiOutlineGift,
   HiOutlineChatAlt2,
   HiOutlineMail,
-  HiOutlineCog,
-  HiOutlineSearch,
+  HiOutlineUserGroup,
   HiOutlineBell,
-  HiOutlineQuestionMarkCircle,
-  HiOutlineAdjustments,
   HiOutlinePlus,
   HiOutlineExternalLink,
   HiOutlineSparkles,
-  HiOutlineCloudUpload,
+  HiOutlineLogout,
 } from "react-icons/hi";
 import { AdminProvider, useAdmin } from "./admin-context";
 
 const TABS = [
   { href: "/admin", label: "Overview", icon: HiOutlineChartPie },
+  { href: "/admin/users", label: "Devotees & Bookings", icon: HiOutlineUserGroup },
   { href: "/admin/gallery", label: "Gallery", icon: HiOutlinePhotograph },
   { href: "/admin/events", label: "Events", icon: HiOutlineCalendar },
   { href: "/admin/rituals", label: "Rituals & Timings", icon: HiOutlineClock },
   { href: "/admin/donations", label: "Donations", icon: HiOutlineGift },
   { href: "/admin/testimonials", label: "Testimonials", icon: HiOutlineChatAlt2 },
-  { href: "/admin/messages", label: "Messages", icon: HiOutlineMail },
-  { href: "/admin/settings", label: "Settings", icon: HiOutlineCog },
+  { href: "/admin/messages", label: "Enquiry", icon: HiOutlineMail },
 ];
 
 function AdminSidebar() {
@@ -39,19 +36,23 @@ function AdminSidebar() {
   const unreadCount = s.messages.filter((m) => !m.read).length;
 
   return (
-    <aside className="w-full lg:w-72 shrink-0 bg-gradient-to-b from-[#380D12] via-[#2A090E] to-[#1C0508] text-white p-6 flex flex-col justify-between min-h-screen border-r border-amber-900/30 lg:rounded-tr-[40px] lg:rounded-br-[40px] shadow-2xl relative z-20">
+    <aside className="w-full lg:w-72 shrink-0 bg-gradient-to-b from-[#380D12] via-[#2A090E] to-[#1C0508] text-white p-6 flex flex-col justify-between lg:sticky lg:top-0 lg:h-screen lg:max-h-screen lg:overflow-y-auto border-r border-amber-900/30 lg:rounded-tr-[40px] lg:rounded-br-[40px] shadow-2xl relative z-20 font-sans scrollbar-none">
       {/* Ambient Glow */}
       <div className="absolute top-0 right-0 size-56 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 size-48 bg-amber-600/5 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="relative z-10">
+      <div className="relative z-10 space-y-6">
         {/* Brand Logo Header */}
-        <div className="flex items-center gap-3.5 mb-8 pb-6 border-b border-amber-900/40">
-          <div className="size-11 rounded-2xl overflow-hidden shadow-lg shadow-amber-950/60 border border-amber-300/40">
-            <img src="/logo.png" alt="Logo" className="size-full object-cover" />
+        <div className="flex items-center gap-3.5 pb-6 border-b border-amber-900/40">
+          <div className="p-0.5 rounded-full bg-gradient-to-tr from-[var(--gold)] via-amber-300 to-amber-500 shadow-lg shadow-amber-950/60 shrink-0">
+            <img
+              src="/logo.png"
+              alt="Shri Mahalaxmi Mandir Logo"
+              className="size-10 rounded-full object-cover border border-amber-100"
+            />
           </div>
           <div>
-            <h1 className="font-serif text-xl font-bold tracking-wide text-amber-200 leading-tight">
+            <h1 className="font-serif text-lg font-bold tracking-wide text-amber-200 leading-tight">
               {s.settings.templeName}
             </h1>
             <div className="flex items-center gap-1.5 mt-0.5">
@@ -63,14 +64,7 @@ function AdminSidebar() {
           </div>
         </div>
 
-        {/* Primary Golden Action Button */}
-        <Link
-          href="/admin/donations"
-          className="w-full mb-6 py-3 px-5 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-stone-950 font-bold text-xs tracking-wider uppercase flex items-center justify-center gap-2 shadow-lg shadow-amber-950/80 hover:brightness-110 active:scale-95 transition-all group"
-        >
-          <HiOutlinePlus className="text-sm stroke-[3] group-hover:scale-110 transition-transform" />
-          <span>Upload New Record</span>
-        </Link>
+
 
         {/* Navigation Links List */}
         <nav className="space-y-1.5">
@@ -78,6 +72,7 @@ function AdminSidebar() {
             const isActive = pathname === t.href;
             let countBadge: number | undefined;
             if (t.href === "/admin/messages" && unreadCount > 0) countBadge = unreadCount;
+            if (t.href === "/admin/users" && s.bookings?.length > 0) countBadge = s.bookings.length;
 
             return (
               <Link
@@ -109,24 +104,10 @@ function AdminSidebar() {
       </div>
 
       {/* Storage & System Details Progress Section */}
-      <div className="relative z-10 mt-8 pt-6 border-t border-amber-900/40 space-y-4 text-xs">
+      <div className="relative z-10 mt-8 pt-6 border-t border-amber-900/40 space-y-4 text-xs shrink-0">
         <div className="text-[10px] uppercase tracking-widest text-amber-400/80 font-bold flex items-center justify-between">
           <span>STORAGE DETAILS</span>
           <HiOutlineSparkles className="text-amber-400" />
-        </div>
-
-        {/* Live Darshan Progress */}
-        <div>
-          <div className="flex items-center justify-between text-[11px] text-amber-100/90 mb-1.5">
-            <div className="flex items-center gap-1.5">
-              <HiOutlineCloudUpload className="text-amber-400 text-sm" />
-              <span>Live Darshan Stream</span>
-            </div>
-            <span className="font-mono text-emerald-400 text-[10px] font-bold">Active</span>
-          </div>
-          <div className="h-2 w-full rounded-full bg-stone-950/80 overflow-hidden border border-amber-900/40 p-0.5">
-            <div className="h-full bg-gradient-to-r from-amber-600 via-amber-400 to-amber-200 rounded-full w-full shadow-[0_0_10px_rgba(245,158,11,0.6)] animate-pulse" />
-          </div>
         </div>
 
         {/* Monthly Seva Goal */}
@@ -158,18 +139,24 @@ function AdminSidebar() {
 
 function AdminHeader() {
   const { s } = useAdmin();
+  const router = useRouter();
   const unreadCount = s.messages.filter((m) => !m.read).length;
 
+  const handleLogout = () => {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("admin_auth");
+    }
+    router.push("/admin/login");
+  };
+
   return (
-    <header className="flex flex-wrap items-center justify-between gap-4 mb-8 pb-6 border-b border-stone-200/80">
-      {/* Pill Search Input Bar */}
-      <div className="relative w-full max-w-md">
-        <HiOutlineSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400 text-base" />
-        <input
-          type="text"
-          placeholder="Search temple records, events, donations..."
-          className="w-full rounded-full border border-stone-200/90 bg-white shadow-sm pl-11 pr-5 py-2.5 text-xs text-stone-800 placeholder:text-stone-400 outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/10 transition-all font-sans"
-        />
+    <header className="flex items-center justify-between gap-4 mb-8 pb-6 border-b border-stone-200/80 font-sans">
+      {/* Title */}
+      <div>
+        <h2 className="font-serif text-xl font-bold text-[#3C0F1A]">
+          Temple Sansthan Admin Dashboard
+        </h2>
+        <span className="text-xs text-stone-500 font-medium">Shri Mahalaxmi Mandir, Kolhapur</span>
       </div>
 
       {/* Header Actions */}
@@ -177,7 +164,7 @@ function AdminHeader() {
         <Link
           href="/admin/messages"
           className="relative grid size-10 place-items-center rounded-full bg-white border border-stone-200 text-stone-600 hover:text-[#380D12] hover:border-amber-400 shadow-sm transition-all"
-          title="Notifications"
+          title="Devotee Enquiries"
         >
           <HiOutlineBell className="text-lg" />
           {unreadCount > 0 && (
@@ -185,37 +172,14 @@ function AdminHeader() {
           )}
         </Link>
 
+        {/* Logout Button */}
         <button
-          className="grid size-10 place-items-center rounded-full bg-white border border-stone-200 text-stone-600 hover:text-[#380D12] shadow-sm transition-all"
-          title="Help & FAQ"
+          onClick={handleLogout}
+          className="py-2 px-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 hover:bg-rose-600 hover:text-white text-xs font-bold shadow-xs transition-all flex items-center gap-1.5 cursor-pointer ml-2"
+          title="Logout from Admin Portal"
         >
-          <HiOutlineQuestionMarkCircle className="text-lg" />
-        </button>
-
-        <Link
-          href="/admin/settings"
-          className="grid size-10 place-items-center rounded-full bg-white border border-stone-200 text-stone-600 hover:text-[#380D12] shadow-sm transition-all"
-          title="Settings"
-        >
-          <HiOutlineCog className="text-lg" />
-        </Link>
-
-        <div className="h-6 w-px bg-stone-300/80 mx-1" />
-
-        {/* Profile Avatar Badge */}
-        <div className="flex items-center gap-2 pl-1">
-          <span className="text-xs text-stone-600 font-medium hidden sm:inline">Trustee</span>
-          <div className="size-10 rounded-full bg-[#380D12] text-amber-200 font-serif font-bold text-sm flex items-center justify-center shadow-md border-2 border-amber-300">
-            J
-          </div>
-        </div>
-
-        {/* Filter Sliders Icon */}
-        <button
-          className="grid size-10 place-items-center rounded-full bg-white border border-stone-200 text-stone-600 hover:text-[#380D12] shadow-sm transition-all ml-1"
-          title="Filter Controls"
-        >
-          <HiOutlineAdjustments className="text-lg" />
+          <HiOutlineLogout className="text-sm stroke-[2.5]" />
+          <span>Logout</span>
         </button>
       </div>
     </header>
@@ -223,11 +187,18 @@ function AdminHeader() {
 }
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+
+  // On Admin Login page, render ONLY the login card without sidebar or header
+  if (pathname === "/admin/login") {
+    return <AdminProvider>{children}</AdminProvider>;
+  }
+
   return (
     <AdminProvider>
-      <div className="min-h-screen w-full bg-[#FAF6F0] flex flex-col lg:flex-row font-sans m-0 p-0">
+      <div className="min-h-screen w-full bg-[#FAF6F0] flex flex-col lg:flex-row items-start font-sans m-0 p-0">
         <AdminSidebar />
-        <div className="flex-1 p-6 md:p-8 flex flex-col justify-between overflow-x-hidden min-w-0">
+        <div className="flex-1 p-6 md:p-8 flex flex-col justify-between overflow-x-hidden min-w-0 w-full">
           <div>
             <AdminHeader />
             <main>{children}</main>

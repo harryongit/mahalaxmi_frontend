@@ -1,488 +1,486 @@
 "use client";
 
 import { useState } from "react";
-import { HiCheck, HiOutlinePlus, HiMinus, HiPlus } from "react-icons/hi";
-import { motion, AnimatePresence, Variants } from "framer-motion";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Sparkles,
+  Clock,
+  Flame,
+  X,
+  ChevronRight,
+  User,
+  ArrowRight,
+} from "lucide-react";
 import { SectionEyebrow } from "./effects";
 
-// Data Definitions
-const sevas = [
-  { id: "s1", title: "Kumkumarchan", price: 551 },
-  { id: "s2", title: "Padya Puja", price: 551 },
-  { id: "s3", title: "Panchamrut Abhishek", price: 751 },
-  { id: "s4", title: "Kulachar", price: 5001 },
-  { id: "s5", title: "Sahastra Namavali Puja", price: 7001 },
-  { id: "s6", title: "Shreesukta Havan", price: 11001 },
-  { id: "s7", title: "Navachandi Havan & Path", price: 25001 },
+// Service Category Definitions matching the exact design
+const SERVICE_TYPES = [
+  { id: "Pooja", label: "Pooja", icon: "🕉️" },
+  { id: "Chadhava", label: "Chadhava", icon: "📿" },
+  { id: "Naivedya", label: "Naivedya", icon: "🍃" },
+  { id: "Other", label: "Other", icon: "🙏" },
+  { id: "Darshan", label: "Darshan", icon: "🛕" },
+  { id: "Events", label: "Events", icon: "📅" },
 ];
 
-const generateDates = () => {
-  const d = [];
-  const occasions: Record<string, string> = {
-    "22 Sep": "Ghatasthapana",
-    "26 Sep": "Lalita Panchami",
-    "29 Sep": "Ashtami",
-    "30 Sep": "Khandi Navami",
-    "2 Oct": "Dasara", 
-  };
-  for (let i = 22; i <= 30; i++) d.push(`${i} Sep`);
-  for (let i = 1; i <= 7; i++) d.push(`${i} Oct`);
-  return d.map(date => ({ date, occasion: occasions[date] || null }));
-};
-const allDates = generateDates();
-
-const addOnsData = [
-  { id: "a1", title: "Regular Otee", price: 351 },
-  { id: "a2", title: "Saree Otee", price: 1201 },
-  { id: "a3", title: "Puranpoli Naivedya", price: 300 },
-  { id: "a4", title: "Puranpoli Meal", price: 300, note: "per person", hasQuantity: true },
-  { id: "a5", title: "Brahman, Suwasini & Kumarika Bhojan", price: 1201 },
-  { id: "a6", title: "Annadan", custom: true, min: 10 },
-  { id: "a7", title: "Gou Seva", custom: true, min: 1 },
-  { id: "a8", title: "Prasad Home Delivery (Courier)", price: 100, requiresAddress: true },
-];
-
-const stepVariants: Variants = {
-  hidden: { opacity: 0, height: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
-    height: "auto", 
-    y: 0, 
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } 
+// Complete Sevas Data across all categories
+const sevasData = [
+  // --- POOJA ---
+  {
+    id: "s1",
+    category: "Pooja",
+    title: "Kumkumarchan Seva",
+    subtitle: "Sacred Saffron & Vermillion Offering",
+    price: 551,
+    time: "Daily • 07:00 AM & 05:00 PM",
+    image: "https://images.unsplash.com/photo-1609766857041-ed402ea8069a?q=80&w=800",
+    description: "Personalized kumkum offering dedicated to Goddess Ambabai for health, prosperity, and peace.",
+    tag: "Most Popular",
   },
-  exit: {
-    opacity: 0,
-    height: 0,
-    y: 10,
-    transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] }
-  }
-};
+  {
+    id: "s2",
+    category: "Pooja",
+    title: "Panchamrut Abhishek",
+    subtitle: "Vedic Holy Bath Ceremony",
+    price: 751,
+    time: "Daily • 06:00 AM & 08:30 AM",
+    image: "https://images.unsplash.com/photo-1545232979-fbf34fe37b38?q=80&w=800",
+    description: "Sacred ritual bath with milk, curd, honey, ghee and sugar accompanied by Vedic chanting.",
+    tag: "High Blessing",
+  },
+  {
+    id: "s3",
+    category: "Pooja",
+    title: "Padya Puja & Archana",
+    subtitle: "Sacred Foot Worship",
+    price: 551,
+    time: "Daily • 09:00 AM",
+    image: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?q=80&w=800",
+    description: "Traditional foot worship and flower offerings with 108 auspicious names of Goddess Mahalaxmi.",
+    tag: "Daily Seva",
+  },
+  {
+    id: "s4",
+    category: "Pooja",
+    title: "Kulachar Mahapuja",
+    subtitle: "Grand Family Ancestral Worship",
+    price: 5001,
+    time: "Festive & Special Days",
+    image: "https://images.unsplash.com/photo-1514533450685-4493e01d1fdc?q=80&w=800",
+    description: "Comprehensive ancestral family worship with complete Alankar Shringar, Naivedya, and Aarti.",
+    tag: "Family Seva",
+  },
+  {
+    id: "s5",
+    category: "Pooja",
+    title: "Sahastra Namavali Puja",
+    subtitle: "1000 Holy Names Chanting",
+    price: 7001,
+    time: "Daily • 11:00 AM",
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800",
+    description: "Chanting of 1000 divine names with continuous lotus and fresh flower archana.",
+    tag: "Special Seva",
+  },
+  {
+    id: "s6",
+    category: "Pooja",
+    title: "Shreesukta & Navachandi Havan",
+    subtitle: "Sacred Yajna Fire Ritual",
+    price: 11001,
+    time: "Scheduled Special Days",
+    image: "https://images.unsplash.com/photo-1567157577867-05ccb1388e66?q=80&w=800",
+    description: "Powerful fire ritual for financial prosperity, removal of obstacles, and spiritual growth.",
+    tag: "Grand Havan",
+  },
+
+  // --- CHADHAVA ---
+  {
+    id: "c1",
+    category: "Chadhava",
+    title: "Regular Otee Offering",
+    subtitle: "Blouse Piece, Coconut & Saffron",
+    price: 251,
+    time: "Daily • All Hours",
+    image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=800",
+    description: "Traditional Otee bharana with fresh coconut, green blouse piece, rice grains, and kumkum.",
+    tag: "Traditional",
+  },
+  {
+    id: "c2",
+    category: "Chadhava",
+    title: "Silk Saree Otee Offering",
+    subtitle: "Pure Paithani / Silk Saree Drape",
+    price: 1100,
+    time: "Daily Morning & Evening",
+    image: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?q=80&w=800",
+    description: "Offering of pure silk saree draped on Goddess Mahalaxmi during daily Alankar Shringar.",
+    tag: "Sacred Drape",
+  },
+  {
+    id: "c3",
+    category: "Chadhava",
+    title: "Silver Chhatra (Crown) Arpan",
+    subtitle: "Consecrated Silver Offering",
+    price: 2500,
+    time: "Festival Special Days",
+    image: "https://images.unsplash.com/photo-1570042707223-933390c5240c?q=80&w=800",
+    description: "Offering of consecrated silver parasol / crown to sanctify your family gotra.",
+    tag: "Royal Offering",
+  },
+
+  // --- NAIVEDYA ---
+  {
+    id: "n1",
+    category: "Naivedya",
+    title: "Puranpoli Naivedya Bhog",
+    subtitle: "Authentic Kolhapuri Mahabhog",
+    price: 351,
+    time: "Daily • 12:00 PM Afternoon",
+    image: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?q=80&w=800",
+    description: "Freshly prepared Puranpoli Naivedya with pure cow ghee offered at noon Aarti.",
+    tag: "Fresh Bhog",
+  },
+  {
+    id: "n2",
+    category: "Naivedya",
+    title: "Brahman Bhojan Seva",
+    subtitle: "Meal Served to 5 Priests",
+    price: 1001,
+    time: "Daily • 01:00 PM",
+    image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?q=80&w=800",
+    description: "Sponsor complete Vedic meals for 5 hereditary Shreepujaks in your family name.",
+    tag: "Punya Seva",
+  },
+  {
+    id: "n3",
+    category: "Naivedya",
+    title: "Suwasini & Kumarika Bhojan",
+    subtitle: "Sacred Food for Girls & Mothers",
+    price: 751,
+    time: "Navratri & Festive Days",
+    image: "https://images.unsplash.com/photo-1543353071-10c8ba85a904?q=80&w=800",
+    description: "Sacred meal and gift offering for married women and young girls during auspicious days.",
+    tag: "Mother Blessing",
+  },
+
+  // --- OTHER ---
+  {
+    id: "o1",
+    category: "Other",
+    title: "Annadan Mahaseva",
+    subtitle: "Free Meal Distribution for Pilgrims",
+    price: 501,
+    time: "Daily • 11:30 AM – 03:00 PM",
+    image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=800",
+    description: "Feed hungry pilgrims and devotees visiting Shri Mahalaxmi Mandir.",
+    tag: "Annadan",
+  },
+  {
+    id: "o2",
+    category: "Other",
+    title: "Goushala Gou Seva",
+    subtitle: "Cow Fodder & Medical Care",
+    price: 301,
+    time: "Daily Goushala Service",
+    image: "https://images.unsplash.com/photo-1500595046743-cd271d694d30?q=80&w=800",
+    description: "Sponsor nutritious green fodder, jaggery, and health care for cows in the temple Goushala.",
+    tag: "Gou Seva",
+  },
+  {
+    id: "o3",
+    category: "Other",
+    title: "Sahastra Deepam Lighting",
+    subtitle: "11 Oil Lamps Lighting",
+    price: 201,
+    time: "Daily • Evening Sandhya Aarti",
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800",
+    description: "Light 11 earthen oil lamps in front of the inner sanctum during Sandhya Aarti.",
+    tag: "Deepam",
+  },
+
+  // --- DARSHAN ---
+  {
+    id: "d1",
+    category: "Darshan",
+    title: "VIP Priority Darshan Pass",
+    subtitle: "Skip Queue Priority Mandir Entry",
+    price: 200,
+    time: "Daily • All Opening Hours",
+    image: "https://images.unsplash.com/photo-1545232979-fbf34fe37b38?q=80&w=800",
+    description: "Priority entry pass for quick and peaceful darshan of Goddess Ambabai without long waiting queues.",
+    tag: "VIP Pass",
+  },
+  {
+    id: "d2",
+    category: "Darshan",
+    title: "Senior Citizen & Infant Entry Pass",
+    subtitle: "Assisted Special Line Access",
+    price: 100,
+    time: "Daily • All Hours",
+    image: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?q=80&w=800",
+    description: "Special assisted queue access for elderly devotees, pregnant women, and infants.",
+    tag: "Assisted Entry",
+  },
+
+  // --- EVENTS ---
+  {
+    id: "e1",
+    category: "Events",
+    title: "Kirnotsav Sun-Ray Special Puja",
+    subtitle: "Bi-Annual Sun Ray Miracle Seva",
+    price: 2100,
+    time: "Jan 31–Feb 02 & Nov 09–11",
+    image: "https://images.unsplash.com/photo-1609766857041-ed402ea8069a?q=80&w=800",
+    description: "Special Archana during Kirnotsav when setting sun rays fall directly on Goddess Ambabai's idol.",
+    tag: "Kirnotsav Special",
+  },
+  {
+    id: "e2",
+    category: "Events",
+    title: "Sharadiya Navratri 9-Day Seva",
+    subtitle: "Full 9 Nights Festival Sankalpa",
+    price: 3100,
+    time: "Sep 22 – Oct 02, 2026",
+    image: "https://images.unsplash.com/photo-1514533450685-4493e01d1fdc?q=80&w=800",
+    description: "Complete 9 days Navratri Archana in your family name with Lalita Panchami Gaja-Shringar.",
+    tag: "Navratri Pass",
+  },
+  {
+    id: "e3",
+    category: "Events",
+    title: "Chaitra Rathotsav Chariot Seva",
+    subtitle: "Annual Golden Chariot Procession",
+    price: 5100,
+    time: "Chaitra Purnima (April)",
+    image: "https://images.unsplash.com/photo-1567157577867-05ccb1388e66?q=80&w=800",
+    description: "Sponsor garland and lamp offerings during the annual golden chariot yatra through Kolhapur.",
+    tag: "Rathotsav Yatra",
+  },
+];
 
 export function BookingWidget() {
-  const [selectedSevas, setSelectedSevas] = useState<string[]>([]);
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [addOns, setAddOns] = useState<Record<string, { total: number, qty?: number }>>({});
-  
-  // Form State
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState("Pooja");
+  const [selectedPuja, setSelectedPuja] = useState<typeof sevasData[0] | null>(null);
   const [name, setName] = useState("");
   const [mobile, setMobile] = useState("");
-  const [email, setEmail] = useState("");
-  const [gotra, setGotra] = useState("");
-  const [address, setAddress] = useState("");
 
-  const toggleAddOn = (id: string, basePrice: number, isCustom: boolean = false, hasQuantity: boolean = false) => {
-    setAddOns(prev => {
-      const next = { ...prev };
-      if (next[id]) {
-        delete next[id];
-      } else {
-        next[id] = { total: isCustom ? basePrice : basePrice, qty: hasQuantity ? 1 : undefined };
-      }
-      return next;
-    });
+  const filteredSevas = sevasData.filter((s) => s.category === activeTab);
+
+  const handleSelectPujaCard = (seva: typeof sevasData[0]) => {
+    setSelectedPuja(seva);
   };
 
-  const updateCustomAddOn = (id: string, amount: number) => {
-    setAddOns(prev => ({ ...prev, [id]: { ...prev[id], total: amount } }));
-  };
-
-  const updateQuantity = (id: string, basePrice: number, delta: number) => {
-    setAddOns(prev => {
-      const current = prev[id];
-      if (!current || current.qty === undefined) return prev;
-      const newQty = Math.max(1, current.qty + delta);
-      return { ...prev, [id]: { total: newQty * basePrice, qty: newQty } };
-    });
-  };
-
-  const toggleSeva = (id: string) => {
-    setSelectedSevas(prev => 
-      prev.includes(id) ? prev.filter(s => s !== id) : [...prev, id]
+  const handleProceedToCheckoutPage = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name || mobile.length < 10 || !selectedPuja) return;
+    router.push(
+      `/checkout?puja=${selectedPuja.id}&name=${encodeURIComponent(name)}&mobile=${mobile}`
     );
   };
 
-  const selectedSevaObjs = sevas.filter(s => selectedSevas.includes(s.id));
-  const sevasTotal = selectedSevaObjs.reduce((sum, s) => sum + s.price, 0);
-  const totalAmount = sevasTotal + Object.values(addOns).reduce((a, b) => a + b.total, 0);
-
-  const isDeliverySelected = !!addOns["a8"];
-  const isValidMobile = mobile.replace(/\D/g, '').length >= 10;
-  
-  let btnText = "Proceed to Pay";
-  if (selectedSevas.length === 0) btnText = "Select a Seva";
-  else if (!selectedDate) btnText = "Select a Date";
-  else if (!name.trim()) btnText = "Enter Devotee Name";
-  else if (!isValidMobile) btnText = "Enter Valid Mobile Number";
-  else if (isDeliverySelected && !address.trim()) btnText = "Enter Delivery Address";
-
-  const isReadyToPay = btnText === "Proceed to Pay";
-
   return (
-    <section id="book-puja" className="relative py-16 md:py-24 bg-[oklch(0.13_0.02_60)] text-white overflow-hidden border-t border-white/5">
-      <div className="container-temple max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-10 md:mb-14">
-          <SectionEyebrow>Fast Booking</SectionEyebrow>
-          <h2 className="font-serif text-[clamp(2rem,4vw,3rem)] mt-4 leading-[1.05]">
-            Book Your <span className="text-gradient-gold">Seva</span>
+    <section id="book-puja" className="relative py-12 md:py-16 bg-[#FCF9F3] text-stone-900 border-t border-amber-200/80">
+      <div className="container-temple max-w-7xl mx-auto px-4 sm:px-6 space-y-6">
+        
+        {/* Section Header */}
+        <div className="text-center max-w-2xl mx-auto space-y-2">
+          <SectionEyebrow>Fast Online Booking</SectionEyebrow>
+          <h2 className="font-serif text-[clamp(2rem,3.5vw,3rem)] leading-[1.05] text-stone-900">
+            Book Your Sacred <span className="text-gradient-gold">Puja & Seva</span>
           </h2>
+          <p className="text-xs sm:text-sm text-stone-600 font-normal">
+            Select your preferred service category below to view available offerings.
+          </p>
         </div>
 
-        <div className="grid lg:grid-cols-[1fr_380px] gap-8 lg:gap-12 items-start">
-          
-          {/* Left Column - Steps */}
-          <div className="space-y-8 md:space-y-12 min-w-0">
-            
-            {/* Step 1: Select Seva */}
-            <div>
-              <h3 className="text-lg md:text-xl font-serif text-[var(--gold)] mb-4 md:mb-5 flex items-center gap-3">
-                <span className={`grid place-items-center size-7 md:size-8 rounded-full text-xs md:text-sm transition-colors ${selectedSevas.length > 0 ? "bg-[var(--gold)] text-black" : "bg-[color-mix(in_oklab,var(--gold)_20%,transparent)]"}`}>
-                  {selectedSevas.length > 0 ? <HiCheck /> : "1"}
-                </span>
-                Select Seva
-              </h3>
-              <div className="grid sm:grid-cols-2 gap-3">
-                {sevas.map(s => {
-                  const active = selectedSevas.includes(s.id);
-                  return (
-                    <button
-                      key={s.id}
-                      onClick={() => toggleSeva(s.id)}
-                      className={`text-left p-4 md:p-5 rounded-2xl border transition-all duration-300 ${
-                        active 
-                          ? "bg-[color-mix(in_oklab,var(--gold)_15%,transparent)] border-[var(--gold)] shadow-[0_0_15px_rgba(212,160,60,0.15)]" 
-                          : "bg-white/5 border-white/10 hover:border-white/30 hover:bg-white/10"
-                      }`}
-                    >
-                      <div className="flex justify-between items-start gap-4">
-                        <div className="font-serif text-lg md:text-xl">{s.title}</div>
-                        <div className={`shrink-0 size-5 md:size-6 rounded-full border grid place-items-center transition-colors ${active ? "bg-[var(--gold)] border-[var(--gold)] text-black" : "border-white/30"}`}>
-                          {active && <HiCheck className="size-3 md:size-4" />}
-                        </div>
-                      </div>
-                      <div className="text-[var(--saffron)] mt-1.5 md:mt-2 font-medium text-sm md:text-base">₹{s.price}</div>
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-
-            {/* Step 2: Select Date */}
-            <AnimatePresence>
-              {selectedSevas.length > 0 && (
-                <motion.div
-                  variants={stepVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="exit"
+        {/* SLEEK, COMPACT SERVICE TYPES TAB BAR */}
+        <div className="flex justify-center overflow-x-auto pb-1.5 scrollbar-none">
+          <div className="inline-flex items-center gap-1 sm:gap-1.5 p-1 rounded-2xl bg-[#F4EFE6] border border-amber-200/90 shadow-sm">
+            {SERVICE_TYPES.map((tab) => {
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`relative flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer whitespace-nowrap ${
+                    isActive
+                      ? "bg-[#3C0F1A] text-white shadow-sm border border-amber-400/30"
+                      : "text-stone-700 hover:text-amber-950 hover:bg-white/60"
+                  }`}
                 >
-                  <div className="pt-2">
-                    <h3 className="text-lg md:text-xl font-serif text-[var(--gold)] mb-4 md:mb-5 flex items-center gap-3">
-                      <span className={`grid place-items-center size-7 md:size-8 rounded-full text-xs md:text-sm transition-colors ${selectedDate ? "bg-[var(--gold)] text-black" : "bg-[color-mix(in_oklab,var(--gold)_20%,transparent)]"}`}>
-                        {selectedDate ? <HiCheck /> : "2"}
-                      </span>
-                      Select Puja Date
-                    </h3>
-                    <div className="flex overflow-x-auto pb-4 gap-3 snap-x scrollbar-hide">
-                      {allDates.map(d => {
-                        const active = selectedDate === d.date;
-                        return (
-                          <button
-                            key={d.date}
-                            onClick={() => setSelectedDate(d.date)}
-                            className={`snap-start shrink-0 p-3 md:p-4 rounded-xl border transition-all duration-300 min-w-[110px] md:min-w-[120px] flex flex-col items-center justify-center ${
-                              active 
-                                ? "bg-[color-mix(in_oklab,var(--gold)_15%,transparent)] border-[var(--gold)] shadow-[0_0_15px_rgba(212,160,60,0.15)]" 
-                                : "bg-white/5 border-white/10 hover:border-white/30 hover:bg-white/10"
-                            }`}
-                          >
-                            <div className="text-base md:text-lg font-medium whitespace-nowrap">{d.date}</div>
-                            {d.occasion && (
-                              <div className="text-[9px] md:text-[10px] uppercase tracking-wider text-[var(--saffron)] mt-1.5 md:mt-2 text-center max-w-[100px] leading-tight">
-                                {d.occasion}
-                              </div>
-                            )}
-                          </button>
-                        )
-                      })}
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* Step 4: Add Seva (Add-ons) */}
-            <AnimatePresence>
-              {selectedDate && (
-                <motion.div
-                  variants={stepVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="exit"
-                >
-                  <div className="pt-2">
-                    <h3 className="text-lg md:text-xl font-serif text-[var(--gold)] mb-4 md:mb-5 flex items-center gap-3">
-                      <span className="grid place-items-center size-7 md:size-8 rounded-full bg-[color-mix(in_oklab,var(--gold)_20%,transparent)] text-xs md:text-sm">4</span>
-                      Add-On Seva <span className="text-xs md:text-sm text-white/50 font-sans tracking-normal ml-1 md:ml-2">(Optional)</span>
-                    </h3>
-                    <div className="grid sm:grid-cols-2 gap-3 md:gap-4">
-                      {addOnsData.map(a => {
-                        const active = !!addOns[a.id];
-                        const currentAddon = addOns[a.id];
-                        return (
-                          <div
-                            key={a.id}
-                            className={`p-4 md:p-5 rounded-2xl border transition-all duration-300 ${
-                              active 
-                                ? "bg-[color-mix(in_oklab,var(--gold)_10%,transparent)] border-[var(--gold)] shadow-[0_0_15px_rgba(212,160,60,0.1)]" 
-                                : "bg-white/5 border-white/10 hover:border-white/30 hover:bg-white/10"
-                            }`}
-                          >
-                            <div className="flex justify-between items-start gap-3">
-                              <div>
-                                <div className="font-serif text-base md:text-lg leading-tight mb-1">{a.title}</div>
-                                {!a.custom && (
-                                  <div className="text-xs md:text-sm text-[var(--saffron)]">
-                                    ₹{a.price} {a.note && <span className="text-[10px] md:text-xs opacity-70">({a.note})</span>}
-                                  </div>
-                                )}
-                              </div>
-                              <button 
-                                onClick={() => toggleAddOn(a.id, a.custom ? (a.min || 10) : (a.price as number), a.custom, a.hasQuantity)}
-                                className={`shrink-0 size-7 md:size-8 rounded-full grid place-items-center border transition-colors ${
-                                  active ? "bg-[var(--gold)] text-black border-[var(--gold)]" : "border-white/30 hover:bg-white/10 text-white/80"
-                                }`}
-                              >
-                                {active ? <HiCheck className="size-4" /> : <HiOutlinePlus className="size-4" />}
-                              </button>
-                            </div>
-                            
-                            <AnimatePresence>
-                              {active && a.custom && (
-                                <motion.div 
-                                  initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                                  animate={{ opacity: 1, height: 'auto', marginTop: 16 }}
-                                  exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                                  className="border-t border-white/10 overflow-hidden"
-                                >
-                                  <div className="pt-4">
-                                    <label className="text-[10px] md:text-xs text-white/60 mb-2 block">Enter Amount (Min ₹{a.min})</label>
-                                    <input 
-                                      type="number"
-                                      min={a.min}
-                                      value={currentAddon.total || ''}
-                                      onChange={(e) => updateCustomAddOn(a.id, parseInt(e.target.value) || 0)}
-                                      className="w-full bg-black/40 border border-white/20 rounded-lg px-3 py-2 md:py-2.5 text-sm focus:outline-none focus:border-[var(--gold)] focus:ring-1 focus:ring-[var(--gold)] transition-all"
-                                    />
-                                  </div>
-                                </motion.div>
-                              )}
-
-                              {active && a.hasQuantity && currentAddon?.qty && (
-                                <motion.div
-                                  initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                                  animate={{ opacity: 1, height: 'auto', marginTop: 16 }}
-                                  exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                                  className="border-t border-white/10 overflow-hidden"
-                                >
-                                  <div className="pt-4 flex items-center justify-between">
-                                    <span className="text-xs md:text-sm text-white/70">Number of persons:</span>
-                                    <div className="flex items-center gap-2 md:gap-3 bg-black/40 border border-white/20 rounded-lg p-1">
-                                      <button 
-                                        onClick={() => updateQuantity(a.id, a.price as number, -1)}
-                                        className="size-6 md:size-7 grid place-items-center hover:bg-white/10 rounded-md transition-colors"
-                                      >
-                                        <HiMinus className="size-3" />
-                                      </button>
-                                      <span className="w-5 md:w-6 text-center text-xs md:text-sm font-medium">{currentAddon.qty}</span>
-                                      <button 
-                                        onClick={() => updateQuantity(a.id, a.price as number, 1)}
-                                        className="size-6 md:size-7 grid place-items-center hover:bg-white/10 rounded-md transition-colors"
-                                      >
-                                        <HiPlus className="size-3" />
-                                      </button>
-                                    </div>
-                                  </div>
-                                </motion.div>
-                              )}
-                            </AnimatePresence>
-                          </div>
-                        )
-                      })}
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
+                  <span className="text-sm">{tab.icon}</span>
+                  <span>{tab.label}</span>
+                </button>
+              );
+            })}
           </div>
+        </div>
 
-          {/* Right Column - Step 3 & Checkout Sticky */}
-          <div className="lg:sticky lg:top-24 space-y-6">
-            
-            {/* Step 3: Devotee Details */}
-            <AnimatePresence>
-              {selectedDate && (
-                <motion.div
-                  variants={stepVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="exit"
-                  className="glass-dark rounded-3xl p-5 md:p-8 border border-white/10 shadow-xl"
-                >
-                  <h3 className="text-lg md:text-xl font-serif text-[var(--gold)] mb-5 md:mb-6 flex items-center gap-3">
-                    <span className={`grid place-items-center size-7 md:size-8 rounded-full text-xs md:text-sm transition-colors ${name && isValidMobile ? "bg-[var(--gold)] text-black" : "bg-[color-mix(in_oklab,var(--gold)_20%,transparent)]"}`}>
-                      {name && isValidMobile ? <HiCheck /> : "3"}
-                    </span>
-                    Devotee Details
-                  </h3>
-                  
-                  <div className="space-y-4">
-                    <div>
-                      <label className="text-[10px] md:text-xs text-white/60 mb-1.5 block">Devotee Name *</label>
-                      <input 
-                        type="text" 
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 md:py-3 text-sm focus:outline-none focus:border-[var(--gold)] focus:ring-1 focus:ring-[var(--gold)] transition-all" 
-                        placeholder="Full Name" 
-                      />
-                    </div>
-                    <div>
-                      <label className="text-[10px] md:text-xs text-white/60 mb-1.5 block">Mobile Number *</label>
-                      <input 
-                        type="tel" 
-                        value={mobile}
-                        onChange={(e) => setMobile(e.target.value)}
-                        className={`w-full bg-white/5 border rounded-xl px-4 py-2.5 md:py-3 text-sm focus:outline-none transition-all ${
-                          mobile.length > 0 && !isValidMobile 
-                            ? 'border-red-500/50 focus:border-red-500 focus:ring-red-500/50' 
-                            : 'border-white/10 focus:border-[var(--gold)] focus:ring-1 focus:ring-[var(--gold)]'
-                        }`} 
-                        placeholder="+91" 
-                      />
-                    </div>
-                    <div>
-                      <label className="text-[10px] md:text-xs text-white/60 mb-1.5 block">Email</label>
-                      <input 
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)} 
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 md:py-3 text-sm focus:outline-none focus:border-[var(--gold)] focus:ring-1 focus:ring-[var(--gold)] transition-all" 
-                        placeholder="Email Address" 
-                      />
-                    </div>
-                    <div>
-                      <label className="text-[10px] md:text-xs text-white/60 mb-1.5 block">Gotra (Optional)</label>
-                      <input 
-                        type="text"
-                        value={gotra}
-                        onChange={(e) => setGotra(e.target.value)} 
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 md:py-3 text-sm focus:outline-none focus:border-[var(--gold)] focus:ring-1 focus:ring-[var(--gold)] transition-all" 
-                        placeholder="Gotra" 
-                      />
-                    </div>
-                    
-                    <AnimatePresence>
-                      {isDeliverySelected && (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                          animate={{ opacity: 1, height: 'auto', marginTop: 16 }}
-                          exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                          className="overflow-hidden"
-                        >
-                          <label className="text-[10px] md:text-xs text-[var(--saffron)] mb-1.5 block font-medium">Delivery Address *</label>
-                          <textarea
-                            value={address}
-                            onChange={(e) => setAddress(e.target.value)}
-                            rows={3}
-                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[var(--gold)] focus:ring-1 focus:ring-[var(--gold)] transition-all resize-none"
-                            placeholder="Complete postal address for Prasad delivery"
-                          />
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* Order Summary */}
-            <div className="glass-dark rounded-3xl p-5 md:p-8 border border-[color-mix(in_oklab,var(--gold)_30%,transparent)] shadow-2xl relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-[color-mix(in_oklab,var(--gold)_10%,transparent)] to-transparent pointer-events-none" />
-              
-              <h3 className="font-serif text-lg md:text-xl mb-4 md:mb-5 border-b border-white/10 pb-3 md:pb-4 relative">Booking Summary</h3>
-              
-              <div className="space-y-3 md:space-y-4 mb-6 md:mb-8 text-xs md:text-sm relative">
-                {selectedSevas.length === 0 && !Object.keys(addOns).length && (
-                  <div className="text-white/50 text-center py-4 md:py-6">Please select a Seva to begin.</div>
-                )}
+        {/* Filtered Sevas Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 pt-2">
+          {filteredSevas.map((seva) => (
+            <motion.div
+              key={seva.id}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.25 }}
+              className="group relative rounded-3xl border border-stone-200 bg-white overflow-hidden shadow-sm hover:shadow-xl hover:border-amber-400/80 transition-all duration-300 flex flex-col justify-between"
+            >
+              {/* Card Image Banner */}
+              <div className="relative h-48 sm:h-52 w-full overflow-hidden">
+                <img
+                  src={seva.image}
+                  alt={seva.title}
+                  className="size-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
                 
-                <AnimatePresence initial={false}>
-                  {selectedSevaObjs.map(sevaObj => (
-                    <motion.div 
-                      key={sevaObj.id}
-                      initial={{ opacity: 0, x: -10, height: 0 }}
-                      animate={{ opacity: 1, x: 0, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0, x: 10, overflow: 'hidden' }}
-                      className="flex justify-between items-start gap-4"
-                    >
-                      <div>
-                        <div className="text-white/90 font-medium">{sevaObj.title}</div>
-                        {selectedDate && <div className="text-[10px] md:text-xs text-[var(--saffron)] mt-1 tracking-wide">{selectedDate}</div>}
-                      </div>
-                      <div className="font-medium whitespace-nowrap">₹{sevaObj.price}</div>
-                    </motion.div>
-                  ))}
-                  
-                  {Object.entries(addOns).map(([id, addonState]) => {
-                    const addon = addOnsData.find(a => a.id === id);
-                    if (!addon) return null;
-                    return (
-                      <motion.div 
-                        key={id}
-                        initial={{ opacity: 0, x: -10, height: 0 }}
-                        animate={{ opacity: 1, x: 0, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0, x: 10, overflow: 'hidden' }}
-                        className="flex justify-between items-start gap-4"
-                      >
-                        <div className="text-white/70 pt-1">
-                          {addon.title} {addonState.qty && addonState.qty > 1 && <span className="text-[10px] md:text-xs opacity-70 ml-1">x{addonState.qty}</span>}
-                        </div>
-                        <div className="font-medium text-white/90 whitespace-nowrap pt-1">₹{addonState.total}</div>
-                      </motion.div>
-                    )
-                  })}
-                </AnimatePresence>
+                {/* Tag Badge */}
+                <span className="absolute top-3 left-3 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500 text-black shadow-md border border-amber-300">
+                  {seva.tag}
+                </span>
+
+                {/* Price Tag */}
+                <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white">
+                  <div>
+                    <span className="text-[10px] text-amber-200 uppercase tracking-wider block font-semibold">
+                      Dakshina
+                    </span>
+                    <span className="font-serif text-2xl font-bold text-[var(--gold)]">
+                      ₹{seva.price}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1 text-[11px] text-white/80 bg-black/50 px-2.5 py-1 rounded-lg backdrop-blur-md border border-white/10">
+                    <Clock className="size-3 text-amber-400" />
+                    <span>{seva.time.split("•")[0]}</span>
+                  </div>
+                </div>
               </div>
 
-              <div className="flex justify-between items-end border-t border-white/10 pt-4 md:pt-5 mb-5 md:mb-6 relative">
-                <div className="font-serif text-base md:text-lg opacity-80">Total</div>
-                <motion.div 
-                  key={totalAmount}
-                  initial={{ scale: 0.9, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  className="font-serif text-2xl md:text-3xl text-[var(--gold)]"
+              {/* Card Content Body */}
+              <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-4">
+                <div>
+                  <h3 className="font-serif text-xl font-bold text-stone-900 group-hover:text-amber-900 transition-colors">
+                    {seva.title}
+                  </h3>
+                  <p className="text-xs font-semibold text-amber-800 mt-0.5">{seva.subtitle}</p>
+                  <p className="text-xs text-stone-600 mt-2.5 leading-relaxed font-normal">
+                    {seva.description}
+                  </p>
+                </div>
+
+                {/* Action CTA Button */}
+                <button
+                  onClick={() => handleSelectPujaCard(seva)}
+                  className="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-[#4A1521] via-[#5C1A29] to-[#3B0E19] text-white text-xs font-semibold hover:from-[#5C1A29] hover:to-[#4A1521] shadow-md transition-all flex items-center justify-center gap-2 border border-amber-400/30 cursor-pointer group-hover:scale-[1.01]"
                 >
-                  ₹{totalAmount}
-                </motion.div>
+                  <Flame className="size-4 text-[var(--gold)]" />
+                  <span>Book {seva.title}</span>
+                  <ChevronRight className="size-4 text-white/50 group-hover:translate-x-1 transition-transform" />
+                </button>
               </div>
-
-              <button 
-                disabled={!isReadyToPay}
-                className={`w-full justify-center !py-3 md:!py-3.5 !rounded-xl text-sm md:!text-base transition-all ${
-                  isReadyToPay 
-                    ? "btn-gold hover:scale-[1.02]" 
-                    : "bg-white/5 text-white/40 border border-white/10 cursor-not-allowed"
-                }`}
-              >
-                {btnText}
-              </button>
-            </div>
-
-          </div>
-
+            </motion.div>
+          ))}
         </div>
       </div>
+
+      {/* STEP 1 INITIAL MODAL POPUP (Name & Mobile Number) */}
+      <AnimatePresence>
+        {selectedPuja && (
+          <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedPuja(null)}
+              className="fixed inset-0 bg-stone-950/70 backdrop-blur-sm"
+            />
+
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative w-full max-w-md overflow-hidden rounded-3xl border border-amber-200/90 bg-[#FAF8F5] text-stone-800 shadow-2xl z-10"
+            >
+              <button
+                onClick={() => setSelectedPuja(null)}
+                className="absolute top-4 right-4 size-8 rounded-full bg-white/20 hover:bg-white/40 text-white flex items-center justify-center transition-colors z-20 cursor-pointer"
+              >
+                <X className="size-4" />
+              </button>
+
+              <div className="p-6 bg-gradient-to-r from-[#3C0F1A] via-[#4D1624] to-[#2B0A12] text-white text-center relative">
+                <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[var(--gold)]/15 border border-[var(--gold)]/30 text-[var(--gold)] text-xs font-semibold mb-2">
+                  <Sparkles className="size-3.5" />
+                  <span>Fast Puja Registration</span>
+                </div>
+                <h3 className="font-serif text-2xl font-bold text-gradient-gold">
+                  {selectedPuja.title}
+                </h3>
+                <p className="text-xs text-amber-100/70 mt-1">
+                  Dakshina: <strong className="text-[var(--gold)]">₹{selectedPuja.price}</strong>
+                </p>
+              </div>
+
+              <form onSubmit={handleProceedToCheckoutPage} className="p-6 space-y-4">
+                <div>
+                  <label className="block text-xs text-stone-700 font-bold mb-1">
+                    Your Name *
+                  </label>
+                  <div className="relative flex items-center">
+                    <User className="absolute left-3.5 size-4 text-stone-400" />
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Ananya Deshmukh"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-stone-300 text-xs text-stone-900 font-medium focus:border-amber-500 focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs text-stone-700 font-bold mb-1">
+                    Mobile Number *
+                  </label>
+                  <div className="relative flex items-center">
+                    <span className="absolute left-3.5 text-xs text-stone-600 font-bold border-r border-stone-300 pr-2.5">
+                      +91
+                    </span>
+                    <input
+                      type="tel"
+                      required
+                      maxLength={10}
+                      placeholder="98765 43210"
+                      value={mobile}
+                      onChange={(e) => setMobile(e.target.value.replace(/\D/g, ""))}
+                      className="w-full pl-16 pr-4 py-2.5 rounded-xl bg-white border border-stone-300 text-xs text-stone-900 font-medium focus:border-amber-500 focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={!name || mobile.length < 10}
+                  className={`w-full py-3 px-4 rounded-xl font-semibold text-xs transition-all shadow-md flex items-center justify-center gap-2 mt-2 ${
+                    name && mobile.length >= 10
+                      ? "bg-gradient-to-r from-[#4A1521] via-[#5C1A29] to-[#3B0E19] text-white hover:opacity-95 cursor-pointer"
+                      : "bg-stone-300 text-stone-500 cursor-not-allowed"
+                  }`}
+                >
+                  <span>Proceed to Booking Details Page</span>
+                  <ArrowRight className="size-4 text-[var(--gold)]" />
+                </button>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

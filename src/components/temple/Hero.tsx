@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import Link from "next/link";
 import { HiOutlineArrowDown } from "react-icons/hi";
 import { IMG } from "./images";
 import { Particles, SunRays } from "./effects";
@@ -174,12 +175,12 @@ export function Hero() {
           transition={{ delay: 0.95, duration: 0.8 }}
           className="mt-10 flex flex-wrap items-center justify-center gap-4"
         >
-          <a href="#about" className="btn-gold btn-gold-hover">
+          <Link href="#about" className="btn-gold btn-gold-hover">
             Explore the Temple
-          </a>
-          <a href="#darshan" className="btn-ghost-gold">
+          </Link>
+          <Link href="#darshan" className="btn-ghost-gold">
             Virtual Darshan
-          </a>
+          </Link>
         </motion.div>
 
         <motion.div

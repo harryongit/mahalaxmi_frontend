@@ -19,6 +19,7 @@ import {
   HiChevronRight,
 } from "react-icons/hi";
 import { IMG } from "./images";
+import Link from "next/link";
 import { Particles, Reveal, SectionEyebrow } from "./effects";
 
 /* ----------------------- ABOUT ----------------------- */
@@ -69,11 +70,17 @@ export function About() {
             </h2>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="mt-6 text-foreground/75 leading-relaxed max-w-xl">
-              For nearly a millennium, Ambabai Mahalaxmi Kolhapur has stood as a living testament to devotion.
-              Built by master sculptors and consecrated under the morning star, its sanctum still
-              holds the same lamp that was first lit by the founding priest.
-            </p>
+            <div className="mt-6 space-y-4 text-foreground/80 leading-relaxed max-w-xl text-sm sm:text-base font-medium">
+              <p>
+                One of the most sacred Shakti Peethas in India, Shri Mahalaxmi Mandir in Kolhapur is dedicated to Goddess Mahalaxmi (Ambabai). The temple is renowned for its ancient heritage, spiritual significance, and the powerful deity who blesses devotees with prosperity and well-being.
+              </p>
+              <p>
+                The Mahalaxmi Temple of Kolhapur is one of the oldest and most significant temples in India. It is believed to have been originally built during the Chalukya period (7th century CE). The temple has been renovated and expanded over centuries by various dynasties including the Shilahara, Yadava, and Maratha rulers. It is one of the 51 Shakti Peethas and holds immense importance in Hindu tradition.
+              </p>
+              <p>
+                The idol of Mahalaxmi is believed to be self-manifested (Swayambhu). The temple is one of the six Mahalaxmi temples and is considered the most important. The annual Kirnotsav, where the rays of the setting sun fall directly on the face of the idol, is a unique natural phenomenon observed in January and November.
+              </p>
+            </div>
           </Reveal>
 
           <div className="mt-10 grid sm:grid-cols-3 gap-6">
@@ -1147,9 +1154,9 @@ export function Location() {
             </ul>
           </Reveal>
           <Reveal delay={0.3}>
-            <a href="#" className="mt-10 btn-gold btn-gold-hover">
+            <Link href="/contact" className="mt-10 btn-gold btn-gold-hover">
               Get directions
-            </a>
+            </Link>
           </Reveal>
         </div>
       </div>

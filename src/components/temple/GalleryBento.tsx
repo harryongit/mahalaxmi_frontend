@@ -5,44 +5,70 @@ import { motion, AnimatePresence } from "framer-motion";
 import { HiX, HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import { IMG } from "./images";
 import { Reveal, SectionEyebrow } from "./effects";
+import { Sparkles, Maximize2, Tag } from "lucide-react";
 
-const CAPTIONS = [
-  "Pillared corridor at dusk",
-  "Gopuram in morning mist",
-  "Temple bells before aarti",
-  "Deepam floating on the ghat",
-  "Offering of light",
-  "Carved stone guardians",
-  "Marigold thresholds",
-  "The eastern courtyard",
-  "Sanctum in golden hour",
-  "Evening prayer",
-  "Festival of a thousand lamps",
-  "Silence between hymns",
+const GALLERY_DATA = [
+  {
+    src: IMG.gallery[0] || "https://images.unsplash.com/photo-1609766857041-ed402ea8069a?q=80&w=800",
+    caption: "Pillared corridor at dusk during Mangala Aarti",
+    category: "Sanctum",
+  },
+  {
+    src: IMG.gallery[1] || "https://images.unsplash.com/photo-1545232979-fbf34fe37b38?q=80&w=800",
+    caption: "Shikhara Gopuram in early morning mist",
+    category: "Architecture",
+  },
+  {
+    src: IMG.gallery[2] || "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?q=80&w=800",
+    caption: "Sacred temple bells before Sandhya Aarti",
+    category: "Rituals",
+  },
+  {
+    src: IMG.gallery[3] || "https://images.unsplash.com/photo-1514533450685-4493e01d1fdc?q=80&w=800",
+    caption: "Deepam floating on the sacred Pushkarini ghat",
+    category: "Festivals",
+  },
+  {
+    src: IMG.gallery[4] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800",
+    caption: "Devotional offering of golden brass lamps",
+    category: "Rituals",
+  },
+  {
+    src: IMG.gallery[5] || "https://images.unsplash.com/photo-1567157577867-05ccb1388e66?q=80&w=800",
+    caption: "Carved Chalukyan stone guardians of 7th century",
+    category: "Architecture",
+  },
+  {
+    src: IMG.gallery[6] || "https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=800",
+    caption: "Fresh marigold thresholds & saffron flower garlands",
+    category: "Festivals",
+  },
+  {
+    src: IMG.gallery[7] || "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?q=80&w=800",
+    caption: "The eastern courtyard during sunset Kirnotsav",
+    category: "Sanctum",
+  },
+  {
+    src: IMG.gallery[8] || "https://images.unsplash.com/photo-1570042707223-933390c5240c?q=80&w=800",
+    caption: "Inner sanctum illuminated in divine golden hour",
+    category: "Sanctum",
+  },
 ];
 
-/** Bento-style asymmetric layout inspired by editorial gallery walls */
-const SPANS = [
-  "md:col-span-3 md:row-span-2",
-  "md:col-span-3 md:row-span-1",
-  "md:col-span-3 md:row-span-1",
-  "md:col-span-3 md:row-span-2",
-  "md:col-span-3 md:row-span-1",
-  "md:col-span-3 md:row-span-1",
-  "md:col-span-4 md:row-span-1",
-  "md:col-span-4 md:row-span-1",
-  "md:col-span-4 md:row-span-1",
-  "md:col-span-6 md:row-span-1",
-  "md:col-span-3 md:row-span-1",
-  "md:col-span-3 md:row-span-1",
-];
+const CATEGORIES = ["All", "Sanctum", "Architecture", "Festivals", "Rituals"];
 
 export function GalleryBento() {
+  const [selectedCat, setSelectedCat] = useState("All");
   const [open, setOpen] = useState<number | null>(null);
+
+  const filtered = selectedCat === "All"
+    ? GALLERY_DATA
+    : GALLERY_DATA.filter((item) => item.category === selectedCat);
+
   const close = () => setOpen(null);
   const prev = () =>
-    setOpen((i) => (i === null ? null : (i + IMG.gallery.length - 1) % IMG.gallery.length));
-  const next = () => setOpen((i) => (i === null ? null : (i + 1) % IMG.gallery.length));
+    setOpen((i) => (i === null ? null : (i + filtered.length - 1) % filtered.length));
+  const next = () => setOpen((i) => (i === null ? null : (i + 1) % filtered.length));
 
   useEffect(() => {
     if (open === null) return;
@@ -53,116 +79,142 @@ export function GalleryBento() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open]);
+  }, [open, filtered]);
 
   return (
-    <section
-      id="gallery"
-      className="relative py-28 md:py-40"
-      style={{
-        background:
-          "linear-gradient(180deg, var(--background), color-mix(in oklab, var(--gold) 10%, var(--background)) 50%, var(--background))",
-      }}
-    >
-      <div className="container-temple">
-        <div className="flex flex-wrap items-end justify-between gap-6">
+    <section id="gallery" className="relative py-16 md:py-24 bg-[#FCF9F3]">
+      <div className="container-temple space-y-8">
+        
+        {/* Header & Category Filter Buttons */}
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 border-b border-stone-200 pb-6">
           <div>
-            <Reveal>
-              <SectionEyebrow>Photo Gallery</SectionEyebrow>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <h2 className="font-serif text-[clamp(2.25rem,4.5vw,3.75rem)] mt-6 leading-[1.05]">
-                Moments of <span className="text-gradient-gold">grace.</span>
-              </h2>
-            </Reveal>
+            <span className="text-xs font-bold uppercase tracking-wider text-amber-800 bg-amber-100 px-3 py-1 rounded-full border border-amber-300">
+              Visual Archive
+            </span>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-stone-900 mt-2">
+              Explore Photo Gallery
+            </h2>
           </div>
-          <p className="max-w-sm text-foreground/70">
-            Across seasons and ceremonies — selected from the temple's living archive.
-          </p>
+
+          {/* Filter Tabs */}
+          <div className="flex overflow-x-auto gap-2 pb-1 scrollbar-thin">
+            {CATEGORIES.map((cat) => {
+              const active = selectedCat === cat;
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCat(cat)}
+                  className={`shrink-0 px-4 py-2 rounded-xl text-xs font-bold transition-all border cursor-pointer ${
+                    active
+                      ? "bg-[#3C0F1A] text-white border-[#3C0F1A] shadow-md"
+                      : "bg-white text-stone-700 border-amber-200 hover:border-amber-400"
+                  }`}
+                >
+                  {cat === "All" ? "All Photos" : cat}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 md:auto-rows-[190px] gap-5">
-          {IMG.gallery.map((src, i) => (
-            <Reveal key={src} delay={(i % 6) * 0.05} className={SPANS[i % SPANS.length]}>
-              <button
-                onClick={() => setOpen(i)}
-                className="group relative block h-full w-full min-h-[220px] overflow-hidden rounded-[26px] bg-card p-2 shadow-[0_24px_60px_-30px_rgba(80,30,0,0.45)] transition-transform duration-500 hover:-translate-y-1.5"
-                aria-label={`Open ${CAPTIONS[i % CAPTIONS.length]}`}
-              >
-                <span className="block h-full w-full overflow-hidden rounded-[20px]">
-                  <img
-                    src={src}
-                    alt={CAPTIONS[i % CAPTIONS.length]}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-110"
-                  />
-                </span>
-                <span
-                  className="pointer-events-none absolute inset-2 rounded-[20px] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-                  style={{
-                    background: "linear-gradient(180deg, transparent 40%, rgba(20,8,2,0.75) 100%)",
-                  }}
-                />
-                <span className="pointer-events-none absolute bottom-6 left-6 right-6 translate-y-3 text-left text-sm font-light text-white opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
-                  {CAPTIONS[i % CAPTIONS.length]}
-                </span>
-              </button>
-            </Reveal>
+        {/* Photo Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {filtered.map((item, i) => (
+            <motion.div
+              key={item.src + i}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.05 }}
+              whileHover={{ y: -6 }}
+              onClick={() => setOpen(i)}
+              className="group relative rounded-3xl border-2 border-amber-200/90 bg-white overflow-hidden shadow-md hover:border-amber-400 hover:shadow-2xl transition-all duration-300 cursor-pointer h-64 sm:h-72"
+            >
+              <img
+                src={item.src}
+                alt={item.caption}
+                loading="lazy"
+                className="size-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-95 transition-opacity" />
+
+              {/* Tag Pill */}
+              <span className="absolute top-3 left-3 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500 text-stone-950 shadow-md">
+                {item.category}
+              </span>
+
+              {/* Expand Icon Badge */}
+              <div className="absolute top-3 right-3 size-8 rounded-full bg-black/40 text-white backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                <Maximize2 className="size-4 text-[var(--gold)]" />
+              </div>
+
+              {/* Caption Overlay */}
+              <div className="absolute bottom-4 left-4 right-4 text-white">
+                <p className="font-serif text-sm sm:text-base font-bold text-amber-200 group-hover:text-white transition-colors leading-tight">
+                  {item.caption}
+                </p>
+              </div>
+            </motion.div>
           ))}
         </div>
+
       </div>
 
+      {/* FULLSCREEN LIGHTBOX MODAL */}
       <AnimatePresence>
-        {open !== null && (
+        {open !== null && filtered[open] && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[80] grid place-items-center bg-black/90 p-4"
+            className="fixed inset-0 z-[100] grid place-items-center bg-black/95 p-4 backdrop-blur-md"
             onClick={close}
           >
             <button
               onClick={close}
-              className="absolute right-5 top-5 grid size-11 place-items-center rounded-full glass-dark text-white"
+              className="absolute right-5 top-5 grid size-10 place-items-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
               aria-label="Close"
             >
-              <HiX />
+              <HiX className="size-6" />
             </button>
+
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 prev();
               }}
-              className="absolute left-4 top-1/2 grid size-11 -translate-y-1/2 place-items-center rounded-full glass-dark text-white md:left-10"
+              className="absolute left-4 top-1/2 grid size-12 -translate-y-1/2 place-items-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer md:left-8"
               aria-label="Previous"
             >
-              <HiChevronLeft />
+              <HiChevronLeft className="size-7" />
             </button>
+
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 next();
               }}
-              className="absolute right-4 top-1/2 grid size-11 -translate-y-1/2 place-items-center rounded-full glass-dark text-white md:right-10"
+              className="absolute right-4 top-1/2 grid size-12 -translate-y-1/2 place-items-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer md:right-8"
               aria-label="Next"
             >
-              <HiChevronRight />
+              <HiChevronRight className="size-7" />
             </button>
+
             <motion.figure
               key={open}
-              initial={{ opacity: 0, scale: 0.96 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.96 }}
+              exit={{ opacity: 0, scale: 0.95 }}
               onClick={(e) => e.stopPropagation()}
-              className="max-h-[85vh] max-w-5xl"
+              className="max-h-[85vh] max-w-4xl text-center space-y-3"
             >
               <img
-                src={IMG.gallery[open]}
-                alt={CAPTIONS[open % CAPTIONS.length]}
-                className="max-h-[78vh] rounded-2xl object-contain"
+                src={filtered[open].src}
+                alt={filtered[open].caption}
+                className="max-h-[75vh] w-auto mx-auto rounded-2xl border-2 border-amber-300/40 shadow-2xl object-contain"
               />
-              <figcaption className="mt-4 text-center text-sm tracking-wide text-white/70">
-                {CAPTIONS[open % CAPTIONS.length]}
+              <figcaption className="text-amber-200 font-serif text-base font-bold tracking-wide">
+                {filtered[open].caption} — <span className="text-white/60 text-xs font-mono">Photo {open + 1} of {filtered.length}</span>
               </figcaption>
             </motion.figure>
           </motion.div>
