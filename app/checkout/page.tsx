@@ -998,15 +998,13 @@ function CheckoutForm() {
   );
 }
 
-export default function CheckoutPage() {
+function CheckoutContent() {
   const searchParams = useSearchParams();
   const pujaId = searchParams.get("puja") || "s1";
   const selectedPuja = sevasData.find((s) => s.id === pujaId) || sevasData[0];
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FCF9F3] text-stone-900">
-      <Navbar />
-
+    <>
       {/* Clean & Standard PageHero */}
       <PageHero
         breadcrumb={`Seva Checkout / ${selectedPuja.title}`}
@@ -1017,11 +1015,19 @@ export default function CheckoutPage() {
       />
 
       <main className="flex-1 py-10 px-3 sm:px-6">
-        <Suspense fallback={<div className="text-center py-10 text-stone-600">Loading Checkout...</div>}>
-          <CheckoutForm />
-        </Suspense>
+        <CheckoutForm />
       </main>
+    </>
+  );
+}
 
+export default function CheckoutPage() {
+  return (
+    <div className="min-h-screen flex flex-col bg-[#FCF9F3] text-stone-900">
+      <Navbar />
+      <Suspense fallback={<div className="text-center py-20 text-stone-600">Loading...</div>}>
+        <CheckoutContent />
+      </Suspense>
       <Footer />
     </div>
   );

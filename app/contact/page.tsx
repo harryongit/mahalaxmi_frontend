@@ -49,7 +49,7 @@ export default function ContactPage() {
     setError(null);
 
     try {
-      // POST http://localhost:8000/api/v1/enquiries/
+      // POST https://server.ambabaimahalaxmi.com/api/v1/enquiries/
       await enquiryService.createEnquiry({
         name: name.trim(),
         email: email.trim(),
