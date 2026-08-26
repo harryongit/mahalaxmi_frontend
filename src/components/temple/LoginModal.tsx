@@ -97,11 +97,10 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
                     setTab("login");
                     setStep("input");
                   }}
-                  className={`py-2 text-xs font-semibold rounded-lg transition-all ${
-                    tab === "login"
+                  className={`py-2 text-xs font-semibold rounded-lg transition-all ${tab === "login"
                       ? "bg-white text-stone-900 shadow-sm"
                       : "text-stone-600 hover:text-stone-900"
-                  }`}
+                    }`}
                 >
                   Login
                 </button>
@@ -111,11 +110,10 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
                     setTab("signup");
                     setStep("input");
                   }}
-                  className={`py-2 text-xs font-semibold rounded-lg transition-all ${
-                    tab === "signup"
+                  className={`py-2 text-xs font-semibold rounded-lg transition-all ${tab === "signup"
                       ? "bg-white text-stone-900 shadow-sm"
                       : "text-stone-600 hover:text-stone-900"
-                  }`}
+                    }`}
                 >
                   Create Account
                 </button>

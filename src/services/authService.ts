@@ -8,8 +8,6 @@ export interface AdminLoginPayload {
 export interface AdminLoginResponse {
   message: string;
   admin_id: number;
-  access_token: string;
-  token_type: string;
 }
 
 export const authService = {
