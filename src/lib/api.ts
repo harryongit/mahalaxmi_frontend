@@ -25,3 +25,26 @@ export async function apiFetch<T>(
 
   return response.data;
 }
+
+export const authApi = {
+  login: (phoneNumber: string) => 
+    apiFetch<{ message: string; user_id: number }>('/auth/login', { 
+      method: 'POST', 
+      body: { phone_number: phoneNumber } 
+    }),
+};
+
+export const userApi = {
+  getMe: () => apiFetch<any>('/users/me'),
+  updateMe: (data: any) => apiFetch<any>('/users/me', { method: 'PUT', body: data }),
+  getStats: () => apiFetch<any>('/users/me/stats'),
+};
+
+export const adminUserApi = {
+  updateStatus: (id: string | number, status: string) => 
+    apiFetch<any>(`/admin/users/${id}/status`, { method: 'PATCH', body: { status } }),
+};
+
+export const adminDashboardApi = {
+  getState: () => apiFetch<any>('/admin/dashboard/state'),
+};

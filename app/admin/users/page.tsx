@@ -14,6 +14,8 @@ import {
   HiOutlineSearch,
 } from "react-icons/hi";
 import { Sparkles, UserCheck, ShieldCheck } from "lucide-react";
+import { adminUserApi } from "@/src/lib/api";
+import { toast } from "sonner";
 
 export default function AdminUsersPage() {
   const { s, setS } = useAdmin();
@@ -48,6 +50,23 @@ export default function AdminUsersPage() {
     setS({ ...s, bookings: updatedBookings });
   };
 
+  const handleUpdateUserStatus = async (userId: string, newStatus: DevoteeUser["status"]) => {
+    try {
+      // Optimitic update
+      const updatedUsers = s.users.map((u) => 
+        u.id === userId ? { ...u, status: newStatus } : u
+      );
+      setS({ ...s, users: updatedUsers });
+      
+      // Call the API
+      await adminUserApi.updateStatus(userId, newStatus);
+      toast.success(`User status updated to ${newStatus}`);
+    } catch (error) {
+      console.error("Failed to update user status", error);
+      toast.error("Failed to update user status");
+    }
+  };
+
   return (
     <div className="space-y-8 font-sans">
       <Head
@@ -67,7 +86,7 @@ export default function AdminUsersPage() {
             </div>
           </div>
           <div className="font-serif mt-3 text-3xl font-bold text-[#3C0F1A]">
-            {s.users?.length || 0} Devotees
+            {s.summary.total_users} Devotees
           </div>
           <div className="mt-2 text-xs text-stone-500">
             Verified accounts in database
@@ -84,7 +103,7 @@ export default function AdminUsersPage() {
             </div>
           </div>
           <div className="font-serif mt-3 text-3xl font-bold text-[#3C0F1A]">
-            {s.bookings?.length || 0} Bookings
+            {s.summary.total_orders} Bookings
           </div>
           <div className="mt-2 text-xs text-emerald-600 font-semibold flex items-center gap-1">
             <HiOutlineCheckCircle />
@@ -102,7 +121,7 @@ export default function AdminUsersPage() {
             </div>
           </div>
           <div className="font-serif mt-3 text-3xl font-bold text-[#3C0F1A]">
-            ₹{totalBookedAmount.toLocaleString("en-IN")}
+            ₹{s.summary.total_revenue.toLocaleString("en-IN")}
           </div>
           <div className="mt-2 text-xs text-stone-500">
             Dakshina received via UPI & Bank
@@ -301,9 +320,15 @@ export default function AdminUsersPage() {
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
                       <h4 className="font-bold text-stone-900 text-sm">{user.name}</h4>
-                      <span className="px-2 py-0.5 rounded-md bg-amber-200 text-amber-950 text-[10px] font-bold">
-                        {user.status}
-                      </span>
+                      <select
+                        value={user.status}
+                        onChange={(e) => handleUpdateUserStatus(user.id, e.target.value as DevoteeUser["status"])}
+                        className="px-2 py-0.5 rounded-md bg-amber-200 text-amber-950 text-[10px] font-bold border-none outline-none cursor-pointer focus:ring-2 focus:ring-amber-500"
+                      >
+                        <option value="Active">Active</option>
+                        <option value="VIP">VIP</option>
+                        <option value="Regular">Regular</option>
+                      </select>
                     </div>
 
                     <div className="flex items-center gap-1.5 text-xs text-stone-600">

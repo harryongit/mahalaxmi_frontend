@@ -16,7 +16,6 @@ import {
 
 export default function AdminOverviewPage() {
   const { s } = useAdmin();
-  const total = s.donations.reduce((a, d) => a + d.amount, 0);
   const unreadCount = s.messages.filter((m) => !m.read).length;
 
   return (
@@ -77,7 +76,7 @@ export default function AdminOverviewPage() {
             </div>
           </div>
           <div className="font-serif mt-3 text-3xl font-bold text-[#3C0F1A]">
-            ₹{total.toLocaleString("en-IN")}
+            ₹{s.summary.total_revenue.toLocaleString("en-IN")}
           </div>
           <div className="mt-2 text-xs text-stone-500 flex items-center justify-between">
             <span>{s.donations.length} records verified</span>

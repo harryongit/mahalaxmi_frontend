@@ -3,10 +3,59 @@
 import { Navbar } from "@/src/components/temple/Navbar";
 import { Footer } from "@/src/components/temple/Footer";
 import { PageHero } from "@/src/components/temple/PageHero";
-import { User, Phone, Mail, MapPin, ShieldCheck, Sparkles, Edit3 } from "lucide-react";
+import { User, Phone, Mail, MapPin, ShieldCheck, Sparkles, Edit3, Check, X } from "lucide-react";
 import { motion } from "framer-motion";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { userApi } from "@/src/lib/api";
+import { useState, useEffect } from "react";
 
 export default function ProfilePage() {
+  const queryClient = useQueryClient();
+  const [isEditing, setIsEditing] = useState(false);
+  
+  const { data: user, isLoading } = useQuery({
+    queryKey: ["user", "me"],
+    queryFn: userApi.getMe,
+  });
+
+  const { data: stats } = useQuery({
+    queryKey: ["user", "stats"],
+    queryFn: userApi.getStats,
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: (data: any) => userApi.updateMe(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user", "me"] });
+      setIsEditing(false);
+    }
+  });
+
+  const [editForm, setEditForm] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone_number: "",
+    address: "",
+    gotra: "",
+  });
+
+  useEffect(() => {
+    if (user) {
+      setEditForm({
+        first_name: user.first_name || "",
+        last_name: user.last_name || "",
+        email: user.email || "",
+        phone_number: user.phone_number || "",
+        address: user.address || "",
+        gotra: user.gotra || "",
+      });
+    }
+  }, [user]);
+
+  const handleSave = () => {
+    updateMutation.mutate(editForm);
+  };
   return (
     <div className="min-h-screen flex flex-col bg-[#FCF9F3] text-stone-900">
       <Navbar />
@@ -30,7 +79,7 @@ export default function ProfilePage() {
           >
             <div className="flex flex-col sm:flex-row items-center gap-6 relative z-10">
               <div className="size-20 rounded-full bg-[var(--gold)]/20 border-2 border-[var(--gold)] flex items-center justify-center font-serif text-3xl text-[var(--gold)] font-bold shadow-xl shrink-0">
-                A
+                {user?.first_name ? user.first_name.charAt(0) : "D"}
               </div>
 
               <div className="text-center sm:text-left space-y-1">
@@ -39,15 +88,28 @@ export default function ProfilePage() {
                   <span>Verified Devotee</span>
                 </div>
                 <h1 className="font-serif text-2xl sm:text-3xl font-bold text-gradient-gold">
-                  Ananya Deshmukh
+                  {user?.first_name} {user?.last_name}
                 </h1>
-                <p className="text-sm text-amber-100/70">Registered Member • Kolhapur Circle</p>
+                <p className="text-sm text-amber-100/70">Registered Member • {user?.city || "Kolhapur"} Circle</p>
               </div>
 
-              <button className="sm:ml-auto px-4 py-2 rounded-full border border-[var(--gold)]/40 bg-white/10 hover:bg-white/20 text-white text-xs font-semibold flex items-center gap-1.5 backdrop-blur-md transition-all cursor-pointer">
-                <Edit3 className="size-3.5 text-[var(--gold)]" />
-                <span>Edit Profile</span>
-              </button>
+              {isEditing ? (
+                <div className="sm:ml-auto flex gap-2">
+                  <button onClick={handleSave} className="px-4 py-2 rounded-full border border-emerald-500/40 bg-emerald-500/20 hover:bg-emerald-500/30 text-white text-xs font-semibold flex items-center gap-1.5 backdrop-blur-md transition-all cursor-pointer">
+                    <Check className="size-3.5 text-emerald-400" />
+                    <span>Save</span>
+                  </button>
+                  <button onClick={() => setIsEditing(false)} className="px-4 py-2 rounded-full border border-rose-500/40 bg-rose-500/20 hover:bg-rose-500/30 text-white text-xs font-semibold flex items-center gap-1.5 backdrop-blur-md transition-all cursor-pointer">
+                    <X className="size-3.5 text-rose-400" />
+                    <span>Cancel</span>
+                  </button>
+                </div>
+              ) : (
+                <button onClick={() => setIsEditing(true)} className="sm:ml-auto px-4 py-2 rounded-full border border-[var(--gold)]/40 bg-white/10 hover:bg-white/20 text-white text-xs font-semibold flex items-center gap-1.5 backdrop-blur-md transition-all cursor-pointer">
+                  <Edit3 className="size-3.5 text-[var(--gold)]" />
+                  <span>Edit Profile</span>
+                </button>
+              )}
             </div>
           </motion.div>
 
@@ -67,30 +129,55 @@ export default function ProfilePage() {
 
               <div className="space-y-3.5 text-sm">
                 <div>
-                  <span className="text-xs text-stone-500 font-semibold block">Full Name</span>
-                  <span className="text-stone-900 font-semibold">Ananya Deshmukh</span>
+                  <span className="text-xs text-stone-500 font-semibold block">First Name</span>
+                  {isEditing ? (
+                    <input type="text" value={editForm.first_name} onChange={e => setEditForm({...editForm, first_name: e.target.value})} className="mt-1 w-full p-2 border rounded-md text-stone-900 bg-white" />
+                  ) : (
+                    <span className="text-stone-900 font-semibold">{user?.first_name || "N/A"}</span>
+                  )}
+                </div>
+
+                <div>
+                  <span className="text-xs text-stone-500 font-semibold block">Last Name</span>
+                  {isEditing ? (
+                    <input type="text" value={editForm.last_name} onChange={e => setEditForm({...editForm, last_name: e.target.value})} className="mt-1 w-full p-2 border rounded-md text-stone-900 bg-white" />
+                  ) : (
+                    <span className="text-stone-900 font-semibold">{user?.last_name || "N/A"}</span>
+                  )}
                 </div>
 
                 <div>
                   <span className="text-xs text-stone-500 font-semibold block">Mobile Number</span>
-                  <span className="text-stone-900 font-semibold flex items-center gap-2">
-                    <Phone className="size-3.5 text-amber-800" /> +91 98765 43210
-                  </span>
+                  {isEditing ? (
+                    <input type="text" value={editForm.phone_number} onChange={e => setEditForm({...editForm, phone_number: e.target.value})} className="mt-1 w-full p-2 border rounded-md text-stone-900 bg-white" />
+                  ) : (
+                    <span className="text-stone-900 font-semibold flex items-center gap-2">
+                      <Phone className="size-3.5 text-amber-800" /> {user?.phone_number || "N/A"}
+                    </span>
+                  )}
                 </div>
 
                 <div>
                   <span className="text-xs text-stone-500 font-semibold block">Email Address</span>
-                  <span className="text-stone-900 font-semibold flex items-center gap-2">
-                    <Mail className="size-3.5 text-amber-800" /> ananya.d@example.com
-                  </span>
+                  {isEditing ? (
+                    <input type="email" value={editForm.email} onChange={e => setEditForm({...editForm, email: e.target.value})} className="mt-1 w-full p-2 border rounded-md text-stone-900 bg-white" />
+                  ) : (
+                    <span className="text-stone-900 font-semibold flex items-center gap-2">
+                      <Mail className="size-3.5 text-amber-800" /> {user?.email || "N/A"}
+                    </span>
+                  )}
                 </div>
 
                 <div>
                   <span className="text-xs text-stone-500 font-semibold block">Prasadam Delivery Address</span>
-                  <span className="text-stone-700 font-medium flex items-start gap-2 mt-0.5">
-                    <MapPin className="size-4 text-amber-800 shrink-0 mt-0.5" /> 
-                    Plot No. 42, Tarabai Park, Near Old Palace, Kolhapur - 416003
-                  </span>
+                  {isEditing ? (
+                    <textarea value={editForm.address} onChange={e => setEditForm({...editForm, address: e.target.value})} className="mt-1 w-full p-2 border rounded-md text-stone-900 bg-white" rows={2} />
+                  ) : (
+                    <span className="text-stone-700 font-medium flex items-start gap-2 mt-0.5">
+                      <MapPin className="size-4 text-amber-800 shrink-0 mt-0.5" /> 
+                      {user?.address || "No address provided"}
+                    </span>
+                  )}
                 </div>
               </div>
             </motion.div>
@@ -110,7 +197,11 @@ export default function ProfilePage() {
               <div className="space-y-3.5 text-sm">
                 <div>
                   <span className="text-xs text-stone-500 font-semibold block">Preferred Gotra</span>
-                  <span className="text-stone-900 font-semibold">Kashyap Gotra</span>
+                  {isEditing ? (
+                    <input type="text" value={editForm.gotra} onChange={e => setEditForm({...editForm, gotra: e.target.value})} className="mt-1 w-full p-2 border rounded-md text-stone-900 bg-white" />
+                  ) : (
+                    <span className="text-stone-900 font-semibold">{user?.gotra || "N/A"}</span>
+                  )}
                 </div>
 
                 <div>
@@ -122,16 +213,13 @@ export default function ProfilePage() {
                     <span className="px-3 py-1 rounded-lg bg-amber-100 text-amber-900 text-xs font-semibold border border-amber-300">
                       Abhishek Seva
                     </span>
-                    <span className="px-3 py-1 rounded-lg bg-amber-100 text-amber-900 text-xs font-semibold border border-amber-300">
-                      Mahapuja
-                    </span>
                   </div>
                 </div>
 
                 <div>
                   <span className="text-xs text-stone-500 font-semibold block">Recent Devotee Activity</span>
                   <p className="text-xs text-stone-600 mt-1 leading-relaxed">
-                    Booked 3 rituals in the last 30 days. Prasadam delivered to home address.
+                    Booked {stats?.total_orders ?? 0} rituals. {stats?.active_orders ?? 0} active orders.
                   </p>
                 </div>
               </div>

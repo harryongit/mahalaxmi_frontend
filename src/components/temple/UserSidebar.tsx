@@ -13,10 +13,9 @@ import {
   Flame,
   Ticket,
   CheckCircle2,
-  Phone,
-  Mail,
-  ArrowUpRight,
-} from "lucide-react";
+import { Phone, Mail, ArrowUpRight } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { userApi } from "@/src/lib/api";
 import { LoginModal } from "./LoginModal";
 
 interface UserSidebarProps {
@@ -27,18 +26,38 @@ interface UserSidebarProps {
 export function UserSidebar({ isOpen, onClose }: UserSidebarProps) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [user, setUser] = useState<{ name: string; phone: string; email: string } | null>(null);
+  const [localUser, setLocalUser] = useState<{ name: string; phone: string; email: string } | null>(null);
+
+  // Fetch real user data
+  const { data: user } = useQuery({
+    queryKey: ["user", "me"],
+    queryFn: userApi.getMe,
+    enabled: isLoggedIn,
+  });
+
+  const { data: stats } = useQuery({
+    queryKey: ["user", "stats"],
+    queryFn: userApi.getStats,
+    enabled: isLoggedIn,
+  });
 
   const handleLoginSuccess = (userData: { name: string; phone: string; email: string }) => {
-    setUser(userData);
+    setLocalUser(userData);
     setIsLoggedIn(true);
     setShowLoginModal(false);
   };
 
   const handleLogout = () => {
     setIsLoggedIn(false);
-    setUser(null);
+    setLocalUser(null);
   };
+
+  const displayName = user?.first_name 
+    ? `${user.first_name} ${user.last_name || ""}`.trim() 
+    : localUser?.name;
+  
+  const displayPhone = user?.phone_number || localUser?.phone;
+  const displayEmail = user?.email || localUser?.email;
 
   return (
     <>
@@ -71,7 +90,7 @@ export function UserSidebar({ isOpen, onClose }: UserSidebarProps) {
                   <div className="flex items-center gap-3.5">
                     <div className="size-11 rounded-full bg-gradient-to-tr from-[var(--gold)] to-amber-200 p-0.5 shadow-lg shrink-0">
                       <div className="size-full rounded-full bg-[#2E0B14] flex items-center justify-center text-[var(--gold)] font-serif text-lg font-bold">
-                        {isLoggedIn && user?.name ? user.name.charAt(0) : <User className="size-5" />}
+                        {isLoggedIn && displayName ? displayName.charAt(0) : <User className="size-5" />}
                       </div>
                     </div>
                     <div>
@@ -79,7 +98,7 @@ export function UserSidebar({ isOpen, onClose }: UserSidebarProps) {
                         Ambabai Mahalaxmi Seva
                       </span>
                       <h3 className="font-serif text-xl font-bold text-white leading-tight">
-                        {isLoggedIn ? `Namaste, ${user?.name.split(" ")[0]}` : "Devotee Portal"}
+                        {isLoggedIn ? `Namaste, ${displayName?.split(" ")[0]}` : "Devotee Portal"}
                       </h3>
                     </div>
                   </div>
@@ -133,11 +152,11 @@ export function UserSidebar({ isOpen, onClose }: UserSidebarProps) {
                   >
                     <div className="flex items-center gap-3">
                       <div className="size-10 rounded-full bg-amber-100 border border-amber-300 flex items-center justify-center font-serif font-bold text-amber-800 text-base">
-                        {user?.name.charAt(0)}
+                        {displayName?.charAt(0)}
                       </div>
                       <div>
-                        <h4 className="font-semibold text-stone-900 text-sm">{user?.name}</h4>
-                        <p className="text-xs text-stone-500">{user?.phone || user?.email}</p>
+                        <h4 className="font-semibold text-stone-900 text-sm">{displayName}</h4>
+                        <p className="text-xs text-stone-500">{displayPhone || displayEmail}</p>
                       </div>
                     </div>
                     <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-medium bg-emerald-100 text-emerald-800 border border-emerald-300">
@@ -194,7 +213,7 @@ export function UserSidebar({ isOpen, onClose }: UserSidebarProps) {
                             </h5>
                             {isLoggedIn && (
                               <span className="px-2 py-0.5 rounded-full text-[10px] bg-amber-100 text-amber-800 font-semibold border border-amber-300">
-                                3 Active
+                                {stats?.active_orders ?? 3} Active
                               </span>
                             )}
                           </div>

@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { IMG } from "@/src/components/temple/images";
+import { adminDashboardApi } from "@/src/lib/api";
 
 export type DevoteeUser = {
   id: string;
@@ -32,6 +33,13 @@ export type SevaBooking = {
 };
 
 export type State = {
+  summary: {
+    total_users: number;
+    total_orders: number;
+    total_revenue: number;
+    today_bookings: number;
+    today_revenue: number;
+  };
   gallery: string[];
   events: { id: string; date: string; name: string; note: string }[];
   rituals: { id: string; time: string; name: string }[];
@@ -55,6 +63,13 @@ export type State = {
 };
 
 export const initial: State = {
+  summary: {
+    total_users: 0,
+    total_orders: 0,
+    total_revenue: 0,
+    today_bookings: 0,
+    today_revenue: 0,
+  },
   gallery: IMG.gallery,
   events: [
     {
@@ -253,13 +268,23 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(KEY);
-      if (raw) setS({ ...initial, ...JSON.parse(raw) });
-    } catch {
-      /* ignore */
+    async function loadData() {
+      try {
+        const raw = localStorage.getItem(KEY);
+        if (raw) setS({ ...initial, ...JSON.parse(raw) });
+        
+        // Fetch fresh state from backend
+        const backendState = await adminDashboardApi.getState();
+        if (backendState) {
+          setS(prev => ({ ...prev, ...backendState }));
+        }
+      } catch (e) {
+        console.error("Failed to fetch admin state:", e);
+      } finally {
+        setHydrated(true);
+      }
     }
-    setHydrated(true);
+    loadData();
   }, []);
 
   useEffect(() => {
