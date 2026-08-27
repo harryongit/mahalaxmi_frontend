@@ -16,6 +16,7 @@ import {
   HiOutlineExternalLink,
   HiOutlineSparkles,
   HiOutlineLogout,
+  HiOutlineChartBar,
 } from "react-icons/hi";
 import { AdminProvider, useAdmin } from "./admin-context";
 
@@ -28,6 +29,7 @@ const TABS = [
   { href: "/admin/donations", label: "Donations", icon: HiOutlineGift },
   { href: "/admin/testimonials", label: "Testimonials", icon: HiOutlineChatAlt2 },
   { href: "/admin/messages", label: "Enquiry", icon: HiOutlineMail },
+  { href: "/admin/analytics", label: "Analytics", icon: HiOutlineChartBar },
 ];
 
 function AdminSidebar() {
@@ -79,8 +81,8 @@ function AdminSidebar() {
                 key={t.href}
                 href={t.href}
                 className={`flex items-center justify-between px-4 py-2.5 text-xs transition-all ${isActive
-                    ? "rounded-full border border-amber-400/70 bg-gradient-to-r from-amber-500/25 to-amber-500/10 text-amber-200 font-bold shadow-[0_0_15px_rgba(245,158,11,0.2)] backdrop-blur-md"
-                    : "rounded-xl text-amber-100/75 hover:bg-white/10 hover:text-white font-medium"
+                  ? "rounded-full border border-amber-400/70 bg-gradient-to-r from-amber-500/25 to-amber-500/10 text-amber-200 font-bold shadow-[0_0_15px_rgba(245,158,11,0.2)] backdrop-blur-md"
+                  : "rounded-xl text-amber-100/75 hover:bg-white/10 hover:text-white font-medium"
                   }`}
               >
                 <div className="flex items-center gap-3">

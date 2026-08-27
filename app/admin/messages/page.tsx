@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Head, Card } from "../admin-ui";
+import { formatDateTime } from "@/src/lib/utils";
 import { enquiryService, EnquiryResponse } from "@/src/services/enquiryService";
 import { enquiryApi } from "@/src/lib/api";
 import { Mail, Phone, Clock, Loader2, Sparkles, RefreshCw, MessageSquare, Send } from "lucide-react";
@@ -78,7 +79,7 @@ export default function MessagesAdminPage() {
 
                     <span className="text-xs text-stone-500 font-medium flex items-center gap-1.5 bg-stone-50 px-3 py-1 rounded-full border border-stone-200">
                       <Clock className="size-3.5 text-amber-600" />
-                      {new Date(m.created_at).toLocaleString("en-IN")}
+                      {formatDateTime(m.created_at)}
                     </span>
                   </div>
 

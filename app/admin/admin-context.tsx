@@ -61,16 +61,11 @@ export type State = {
     donationsOpen: boolean;
     maintenance: boolean;
   };
+  analytics?: any;
 };
 
 export const initial: State = {
-  summary: {
-    total_users: 0,
-    total_orders: 0,
-    total_revenue: 0,
-    today_bookings: 0,
-    today_revenue: 0,
-  },
+  summary: { total_users: 0, total_orders: 0, total_revenue: 0, today_bookings: 0, today_revenue: 0 },
   gallery: [],
   events: [],
   rituals: [],
@@ -92,6 +87,7 @@ export const initial: State = {
     donationsOpen: false,
     maintenance: false,
   },
+  analytics: null,
 };
 
 const KEY = "temple-admin-state";

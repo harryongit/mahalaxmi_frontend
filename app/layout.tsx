@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "@/src/styles.css";
 import Providers from "./providers";
+import { Toaster } from "sonner";
 
 export const viewport: Viewport = {
   themeColor: "#FCF9F3",
@@ -20,6 +21,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { AnalyticsTracker } from "@/src/components/AnalyticsTracker";
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -34,6 +37,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="bg-background text-foreground antialiased">
+        <Toaster richColors position="top-right" />
+        <AnalyticsTracker />
         <Providers>{children}</Providers>
       </body>
     </html>

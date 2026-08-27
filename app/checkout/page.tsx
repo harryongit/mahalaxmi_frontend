@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { serviceApi, paymentApi } from "@/src/lib/api";
 import { useRazorpay } from "react-razorpay";
 import { motion, AnimatePresence } from "framer-motion";
+import { formatDate } from "@/src/lib/utils";
 import {
   Check,
   Calendar as CalendarIcon,
@@ -246,13 +247,7 @@ function CheckoutForm() {
 
   const formatReadableDate = (dateStr: string) => {
     try {
-      const d = new Date(dateStr);
-      return d.toLocaleDateString("en-IN", {
-        weekday: "short",
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-      });
+      return formatDate(new Date(dateStr));
     } catch {
       return dateStr;
     }

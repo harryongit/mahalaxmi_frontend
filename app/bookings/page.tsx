@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 
 import { useQuery } from "@tanstack/react-query";
 import { bookingApi } from "@/src/lib/api";
+import { formatDate } from "@/src/lib/utils";
 
 export default function BookingsPage() {
   const { data: bookings = [], isLoading } = useQuery({
@@ -95,7 +96,7 @@ export default function BookingsPage() {
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
                     <div className="flex items-center gap-2 text-stone-600 font-medium">
                       <Calendar className="size-4 text-amber-800 shrink-0" />
-                      <span>{new Date(b.pujaSlotDate || b.bookingDate).toLocaleDateString()}</span>
+                      <span>{formatDate(b.pujaSlotDate || b.bookingDate)}</span>
                     </div>
 
                     <div className="flex items-center gap-2 text-stone-600 font-medium">

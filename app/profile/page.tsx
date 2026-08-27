@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { userApi, bookingApi } from "@/src/lib/api";
 import { useState, useEffect } from "react";
+import { formatDate } from "@/src/lib/utils";
 
 export default function ProfilePage() {
   const queryClient = useQueryClient();
@@ -237,7 +238,7 @@ export default function ProfilePage() {
                     <div>
                       <div className="font-bold text-stone-900 text-sm">{booking.pujaTitle}</div>
                       <div className="text-xs text-stone-500 mt-1">
-                        Ref: <span className="font-mono font-bold text-amber-800">{booking.bookingRef}</span> • {new Date(booking.bookingDate).toLocaleDateString("en-IN", { day: 'numeric', month: 'short', year: 'numeric' })}
+                        Ref: <span className="font-mono font-bold text-amber-800">{booking.bookingRef}</span> • {formatDate(booking.bookingDate)}
                       </div>
                       <div className="text-[11px] text-stone-500 mt-1.5 flex items-center gap-2">
                         <span className={`px-2.5 py-0.5 rounded-md font-bold ${
@@ -247,7 +248,7 @@ export default function ProfilePage() {
                         }`}>
                           {booking.paymentStatus}
                         </span>
-                        <span>Slot: <strong>{new Date(booking.pujaSlotDate).toLocaleDateString("en-IN", { day: 'numeric', month: 'short' })}</strong></span>
+                        <span>Slot: <strong>{formatDate(booking.pujaSlotDate || booking.bookingDate)}</strong></span>
                       </div>
                     </div>
                     <div className="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end border-t sm:border-t-0 border-stone-200 pt-3 sm:pt-0">

@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Phone, Mail, ArrowRight, ShieldCheck, Sparkles, CheckCircle } from "lucide-react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { authApi } from "@/src/lib/api";
+import { useQueryClient } from "@tanstack/react-query";
+import { apiRequest, ApiError } from "@/src/lib/api";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -20,34 +20,37 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
   const [name, setName] = useState("");
   const [step, setStep] = useState<"input" | "otp">("input");
   const [otp, setOtp] = useState(["", "", "", ""]);
-  
+  const [feedback, setFeedback] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [loading, setLoading] = useState(false);
+
   const queryClient = useQueryClient();
-  const loginMutation = useMutation({
-    mutationFn: (phoneNumber: string) => authApi.login(phoneNumber),
-    onSuccess: (data) => {
-      if (typeof window !== "undefined") {
-        localStorage.setItem("access_token", data.access_token);
-      }
-      queryClient.invalidateQueries({ queryKey: ["user", "me"] });
-      queryClient.invalidateQueries({ queryKey: ["user", "stats"] });
-    }
-  });
 
   const handleSendOtp = (e: React.FormEvent) => {
     e.preventDefault();
     if (method === "phone" && !phone) return;
     if (method === "email" && !email) return;
+    setFeedback(null);
     setStep("otp");
   };
 
   const handleVerifyOtp = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Call the actual API
+    setLoading(true);
+    setFeedback(null);
+
+    const phoneNumber = method === "phone" ? (phone || "9876543210") : email;
     try {
-      const phoneNumber = method === "phone" ? (phone || "9876543210") : email;
-      const data = await loginMutation.mutateAsync(phoneNumber);
-      
+      const res = await apiRequest<{ access_token: string }>("/auth/login", "POST", {
+        phone_number: phoneNumber,
+      });
+
+      if (typeof window !== "undefined" && res.data?.access_token) {
+        localStorage.setItem("access_token", res.data.access_token);
+      }
+      queryClient.invalidateQueries({ queryKey: ["user", "me"] });
+      queryClient.invalidateQueries({ queryKey: ["user", "stats"] });
+
+      setFeedback({ type: "success", text: res.message || "Login successful. Jai Mata Di!" });
       onLoginSuccess({
         name: name || (method === "phone" ? "Devotee User" : email.split("@")[0]),
         phone: phone || "+91 98765 43210",
@@ -55,14 +58,14 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
       });
       resetForm();
     } catch (error) {
+      const message =
+        error instanceof ApiError
+          ? error.message
+          : "Unable to sign in right now. Please try again.";
       console.error("Login failed", error);
-      // Even if it fails (e.g. backend down), we can still mock success for the "ideal frontend" flow
-      onLoginSuccess({
-        name: name || (method === "phone" ? "Devotee User" : email.split("@")[0]),
-        phone: phone || "+91 98765 43210",
-        email: email || "devotee@mahalaxmi.org",
-      });
-      resetForm();
+      setFeedback({ type: "error", text: message });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -230,6 +233,18 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
                     </span>
                   </p>
 
+                  {feedback && (
+                    <div
+                      className={`text-xs font-semibold rounded-lg px-3 py-2 ${
+                        feedback.type === "success"
+                          ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                          : "bg-red-50 text-red-700 border border-red-200"
+                      }`}
+                    >
+                      {feedback.text}
+                    </div>
+                  )}
+
                   <div className="flex justify-center gap-2.5 my-4">
                     {otp.map((digit, idx) => (
                       <input
@@ -255,7 +270,8 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
 
                   <button
                     type="submit"
-                    className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#4A1521] via-[#5C1A29] to-[#3B0E19] text-white text-sm font-semibold hover:from-[#5C1A29] hover:to-[#4A1521] shadow-lg transition-all flex items-center justify-center gap-2 border border-amber-400/30"
+                    disabled={loading}
+                    className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#4A1521] via-[#5C1A29] to-[#3B0E19] text-white text-sm font-semibold hover:from-[#5C1A29] hover:to-[#4A1521] shadow-lg transition-all flex items-center justify-center gap-2 border border-amber-400/30 disabled:opacity-60"
                   >
                     <CheckCircle className="size-4 text-[var(--gold)]" />
                     <span>Verify & Proceed</span>
