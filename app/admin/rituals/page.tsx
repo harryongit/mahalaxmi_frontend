@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useAdmin, uid } from "../admin-context";
 import { Head, Card, Field, AddBtn, DelBtn, upd, del } from "../admin-ui";
+import { adminContentApi } from "@/src/lib/api";
+import { Loader2 } from "lucide-react";
 
 export default function RitualsAdminPage() {
   const { s, setS } = useAdmin();
@@ -16,26 +18,61 @@ export default function RitualsAdminPage() {
   const [newImage, setNewImage] = useState("https://images.unsplash.com/photo-1609766857041-ed402ea8069a?q=80&w=800");
   const [newDesc, setNewDesc] = useState("");
 
-  const handleAddPujaSubmit = (e: React.FormEvent) => {
+  const [saving, setSaving] = useState(false);
+  const [savingId, setSavingId] = useState<string | null>(null);
+
+  const handleAddPujaSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newTitle.trim()) return;
 
-    const newPujaItem = {
-      id: uid(),
-      time: newTime,
-      name: `${newTitle} (₹${newPrice})`,
-    };
+    setSaving(true);
+    try {
+      const data = await adminContentApi.createRitual({
+        name: `${newTitle} (₹${newPrice})`,
+        time: newTime,
+      });
 
-    setS((p) => ({
-      ...p,
-      rituals: [...p.rituals, newPujaItem],
-    }));
+      setS((p) => ({
+        ...p,
+        rituals: [...p.rituals, { id: data.id, time: newTime, name: `${newTitle} (₹${newPrice})` }],
+      }));
 
-    setShowAddPuja(false);
-    setNewTitle("");
-    setNewSubtitle("");
-    setNewPrice("551");
-    setNewDesc("");
+      setShowAddPuja(false);
+      setNewTitle("");
+      setNewSubtitle("");
+      setNewPrice("551");
+      setNewDesc("");
+    } catch (err) {
+      alert("Failed to add Puja Seva");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const saveRitual = async (r: any) => {
+    setSavingId(r.id);
+    try {
+      if (typeof r.id === "string" && isNaN(Number(r.id))) {
+        const data = await adminContentApi.createRitual(r);
+        upd(setS, "rituals", r.id, { id: data.id });
+      } else {
+        await adminContentApi.updateRitual(r.id, r);
+      }
+      alert("Ritual saved successfully!");
+    } catch (err) {
+      alert("Failed to save ritual");
+    } finally {
+      setSavingId(null);
+    }
+  };
+
+  const deleteRitual = async (id: string | number) => {
+    if (typeof id === "number" || !isNaN(Number(id))) {
+      try {
+        await adminContentApi.deleteRitual(id);
+      } catch (err) {}
+    }
+    del(setS, "rituals", String(id));
   };
 
   return (
@@ -139,9 +176,10 @@ export default function RitualsAdminPage() {
             <div className="flex items-center gap-3 pt-2">
               <button
                 type="submit"
-                className="px-6 py-2.5 rounded-xl bg-amber-800 text-white font-bold hover:bg-amber-900 shadow-sm"
+                disabled={saving}
+                className="px-6 py-2.5 rounded-xl bg-amber-800 text-white font-bold hover:bg-amber-900 shadow-sm flex gap-2"
               >
-                Publish Puja Seva
+                {saving ? <Loader2 className="size-4 animate-spin" /> : "Publish Puja Seva"}
               </button>
               <button
                 type="button"
@@ -161,7 +199,7 @@ export default function RitualsAdminPage() {
 
         {s.rituals.map((r) => (
           <Card key={r.id}>
-            <div className="grid gap-4 md:grid-cols-[160px_1fr_auto] md:items-end">
+            <div className="grid gap-4 md:grid-cols-[160px_1fr_auto_auto] md:items-end">
               <Field
                 label="Timing / Schedule"
                 value={r.time}
@@ -172,7 +210,14 @@ export default function RitualsAdminPage() {
                 value={r.name}
                 onChange={(v) => upd(setS, "rituals", r.id, { name: v })}
               />
-              <DelBtn onClick={() => del(setS, "rituals", r.id)} />
+              <button 
+                onClick={() => saveRitual(r)}
+                disabled={savingId === r.id}
+                className="bg-amber-800 text-white font-bold text-xs px-4 h-[44px] rounded-2xl flex items-center gap-2 hover:bg-amber-900 transition-colors shadow-sm cursor-pointer disabled:opacity-50"
+              >
+                {savingId === r.id ? <Loader2 className="size-4 animate-spin" /> : "Save"}
+              </button>
+              <DelBtn onClick={() => deleteRitual(r.id)} />
             </div>
           </Card>
         ))}

@@ -63,8 +63,19 @@ const festivalList = [
   },
 ];
 
+import { useQuery } from "@tanstack/react-query";
+import { contentApi } from "@/src/lib/api";
+import { Loader2 } from "lucide-react";
+
 export default function FestivalsPage() {
   useLenis();
+
+  const { data: backendEvents = [], isLoading } = useQuery({
+    queryKey: ["content", "events"],
+    queryFn: contentApi.getEvents,
+  });
+
+  const displayList = backendEvents.length > 0 ? backendEvents : festivalList;
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FCF9F3] text-stone-900">
@@ -80,7 +91,7 @@ export default function FestivalsPage() {
       />
 
       <main className="flex-1 py-12 px-4 sm:px-6 space-y-16 max-w-6xl mx-auto w-full">
-        
+
         {/* Banner Announcement Component */}
         <UtsavBanner />
 
@@ -99,7 +110,11 @@ export default function FestivalsPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {festivalList.map((item) => (
+            {isLoading ? (
+              <div className="col-span-2 flex justify-center py-20">
+                <Loader2 className="size-10 animate-spin text-amber-500" />
+              </div>
+            ) : displayList.map((item: any) => (
               <motion.div
                 key={item.id}
                 whileHover={{ y: -6 }}
@@ -114,7 +129,7 @@ export default function FestivalsPage() {
                       className="size-full object-cover hover:scale-105 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                    
+
                     <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[var(--gold)] text-stone-950 shadow-md">
                       {item.tag}
                     </span>
@@ -133,20 +148,22 @@ export default function FestivalsPage() {
                       {item.name}
                     </h3>
                     <p className="text-xs text-stone-600 leading-relaxed font-normal">
-                      {item.description}
+                      {item.description || item.note}
                     </p>
 
-                    <div className="space-y-1.5 pt-2 border-t border-stone-100">
-                      <span className="text-[11px] font-bold text-amber-900 uppercase tracking-wider block">
-                        Key Festival Highlights:
-                      </span>
-                      {item.highlights.map((h, i) => (
-                        <div key={i} className="flex items-center gap-2 text-xs text-stone-700">
-                          <Sparkles className="size-3.5 text-amber-800 shrink-0" />
-                          <span>{h}</span>
-                        </div>
-                      ))}
-                    </div>
+                    {item.highlights && Array.isArray(item.highlights) && item.highlights.length > 0 && (
+                      <div className="space-y-1.5 pt-2 border-t border-stone-100">
+                        <span className="text-[11px] font-bold text-amber-900 uppercase tracking-wider block">
+                          Key Festival Highlights:
+                        </span>
+                        {item.highlights.map((h: string, i: number) => (
+                          <div key={i} className="flex items-center gap-2 text-xs text-stone-700">
+                            <Sparkles className="size-3.5 text-amber-800 shrink-0" />
+                            <span>{h}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
 

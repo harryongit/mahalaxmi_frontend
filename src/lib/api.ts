@@ -109,3 +109,16 @@ export const enquiryApi = {
   respondToEnquiry: (id: string | number, reply: string) =>
     apiFetch<any>(`/enquiries/admin/${id}/respond`, { method: 'PATCH', body: { admin_reply: reply } }),
 };
+
+export const adminContentApi = {
+  createEvent: (data: any) => apiFetch<any>('/admin/content/events', { method: 'POST', body: data }),
+  updateEvent: (id: string | number, data: any) => apiFetch<any>(`/admin/content/events/${id}`, { method: 'PUT', body: data }),
+  deleteEvent: (id: string | number) => apiFetch<any>(`/admin/content/events/${id}`, { method: 'DELETE' }),
+  
+  createRitual: (data: any) => apiFetch<any>('/admin/content/rituals', { method: 'POST', body: data }),
+  updateRitual: (id: string | number, data: any) => apiFetch<any>(`/admin/content/rituals/${id}`, { method: 'PUT', body: data }),
+  deleteRitual: (id: string | number) => apiFetch<any>(`/admin/content/rituals/${id}`, { method: 'DELETE' }),
+  
+  createGalleryImage: (data: { url: string }) => apiFetch<any>('/admin/content/gallery', { method: 'POST', body: data }),
+  deleteGalleryImage: (id: string | number) => apiFetch<any>(`/admin/content/gallery/${id}`, { method: 'DELETE' }),
+};
