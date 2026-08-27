@@ -8,7 +8,7 @@ import { Loader2 } from "lucide-react";
 
 export default function EventsAdminPage() {
   const { s, setS } = useAdmin();
-  const [savingId, setSavingId] = useState<string | null>(null);
+  const [savingId, setSavingId] = useState<string | number | null>(null);
 
   const saveEvent = async (e: any) => {
     setSavingId(e.id);
@@ -50,7 +50,7 @@ export default function EventsAdminPage() {
             onClick={() =>
               setS((p) => ({
                 ...p,
-                events: [...p.events, { id: uid(), date: "", name: "New event", note: "" }],
+                events: [...p.events, { id: uid(), date: "", name: "New event", note: "", tag: "", deity: "", image: "", description: "" }],
               }))
             }
           >
@@ -59,9 +59,9 @@ export default function EventsAdminPage() {
         }
       />
       <div className="space-y-4">
-        {s.events.map((e) => (
+        {s.events.map((e: any) => (
           <Card key={e.id}>
-            <div className="grid gap-4 md:grid-cols-[1fr_1fr_2fr_auto] md:items-end">
+            <div className="grid gap-4 md:grid-cols-4 md:items-end">
               <Field
                 label="Date"
                 type="text"
@@ -95,8 +95,8 @@ export default function EventsAdminPage() {
                 value={e.description || e.note || ""}
                 onChange={(v) => upd(setS, "events", e.id, { description: v, note: v })}
               />
-              
-              <button 
+
+              <button
                 onClick={() => saveEvent(e)}
                 disabled={savingId === e.id}
                 className="bg-amber-800 text-white font-bold text-xs px-4 h-[44px] rounded-2xl flex items-center gap-2 hover:bg-amber-900 transition-colors shadow-sm cursor-pointer disabled:opacity-50"

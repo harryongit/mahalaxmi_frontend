@@ -111,7 +111,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
       try {
         const raw = localStorage.getItem(KEY);
         if (raw) setS({ ...initial, ...JSON.parse(raw) });
-        
+
         // Fetch fresh state from backend
         const backendState = await adminDashboardApi.getState();
         if (backendState) {

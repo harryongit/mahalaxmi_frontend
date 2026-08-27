@@ -6,7 +6,7 @@ import { PageHero } from "@/src/components/temple/PageHero";
 import { User, Phone, Mail, MapPin, ShieldCheck, Sparkles, Edit3, Check, X } from "lucide-react";
 import { motion } from "framer-motion";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { userApi } from "@/src/lib/api";
+import { userApi, bookingApi } from "@/src/lib/api";
 import { useState, useEffect } from "react";
 
 export default function ProfilePage() {
@@ -21,6 +21,11 @@ export default function ProfilePage() {
   const { data: stats } = useQuery({
     queryKey: ["user", "stats"],
     queryFn: userApi.getStats,
+  });
+
+  const { data: bookings, isLoading: isLoadingBookings } = useQuery({
+    queryKey: ["user", "bookings"],
+    queryFn: bookingApi.getUserBookings,
   });
 
   const updateMutation = useMutation({
@@ -208,6 +213,66 @@ export default function ProfilePage() {
               </div>
             </motion.div>
           </div>
+
+          {/* Booking History Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm mt-6"
+          >
+            <div className="flex items-center justify-between border-b border-stone-200 pb-3 mb-4">
+              <div className="flex items-center gap-2">
+                <Sparkles className="size-5 text-amber-800" />
+                <h2 className="font-serif text-xl font-bold text-stone-900">Seva Booking History</h2>
+              </div>
+            </div>
+
+            {isLoadingBookings ? (
+              <div className="text-center py-8 text-stone-500 text-sm font-medium">Loading your bookings...</div>
+            ) : bookings && bookings.length > 0 ? (
+              <div className="space-y-4">
+                {bookings.map((booking: any) => (
+                  <div key={booking.id} className="p-4 rounded-2xl bg-stone-50 border border-stone-200 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between hover:shadow-md transition-shadow">
+                    <div>
+                      <div className="font-bold text-stone-900 text-sm">{booking.pujaTitle}</div>
+                      <div className="text-xs text-stone-500 mt-1">
+                        Ref: <span className="font-mono font-bold text-amber-800">{booking.bookingRef}</span> • {new Date(booking.bookingDate).toLocaleDateString("en-IN", { day: 'numeric', month: 'short', year: 'numeric' })}
+                      </div>
+                      <div className="text-[11px] text-stone-500 mt-1.5 flex items-center gap-2">
+                        <span className={`px-2.5 py-0.5 rounded-md font-bold ${
+                          booking.paymentStatus === 'Completed' ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' :
+                          booking.paymentStatus === 'Paid & Confirmed' ? 'bg-amber-100 text-amber-800 border border-amber-200' :
+                          'bg-blue-100 text-blue-800 border border-blue-200'
+                        }`}>
+                          {booking.paymentStatus}
+                        </span>
+                        <span>Slot: <strong>{new Date(booking.pujaSlotDate).toLocaleDateString("en-IN", { day: 'numeric', month: 'short' })}</strong></span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end border-t sm:border-t-0 border-stone-200 pt-3 sm:pt-0">
+                      <div className="text-right">
+                        <div className="font-serif font-bold text-lg text-[#3C0F1A]">₹{booking.amount}</div>
+                      </div>
+                      <button 
+                        onClick={() => window.location.href = `/checkout?puja=${booking.service_slug || 'lakshmi-puja'}&name=${encodeURIComponent(booking.userName || '')}&mobile=${booking.mobile || ''}`}
+                        className="px-4 py-2 bg-[#3C0F1A] hover:bg-[#4D1624] text-white text-xs font-bold rounded-xl transition-colors shadow-sm flex items-center gap-1.5"
+                      >
+                        Rebook
+                        <svg className="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8 text-stone-500 text-sm font-medium">
+                You have not booked any sevas yet.
+              </div>
+            )}
+          </motion.div>
         </div>
       </main>
 

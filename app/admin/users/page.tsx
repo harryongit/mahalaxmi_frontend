@@ -277,15 +277,24 @@ export default function AdminUsersPage() {
                         {b.paymentStatus}
                       </span>
                     </td>
-                    <td className="py-3.5 px-4 text-right">
-                      {b.paymentStatus !== "Completed" ? (
+                    <td className="py-3.5 px-4 text-right flex flex-col items-end gap-1.5">
+                      {b.paymentStatus === "Pending Recitation" && (
+                        <button
+                          onClick={() => handleUpdateBookingStatus(b.id, b.bookingRef, "Paid & Confirmed")}
+                          className="px-3 py-1.5 rounded-lg bg-amber-500 text-amber-950 font-bold text-[11px] hover:bg-amber-600 transition-colors cursor-pointer"
+                        >
+                          Confirm Payment
+                        </button>
+                      )}
+                      {b.paymentStatus === "Paid & Confirmed" && (
                         <button
                           onClick={() => handleUpdateBookingStatus(b.id, b.bookingRef, "Completed")}
                           className="px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-bold text-[11px] hover:bg-emerald-700 transition-colors cursor-pointer"
                         >
                           Mark Completed
                         </button>
-                      ) : (
+                      )}
+                      {b.paymentStatus === "Completed" && (
                         <span className="text-[11px] text-stone-400 font-semibold">Done ✓</span>
                       )}
                     </td>
