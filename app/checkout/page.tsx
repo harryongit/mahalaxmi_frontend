@@ -190,7 +190,7 @@ function CheckoutForm() {
   const [name, setName] = useState(initialName);
   const [mobile, setMobile] = useState(initialMobile);
   const [whatsapp, setWhatsapp] = useState(initialMobile);
-  const [gotra, setGotra] = useState("");
+  const [gotra, setGotra] = useState("Kashyapa");
   const [dontKnowGotra, setDontKnowGotra] = useState(false);
   const [participatingMembers, setParticipatingMembers] = useState("");
 
@@ -705,16 +705,22 @@ function CheckoutForm() {
                 <div className="space-y-1 pt-1">
                   <label className="font-bold text-stone-800 flex items-center gap-1.5">
                     <Flame className="size-4 text-amber-800" />
-                    <span>Fill Participant's Gotra *</span>
+                    <span>Select Participant's Gotra *</span>
                   </label>
-                  <input
-                    type="text"
+                  <select
                     disabled={dontKnowGotra}
-                    placeholder={dontKnowGotra ? "Kashyap (Universal Devotee Gotra)" : "Enter your Gotra"}
-                    value={dontKnowGotra ? "Kashyap Gotra" : gotra}
+                    value={dontKnowGotra ? "Kashyapa" : gotra}
                     onChange={(e) => setGotra(e.target.value)}
                     className="w-full px-4 py-2.5 rounded-xl bg-stone-50 border border-stone-300 text-xs font-medium focus:bg-white focus:border-amber-500 focus:outline-none disabled:bg-stone-100"
-                  />
+                  >
+                    <option value="Atri">Atri</option>
+                    <option value="Bharadvaja">Bharadvaja</option>
+                    <option value="Gautama">Gautama</option>
+                    <option value="Jamadagni">Jamadagni</option>
+                    <option value="Kashyapa">Kashyapa</option>
+                    <option value="Vasishta">Vasishta</option>
+                    <option value="Vishvamitra">Vishvamitra</option>
+                  </select>
 
                   <label className="flex items-center gap-2 mt-1.5 text-stone-600 font-medium cursor-pointer">
                     <input
@@ -722,7 +728,7 @@ function CheckoutForm() {
                       checked={dontKnowGotra}
                       onChange={(e) => {
                         setDontKnowGotra(e.target.checked);
-                        if (e.target.checked) setGotra("Kashyap Gotra");
+                        if (e.target.checked) setGotra("Kashyapa");
                       }}
                       className="rounded border-stone-300 text-amber-800 size-4"
                     />
@@ -953,7 +959,7 @@ function CheckoutForm() {
                     <div>Name: <strong>{name}</strong></div>
                     <div>Phone: <strong>+91 {mobile}</strong></div>
                     <div>WhatsApp: <strong>+91 {whatsapp}</strong></div>
-                    <div>Gotra: <strong>{gotra || "Kashyap Gotra"}</strong></div>
+                    <div>Gotra: <strong>{gotra || "Kashyapa"}</strong></div>
                   </div>
                 </div>
 

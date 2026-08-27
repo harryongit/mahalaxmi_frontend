@@ -198,7 +198,15 @@ export default function ProfilePage() {
                 <div>
                   <span className="text-xs text-stone-500 font-semibold block">Preferred Gotra</span>
                   {isEditing ? (
-                    <input type="text" value={editForm.gotra} onChange={e => setEditForm({...editForm, gotra: e.target.value})} className="mt-1 w-full p-2 border rounded-md text-stone-900 bg-white" />
+                    <select value={editForm.gotra} onChange={e => setEditForm({...editForm, gotra: e.target.value})} className="mt-1 w-full p-2 border rounded-md text-stone-900 bg-white">
+                      <option value="Atri">Atri</option>
+                      <option value="Bharadvaja">Bharadvaja</option>
+                      <option value="Gautama">Gautama</option>
+                      <option value="Jamadagni">Jamadagni</option>
+                      <option value="Kashyapa">Kashyapa</option>
+                      <option value="Vasishta">Vasishta</option>
+                      <option value="Vishvamitra">Vishvamitra</option>
+                    </select>
                   ) : (
                     <span className="text-stone-900 font-semibold">{user?.gotra || "N/A"}</span>
                   )}
