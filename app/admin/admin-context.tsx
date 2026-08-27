@@ -43,6 +43,7 @@ export type State = {
   gallery: string[];
   events: { id: string; date: string; name: string; note: string }[];
   rituals: { id: string; time: string; name: string }[];
+  services: any[];
   donations: { id: string; name: string; amount: number; purpose: string; date: string }[];
   testimonials: { id: string; name: string; role: string; text: string; published: boolean }[];
   messages: { id: string; name: string; email: string; text: string; read: boolean }[];
@@ -73,6 +74,7 @@ export const initial: State = {
   gallery: [],
   events: [],
   rituals: [],
+  services: [],
   donations: [],
   users: [],
   bookings: [],

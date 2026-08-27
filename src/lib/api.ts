@@ -111,6 +111,30 @@ export const enquiryApi = {
 };
 
 export const adminContentApi = {
+  uploadImage: async (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    // Read JWT token from localStorage
+    let token = null;
+    if (typeof window !== "undefined") {
+      token = localStorage.getItem("access_token");
+    }
+
+    const response = await fetch(`${API_BASE_URL}/admin/content/upload`, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error("Upload failed");
+    }
+    return response.json();
+  },
+
   createEvent: (data: any) => apiFetch<any>('/admin/content/events', { method: 'POST', body: data }),
   updateEvent: (id: string | number, data: any) => apiFetch<any>(`/admin/content/events/${id}`, { method: 'PUT', body: data }),
   deleteEvent: (id: string | number) => apiFetch<any>(`/admin/content/events/${id}`, { method: 'DELETE' }),
@@ -118,6 +142,10 @@ export const adminContentApi = {
   createRitual: (data: any) => apiFetch<any>('/admin/content/rituals', { method: 'POST', body: data }),
   updateRitual: (id: string | number, data: any) => apiFetch<any>(`/admin/content/rituals/${id}`, { method: 'PUT', body: data }),
   deleteRitual: (id: string | number) => apiFetch<any>(`/admin/content/rituals/${id}`, { method: 'DELETE' }),
+
+  createService: (data: any) => apiFetch<any>('/admin/content/services', { method: 'POST', body: data }),
+  updateService: (id: string | number, data: any) => apiFetch<any>(`/admin/content/services/${id}`, { method: 'PUT', body: data }),
+  deleteService: (id: string | number) => apiFetch<any>(`/admin/content/services/${id}`, { method: 'DELETE' }),
   
   createGalleryImage: (data: { url: string }) => apiFetch<any>('/admin/content/gallery', { method: 'POST', body: data }),
   deleteGalleryImage: (id: string | number) => apiFetch<any>(`/admin/content/gallery/${id}`, { method: 'DELETE' }),
