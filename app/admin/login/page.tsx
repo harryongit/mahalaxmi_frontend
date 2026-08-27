@@ -46,6 +46,7 @@ export default function AdminLoginPage() {
 
       if (typeof window !== "undefined") {
         localStorage.setItem("admin_auth", "true");
+        localStorage.setItem("access_token", data.access_token);
       }
 
       setTimeout(() => {
