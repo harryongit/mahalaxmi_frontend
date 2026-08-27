@@ -3,25 +3,11 @@
 import { useLenis } from "@/src/lib/use-lenis";
 import { Navbar } from "@/src/components/temple/Navbar";
 import { Footer } from "@/src/components/temple/Footer";
-import { PageHero } from "@/src/components/temple/PageHero";
-import { About, Architecture } from "@/src/components/temple/Sections";
+import { AboutHeroCanvas } from "@/src/components/temple/AboutHeroCanvas";
+import { IMG } from "@/src/components/temple/images";
 import { motion } from "framer-motion";
-import {
-  MapPin,
-  Clock,
-  Phone,
-  Flame,
-  Sparkles,
-  ShieldCheck,
-  Heart,
-  Zap,
-  Users,
-  Award,
-  Star,
-  CheckCircle2,
-  Lock,
-  ArrowRight,
-} from "lucide-react";
+import { ShieldCheck, Heart, Zap, Users } from "lucide-react";
+import Link from "next/link";
 
 export default function AboutPage() {
   useLenis();
@@ -30,401 +16,239 @@ export default function AboutPage() {
     <div className="min-h-screen flex flex-col bg-[#FCF9F3] text-stone-900">
       <Navbar />
 
-      {/* Classic PageHero Banner */}
-      <PageHero
-        breadcrumb="About Shri Mahalaxmi Mandir"
-        badge="Sacred 51 Shakti Peethas"
-        title="About Shri Mahalaxmi"
-        titleGold="Temple, Kolhapur"
-        description="One of the most sacred Shakti Peethas in India, Shri Mahalaxmi Mandir in Kolhapur is dedicated to Goddess Mahalaxmi (Ambabai)."
-      />
+      {/* 1. Immersive Temple Hero */}
+      <AboutHeroCanvas />
 
-      {/* Existing Original High-End About Section */}
-      <About />
+      {/* 2. About the Temple */}
+      <section className="py-24 sm:py-32 px-4 sm:px-6 max-w-4xl mx-auto w-full text-center">
+        <h2 className="text-xs uppercase tracking-[0.3em] font-bold text-amber-800 mb-6">
+          ABOUT THE TEMPLE
+        </h2>
+        <p className="font-serif text-3xl sm:text-5xl leading-tight mb-12 text-amber-950">
+          A sanctuary woven <br className="hidden sm:block" /> from stone, fire and song.
+        </p>
+        <div className="space-y-6 text-sm sm:text-base text-stone-700 leading-relaxed max-w-2xl mx-auto text-left">
+          <p>
+            Shri Mahalaxmi Mandir in Kolhapur is one of the most sacred Shakti Peethas in India, dedicated to Goddess Mahalaxmi (Ambabai). Built originally during the Chalukya period in the 7th century CE, the temple has been expanded over centuries by various dynasties including the Shilahara, Yadava, and Maratha rulers.
+          </p>
+          <p>
+            It holds immense importance in Hindu tradition, standing as an enduring symbol of spiritual devotion, cultural heritage, and incredible ancient architectural mastery. The temple remains a living, breathing space where centuries-old traditions are performed every single day without interruption.
+          </p>
+        </div>
+      </section>
 
-      {/* SECTION: Temple Information Grid */}
-      <section className="py-12 px-4 sm:px-6 max-w-6xl mx-auto w-full">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="rounded-3xl border-2 border-[var(--gold)]/60 bg-gradient-to-r from-[#4A101C] via-[#3C0F1A] to-[#25070E] text-white p-6 sm:p-10 shadow-2xl space-y-6 relative overflow-hidden"
-        >
-          {/* Ambient Glow Overlay */}
-          <div className="absolute top-0 right-0 size-72 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
-
-          <div className="border-b border-amber-200/20 pb-4 relative z-10">
-            <span className="text-[10px] uppercase font-bold tracking-widest text-[var(--gold)] bg-[var(--gold)]/15 px-3 py-1 rounded-full border border-[var(--gold)]/30 inline-block mb-1">
-              Essential Devotee Guide
-            </span>
-            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-gradient-gold mt-1">
-              Temple Information & Hours
+      {/* 3. Sacred Deity */}
+      <section className="py-24 px-4 sm:px-6 w-full border-t border-amber-900/10 bg-amber-50/30">
+        <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 className="text-xs uppercase tracking-[0.3em] font-bold text-amber-800 mb-4">
+              SACRED DEITY
             </h2>
+            <h3 className="font-serif text-3xl sm:text-4xl text-amber-950 mb-6">
+              Goddess Mahalaxmi <br /> (Ambabai)
+            </h3>
+            <p className="text-sm text-stone-700 leading-relaxed">
+              The idol of Mahalaxmi is believed to be self-manifested (Swayambhu). Seated on a stone platform, the image of the four-armed deity is carved in black stone, holding sacred symbols in her hands. She is revered as the mother of the universe, blessing devotees with spiritual liberation and worldly prosperity alike.
+            </p>
           </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-xs relative z-10">
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              className="space-y-2 bg-white/10 backdrop-blur-md p-5 rounded-2xl border border-[var(--gold)]/30 hover:border-[var(--gold)] hover:bg-white/15 transition-all shadow-md"
-            >
-              <div className="size-10 rounded-xl bg-[var(--gold)]/20 text-[var(--gold)] flex items-center justify-center border border-[var(--gold)]/40">
-                <MapPin className="size-5" />
-              </div>
-              <strong className="text-[var(--gold)] font-bold block text-sm font-serif">Address</strong>
-              <p className="text-amber-100/90 leading-relaxed font-medium">
-                Mahalaxmi Temple Road, Kolhapur, Maharashtra 416012, India
-              </p>
-            </motion.div>
-
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              className="space-y-2 bg-white/10 backdrop-blur-md p-5 rounded-2xl border border-[var(--gold)]/30 hover:border-[var(--gold)] hover:bg-white/15 transition-all shadow-md"
-            >
-              <div className="size-10 rounded-xl bg-[var(--gold)]/20 text-[var(--gold)] flex items-center justify-center border border-[var(--gold)]/40">
-                <Clock className="size-5" />
-              </div>
-              <strong className="text-[var(--gold)] font-bold block text-sm font-serif">Temple Timings</strong>
-              <p className="text-amber-100/90 leading-relaxed font-medium">
-                5:00 AM – 9:30 PM<br />(Daily Aarti & Darshan)
-              </p>
-            </motion.div>
-
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              className="space-y-2 bg-white/10 backdrop-blur-md p-5 rounded-2xl border border-[var(--gold)]/30 hover:border-[var(--gold)] hover:bg-white/15 transition-all shadow-md"
-            >
-              <div className="size-10 rounded-xl bg-[var(--gold)]/20 text-[var(--gold)] flex items-center justify-center border border-[var(--gold)]/40">
-                <Phone className="size-5" />
-              </div>
-              <strong className="text-[var(--gold)] font-bold block text-sm font-serif">Contact Details</strong>
-              <p className="text-amber-100/90 leading-relaxed font-medium">
-                +91 98765 43210<br />info@mahalaxmikolhapur.com
-              </p>
-            </motion.div>
-
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              className="space-y-2 bg-white/10 backdrop-blur-md p-5 rounded-2xl border border-[var(--gold)]/30 hover:border-[var(--gold)] hover:bg-white/15 transition-all shadow-md"
-            >
-              <div className="size-10 rounded-xl bg-[var(--gold)]/20 text-[var(--gold)] flex items-center justify-center border border-[var(--gold)]/40">
-                <Flame className="size-5" />
-              </div>
-              <strong className="text-[var(--gold)] font-bold block text-sm font-serif">Presiding Deity</strong>
-              <p className="text-amber-100/90 leading-relaxed font-medium">
-                Goddess Mahalaxmi (Ambabai)<br />— 51 Shakti Peethas
-              </p>
-            </motion.div>
+          <div className="aspect-[4/5] rounded-xl overflow-hidden shadow-2xl relative border-4 border-white">
+            <img
+              src={IMG.about}
+              alt="Goddess Mahalaxmi"
+              className="w-full h-full object-cover"
+            />
           </div>
-        </motion.div>
+        </div>
       </section>
 
-      {/* SECTION: Our Services (ATTRACTIVE RICH CARDS) */}
-      <section className="py-16 px-4 sm:px-6 max-w-6xl mx-auto w-full space-y-8">
-        <div className="text-center max-w-2xl mx-auto space-y-2">
-          <span className="text-xs font-bold uppercase tracking-wider text-amber-800 bg-amber-100 px-3 py-1 rounded-full border border-amber-300">
-            Complete Devotional Offerings
-          </span>
-          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-stone-900">
-            Our Services
+      {/* 4. Kirnotsav */}
+      <section className="py-24 sm:py-32 px-4 sm:px-6 max-w-4xl mx-auto w-full text-center">
+        <h2 className="text-xs uppercase tracking-[0.3em] font-bold text-amber-800 mb-6">
+          KIRNOTSAV
+        </h2>
+        <p className="font-serif text-3xl sm:text-4xl leading-tight mb-8 text-amber-950">
+          A rare alignment of <br className="hidden sm:block" /> light and devotion.
+        </p>
+        <p className="text-sm sm:text-base text-stone-700 leading-relaxed max-w-2xl mx-auto">
+          The annual Kirnotsav (Festival of Sun Rays) is a unique architectural and astronomical phenomenon. Twice a year, in January and November, the setting sun aligns perfectly with the temple's western entrance. The golden rays travel across the mandapam, illuminating the Goddess's feet on the first day, her chest on the second, and finally resting upon her face on the third day.
+        </p>
+      </section>
+
+      {/* 5. Architecture Grid */}
+      <section className="py-24 px-4 sm:px-6 w-full bg-[#1A1412] text-amber-50">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-xs uppercase tracking-[0.3em] font-bold text-amber-500 mb-4">
+              ARCHITECTURE
+            </h2>
+            <h3 className="font-serif text-3xl sm:text-4xl text-white">
+              A Geometry of Devotion
+            </h3>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-y-12 gap-x-8 text-center">
+            {[
+              { id: "01", title: "Gopuram", desc: "The towering, intricately carved entrance gateway." },
+              { id: "02", title: "Main Entrance", desc: "Sacred thresholds leading inward to the divine." },
+              { id: "03", title: "Mandapam", desc: "The grand assembly hall supported by master-crafted pillars." },
+              { id: "04", title: "Sanctum", desc: "Garbhagriha — the innermost sacred chamber." },
+              { id: "05", title: "Pillars", desc: "Monolithic columns bearing ancient stories and geometry." },
+              { id: "06", title: "Carvings", desc: "Centuries-old bas-reliefs of celestial dancers and deities." }
+            ].map((item) => (
+              <div key={item.id} className="flex flex-col items-center">
+                <span className="text-sm font-mono text-amber-500/70 mb-3">{item.id}</span>
+                <h4 className="font-serif text-xl text-amber-100 mb-2">{item.title}</h4>
+                <div className="w-8 h-[1px] bg-amber-500/30 mb-3" />
+                <p className="text-xs text-amber-50/60 max-w-[200px]">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 6. Temple Information */}
+      <section className="py-24 px-4 sm:px-6 max-w-4xl mx-auto w-full">
+        <div className="border border-amber-900/10 p-8 sm:p-12 bg-white text-center">
+          <h2 className="text-xs uppercase tracking-[0.3em] font-bold text-amber-800 mb-10">
+            TEMPLE INFORMATION
           </h2>
-          <p className="text-xs sm:text-sm text-stone-600 font-medium">
-            Everything you need for a complete spiritual experience from anywhere in the world.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <motion.div
-            whileHover={{ y: -6, scale: 1.01 }}
-            className="group p-6 sm:p-7 rounded-3xl border-2 border-amber-200/90 bg-gradient-to-br from-white via-amber-50/40 to-amber-100/30 shadow-md hover:border-amber-400 hover:shadow-2xl transition-all duration-300 space-y-4 relative overflow-hidden"
-          >
-            <div className="size-14 rounded-2xl bg-gradient-to-br from-[#3C0F1A] to-[#4A101C] text-[var(--gold)] flex items-center justify-center font-bold text-2xl shadow-lg shadow-amber-950/20 border border-[var(--gold)]/30 group-hover:scale-110 transition-transform">
-              🕉️
+          <div className="grid sm:grid-cols-3 gap-8">
+            <div>
+              <div className="text-xs uppercase tracking-widest text-amber-900/50 mb-2">Address</div>
+              <p className="text-sm font-medium text-stone-800">
+                Mahalaxmi Temple, <br />
+                Shivaji Chowk, Kolhapur, <br />
+                Maharashtra 416012
+              </p>
             </div>
-            <h3 className="font-serif text-xl font-bold text-stone-900 group-hover:text-amber-950 transition-colors">
-              Online Puja Booking
-            </h3>
-            <p className="text-xs text-stone-600 leading-relaxed font-normal">
-              Book personalized pujas performed by hereditary Shreepujak in your name with full Vedic rituals.
-            </p>
-          </motion.div>
-
-          <motion.div
-            whileHover={{ y: -6, scale: 1.01 }}
-            className="group p-6 sm:p-7 rounded-3xl border-2 border-amber-200/90 bg-gradient-to-br from-white via-amber-50/40 to-amber-100/30 shadow-md hover:border-amber-400 hover:shadow-2xl transition-all duration-300 space-y-4 relative overflow-hidden"
-          >
-            <div className="size-14 rounded-2xl bg-gradient-to-br from-[#3C0F1A] to-[#4A101C] text-[var(--gold)] flex items-center justify-center font-bold text-2xl shadow-lg shadow-amber-950/20 border border-[var(--gold)]/30 group-hover:scale-110 transition-transform">
-              📿
+            <div>
+              <div className="text-xs uppercase tracking-widest text-amber-900/50 mb-2">Temple Timings</div>
+              <p className="text-sm font-medium text-stone-800">
+                5:00 AM – 9:30 PM <br />
+                (Open Daily)
+              </p>
             </div>
-            <h3 className="font-serif text-xl font-bold text-stone-900 group-hover:text-amber-950 transition-colors">
-              Chadhava / Arpan
-            </h3>
-            <p className="text-xs text-stone-600 leading-relaxed font-normal">
-              Offer Regular Otee, Saree Otee, and sacred consecrated items directly to Goddess Mahalaxmi.
-            </p>
-          </motion.div>
-
-          <motion.div
-            whileHover={{ y: -6, scale: 1.01 }}
-            className="group p-6 sm:p-7 rounded-3xl border-2 border-amber-200/90 bg-gradient-to-br from-white via-amber-50/40 to-amber-100/30 shadow-md hover:border-amber-400 hover:shadow-2xl transition-all duration-300 space-y-4 relative overflow-hidden"
-          >
-            <div className="size-14 rounded-2xl bg-gradient-to-br from-[#3C0F1A] to-[#4A101C] text-[var(--gold)] flex items-center justify-center font-bold text-2xl shadow-lg shadow-amber-950/20 border border-[var(--gold)]/30 group-hover:scale-110 transition-transform">
-              🍃
-            </div>
-            <h3 className="font-serif text-xl font-bold text-stone-900 group-hover:text-amber-950 transition-colors">
-              Naivedya / Bhog
-            </h3>
-            <p className="text-xs text-stone-600 leading-relaxed font-normal">
-              Offer Puranpoli Naivedya and sacred Bhojan for Brahman, Kumarika, and Suwasini in your family name.
-            </p>
-          </motion.div>
-
-          <motion.div
-            whileHover={{ y: -6, scale: 1.01 }}
-            className="group p-6 sm:p-7 rounded-3xl border-2 border-amber-200/90 bg-gradient-to-br from-white via-amber-50/40 to-amber-100/30 shadow-md hover:border-amber-400 hover:shadow-2xl transition-all duration-300 space-y-4 relative overflow-hidden"
-          >
-            <div className="size-14 rounded-2xl bg-gradient-to-br from-[#3C0F1A] to-[#4A101C] text-[var(--gold)] flex items-center justify-center font-bold text-2xl shadow-lg shadow-amber-950/20 border border-[var(--gold)]/30 group-hover:scale-110 transition-transform">
-              📺
-            </div>
-            <h3 className="font-serif text-xl font-bold text-stone-900 group-hover:text-amber-950 transition-colors">
-              Online Darshan
-            </h3>
-            <p className="text-xs text-stone-600 leading-relaxed font-normal">
-              Watch live aarti and darshan of Goddess Ambabai from anywhere in the world 24/7.
-            </p>
-          </motion.div>
-
-          <motion.div
-            whileHover={{ y: -6, scale: 1.01 }}
-            className="group p-6 sm:p-7 rounded-3xl border-2 border-amber-200/90 bg-gradient-to-br from-white via-amber-50/40 to-amber-100/30 shadow-md hover:border-amber-400 hover:shadow-2xl transition-all duration-300 space-y-4 relative overflow-hidden"
-          >
-            <div className="size-14 rounded-2xl bg-gradient-to-br from-[#3C0F1A] to-[#4A101C] text-[var(--gold)] flex items-center justify-center font-bold text-2xl shadow-lg shadow-amber-950/20 border border-[var(--gold)]/30 group-hover:scale-110 transition-transform">
-              🛕
-            </div>
-            <h3 className="font-serif text-xl font-bold text-stone-900 group-hover:text-amber-950 transition-colors">
-              Offline Darshan Pass
-            </h3>
-            <p className="text-xs text-stone-600 leading-relaxed font-normal">
-              Book VIP darshan passes for priority temple entry at Kolhapur without long queue waiting times.
-            </p>
-          </motion.div>
-
-          <motion.div
-            whileHover={{ y: -6, scale: 1.01 }}
-            className="group p-6 sm:p-7 rounded-3xl border-2 border-amber-200/90 bg-gradient-to-br from-white via-amber-50/40 to-amber-100/30 shadow-md hover:border-amber-400 hover:shadow-2xl transition-all duration-300 space-y-4 relative overflow-hidden"
-          >
-            <div className="size-14 rounded-2xl bg-gradient-to-br from-[#3C0F1A] to-[#4A101C] text-[var(--gold)] flex items-center justify-center font-bold text-2xl shadow-lg shadow-amber-950/20 border border-[var(--gold)]/30 group-hover:scale-110 transition-transform">
-              🙏
-            </div>
-            <h3 className="font-serif text-xl font-bold text-stone-900 group-hover:text-amber-950 transition-colors">
-              Annadan & Gou Seva
-            </h3>
-            <p className="text-xs text-stone-600 leading-relaxed font-normal">
-              Contribute to sacred Annadan and Goushala Gou Seva with any custom contribution amount.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Existing Architecture Section */}
-      <Architecture />
-
-      {/* SECTION: How We Serve You (TIMELINE CARDS) */}
-      <section className="py-16 px-4 sm:px-6 max-w-6xl mx-auto w-full space-y-8">
-        <div className="text-center max-w-2xl mx-auto space-y-2">
-          <span className="text-xs font-bold uppercase tracking-wider text-amber-800 bg-amber-100 px-3 py-1 rounded-full border border-amber-300">
-            Fastest Booking Experience
-          </span>
-          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-stone-900">
-            How We Serve You
-          </h2>
-          <p className="text-xs sm:text-sm text-stone-600 font-medium">
-            Book in under 30 seconds — the fastest puja booking experience.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <motion.div
-            whileHover={{ y: -4 }}
-            className="p-6 rounded-3xl border-2 border-amber-300/80 bg-white space-y-3 shadow-md relative overflow-hidden"
-          >
-            <div className="flex items-center justify-between">
-              <span className="font-serif text-4xl font-bold text-gradient-gold block">01</span>
-              <span className="size-8 rounded-full bg-amber-100 text-amber-900 font-bold text-xs flex items-center justify-center">
-                1
-              </span>
-            </div>
-            <h3 className="font-serif text-lg font-bold text-stone-900">Choose Your Seva</h3>
-            <p className="text-xs text-stone-600 leading-relaxed font-normal">
-              Browse pujas, chadhava, naivedya, or darshan options.
-            </p>
-          </motion.div>
-
-          <motion.div
-            whileHover={{ y: -4 }}
-            className="p-6 rounded-3xl border-2 border-amber-300/80 bg-white space-y-3 shadow-md relative overflow-hidden"
-          >
-            <div className="flex items-center justify-between">
-              <span className="font-serif text-4xl font-bold text-gradient-gold block">02</span>
-              <span className="size-8 rounded-full bg-amber-100 text-amber-900 font-bold text-xs flex items-center justify-center">
-                2
-              </span>
-            </div>
-            <h3 className="font-serif text-lg font-bold text-stone-900">Select Date & Type</h3>
-            <p className="text-xs text-stone-600 leading-relaxed font-normal">
-              Pick a date within the festival period and choose online or offline.
-            </p>
-          </motion.div>
-
-          <motion.div
-            whileHover={{ y: -4 }}
-            className="p-6 rounded-3xl border-2 border-amber-300/80 bg-white space-y-3 shadow-md relative overflow-hidden"
-          >
-            <div className="flex items-center justify-between">
-              <span className="font-serif text-4xl font-bold text-gradient-gold block">03</span>
-              <span className="size-8 rounded-full bg-amber-100 text-amber-900 font-bold text-xs flex items-center justify-center">
-                3
-              </span>
-            </div>
-            <h3 className="font-serif text-lg font-bold text-stone-900">Enter Details</h3>
-            <p className="text-xs text-stone-600 leading-relaxed font-normal">
-              Just your name and optional gotra — that's it!
-            </p>
-          </motion.div>
-
-          <motion.div
-            whileHover={{ y: -4 }}
-            className="p-6 rounded-3xl border-2 border-amber-300/80 bg-white space-y-3 shadow-md relative overflow-hidden"
-          >
-            <div className="flex items-center justify-between">
-              <span className="font-serif text-4xl font-bold text-gradient-gold block">04</span>
-              <span className="size-8 rounded-full bg-amber-100 text-amber-900 font-bold text-xs flex items-center justify-center">
-                4
-              </span>
-            </div>
-            <h3 className="font-serif text-lg font-bold text-stone-900">Instant Confirmation</h3>
-            <p className="text-xs text-stone-600 leading-relaxed font-normal">
-              Pay and get instant booking confirmation with booking ID.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* SECTION: Why Choose Us & Core Values */}
-      <section className="py-12 px-4 sm:px-6 max-w-6xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Why Choose Us */}
-        <div className="rounded-3xl border-2 border-amber-300/80 bg-white p-6 sm:p-8 space-y-6 shadow-lg">
-          <div className="border-b border-stone-200 pb-3">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-amber-800 bg-amber-100 px-3 py-1 rounded-full border border-amber-300">
-              Devotee Trust
-            </span>
-            <h3 className="font-serif text-2xl font-bold text-stone-900 mt-1">
-              Why Choose Us
-            </h3>
-          </div>
-
-          <div className="space-y-4 text-xs">
-            <div className="flex items-start gap-3.5 p-3 rounded-2xl bg-amber-50/60 border border-amber-200">
-              <div className="size-10 rounded-xl bg-amber-900 text-[var(--gold)] flex items-center justify-center shrink-0">
-                <ShieldCheck className="size-5" />
-              </div>
-              <div>
-                <strong className="text-stone-900 font-bold text-sm block">Hereditary Shreepujak</strong>
-                <p className="text-stone-600 mt-0.5">All rituals performed by hereditary Shreepujak of Mahalaxmi Mandir, Kolhapur.</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3.5 p-3 rounded-2xl bg-amber-50/60 border border-amber-200">
-              <div className="size-10 rounded-xl bg-amber-900 text-[var(--gold)] flex items-center justify-center shrink-0">
-                <Users className="size-5" />
-              </div>
-              <div>
-                <strong className="text-stone-900 font-bold text-sm block">Trusted by 50K+</strong>
-                <p className="text-stone-600 mt-0.5">Over 50,000 devotees have experienced divine blessings through our platform.</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3.5 p-3 rounded-2xl bg-amber-50/60 border border-amber-200">
-              <div className="size-10 rounded-xl bg-amber-900 text-[var(--gold)] flex items-center justify-center shrink-0">
-                <Heart className="size-5" />
-              </div>
-              <div>
-                <strong className="text-stone-900 font-bold text-sm block">With Love & Devotion</strong>
-                <p className="text-stone-600 mt-0.5">Every seva is performed with utmost devotion and care for your spiritual needs.</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3.5 p-3 rounded-2xl bg-amber-50/60 border border-amber-200">
-              <div className="size-10 rounded-xl bg-amber-900 text-[var(--gold)] flex items-center justify-center shrink-0">
-                <Zap className="size-5" />
-              </div>
-              <div>
-                <strong className="text-stone-900 font-bold text-sm block">Ultra-Fast Booking</strong>
-                <p className="text-stone-600 mt-0.5">Book in under 30 seconds. Returning users can book in just 1–2 clicks.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Our Core Values */}
-        <div className="rounded-3xl border-2 border-amber-300/80 bg-gradient-to-br from-amber-50 via-amber-100/50 to-amber-50 p-6 sm:p-8 space-y-6 shadow-lg">
-          <div className="border-b border-amber-300/80 pb-3">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-amber-950 bg-amber-200 px-3 py-1 rounded-full border border-amber-300">
-              Sanatan Principles
-            </span>
-            <h3 className="font-serif text-2xl font-bold text-amber-950 mt-1">
-              Our Core Values
-            </h3>
-          </div>
-
-          <div className="space-y-4 text-xs">
-            <div className="p-3.5 rounded-2xl bg-white border border-amber-200 shadow-xs">
-              <strong className="text-amber-950 font-bold text-sm block font-serif">Dharma</strong>
-              <p className="text-stone-700 mt-0.5">We uphold the sacred traditions and rituals of Sanatan Dharma in every seva.</p>
-            </div>
-
-            <div className="p-3.5 rounded-2xl bg-white border border-amber-200 shadow-xs">
-              <strong className="text-amber-950 font-bold text-sm block font-serif">Bhakti</strong>
-              <p className="text-stone-700 mt-0.5">Devotion is at the heart of everything we do — for the Goddess and for you.</p>
-            </div>
-
-            <div className="p-3.5 rounded-2xl bg-white border border-amber-200 shadow-xs">
-              <strong className="text-amber-950 font-bold text-sm block font-serif">Transparency</strong>
-              <p className="text-stone-700 mt-0.5">Clear pricing, real-time updates, and instant confirmation of every booking.</p>
-            </div>
-
-            <div className="p-3.5 rounded-2xl bg-white border border-amber-200 shadow-xs">
-              <strong className="text-amber-950 font-bold text-sm block font-serif">Accessibility</strong>
-              <p className="text-stone-700 mt-0.5">Making divine blessings accessible to every devotee, anywhere in the world.</p>
+            <div>
+              <div className="text-xs uppercase tracking-widest text-amber-900/50 mb-2">Presiding Deity</div>
+              <p className="text-sm font-medium text-stone-800">
+                Goddess Mahalaxmi <br />
+                (Ambabai)
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* SECTION: Key Statistics Counter Bar */}
-      <section className="py-12 px-4 sm:px-6 max-w-6xl mx-auto w-full">
-        <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-[#3C0F1A] via-[#4D1624] to-[#2B0A12] text-white shadow-2xl border-2 border-[var(--gold)]/40">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <div>
-              <span className="font-serif text-3xl sm:text-4xl font-bold text-[var(--gold)] block">50K+</span>
-              <span className="text-xs text-amber-100/80 font-medium">Devotees Served</span>
-            </div>
-
-            <div>
-              <span className="font-serif text-3xl sm:text-4xl font-bold text-[var(--gold)] block">1000+</span>
-              <span className="text-xs text-amber-100/80 font-medium">Pujas Completed</span>
-            </div>
-
-            <div>
-              <span className="font-serif text-3xl sm:text-4xl font-bold text-[var(--gold)] block">4.9 ★</span>
-              <span className="text-xs text-amber-100/80 font-medium">User Rating</span>
-            </div>
-
-            <div>
-              <span className="font-serif text-3xl sm:text-4xl font-bold text-[var(--gold)] block">24/7</span>
-              <span className="text-xs text-amber-100/80 font-medium">Online Darshan</span>
-            </div>
+      {/* 7. Mission / Vision / Values */}
+      <section className="py-24 px-4 sm:px-6 w-full bg-amber-950 text-amber-50 border-y border-amber-900">
+        <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-12 text-center md:text-left">
+          <div>
+            <h3 className="text-xs uppercase tracking-[0.3em] font-bold text-amber-500 mb-4">MISSION</h3>
+            <p className="font-serif text-xl text-amber-100">
+              To preserve sacred tradition with grace and openness.
+            </p>
+          </div>
+          <div>
+            <h3 className="text-xs uppercase tracking-[0.3em] font-bold text-amber-500 mb-4">VISION</h3>
+            <p className="font-serif text-xl text-amber-100">
+              A spiritual home for every seeker, of every path.
+            </p>
+          </div>
+          <div>
+            <h3 className="text-xs uppercase tracking-[0.3em] font-bold text-amber-500 mb-4">VALUES</h3>
+            <p className="font-serif text-xl text-amber-100 space-y-1">
+              <span className="block">Reverence.</span>
+              <span className="block">Service.</span>
+              <span className="block">Compassion.</span>
+              <span className="block">Beauty.</span>
+            </p>
           </div>
         </div>
+      </section>
+
+      {/* 8. MahalaxmiPuja Story */}
+      <section className="py-24 sm:py-32 px-4 sm:px-6 max-w-3xl mx-auto w-full text-center">
+        <h2 className="text-xs uppercase tracking-[0.3em] font-bold text-amber-800 mb-6">
+          OUR SACRED JOURNEY
+        </h2>
+        <p className="text-sm sm:text-base text-stone-700 leading-relaxed mb-8">
+          MahalaxmiPuja was born from a vision to bring authentic temple rituals closer to devotees who cannot physically visit Kolhapur. We understand that devotion knows no geographical boundaries.
+        </p>
+        <p className="text-sm sm:text-base text-stone-700 leading-relaxed mb-10">
+          Our platform serves as a digital bridge to the divine, ensuring that every seva, chadhava, and naivedya is offered with exact Vedic precision by the hereditary Shreepujaks of the temple, directly in your name.
+        </p>
+        <div className="w-16 h-[1px] bg-amber-900/20 mx-auto" />
+      </section>
+
+      {/* 9. Services & Statistics */}
+      <section className="py-16 px-4 sm:px-6 max-w-6xl mx-auto w-full space-y-20">
+
+        {/* Services List */}
+        <div>
+          <div className="text-center mb-12">
+            <h2 className="text-xs uppercase tracking-[0.3em] font-bold text-amber-800 mb-4">
+              OUR SERVICES
+            </h2>
+            <h3 className="font-serif text-3xl sm:text-4xl text-amber-950">
+              Complete Devotional Offerings
+            </h3>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { icon: "🕉️", title: "Online Puja Booking", desc: "Book personalized pujas performed by hereditary Shreepujak." },
+              { icon: "📿", title: "Chadhava / Arpan", desc: "Offer Regular Otee, Saree Otee, directly to Goddess Mahalaxmi." },
+              { icon: "🍃", title: "Naivedya / Bhog", desc: "Offer Puranpoli Naivedya and sacred Bhojan in your family name." },
+              { icon: "📺", title: "Online Darshan", desc: "Watch live aarti and darshan of Goddess Ambabai 24/7." },
+              { icon: "🛕", title: "Offline Darshan Pass", desc: "Book VIP darshan passes for priority temple entry." },
+              { icon: "🙏", title: "Annadan & Gou Seva", desc: "Contribute to sacred Annadan and Goushala Gou Seva." }
+            ].map((s, i) => (
+              <div key={i} className="p-6 rounded-2xl bg-white border border-amber-900/10 shadow-sm flex gap-4 items-start">
+                <div className="text-2xl">{s.icon}</div>
+                <div>
+                  <h4 className="font-serif font-bold text-amber-950 text-lg mb-1">{s.title}</h4>
+                  <p className="text-xs text-stone-600">{s.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Why Choose Us Minimal Variant */}
+        <div className="border-t border-amber-900/10 pt-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div className="flex flex-col items-center">
+            <ShieldCheck className="text-amber-700 w-6 h-6 mb-3" />
+            <span className="text-xs font-bold uppercase tracking-wider text-stone-900 mb-1">Authentic</span>
+            <span className="text-xs text-stone-500">Hereditary Shreepujak</span>
+          </div>
+          <div className="flex flex-col items-center">
+            <Users className="text-amber-700 w-6 h-6 mb-3" />
+            <span className="text-xs font-bold uppercase tracking-wider text-stone-900 mb-1">Trusted</span>
+            <span className="text-xs text-stone-500">50,000+ Devotees</span>
+          </div>
+          <div className="flex flex-col items-center">
+            <Heart className="text-amber-700 w-6 h-6 mb-3" />
+            <span className="text-xs font-bold uppercase tracking-wider text-stone-900 mb-1">Devoted</span>
+            <span className="text-xs text-stone-500">Performed with Love</span>
+          </div>
+          <div className="flex flex-col items-center">
+            <Zap className="text-amber-700 w-6 h-6 mb-3" />
+            <span className="text-xs font-bold uppercase tracking-wider text-stone-900 mb-1">Fast</span>
+            <span className="text-xs text-stone-500">Instant Booking</span>
+          </div>
+        </div>
+
+      </section>
+
+      {/* 10. Visit Contact Action */}
+      <section className="py-24 px-4 text-center bg-amber-50">
+        <h2 className="font-serif text-3xl sm:text-4xl text-amber-950 mb-6">Experience the Divine</h2>
+        <Link
+          href="/services"
+          className="inline-block bg-amber-900 text-white px-8 py-3 rounded-full text-sm uppercase tracking-widest font-bold hover:bg-amber-950 transition-colors"
+        >
+          Book a Seva
+        </Link>
       </section>
 
       <Footer />
