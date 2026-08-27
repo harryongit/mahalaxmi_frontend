@@ -13,7 +13,7 @@ import {
   Flame,
   Ticket,
   CheckCircle2,
-import { Phone, Mail, ArrowUpRight } from "lucide-react";
+} from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { userApi } from "@/src/lib/api";
 import { LoginModal } from "./LoginModal";
