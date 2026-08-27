@@ -25,8 +25,9 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
   const loginMutation = useMutation({
     mutationFn: (phoneNumber: string) => authApi.login(phoneNumber),
     onSuccess: (data) => {
-      // In a real app, you'd store the token here.
-      // localStorage.setItem("user_id", data.user_id.toString());
+      if (typeof window !== "undefined") {
+        localStorage.setItem("access_token", data.access_token);
+      }
       queryClient.invalidateQueries({ queryKey: ["user", "me"] });
       queryClient.invalidateQueries({ queryKey: ["user", "stats"] });
     }
@@ -45,7 +46,7 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
     // Call the actual API
     try {
       const phoneNumber = method === "phone" ? (phone || "9876543210") : email;
-      await loginMutation.mutateAsync(phoneNumber);
+      const data = await loginMutation.mutateAsync(phoneNumber);
       
       onLoginSuccess({
         name: name || (method === "phone" ? "Devotee User" : email.split("@")[0]),

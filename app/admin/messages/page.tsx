@@ -1,9 +1,11 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { Head, Card } from "../admin-ui";
 import { enquiryService, EnquiryResponse } from "@/src/services/enquiryService";
-import { Mail, Phone, Clock, Loader2, Sparkles, RefreshCw, MessageSquare } from "lucide-react";
+import { enquiryApi } from "@/src/lib/api";
+import { Mail, Phone, Clock, Loader2, Sparkles, RefreshCw, MessageSquare, Send } from "lucide-react";
 
 export default function MessagesAdminPage() {
   // TanStack Query integration for fast, cached enquiry fetching
@@ -17,6 +19,23 @@ export default function MessagesAdminPage() {
     queryFn: enquiryService.getAdminEnquiries,
     staleTime: 1000 * 30, // 30 seconds cache
   });
+
+  const [replyText, setReplyText] = useState<Record<string, string>>({});
+  const [activeReply, setActiveReply] = useState<number | null>(null);
+
+  const respondMutation = useMutation({
+    mutationFn: ({ id, reply }: { id: number; reply: string }) => enquiryApi.respondToEnquiry(id, reply),
+    onSuccess: () => {
+      refetch();
+      setActiveReply(null);
+      setReplyText({});
+    }
+  });
+
+  const handleRespond = (id: number) => {
+    if (!replyText[id]) return;
+    respondMutation.mutate({ id, reply: replyText[id] });
+  };
 
   return (
     <>
@@ -90,8 +109,58 @@ export default function MessagesAdminPage() {
                   {/* Message Content */}
                   <div className="mt-3 p-4 rounded-2xl bg-amber-50/40 border border-amber-200/70 text-xs text-stone-800 leading-relaxed font-normal flex items-start gap-2.5">
                     <MessageSquare className="size-4 text-amber-600 shrink-0 mt-0.5" />
-                    <span>"{m.message}"</span>
+                    <div className="flex-1 space-y-2">
+                      <p>"{m.message}"</p>
+                      {m.status === "RESOLVED" && m.admin_reply && (
+                        <div className="mt-3 p-3 bg-white rounded-xl border border-stone-200">
+                          <span className="text-stone-400 font-bold block text-[10px] mb-1">Admin Response:</span>
+                          <p className="text-stone-700">"{m.admin_reply}"</p>
+                        </div>
+                      )}
+                    </div>
                   </div>
+
+                  {/* Respond Actions */}
+                  {m.status !== "RESOLVED" && (
+                    <div className="mt-4 border-t border-stone-100 pt-3">
+                      {activeReply === m.id ? (
+                        <div className="space-y-3">
+                          <textarea 
+                            className="w-full text-xs p-3 rounded-xl border border-stone-200 bg-white min-h-[80px] focus:outline-none focus:border-amber-300"
+                            placeholder="Type your response to the devotee here..."
+                            value={replyText[m.id] || ""}
+                            onChange={(e) => setReplyText({...replyText, [m.id]: e.target.value})}
+                          />
+                          <div className="flex justify-end gap-2">
+                            <button 
+                              onClick={() => setActiveReply(null)}
+                              className="px-3 py-1.5 text-[10px] font-bold text-stone-500 hover:text-stone-700"
+                            >
+                              Cancel
+                            </button>
+                            <button 
+                              onClick={() => handleRespond(m.id)}
+                              disabled={!replyText[m.id] || respondMutation.isPending}
+                              className="px-3 py-1.5 text-[10px] font-bold bg-amber-500 text-white rounded-lg shadow-sm hover:bg-amber-600 disabled:opacity-50 flex items-center gap-1.5"
+                            >
+                              {respondMutation.isPending && activeReply === m.id ? <Loader2 className="size-3 animate-spin" /> : <Send className="size-3" />}
+                              Send Reply
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="flex justify-end">
+                           <button 
+                             onClick={() => setActiveReply(m.id)}
+                             className="text-[10px] font-bold bg-stone-100 hover:bg-amber-100 border border-stone-200 hover:border-amber-300 px-3 py-1.5 rounded-lg text-stone-600 transition-colors flex items-center gap-1.5"
+                           >
+                             <Send className="size-3" />
+                             Reply to Devotee
+                           </button>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               </Card>
             ))}

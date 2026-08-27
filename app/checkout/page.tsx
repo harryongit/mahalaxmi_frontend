@@ -6,6 +6,9 @@ import Link from "next/link";
 import { Navbar } from "@/src/components/temple/Navbar";
 import { Footer } from "@/src/components/temple/Footer";
 import { PageHero } from "@/src/components/temple/PageHero";
+import { useQuery } from "@tanstack/react-query";
+import { serviceApi, paymentApi } from "@/src/lib/api";
+import { useRazorpay } from "react-razorpay";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Check,
@@ -170,11 +173,21 @@ const auspiciousDates = [
 function CheckoutForm() {
   const searchParams = useSearchParams();
 
-  const pujaId = searchParams.get("puja") || "s1";
+  const pujaId = searchParams.get("puja") || "lakshmi-puja";
   const initialName = searchParams.get("name") || "";
   const initialMobile = searchParams.get("mobile") || "";
 
-  const selectedPuja = sevasData.find((s) => s.id === pujaId) || sevasData[0];
+  const { data: dbService, isLoading: isServiceLoading } = useQuery({
+    queryKey: ["service", pujaId],
+    queryFn: () => serviceApi.getService(pujaId),
+  });
+
+  const { Razorpay } = useRazorpay();
+
+  // Fallback to static sevasData if DB service fails or loads, but use dbService if it exists
+  const selectedPuja = dbService 
+    ? { ...dbService, price: dbService.price || 0, title: dbService.title || "Puja" } 
+    : (sevasData.find((s) => s.id === pujaId) || sevasData[0]);
   
   const todayStr = new Date().toISOString().split("T")[0];
   const [selectedDate, setSelectedDate] = useState<string>("2026-09-22");
@@ -193,6 +206,7 @@ function CheckoutForm() {
   const [gotra, setGotra] = useState("Kashyapa");
   const [dontKnowGotra, setDontKnowGotra] = useState(false);
   const [participatingMembers, setParticipatingMembers] = useState("");
+  const [email, setEmail] = useState("");
 
   // Aashirwad Box & Address State
   const [wantAashirwadBox, setWantAashirwadBox] = useState<"yes" | "no" | null>(null);
@@ -251,7 +265,7 @@ function CheckoutForm() {
 
   const handleProceedToConfirmModal = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || mobile.length < 10) return;
+    if (!name || mobile.length < 10 || !email) return;
     if (wantAashirwadBox === "yes") {
       if (!pincode || !cityName || !stateName || !houseNo || !roadArea || !landmark) {
         return;
@@ -260,9 +274,69 @@ function CheckoutForm() {
     setShowConfirmModal(true);
   };
 
-  const handleFinalSubmitAndPay = () => {
-    setShowConfirmModal(false);
-    setIsSuccess(true);
+  const handleFinalSubmitAndPay = async () => {
+    try {
+      const order = await paymentApi.createOrder(totalAmount);
+      
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_TUfclqVsVWvO8E",
+        amount: order.amount,
+        currency: order.currency as "INR",
+        name: "Shri Mahalaxmi Mandir",
+        description: selectedPuja.title,
+        order_id: order.order_id,
+        handler: async (response: any) => {
+          try {
+            const verifyRes = await paymentApi.verifySignature({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+            });
+
+            if (verifyRes.status === "success") {
+              const payload = {
+                userName: name,
+                mobile: mobile,
+                email: email,
+                gotra: gotra,
+                familyMembers: participatingMembers,
+                pujaTitle: selectedPuja.title,
+                amount: totalAmount,
+                bookingDate: new Date().toISOString(),
+                pujaSlotDate: selectedDate,
+                paymentMode: "Razorpay",
+                paymentStatus: "Paid",
+                transactionId: response.razorpay_payment_id,
+                service_slug: dbService ? dbService.slug : selectedPuja.id,
+              };
+              
+              const { bookingApi } = await import("@/src/lib/api");
+              await bookingApi.createBooking(payload);
+              
+              setShowConfirmModal(false);
+              setIsSuccess(true);
+            }
+          } catch (verifyErr) {
+            console.error("Payment verification failed:", verifyErr);
+            alert("Payment verification failed. Please contact support.");
+          }
+        },
+        prefill: {
+          name: name,
+          contact: mobile,
+          email: email,
+        },
+        theme: {
+          color: "#D4AF37",
+        },
+      };
+
+      const rzpay = new Razorpay(options);
+      rzpay.open();
+    } catch (err) {
+      console.error("Booking initialization failed:", err);
+      alert("Failed to initialize payment. Please try again.");
+    }
   };
 
   const tabsList = [
@@ -552,7 +626,7 @@ function CheckoutForm() {
                   {/* BENEFITS TAB */}
                   {detailsTab === "benefits" && (
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                      {selectedPuja.benefits?.map((b, i) => (
+                      {selectedPuja.benefits?.map((b: {title: string, desc: string}, i: number) => (
                         <div key={i} className="p-3.5 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-1">
                           <span className="font-serif font-bold text-amber-900 text-sm block">{b.title}</span>
                           <p className="text-stone-600 leading-snug">{b.desc}</p>
@@ -564,7 +638,7 @@ function CheckoutForm() {
                   {/* PROCESS TAB */}
                   {detailsTab === "process" && (
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-2">
-                      {selectedPuja.process?.map((p, i) => (
+                      {selectedPuja.process?.map((p: {step: number, title: string, desc: string}, i: number) => (
                         <div key={i} className="p-3 rounded-xl bg-stone-50 border border-stone-200 flex items-center gap-3">
                           <span className="size-6 rounded-full bg-[#3C0F1A] text-amber-300 font-bold flex items-center justify-center shrink-0">
                             {p.step}
@@ -581,7 +655,7 @@ function CheckoutForm() {
                   {/* GALLERY TAB */}
                   {detailsTab === "gallery" && (
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                      {selectedPuja.gallery?.map((img, i) => (
+                      {selectedPuja.gallery?.map((img: string, i: number) => (
                         <img key={i} src={img} alt="Puja Photo" className="h-32 w-full rounded-xl object-cover border border-stone-200 shadow-xs" />
                       ))}
                     </motion.div>
@@ -590,7 +664,7 @@ function CheckoutForm() {
                   {/* REVIEWS TAB */}
                   {detailsTab === "reviews" && (
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-2.5">
-                      {selectedPuja.reviews?.map((r, i) => (
+                      {selectedPuja.reviews?.map((r: {name: string, text: string}, i: number) => (
                         <div key={i} className="p-3 rounded-xl bg-stone-50 border border-stone-200 space-y-1">
                           <div className="flex justify-between items-center font-bold text-stone-900">
                             <span>{r.name}</span>
@@ -605,7 +679,7 @@ function CheckoutForm() {
                   {/* FAQS TAB */}
                   {detailsTab === "faqs" && (
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-2">
-                      {selectedPuja.faqs?.map((f, i) => (
+                      {selectedPuja.faqs?.map((f: {q: string, a: string}, i: number) => (
                         <div key={i} className="p-3 rounded-xl bg-stone-50 border border-stone-200 space-y-1">
                           <strong className="text-stone-900 block font-bold">Q: {f.q}</strong>
                           <p className="text-stone-600">A: {f.a}</p>
@@ -679,6 +753,18 @@ function CheckoutForm() {
                       />
                     </div>
                   </div>
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-stone-700 mb-2">Email Address *</label>
+                    <input
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="For invoice delivery"
+                      className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:ring-2 focus:ring-[var(--gold)]/20 focus:border-[var(--gold)] outline-none transition-all"
+                    />
                 </div>
 
                 <div className="space-y-1 pt-1">

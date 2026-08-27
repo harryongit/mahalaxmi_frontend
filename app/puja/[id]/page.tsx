@@ -25,191 +25,18 @@ import {
   Award,
 } from "lucide-react";
 
-// Puja Details Master Dataset
-const pujaDatabase: Record<
-  string,
-  {
-    id: string;
-    title: string;
-    subtitle: string;
-    price: number;
-    time: string;
-    deity: string;
-    image: string;
-    description: string;
-    benefits: { title: string; desc: string }[];
-    process: { step: number; title: string; desc: string }[];
-    gallery: string[];
-    reviews: { name: string; location: string; rating: number; text: string; date: string }[];
-    faqs: { q: string; a: string }[];
-  }
-> = {
-  s1: {
-    id: "s1",
-    title: "Kumkumarchan Seva",
-    subtitle: "Sacred Saffron & Vermillion Offering",
-    price: 551,
-    time: "Daily • 07:00 AM & 05:00 PM",
-    deity: "Goddess Ambabai Mahalaxmi",
-    image: "https://images.unsplash.com/photo-1609766857041-ed402ea8069a?q=80&w=1000",
-    description:
-      "Kumkumarchan is an auspicious ritual where 108 or 1000 holy names of Divine Mother Mahalaxmi are recited continuously while offering pure saffron-blessed vermillion powder to Her divine lotus feet.",
-    benefits: [
-      {
-        title: "Family Health & Well-being",
-        desc: "Bestows divine immunity, mental peace, and protection from negative energies.",
-      },
-      {
-        title: "Financial Abundance",
-        desc: "Attracts prosperous growth in trade, business, and family wealth.",
-      },
-      {
-        title: "Marital Harmony",
-        desc: "Strengthens marital bonds and brings long life and prosperity to spouses.",
-      },
-      {
-        title: "Spiritual Elevation",
-        desc: "Purifies karmic impurities and deepens devotional connection to Divine Mother.",
-      },
-    ],
-    process: [
-      {
-        step: 1,
-        title: "Gotra & Name Sankalpa",
-        desc: "Vedic Pandits initiate the ritual by taking your name, gotra, and family intention.",
-      },
-      {
-        step: 2,
-        title: "Continuous Kumkum Archana",
-        desc: "Recitation of Lalita Sahasranama with continuous vermillion flower offering.",
-      },
-      {
-        step: 3,
-        title: "Maha Aarti & Bhog Offering",
-        desc: "Grand camphor aarti and offering of fresh coconut, jaggery, and flowers.",
-      },
-      {
-        step: 4,
-        title: "Prasadam & Video Dispatch",
-        desc: "Consecrated Kumkum prasadam is dispatched to your home address, and video proof is sent on WhatsApp.",
-      },
-    ],
-    gallery: [
-      "https://images.unsplash.com/photo-1609766857041-ed402ea8069a?q=80&w=800",
-      "https://images.unsplash.com/photo-1545232979-fbf34fe37b38?q=80&w=800",
-      "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?q=80&w=800",
-      "https://images.unsplash.com/photo-1514533450685-4493e01d1fdc?q=80&w=800",
-    ],
-    reviews: [
-      {
-        name: "Sunita Kulkarni",
-        location: "Pune",
-        rating: 5,
-        text: "The Kumkumarchan seva was conducted so reverently! I received WhatsApp video of Panditji chanting my Gotra and the Kumkum prasadam arrived in 3 days.",
-        date: "12 Aug 2026",
-      },
-      {
-        name: "Rajesh Shinde",
-        location: "Mumbai",
-        rating: 5,
-        text: "Very authentic and blissful experience. Highly recommend booking online if you cannot visit Kolhapur in person.",
-        date: "05 Aug 2026",
-      },
-    ],
-    faqs: [
-      {
-        q: "Will my Gotra be recited during the Kumkumarchan Puja?",
-        a: "Yes, Panditji recites your full name and Gotra during the initial Sankalpa ceremony before beginning the Archana.",
-      },
-      {
-        q: "How will I receive the Puja photos and videos?",
-        a: "Puja videos and photographs taken during the ritual will be dispatched directly to your registered WhatsApp number.",
-      },
-      {
-        q: "How is the consecrated Prasadam delivered?",
-        a: "Blessed Kumkum, dry prasadam, and holy threads are securely packed in a sacred box and delivered via courier to your door.",
-      },
-    ],
-  },
-  s2: {
-    id: "s2",
-    title: "Panchamrut Abhishek",
-    subtitle: "Vedic Holy Bath Ceremony",
-    price: 751,
-    time: "Daily • 06:00 AM & 08:30 AM",
-    deity: "Goddess Ambabai Mahalaxmi",
-    image: "https://images.unsplash.com/photo-1545232979-fbf34fe37b38?q=80&w=1000",
-    description:
-      "Panchamrut Abhishek is an ancient Vedic ritual of bathing the sacred deity idol with five holy nectars: cow milk, curd, pure honey, cow ghee, and sugar, accompanied by Shreesukta Vedic chanting.",
-    benefits: [
-      {
-        title: "Removal of Obstacles",
-        desc: "Clears spiritual blockages and bestows smooth success in endeavors.",
-      },
-      {
-        title: "Physical Energy & Longevity",
-        desc: "The five sacred elements energize bodily health and vitality.",
-      },
-      {
-        title: "Wealth & Prosperity",
-        desc: "Shreesukta mantras invoke permanent grace of Goddess Mahalaxmi.",
-      },
-    ],
-    process: [
-      {
-        step: 1,
-        title: "Sankalp & Mantra Avahan",
-        desc: "Panditji takes devotee Gotra and invokes divine presence.",
-      },
-      {
-        step: 2,
-        title: "Five Nectars Abhishek Bath",
-        desc: "Ritual pouring of milk, curd, honey, ghee and sugar while chanting Shreesukta.",
-      },
-      {
-        step: 3,
-        title: "Fresh Alankar & Aarti",
-        desc: "Draping deity in fresh silks and performing Maha Aarti.",
-      },
-    ],
-    gallery: [
-      "https://images.unsplash.com/photo-1545232979-fbf34fe37b38?q=80&w=800",
-      "https://images.unsplash.com/photo-1609766857041-ed402ea8069a?q=80&w=800",
-    ],
-    reviews: [
-      {
-        name: "Vikram Patil",
-        location: "Kolhapur",
-        rating: 5,
-        text: "The Panchamrut Abhishek is performed with utter purity. Felt immensely blessed.",
-        date: "01 Aug 2026",
-      },
-    ],
-    faqs: [
-      {
-        q: "What time is Panchamrut Abhishek conducted?",
-        a: "Daily in the morning hours between 06:00 AM and 08:30 AM during morning Mangala Aarti.",
-      },
-    ],
-  },
-};
-
-// Fallback for remaining puja IDs (s3, s4, s5, s6)
-const getPujaData = (id: string) => {
-  if (pujaDatabase[id]) return pujaDatabase[id];
-  return {
-    ...pujaDatabase["s1"],
-    id,
-    title: id === "s3" ? "Padya Puja & Archana" : id === "s4" ? "Kulachar Mahapuja" : id === "s5" ? "Sahastra Namavali" : "Shreesukta Yajna Havan",
-    price: id === "s4" ? 5001 : id === "s5" ? 7001 : id === "s6" ? 11001 : 551,
-  };
-};
+import { useQuery } from "@tanstack/react-query";
+import { serviceApi } from "@/src/lib/api";
 
 export default function PujaDetailsPage() {
   const params = useParams();
   const router = useRouter();
   const pujaId = (params?.id as string) || "s1";
-  const puja = getPujaData(pujaId);
+
+  const { data: puja, isLoading } = useQuery({
+    queryKey: ["service", pujaId],
+    queryFn: () => serviceApi.getService(pujaId),
+  });
 
   // Tabs state: 'overview' | 'benefits' | 'process' | 'gallery' | 'reviews' | 'faqs'
   const [activeTab, setActiveTab] = useState<
@@ -228,8 +55,30 @@ export default function PujaDetailsPage() {
   ] as const;
 
   const handleBookNow = () => {
-    router.push(`/checkout?puja=${puja.id}`);
+    if (puja) {
+      router.push(`/checkout?puja=${puja.slug || puja.id}`);
+    }
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex flex-col bg-[#FCF9F3] text-stone-900 justify-center items-center">
+        <Navbar />
+        <div className="py-20">Loading puja details...</div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (!puja) {
+    return (
+      <div className="min-h-screen flex flex-col bg-[#FCF9F3] text-stone-900 justify-center items-center">
+        <Navbar />
+        <div className="py-20">Puja not found.</div>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FCF9F3] text-stone-900">
@@ -363,7 +212,7 @@ export default function PujaDetailsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 className="grid grid-cols-1 sm:grid-cols-2 gap-6"
               >
-                {puja.benefits.map((b, i) => (
+                {puja.benefits?.map((b: any, i: number) => (
                   <div
                     key={i}
                     className="rounded-3xl border border-amber-200/90 bg-white p-6 space-y-2 shadow-sm"
@@ -371,8 +220,8 @@ export default function PujaDetailsPage() {
                     <div className="size-10 rounded-2xl bg-amber-100 text-amber-900 flex items-center justify-center font-bold text-sm border border-amber-300">
                       0{i + 1}
                     </div>
-                    <h3 className="font-serif text-lg font-bold text-stone-900">{b.title}</h3>
-                    <p className="text-xs text-stone-600 leading-relaxed">{b.desc}</p>
+                    <h3 className="font-serif text-lg font-bold text-stone-900">{b.title || b.name || "Benefit"}</h3>
+                    <p className="text-xs text-stone-600 leading-relaxed">{b.desc || b.description || ""}</p>
                   </div>
                 ))}
               </motion.div>
@@ -385,17 +234,17 @@ export default function PujaDetailsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-4"
               >
-                {puja.process.map((p) => (
+                {puja.process?.map((p: any, i: number) => (
                   <div
-                    key={p.step}
+                    key={p.step || i}
                     className="rounded-3xl border border-stone-200 bg-white p-6 flex items-start gap-5 shadow-sm"
                   >
                     <div className="size-12 rounded-2xl bg-[#3C0F1A] text-white flex items-center justify-center font-serif text-lg font-bold shrink-0 border border-amber-400">
-                      {p.step}
+                      {p.step || i + 1}
                     </div>
                     <div className="space-y-1">
-                      <h3 className="font-serif text-lg font-bold text-stone-900">{p.title}</h3>
-                      <p className="text-xs text-stone-600 leading-relaxed font-normal">{p.desc}</p>
+                      <h3 className="font-serif text-lg font-bold text-stone-900">{p.title || p.name || "Step"}</h3>
+                      <p className="text-xs text-stone-600 leading-relaxed font-normal">{p.desc || p.description || ""}</p>
                     </div>
                   </div>
                 ))}
@@ -409,12 +258,12 @@ export default function PujaDetailsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
               >
-                {puja.gallery.map((img, i) => (
+                {puja.gallery?.map((img: any, i: number) => (
                   <div
                     key={i}
                     className="rounded-3xl border border-stone-200 bg-white overflow-hidden shadow-sm hover:shadow-md transition-all h-60"
                   >
-                    <img src={img} alt="Puja Gallery" className="size-full object-cover" />
+                    <img src={typeof img === 'string' ? img : img.url} alt="Puja Gallery" className="size-full object-cover" />
                   </div>
                 ))}
               </motion.div>
@@ -427,27 +276,27 @@ export default function PujaDetailsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-4"
               >
-                {puja.reviews.map((r, i) => (
+                {puja.reviews?.map((r: any, i: number) => (
                   <div
                     key={i}
                     className="rounded-3xl border border-stone-200 bg-white p-6 space-y-3 shadow-sm"
                   >
                     <div className="flex items-center justify-between">
                       <div>
-                        <h4 className="font-serif font-bold text-stone-900 text-base">{r.name}</h4>
+                        <h4 className="font-serif font-bold text-stone-900 text-base">{r.name || "Devotee"}</h4>
                         <span className="text-[11px] text-stone-500 font-medium">
-                          {r.location} • {r.date}
+                          {r.location || "India"} • {r.date || "Recently"}
                         </span>
                       </div>
 
                       <div className="flex items-center gap-1 text-amber-500">
-                        {[...Array(r.rating)].map((_, idx) => (
+                        {[...Array(r.rating || 5)].map((_, idx) => (
                           <Star key={idx} className="size-4 fill-amber-500" />
                         ))}
                       </div>
                     </div>
 
-                    <p className="text-xs text-stone-700 italic leading-relaxed">"{r.text}"</p>
+                    <p className="text-xs text-stone-700 italic leading-relaxed">"{r.text || r.review || "Wonderful experience."}"</p>
                   </div>
                 ))}
               </motion.div>
@@ -460,7 +309,7 @@ export default function PujaDetailsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-4"
               >
-                {puja.faqs.map((faq, i) => {
+                {puja.faqs?.map((faq: any, i: number) => {
                   const isOpen = openFaqIndex === i;
                   return (
                     <div
@@ -471,7 +320,7 @@ export default function PujaDetailsPage() {
                         onClick={() => setOpenFaqIndex(isOpen ? null : i)}
                         className="w-full p-5 text-left flex items-center justify-between font-serif text-base font-bold text-stone-900 cursor-pointer"
                       >
-                        <span>{faq.q}</span>
+                        <span>{faq.q || faq.question}</span>
                         <ChevronDown
                           className={`size-5 text-amber-800 transition-transform ${
                             isOpen ? "rotate-180" : ""
@@ -481,7 +330,7 @@ export default function PujaDetailsPage() {
 
                       {isOpen && (
                         <div className="px-5 pb-5 text-xs text-stone-600 leading-relaxed border-t border-stone-100 pt-3">
-                          {faq.a}
+                          {faq.a || faq.answer}
                         </div>
                       )}
                     </div>

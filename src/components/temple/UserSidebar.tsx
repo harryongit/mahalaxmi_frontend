@@ -52,12 +52,10 @@ export function UserSidebar({ isOpen, onClose }: UserSidebarProps) {
     setLocalUser(null);
   };
 
-  const displayName = user?.first_name 
-    ? `${user.first_name} ${user.last_name || ""}`.trim() 
-    : localUser?.name;
+  const displayName = user?.name || localUser?.name || "Devotee";
   
-  const displayPhone = user?.phone_number || localUser?.phone;
   const displayEmail = user?.email || localUser?.email;
+  const displayPhone = user?.mobile || localUser?.phone;
 
   return (
     <>

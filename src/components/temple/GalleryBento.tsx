@@ -7,63 +7,28 @@ import { IMG } from "./images";
 import { Reveal, SectionEyebrow } from "./effects";
 import { Sparkles, Maximize2, Tag } from "lucide-react";
 
-const GALLERY_DATA = [
-  {
-    src: IMG.gallery[0] || "https://images.unsplash.com/photo-1609766857041-ed402ea8069a?q=80&w=800",
-    caption: "Pillared corridor at dusk during Mangala Aarti",
-    category: "Sanctum",
-  },
-  {
-    src: IMG.gallery[1] || "https://images.unsplash.com/photo-1545232979-fbf34fe37b38?q=80&w=800",
-    caption: "Shikhara Gopuram in early morning mist",
-    category: "Architecture",
-  },
-  {
-    src: IMG.gallery[2] || "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?q=80&w=800",
-    caption: "Sacred temple bells before Sandhya Aarti",
-    category: "Rituals",
-  },
-  {
-    src: IMG.gallery[3] || "https://images.unsplash.com/photo-1514533450685-4493e01d1fdc?q=80&w=800",
-    caption: "Deepam floating on the sacred Pushkarini ghat",
-    category: "Festivals",
-  },
-  {
-    src: IMG.gallery[4] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800",
-    caption: "Devotional offering of golden brass lamps",
-    category: "Rituals",
-  },
-  {
-    src: IMG.gallery[5] || "https://images.unsplash.com/photo-1567157577867-05ccb1388e66?q=80&w=800",
-    caption: "Carved Chalukyan stone guardians of 7th century",
-    category: "Architecture",
-  },
-  {
-    src: IMG.gallery[6] || "https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=800",
-    caption: "Fresh marigold thresholds & saffron flower garlands",
-    category: "Festivals",
-  },
-  {
-    src: IMG.gallery[7] || "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?q=80&w=800",
-    caption: "The eastern courtyard during sunset Kirnotsav",
-    category: "Sanctum",
-  },
-  {
-    src: IMG.gallery[8] || "https://images.unsplash.com/photo-1570042707223-933390c5240c?q=80&w=800",
-    caption: "Inner sanctum illuminated in divine golden hour",
-    category: "Sanctum",
-  },
-];
+import { useQuery } from "@tanstack/react-query";
+import { contentApi } from "@/src/lib/api";
 
 const CATEGORIES = ["All", "Sanctum", "Architecture", "Festivals", "Rituals"];
 
 export function GalleryBento() {
+  const { data: galleryData = [], isLoading } = useQuery({
+    queryKey: ["content", "gallery"],
+    queryFn: contentApi.getGallery,
+  });
   const [selectedCat, setSelectedCat] = useState("All");
   const [open, setOpen] = useState<number | null>(null);
 
+  const mappedGallery = galleryData.map((item: any) => ({
+    src: item.url,
+    caption: item.caption || "Sacred Moments",
+    category: item.category || "Sanctum",
+  }));
+
   const filtered = selectedCat === "All"
-    ? GALLERY_DATA
-    : GALLERY_DATA.filter((item) => item.category === selectedCat);
+    ? mappedGallery
+    : mappedGallery.filter((item: any) => item.category === selectedCat);
 
   const close = () => setOpen(null);
   const prev = () =>
@@ -118,6 +83,9 @@ export function GalleryBento() {
         </div>
 
         {/* Photo Grid */}
+        {isLoading ? (
+          <div className="text-center py-8 text-stone-500">Loading gallery...</div>
+        ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {filtered.map((item, i) => (
             <motion.div
@@ -157,6 +125,7 @@ export function GalleryBento() {
             </motion.div>
           ))}
         </div>
+        )}
 
       </div>
 

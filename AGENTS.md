@@ -1,3 +1,3 @@
 # Workspace Guidelines
 
-This project uses React with Vite, Tailwind CSS, and `react-router-dom`.
+This project uses Next.js (App Router), React, Tailwind CSS, and Framer Motion.

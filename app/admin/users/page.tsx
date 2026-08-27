@@ -14,7 +14,7 @@ import {
   HiOutlineSearch,
 } from "react-icons/hi";
 import { Sparkles, UserCheck, ShieldCheck } from "lucide-react";
-import { adminUserApi } from "@/src/lib/api";
+import { adminUserApi, adminBookingApi } from "@/src/lib/api";
 import { toast } from "sonner";
 
 export default function AdminUsersPage() {
@@ -43,11 +43,19 @@ export default function AdminUsersPage() {
     );
   });
 
-  const handleUpdateBookingStatus = (bookingId: string, newStatus: SevaBooking["paymentStatus"]) => {
-    const updatedBookings = s.bookings.map((b) =>
-      b.id === bookingId ? { ...b, paymentStatus: newStatus } : b
-    );
-    setS({ ...s, bookings: updatedBookings });
+  const handleUpdateBookingStatus = async (bookingId: string, bookingRef: string, newStatus: SevaBooking["paymentStatus"]) => {
+    try {
+      const updatedBookings = s.bookings.map((b) =>
+        b.id === bookingId ? { ...b, paymentStatus: newStatus } : b
+      );
+      setS({ ...s, bookings: updatedBookings });
+      
+      await adminBookingApi.updateStatus(bookingRef, newStatus);
+      toast.success(`Booking status updated to ${newStatus}`);
+    } catch (error) {
+      console.error("Failed to update booking status", error);
+      toast.error("Failed to update booking status");
+    }
   };
 
   const handleUpdateUserStatus = async (userId: string, newStatus: DevoteeUser["status"]) => {
@@ -272,7 +280,7 @@ export default function AdminUsersPage() {
                     <td className="py-3.5 px-4 text-right">
                       {b.paymentStatus !== "Completed" ? (
                         <button
-                          onClick={() => handleUpdateBookingStatus(b.id, "Completed")}
+                          onClick={() => handleUpdateBookingStatus(b.id, b.bookingRef, "Completed")}
                           className="px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-bold text-[11px] hover:bg-emerald-700 transition-colors cursor-pointer"
                         >
                           Mark Completed

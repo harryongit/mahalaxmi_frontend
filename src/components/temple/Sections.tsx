@@ -21,6 +21,8 @@ import {
 import { IMG } from "./images";
 import Link from "next/link";
 import { Particles, Reveal, SectionEyebrow } from "./effects";
+import { useQuery } from "@tanstack/react-query";
+import { contentApi, serviceApi } from "@/src/lib/api";
 
 /* ----------------------- ABOUT ----------------------- */
 export function About() {
@@ -340,40 +342,12 @@ export function Architecture() {
 }
 
 /* ----------------------- RITUALS ----------------------- */
-const rituals = [
-  {
-    time: "5:30 AM",
-    title: "Suprabhatam",
-    icon: HiOutlineSun,
-    text: "The temple awakens with hymns of the dawn.",
-  },
-  {
-    time: "7:00 AM",
-    title: "Abhishekam",
-    icon: HiOutlineSparkles,
-    text: "Sacred bathing of the deity with milk, honey & rose.",
-  },
-  {
-    time: "12:00 PM",
-    title: "Archana",
-    icon: HiOutlineFire,
-    text: "Offerings of flowers, fruit and chanted names.",
-  },
-  {
-    time: "6:30 PM",
-    title: "Sandhya Aarti",
-    icon: HiOutlineFire,
-    text: "Lamps lifted in spirals of golden light.",
-  },
-  {
-    time: "8:30 PM",
-    title: "Shayana",
-    icon: HiOutlineMoon,
-    text: "The deity is laid to rest with whispered lullabies.",
-  },
-];
 
 export function Rituals() {
+  const { data: rituals = [], isLoading } = useQuery({
+    queryKey: ["content", "rituals"],
+    queryFn: contentApi.getRituals,
+  });
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   // sunrise -> sunset gradient
@@ -409,10 +383,13 @@ export function Rituals() {
         </div>
 
         <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-5 gap-5">
-          {rituals.map((r, i) => {
-            const Icon = r.icon;
+          {isLoading ? (
+            <div className="col-span-full text-center py-8 opacity-75">Loading rituals...</div>
+          ) : (
+          rituals.map((r: any, i: number) => {
+            const Icon = HiOutlineSun;
             return (
-              <Reveal key={r.title} delay={i * 0.08}>
+              <Reveal key={r.id || r.name} delay={i * 0.08}>
                 <article className="group h-full rounded-2xl p-6 bg-[color-mix(in_oklab,white_70%,transparent)] backdrop-blur border border-[color-mix(in_oklab,var(--gold)_25%,transparent)] hover-lift">
                   <div className="grid size-12 place-items-center rounded-full text-[var(--maroon)] bg-[color-mix(in_oklab,var(--gold)_25%,transparent)] transition-transform duration-500 group-hover:rotate-12">
                     <Icon className="size-6" />
@@ -420,12 +397,13 @@ export function Rituals() {
                   <div className="mt-5 text-xs uppercase tracking-[0.3em] text-[var(--saffron)]">
                     {r.time}
                   </div>
-                  <div className="font-serif text-2xl mt-1">{r.title}</div>
-                  <p className="text-sm opacity-75 mt-2">{r.text}</p>
+                  <div className="font-serif text-2xl mt-1">{r.name}</div>
+                  <p className="text-sm opacity-75 mt-2">{r.text || "Daily temple ritual"}</p>
                 </article>
               </Reveal>
             );
-          })}
+          })
+          )}
         </div>
       </div>
     </motion.section>
@@ -434,16 +412,10 @@ export function Rituals() {
 
 /* ----------------------- FESTIVALS ----------------------- */
 export function Festivals() {
-  const festivals = [
-    { name: "Diwali", date: "Nov 12", desc: "A river of lamps lining every step of the temple." },
-    { name: "Maha Shivaratri", date: "Mar 8", desc: "An all-night vigil of chanting and dance." },
-    { name: "Navaratri", date: "Oct 14", desc: "Nine nights honoring the divine feminine." },
-    {
-      name: "Brahmotsavam",
-      date: "May 22",
-      desc: "Annual chariot procession through the old town.",
-    },
-  ];
+  const { data: events = [], isLoading } = useQuery({
+    queryKey: ["content", "events"],
+    queryFn: contentApi.getEvents,
+  });
   return (
     <section id="festivals" className="relative py-28 md:py-44 overflow-hidden text-white">
       <div className="absolute inset-0">
@@ -503,17 +475,21 @@ export function Festivals() {
         </div>
 
         <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {festivals.map((f, i) => (
-            <Reveal key={f.name} delay={i * 0.08}>
+          {isLoading ? (
+            <div className="col-span-full text-center py-8 opacity-75">Loading festivals...</div>
+          ) : (
+          events.map((f: any, i: number) => (
+            <Reveal key={f.id || f.name} delay={i * 0.08}>
               <div className="glass-dark rounded-2xl p-6 hover-lift">
                 <div className="text-xs uppercase tracking-[0.3em] text-[var(--gold)]">
                   {f.date}
                 </div>
                 <div className="font-serif text-3xl mt-2">{f.name}</div>
-                <p className="text-sm text-white/70 mt-3">{f.desc}</p>
+                <p className="text-sm text-white/70 mt-3">{f.note || "Join us for this auspicious occasion."}</p>
               </div>
             </Reveal>
-          ))}
+          ))
+          )}
         </div>
       </div>
     </section>
@@ -663,11 +639,10 @@ export function Donate() {
 
 /* ----------------------- EVENTS ----------------------- */
 export function Events() {
-  const events = [
-    { date: "Dec 12", name: "Karthikai Deepam", count: { d: 12, h: 8, m: 22 } },
-    { date: "Jan 14", name: "Pongal Vizha", count: { d: 45, h: 4, m: 11 } },
-    { date: "Feb 26", name: "Annual Yagna", count: { d: 88, h: 17, m: 5 } },
-  ];
+  const { data: events = [], isLoading } = useQuery({
+    queryKey: ["content", "events"],
+    queryFn: contentApi.getEvents,
+  });
   return (
     <section id="events" className="relative py-28 md:py-40 bg-[oklch(0.96_0.018_82)]">
       <div className="container-temple">
@@ -691,8 +666,11 @@ export function Events() {
         </div>
 
         <div className="mt-14 grid md:grid-cols-3 gap-6">
-          {events.map((e, i) => (
-            <Reveal key={e.name} delay={i * 0.1}>
+          {isLoading ? (
+            <div className="col-span-full text-center py-8">Loading upcoming events...</div>
+          ) : (
+          events.slice(0, 3).map((e: any, i: number) => (
+            <Reveal key={e.id || e.name} delay={i * 0.1}>
               <div className="rounded-2xl bg-card border border-border p-7 hover-lift">
                 <div className="flex items-center justify-between">
                   <div className="text-xs uppercase tracking-[0.3em] text-[var(--saffron)]">
@@ -703,9 +681,9 @@ export function Events() {
                 <h3 className="font-serif text-2xl mt-3">{e.name}</h3>
                 <div className="mt-6 grid grid-cols-3 gap-3 text-center">
                   {[
-                    ["Days", e.count.d],
-                    ["Hours", e.count.h],
-                    ["Mins", e.count.m],
+                    ["Days", 12],
+                    ["Hours", 8],
+                    ["Mins", 22],
                   ].map(([l, v]) => (
                     <div
                       key={l as string}
@@ -718,7 +696,8 @@ export function Events() {
                 </div>
               </div>
             </Reveal>
-          ))}
+          ))
+          )}
         </div>
       </div>
     </section>
@@ -726,41 +705,13 @@ export function Events() {
 }
 
 /* ----------------------- TESTIMONIALS ----------------------- */
-const testimonials = [
-  {
-    name: "Priya Iyer",
-    role: "Pilgrim, Bengaluru",
-    text: "Walking into the sanctum at dawn — I have never felt so deeply held by silence.",
-  },
-  {
-    name: "Ravi Menon",
-    role: "Architect",
-    text: "The proportions are perfect. Centuries before geometry was written down, it was carved here.",
-  },
-  {
-    name: "Anya Sharma",
-    role: "Devotee, London",
-    text: "I visit every December. It is the only place where I remember who I really am.",
-  },
-  {
-    name: "Karthik Reddy",
-    role: "Photographer",
-    text: "The light at 5:42 AM through the eastern pillar — there's nothing like it on earth.",
-  },
-  {
-    name: "Meera Joshi",
-    role: "Volunteer",
-    text: "Serving meals here taught me what devotion in action looks like.",
-  },
-  {
-    name: "Arjun Nair",
-    role: "Historian",
-    text: "A living archive. Every stone has a story, and the priests still know them.",
-  },
-];
-
 export function Testimonials() {
-  const row = [...testimonials, ...testimonials];
+  const { data: testimonialsData = [], isLoading } = useQuery({
+    queryKey: ["content", "testimonials"],
+    queryFn: contentApi.getTestimonials,
+  });
+  
+  const row = testimonialsData.length > 0 ? [...testimonialsData, ...testimonialsData] : [];
   return (
     <section className="relative py-24 overflow-hidden">
       <div className="container-temple text-center max-w-2xl mx-auto">
@@ -773,7 +724,10 @@ export function Testimonials() {
         <div className="absolute inset-y-0 left-0 w-32 z-10 bg-gradient-to-r from-background to-transparent pointer-events-none" />
         <div className="absolute inset-y-0 right-0 w-32 z-10 bg-gradient-to-l from-background to-transparent pointer-events-none" />
         <div className="flex gap-6 animate-scroll-x" style={{ width: "max-content" }}>
-          {row.map((t, i) => (
+          {isLoading ? (
+            <div className="text-center py-8 w-[100vw]">Loading testimonials...</div>
+          ) : (
+          row.map((t: any, i: number) => (
             <article
               key={i}
               className="w-[340px] shrink-0 rounded-2xl glass-panel p-6 shadow-[0_15px_40px_-20px_rgba(80,30,0,0.25)]"
@@ -781,15 +735,16 @@ export function Testimonials() {
               <p className="text-foreground/85 leading-relaxed">"{t.text}"</p>
               <div className="mt-5 flex items-center gap-3">
                 <div className="size-10 rounded-full grid place-items-center font-serif text-[var(--maroon)] bg-[color-mix(in_oklab,var(--gold)_25%,transparent)]">
-                  {t.name[0]}
+                  {t.name?.[0] || "U"}
                 </div>
                 <div>
                   <div className="font-medium text-sm">{t.name}</div>
-                  <div className="text-xs text-foreground/60">{t.role}</div>
+                  <div className="text-xs text-foreground/60">{t.role || "Devotee"}</div>
                 </div>
               </div>
             </article>
-          ))}
+          ))
+          )}
         </div>
       </div>
     </section>
@@ -832,24 +787,14 @@ const pujaServicesData = [
     includes: ["Mahapuja", "Abhishek", "Laxmi Sahastra Namavali", "Kumkumarchan", "Shreesukta Abhishek"],
     availableOn: ["Ghatasthapana", "Lalita Panchami", "Ashtami", "Khandi Navami", "Dasara / Dussehra"],
     availability: "22 September to 7 October"
-  },
-  {
-    title: "6. SHREESUKTA HAVAN",
-    price: "₹11,001",
-    includes: ["Abhishek", "Puja", "Kumkumarchan", "16 Paath Shreesukta Havan"],
-    availableOn: ["Ghatasthapana", "Lalita Panchami", "Ashtami", "Khandi Navami", "Dasara / Dussehra"],
-    availability: "22 September to 7 October"
-  },
-  {
-    title: "7. NAVACHANDI HAVAN & PATH",
-    price: "₹25,001",
-    includes: ["Durga Saptashati 10 Paath", "Abhishek", "Kumkumarchan", "Durga Saptashati 1 Paath Havan"],
-    availableOn: ["Ghatasthapana", "Lalita Panchami", "Ashtami", "Khandi Navami", "Dasara / Dussehra"],
-    availability: "22 September to 7 October"
   }
 ];
 
 export function PujaServices() {
+  const { data: services = [], isLoading } = useQuery({
+    queryKey: ["services"],
+    queryFn: serviceApi.getServices,
+  });
   return (
     <section id="puja-services" className="relative py-28 md:py-40 bg-[oklch(0.13_0.02_60)] text-white overflow-hidden">
       {/* Background glow matching the theme */}
@@ -874,8 +819,11 @@ export function PujaServices() {
         </div>
 
         <div className="mt-16 grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          {pujaServicesData.map((s, i) => (
-            <Reveal key={s.title} delay={i * 0.1}>
+          {isLoading ? (
+            <div className="col-span-full text-center py-8 opacity-75">Loading puja services...</div>
+          ) : (
+          services.slice(0, 4).map((s: any, i: number) => (
+            <Reveal key={s.id || s.title} delay={i * 0.1}>
               <div className="h-full rounded-2xl glass-dark p-8 hover-lift flex flex-col border border-[color-mix(in_oklab,var(--gold)_25%,transparent)] transition-all hover:border-[color-mix(in_oklab,var(--gold)_50%,transparent)]">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 pb-5 border-b border-white/10">
                   <div className="font-serif text-2xl text-[var(--gold)]">
@@ -899,7 +847,7 @@ export function PujaServices() {
                         Includes
                       </div>
                       <ul className="space-y-2">
-                        {s.includes.map((item, j) => (
+                        {s.includes?.map((item: string, j: number) => (
                           <li key={j} className="flex items-start gap-3 text-sm text-white/80">
                             <span className="text-[var(--gold)] opacity-80 mt-0.5 text-xs">✦</span>
                             <span>{item}</span>
@@ -916,7 +864,7 @@ export function PujaServices() {
                           Available On
                         </div>
                         <div className="flex flex-wrap gap-2">
-                          {s.availableOn.map((day, j) => (
+                          {s.availableOn?.map((day: string, j: number) => (
                             <span key={j} className="text-xs bg-white/5 border border-white/10 px-2 py-1 rounded text-white/80">
                               {day}
                             </span>
@@ -936,13 +884,14 @@ export function PujaServices() {
                   </div>
                 </div>
                 <div className="mt-8">
-                  <button className="btn-ghost-gold w-full justify-center !text-white !border-[color-mix(in_oklab,var(--gold)_50%,transparent)]">
+                  <Link href={`/puja/${s.slug}`} className="btn-ghost-gold w-full justify-center !text-white !border-[color-mix(in_oklab,var(--gold)_50%,transparent)] flex items-center">
                     Book Now
-                  </button>
+                  </Link>
                 </div>
               </div>
             </Reveal>
-          ))}
+          ))
+          )}
         </div>
       </div>
     </section>

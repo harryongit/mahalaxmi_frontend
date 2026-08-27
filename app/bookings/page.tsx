@@ -7,40 +7,14 @@ import { PageHero } from "@/src/components/temple/PageHero";
 import { Flame, Calendar, Clock, Download, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
 
-const mockBookings = [
-  {
-    id: "PUJA-2026-8841",
-    name: "Special Mahapuja & Kumkumarchana",
-    deity: "Goddess Ambabai Mahalaxmi",
-    date: "Aug 20, 2026",
-    time: "06:00 AM - 08:30 AM",
-    status: "Upcoming",
-    amount: "₹ 2,501",
-    prasadam: "Home Delivery Scheduled",
-  },
-  {
-    id: "PUJA-2026-7729",
-    name: "Abhishek Seva & Archana",
-    deity: "Goddess Ambabai",
-    date: "Aug 02, 2026",
-    time: "09:00 AM",
-    status: "Completed",
-    amount: "₹ 1,100",
-    prasadam: "Delivered on Aug 04",
-  },
-  {
-    id: "PUJA-2026-5510",
-    name: "Sahasranama Archana",
-    deity: "Goddess Ambabai",
-    date: "Jul 15, 2026",
-    time: "05:30 PM",
-    status: "Completed",
-    amount: "₹ 750",
-    prasadam: "Delivered on Jul 17",
-  },
-];
+import { useQuery } from "@tanstack/react-query";
+import { bookingApi } from "@/src/lib/api";
 
 export default function BookingsPage() {
+  const { data: bookings = [], isLoading } = useQuery({
+    queryKey: ["user", "bookings"],
+    queryFn: bookingApi.getUserBookings,
+  });
   return (
     <div className="min-h-screen flex flex-col bg-[#FCF9F3] text-stone-900">
       <Navbar />
@@ -87,59 +61,65 @@ export default function BookingsPage() {
 
           {/* Bookings List Cards */}
           <div className="space-y-4">
-            {mockBookings.map((b, i) => (
-              <motion.div
-                key={b.id}
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
-                className="rounded-2xl border border-stone-200 bg-white hover:border-amber-400/80 p-5 sm:p-6 transition-all space-y-4 shadow-sm"
-              >
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-stone-200 pb-3">
-                  <div>
-                    <span className="text-[11px] font-mono font-bold text-amber-800">{b.id}</span>
-                    <h3 className="font-serif text-lg font-bold text-stone-900">{b.name}</h3>
+            {isLoading ? (
+              <div className="text-center py-8 text-stone-500">Loading bookings...</div>
+            ) : bookings.length === 0 ? (
+              <div className="text-center py-8 text-stone-500 bg-white rounded-2xl border border-stone-200">No bookings found.</div>
+            ) : (
+              bookings.map((b: any, i: number) => (
+                <motion.div
+                  key={b.id || i}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  className="rounded-2xl border border-stone-200 bg-white hover:border-amber-400/80 p-5 sm:p-6 transition-all space-y-4 shadow-sm"
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-stone-200 pb-3">
+                    <div>
+                      <span className="text-[11px] font-mono font-bold text-amber-800">{b.bookingRef}</span>
+                      <h3 className="font-serif text-lg font-bold text-stone-900">{b.pujaTitle}</h3>
+                    </div>
+
+                    <span
+                      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold self-start sm:self-center ${
+                        b.paymentStatus === "Completed"
+                          ? "bg-emerald-100 text-emerald-900 border border-emerald-300"
+                          : "bg-amber-100 text-amber-900 border border-amber-300"
+                      }`}
+                    >
+                      <CheckCircle2 className="size-3.5" />
+                      {b.paymentStatus || "Upcoming"}
+                    </span>
                   </div>
 
-                  <span
-                    className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold self-start sm:self-center ${
-                      b.status === "Upcoming"
-                        ? "bg-amber-100 text-amber-900 border border-amber-300"
-                        : "bg-emerald-100 text-emerald-900 border border-emerald-300"
-                    }`}
-                  >
-                    <CheckCircle2 className="size-3.5" />
-                    {b.status}
-                  </span>
-                </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                    <div className="flex items-center gap-2 text-stone-600 font-medium">
+                      <Calendar className="size-4 text-amber-800 shrink-0" />
+                      <span>{new Date(b.pujaSlotDate || b.bookingDate).toLocaleDateString()}</span>
+                    </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-                  <div className="flex items-center gap-2 text-stone-600 font-medium">
-                    <Calendar className="size-4 text-amber-800 shrink-0" />
-                    <span>{b.date}</span>
+                    <div className="flex items-center gap-2 text-stone-600 font-medium">
+                      <Clock className="size-4 text-amber-800 shrink-0" />
+                      <span>{b.paymentMode || "UPI"}</span>
+                    </div>
+
+                    <div className="text-stone-700 font-bold">
+                      Amount Paid: <span className="text-amber-800">₹ {b.amount}</span>
+                    </div>
                   </div>
 
-                  <div className="flex items-center gap-2 text-stone-600 font-medium">
-                    <Clock className="size-4 text-amber-800 shrink-0" />
-                    <span>{b.time}</span>
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-2 text-xs">
+                    <span className="text-stone-700 bg-stone-100 px-3 py-1.5 rounded-lg border border-stone-200 font-medium">
+                      🎁 Prasadam Status: <strong className="text-stone-900">Delivery Scheduled</strong>
+                    </span>
+
+                    <button className="text-amber-900 hover:underline font-bold flex items-center gap-1 cursor-pointer">
+                      <Download className="size-3.5" /> Download Devotee Receipt
+                    </button>
                   </div>
-
-                  <div className="text-stone-700 font-bold">
-                    Amount Paid: <span className="text-amber-800">{b.amount}</span>
-                  </div>
-                </div>
-
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-2 text-xs">
-                  <span className="text-stone-700 bg-stone-100 px-3 py-1.5 rounded-lg border border-stone-200 font-medium">
-                    🎁 Prasadam Status: <strong className="text-stone-900">{b.prasadam}</strong>
-                  </span>
-
-                  <button className="text-amber-900 hover:underline font-bold flex items-center gap-1 cursor-pointer">
-                    <Download className="size-3.5" /> Download Devotee Receipt
-                  </button>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              ))
+            )}
           </div>
         </div>
       </main>
