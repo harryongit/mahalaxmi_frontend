@@ -345,10 +345,11 @@ export function Architecture() {
 
 /* ----------------------- RITUALS ----------------------- */
 
-export function Rituals() {
+export function Rituals({ initialData }: { initialData?: any[] }) {
   const { data: rituals = [], isLoading } = useQuery({
     queryKey: ["content", "rituals"],
     queryFn: contentApi.getRituals,
+    initialData,
   });
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
@@ -707,10 +708,11 @@ export function Events() {
 }
 
 /* ----------------------- TESTIMONIALS ----------------------- */
-export function Testimonials() {
+export function Testimonials({ initialData }: { initialData?: any[] }) {
   const { data: testimonialsData = [], isLoading } = useQuery({
     queryKey: ["content", "testimonials"],
     queryFn: contentApi.getTestimonials,
+    initialData,
   });
   
   const row = testimonialsData.length > 0 ? [...testimonialsData, ...testimonialsData] : [];

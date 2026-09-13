@@ -83,6 +83,7 @@ export function Footer() {
               { label: "Daily Rituals", href: "/rituals" },
               { label: "Photo Gallery", href: "/gallery" },
               { label: "Festivals & Utsavs", href: "/festivals" },
+              { label: "Navratri Mahotsav", href: "/navratri" },
               { label: "Contact Helpline", href: "/contact" },
             ].map((l) => (
               <li key={l.label}>
@@ -106,6 +107,7 @@ export function Footer() {
               { label: "Prasadam Home Delivery", href: "/prasadam" },
               { label: "FAQs for Devotees", href: "/faq" },
               { label: "How to Reach Temple", href: "/how-to-reach" },
+              { label: "Temples in Kolhapur", href: "/temples-in-kolhapur" },
               { label: "My Seva Bookings", href: "/bookings" },
               { label: "My Profile Account", href: "/profile" },
               { label: "Annadan & Gou Seva", href: "/#donate" },

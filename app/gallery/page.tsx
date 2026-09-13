@@ -1,16 +1,16 @@
-"use client";
-
-import { useLenis } from "@/src/lib/use-lenis";
 import { Navbar } from "@/src/components/temple/Navbar";
 import { GalleryBento } from "@/src/components/temple/GalleryBento";
 import { Footer } from "@/src/components/temple/Footer";
 import { PageHero } from "@/src/components/temple/PageHero";
+import { SmoothScroll } from "@/src/components/temple/SmoothScroll";
+import { getServerContent } from "@/src/lib/server-content";
 
-export default function GalleryPage() {
-  useLenis();
+export default async function GalleryPage() {
+  const { gallery } = await getServerContent();
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FCF9F3] text-stone-900">
+      <SmoothScroll />
       <Navbar />
 
       <PageHero
@@ -22,7 +22,7 @@ export default function GalleryPage() {
       />
 
       <main className="flex-1">
-        <GalleryBento />
+        <GalleryBento initialData={gallery} />
       </main>
 
       <Footer />

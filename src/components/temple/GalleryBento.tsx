@@ -12,10 +12,11 @@ import { contentApi } from "@/src/lib/api";
 
 const CATEGORIES = ["All", "Sanctum", "Architecture", "Festivals", "Rituals"];
 
-export function GalleryBento() {
+export function GalleryBento({ initialData }: { initialData?: any[] }) {
   const { data: galleryData = [], isLoading } = useQuery({
     queryKey: ["content", "gallery"],
     queryFn: contentApi.getGallery,
+    initialData,
   });
   const [selectedCat, setSelectedCat] = useState("All");
   const [open, setOpen] = useState<number | null>(null);

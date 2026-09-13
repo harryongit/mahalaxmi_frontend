@@ -1,17 +1,17 @@
-"use client";
-
-import { useLenis } from "@/src/lib/use-lenis";
 import { Navbar } from "@/src/components/temple/Navbar";
 import { Rituals } from "@/src/components/temple/Sections";
 import { BookingWidget } from "@/src/components/temple/BookingWidget";
 import { Footer } from "@/src/components/temple/Footer";
 import { PageHero } from "@/src/components/temple/PageHero";
+import { SmoothScroll } from "@/src/components/temple/SmoothScroll";
+import { getServerContent } from "@/src/lib/server-content";
 
-export default function RitualsPage() {
-  useLenis();
+export default async function RitualsPage() {
+  const { rituals } = await getServerContent();
 
   return (
     <>
+      <SmoothScroll />
       <main className="relative bg-[#FCF9F3]">
         <Navbar />
 
@@ -28,7 +28,7 @@ export default function RitualsPage() {
         <BookingWidget />
 
         {/* 3. Daily Rituals Schedule Section */}
-        <Rituals />
+        <Rituals initialData={rituals} />
 
         {/* 4. Footer */}
         <Footer />
