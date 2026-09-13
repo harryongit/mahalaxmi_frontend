@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Phone, Mail, ArrowRight, ShieldCheck, Sparkles, CheckCircle } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
-import { apiRequest, ApiError } from "@/src/lib/api";
+import { apiRequest, ApiError, authApi } from "@/src/lib/api";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -19,18 +20,33 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [step, setStep] = useState<"input" | "otp">("input");
-  const [otp, setOtp] = useState(["", "", "", ""]);
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [feedback, setFeedback] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [loading, setLoading] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const queryClient = useQueryClient();
 
-  const handleSendOtp = (e: React.FormEvent) => {
+  const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     if (method === "phone" && !phone) return;
     if (method === "email" && !email) return;
     setFeedback(null);
-    setStep("otp");
+    setLoading(true);
+
+    try {
+      const phoneNumber = method === "phone" ? (phone || "9876543210") : email;
+      await authApi.requestOtp(phoneNumber);
+      setStep("otp");
+    } catch (error: any) {
+      setFeedback({ type: "error", text: error.message || "Failed to send OTP" });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleVerifyOtp = async (e: React.FormEvent) => {
@@ -39,13 +55,18 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
     setFeedback(null);
 
     const phoneNumber = method === "phone" ? (phone || "9876543210") : email;
-    try {
-      const res = await apiRequest<{ access_token: string }>("/auth/login", "POST", {
-        phone_number: phoneNumber,
-      });
+    const otpString = otp.join("");
+    if (otpString.length < 6) {
+      setFeedback({ type: "error", text: "Please enter the 6-digit OTP" });
+      setLoading(false);
+      return;
+    }
 
-      if (typeof window !== "undefined" && res.data?.access_token) {
-        localStorage.setItem("access_token", res.data.access_token);
+    try {
+      const res = await authApi.login(phoneNumber, otpString);
+
+      if (typeof window !== "undefined" && res.access_token) {
+        localStorage.setItem("access_token", res.access_token);
       }
       queryClient.invalidateQueries({ queryKey: ["user", "me"] });
       queryClient.invalidateQueries({ queryKey: ["user", "stats"] });
@@ -53,7 +74,7 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
       setFeedback({ type: "success", text: res.message || "Login successful. Jai Mata Di!" });
       onLoginSuccess({
         name: name || (method === "phone" ? "Devotee User" : email.split("@")[0]),
-        phone: phone || "+91 98765 43210",
+        phone: phoneNumber,
         email: email || "devotee@mahalaxmi.org",
       });
       resetForm();
@@ -74,10 +95,12 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
     setPhone("");
     setEmail("");
     setName("");
-    setOtp(["", "", "", ""]);
+    setOtp(["", "", "", "", "", ""]);
   };
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
@@ -218,16 +241,17 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
 
                   <button
                     type="submit"
-                    className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#4A1521] via-[#5C1A29] to-[#3B0E19] text-white text-sm font-semibold hover:from-[#5C1A29] hover:to-[#4A1521] shadow-lg transition-all flex items-center justify-center gap-2 border border-amber-400/30 mt-2"
+                    disabled={loading}
+                    className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#4A1521] via-[#5C1A29] to-[#3B0E19] text-white text-sm font-semibold hover:from-[#5C1A29] hover:to-[#4A1521] shadow-lg transition-all flex items-center justify-center gap-2 border border-amber-400/30 mt-2 disabled:opacity-60"
                   >
-                    <span>Get Verification Code</span>
-                    <ArrowRight className="size-4 text-[var(--gold)]" />
+                    <span>{loading ? "Sending OTP..." : "Get Verification Code"}</span>
+                    {!loading && <ArrowRight className="size-4 text-[var(--gold)]" />}
                   </button>
                 </form>
               ) : (
                 <form onSubmit={handleVerifyOtp} className="space-y-4 text-center">
                   <p className="text-xs text-stone-600 font-medium">
-                    Enter 4-digit code sent to{" "}
+                    Enter 6-digit WhatsApp OTP sent to{" "}
                     <span className="text-amber-800 font-bold">
                       {method === "phone" ? `+91 ${phone || "98765 43210"}` : email}
                     </span>
@@ -258,12 +282,12 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
                           const newOtp = [...otp];
                           newOtp[idx] = val;
                           setOtp(newOtp);
-                          if (val && idx < 3) {
+                          if (val && idx < 5) {
                             const nextInput = document.getElementById(`otp-${idx + 1}`);
                             nextInput?.focus();
                           }
                         }}
-                        className="size-12 rounded-xl bg-white border border-amber-300 text-center font-bold text-xl text-stone-900 focus:outline-none focus:ring-2 focus:ring-amber-400 shadow-xs"
+                        className="size-10 sm:size-12 rounded-xl bg-white border border-amber-300 text-center font-bold text-xl text-stone-900 focus:outline-none focus:ring-2 focus:ring-amber-400 shadow-xs"
                       />
                     ))}
                   </div>
@@ -295,6 +319,7 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
           </motion.div>
         </div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }

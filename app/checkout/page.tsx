@@ -11,6 +11,7 @@ import { serviceApi, paymentApi } from "@/src/lib/api";
 import { useRazorpay } from "react-razorpay";
 import { motion, AnimatePresence } from "framer-motion";
 import { formatDate } from "@/src/lib/utils";
+import { contentApi } from "@/src/lib/api";
 import {
   Check,
   Calendar as CalendarIcon,
@@ -163,13 +164,6 @@ const addOnsData = [
   },
 ];
 
-const auspiciousDates = [
-  { date: "2026-09-22", label: "22 Sep", occasion: "Ghatasthapana" },
-  { date: "2026-09-26", label: "26 Sep", occasion: "Lalita Panchami" },
-  { date: "2026-09-29", label: "29 Sep", occasion: "Mahashtami" },
-  { date: "2026-09-30", label: "30 Sep", occasion: "Khandi Navami" },
-  { date: "2026-10-02", label: "02 Oct", occasion: "Dasara" },
-];
 
 function CheckoutForm() {
   const searchParams = useSearchParams();
@@ -183,6 +177,11 @@ function CheckoutForm() {
     queryFn: () => serviceApi.getService(pujaId),
   });
 
+  const { data: festivalDates, isLoading: isFestivalsLoading } = useQuery({
+    queryKey: ["festivalDates"],
+    queryFn: contentApi.getFestivalDates,
+  });
+
   const { Razorpay } = useRazorpay();
 
   // Fallback to static sevasData if DB service fails or loads, but use dbService if it exists
@@ -191,7 +190,7 @@ function CheckoutForm() {
     : (sevasData.find((s) => s.id === pujaId) || sevasData[0]);
   
   const todayStr = new Date().toISOString().split("T")[0];
-  const [selectedDate, setSelectedDate] = useState<string>("2026-09-22");
+  const [selectedDate, setSelectedDate] = useState<string>(todayStr);
   const [selectedAddons, setSelectedAddons] = useState<Record<string, number>>({});
 
   // Active Step State: 1 = Seva & Addons | 2 = Devotee Details
@@ -243,7 +242,7 @@ function CheckoutForm() {
   const addonsTotal = Object.values(selectedAddons).reduce((a, b) => a + b, 0);
   const totalAmount = sevasTotal + addonsTotal;
 
-  const matchedOccasion = auspiciousDates.find((d) => d.date === selectedDate)?.occasion;
+  const matchedOccasion = festivalDates?.find((d: any) => d.date === selectedDate)?.occasion;
 
   const formatReadableDate = (dateStr: string) => {
     try {
@@ -527,23 +526,27 @@ function CheckoutForm() {
 
                         {/* Quick Festival Date Chips */}
                         <div className="flex overflow-x-auto gap-1.5 pt-0.5 scrollbar-thin">
-                          {auspiciousDates.map((item) => {
-                            const active = selectedDate === item.date;
-                            return (
-                              <button
-                                type="button"
-                                key={item.date}
-                                onClick={() => setSelectedDate(item.date)}
-                                className={`shrink-0 px-2.5 py-1 rounded-lg text-[10px] font-bold border transition-all ${
-                                  active
-                                    ? "bg-amber-800 text-white border-amber-800 shadow-xs"
-                                    : "bg-white text-stone-700 border-amber-300 hover:border-amber-500"
-                                }`}
-                              >
-                                {item.label}
-                              </button>
-                            );
-                          })}
+                          {isFestivalsLoading ? (
+                            <span className="text-[10px] text-stone-500">Loading festival dates...</span>
+                          ) : (
+                            festivalDates?.map((item: any) => {
+                              const active = selectedDate === item.date;
+                              return (
+                                <button
+                                  type="button"
+                                  key={item.date}
+                                  onClick={() => setSelectedDate(item.date)}
+                                  className={`shrink-0 px-2.5 py-1 rounded-lg text-[10px] font-bold border transition-all ${
+                                    active
+                                      ? "bg-amber-800 text-white border-amber-800 shadow-xs"
+                                      : "bg-white text-stone-700 border-amber-300 hover:border-amber-500"
+                                  }`}
+                                >
+                                  {item.label}
+                                </button>
+                              );
+                            })
+                          )}
                         </div>
                       </div>
 

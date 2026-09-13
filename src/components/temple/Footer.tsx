@@ -78,6 +78,8 @@ export function Footer() {
           <ul className="mt-3 space-y-2 text-xs">
             {[
               { label: "About Mandir", href: "/about" },
+              { label: "Temple History", href: "/temple-history" },
+              { label: "Darshan Timings", href: "/darshan-timings" },
               { label: "Daily Rituals", href: "/rituals" },
               { label: "Photo Gallery", href: "/gallery" },
               { label: "Festivals & Utsavs", href: "/festivals" },
@@ -99,8 +101,11 @@ export function Footer() {
           </div>
           <ul className="mt-3 space-y-2 text-xs">
             {[
-              { label: "Online Puja Booking", href: "/#book-puja" },
-              { label: "Daily Rituals & Aarti", href: "/rituals" },
+              { label: "Online Puja Booking", href: "/online-puja" },
+              { label: "Book by Puja / Seva", href: "/#book-puja" },
+              { label: "Prasadam Home Delivery", href: "/prasadam" },
+              { label: "FAQs for Devotees", href: "/faq" },
+              { label: "How to Reach Temple", href: "/how-to-reach" },
               { label: "My Seva Bookings", href: "/bookings" },
               { label: "My Profile Account", href: "/profile" },
               { label: "Annadan & Gou Seva", href: "/#donate" },

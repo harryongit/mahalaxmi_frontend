@@ -24,6 +24,8 @@ import { Particles, Reveal, SectionEyebrow } from "./effects";
 import { useQuery } from "@tanstack/react-query";
 import { contentApi, serviceApi } from "@/src/lib/api";
 
+import { TestimonialForm } from "@/src/components/temple/TestimonialForm";
+
 /* ----------------------- ABOUT ----------------------- */
 export function About() {
   const ref = useRef<HTMLDivElement>(null);
@@ -719,6 +721,9 @@ export function Testimonials() {
         <h2 className="font-serif text-[clamp(2rem,4vw,3.25rem)] mt-6 leading-[1.05]">
           A thousand journeys, <span className="text-gradient-gold">one sanctuary.</span>
         </h2>
+        <div className="mt-8">
+          <TestimonialForm />
+        </div>
       </div>
       <div className="mt-14 relative">
         <div className="absolute inset-y-0 left-0 w-32 z-10 bg-gradient-to-r from-background to-transparent pointer-events-none" />

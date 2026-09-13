@@ -15,6 +15,7 @@ const links = [
   { label: "Gallery", href: "/gallery" },
   { label: "Festivals", href: "/festivals" },
   { label: "Contact", href: "/contact" },
+  { label: "Donate", href: "/donate" },
 ];
 
 export function Navbar() {

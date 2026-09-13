@@ -126,10 +126,15 @@ export async function apiRequest<T = any>(
 }
 
 export const authApi = {
-  login: async (phoneNumber: string) => {
-    const data = await apiFetch<{ message: string; user_id: number; access_token: string }>('/auth/login', {
+  requestOtp: (phoneNumber: string) =>
+    apiFetch<any>('/auth/request-otp', {
       method: 'POST',
       body: { phone_number: phoneNumber },
+    }),
+  login: async (phoneNumber: string, otp: string) => {
+    const data = await apiFetch<{ message: string; user_id: number; access_token: string }>('/auth/login', {
+      method: 'POST',
+      body: { phone_number: phoneNumber, otp },
     });
     if (typeof window !== "undefined" && data?.access_token) {
       localStorage.setItem("access_token", data.access_token);
@@ -186,8 +191,11 @@ export const contentApi = {
   getGallery: () => apiFetch<any[]>('/content/gallery'),
   getRituals: () => apiFetch<any[]>('/content/rituals'),
   getEvents: () => apiFetch<any[]>('/content/events'),
+  getFestivalDates: () => apiFetch<any[]>('/content/festival-dates'),
   getTestimonials: () => apiFetch<any[]>('/content/testimonials'),
   getSettings: () => apiFetch<any>('/content/settings'),
+  createDonation: (data: any) => apiFetch<any>('/content/donations', { method: 'POST', body: data }),
+  createTestimonial: (data: any) => apiFetch<any>('/content/testimonials', { method: 'POST', body: data }),
 };
 
 export const serviceApi = {
