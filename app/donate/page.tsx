@@ -82,9 +82,11 @@ export default function DonatePage() {
       <Navbar />
       
       <PageHero 
-        title="Make a Sacred Donation" 
-        subtitle="Support the Ambabai Mahalaxmi Mandir and receive divine blessings"
-        image="https://images.unsplash.com/photo-1609766857041-ed402ea8069a?q=80&w=1200"
+        breadcrumb="Donate"
+        badge="Temple Seva"
+        title="Make a Sacred"
+        titleGold="Donation"
+        description="Support the Ambabai Mahalaxmi Mandir and receive divine blessings"
       />
 
       <div className="container-temple max-w-2xl mx-auto -mt-10 relative z-10">
