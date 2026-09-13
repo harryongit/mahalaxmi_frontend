@@ -11,6 +11,7 @@ import { UserDropdown } from "./UserDropdown";
 const links = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
+  { label: "Online Puja", href: "/online-puja" },
   { label: "Rituals", href: "/rituals" },
   { label: "Gallery", href: "/gallery" },
   { label: "Festivals", href: "/festivals" },

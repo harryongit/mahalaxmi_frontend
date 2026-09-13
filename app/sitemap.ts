@@ -14,6 +14,7 @@ const STATIC_ROUTES: { path: string; changeFrequency: MetadataRoute.Sitemap[numb
   { path: "/online-puja", changeFrequency: "weekly", priority: 0.9 },
   { path: "/prasadam", changeFrequency: "monthly", priority: 0.6 },
   { path: "/faq", changeFrequency: "monthly", priority: 0.6 },
+  { path: "/donate", changeFrequency: "monthly", priority: 0.7 },
   { path: "/privacy-policy", changeFrequency: "yearly", priority: 0.3 },
   { path: "/terms-and-conditions", changeFrequency: "yearly", priority: 0.3 },
   { path: "/cookie-policy", changeFrequency: "yearly", priority: 0.3 },
