@@ -29,7 +29,7 @@ export function AboutHeroCanvas() {
     
     for (let i = 1; i <= FRAME_COUNT; i++) {
       const img = new Image();
-      img.src = `/temple-frames/ezgif-frame-${pad(i)}.jpg`;
+      img.src = `/temple-frames/ezgif-frame-${pad(i)}_cleaned.jpg`;
       img.onload = () => {
         loadedCount++;
         if (loadedCount === FRAME_COUNT) {
