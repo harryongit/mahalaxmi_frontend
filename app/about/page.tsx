@@ -29,10 +29,10 @@ export default function AboutPage() {
         </p>
         <div className="space-y-6 text-sm sm:text-base text-stone-700 leading-relaxed max-w-2xl mx-auto text-left">
           <p>
-            Shri Mahalaxmi Mandir in Kolhapur is one of the most sacred Shakti Peethas in India, dedicated to Goddess Mahalaxmi (Ambabai). Built originally during the Chalukya period in the 7th century CE, the temple has been expanded over centuries by various dynasties including the Shilahara, Yadava, and Maratha rulers.
+            Shri Mahalaxmi Mandir in Kolhapur is one of the most sacred Shakti Peethas in India, dedicated to Goddess Mahalaxmi (Ambabai). Built originally during the Chalukya period in the 7th century CE, the <Link href="/temple-history" className="text-amber-900 font-bold underline">temple has been expanded over centuries</Link> by various dynasties including the Shilahara, Yadava, and Maratha rulers.
           </p>
           <p>
-            It holds immense importance in Hindu tradition, standing as an enduring symbol of spiritual devotion, cultural heritage, and incredible ancient architectural mastery. The temple remains a living, breathing space where centuries-old traditions are performed every single day without interruption.
+            It holds immense importance in Hindu tradition, standing as an enduring symbol of spiritual devotion, cultural heritage, and incredible ancient architectural mastery. The temple remains a living, breathing space where centuries-old <Link href="/darshan-timings" className="text-amber-900 font-bold underline">traditions and daily aartis</Link> are performed every single day without interruption.
           </p>
         </div>
       </section>
@@ -244,7 +244,7 @@ export default function AboutPage() {
       <section className="py-24 px-4 text-center bg-amber-50">
         <h2 className="font-serif text-3xl sm:text-4xl text-amber-950 mb-6">Experience the Divine</h2>
         <Link
-          href="/services"
+          href="/online-puja"
           className="inline-block bg-amber-900 text-white px-8 py-3 rounded-full text-sm uppercase tracking-widest font-bold hover:bg-amber-950 transition-colors"
         >
           Book a Seva

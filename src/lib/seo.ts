@@ -1,11 +1,11 @@
 export const SITE_NAME = "Ambabai Mahalaxmi Temple, Kolhapur";
 export const SITE_TITLE =
-  "Shri Mahalakshmi Ambabai Temple Kolhapur – Online Puja, Darshan Timings & Seva Booking";
+  "Ambabai Mahalaxmi Temple Kolhapur - Online Puja & Seva";
 
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.ambabaimahalaxmi.com").replace(/\/+$/, "");
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://ambabaimahalaxmi.com";
 
 export const SITE_DESCRIPTION =
-  "Official online platform of Shri Mahalakshmi (Ambabai) Temple Kolhapur. Book online puja & seva, check darshan and aarti timings, explore festivals, temple history, and how to reach Kolhapur Mahalaxmi Mandir.";
+  "Official portal of Karveer Nivasini Ambabai Mahalaxmi Temple Kolhapur. Book online puja & seva, check darshan timings, and explore temple history.";
 
 export const TEMPLE_ADDRESS = {
   streetAddress: "Mahalaxmi Temple Road, Bava Ganapati Galli",

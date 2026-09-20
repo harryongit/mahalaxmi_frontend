@@ -84,9 +84,9 @@ export default function DonatePage() {
       <PageHero 
         breadcrumb="Donate"
         badge="Temple Seva"
-        title="Make a Sacred"
-        titleGold="Donation"
-        description="Support the Ambabai Mahalaxmi Mandir and receive divine blessings"
+        title="Make a Sacred Donation to"
+        titleGold="Karveer Nivasini Ambabai"
+        description="Support the Karveer Nivasini Ambabai Mahalaxmi Mandir through your generous dan (donation) and receive divine blessings"
       />
 
       <div className="container-temple max-w-2xl mx-auto -mt-10 relative z-10">

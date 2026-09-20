@@ -8,15 +8,15 @@ import { SITE_URL, SITE_NAME, TEMPLE_ADDRESS } from "@/src/lib/seo";
 import { Clock, Sunrise, Sunset, Moon, Flame, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Darshan Timings & Aarti Schedule – Mahalaxmi Temple Kolhapur",
+  title: "Karveer Nivasini Ambabai Darshan Timings & Aarti Schedule – Kolhapur",
   description:
-    "Complete darshan timings and aarti schedule of Shri Mahalakshmi (Ambabai) Temple Kolhapur — morning and evening darshan hours, all 5 daily aartis, and special festival timings.",
+    "Complete darshan timings (अंबाबाई दर्शन वेळ / darshan samay) and aarti schedule of Karveer Nivasini Shri Mahalakshmi Temple Kolhapur — morning and evening hours.",
   alternates: { canonical: "/darshan-timings" },
   openGraph: {
     type: "website",
-    title: "Darshan Timings & Aarti Schedule – Mahalaxmi Temple Kolhapur",
+    title: "Karveer Nivasini Ambabai Darshan Timings & Aarti Schedule – Kolhapur",
     description:
-      "Temple opening hours, 5 daily aarti timings and festival darshan schedule at Shri Mahalaxmi Mandir Kolhapur.",
+      "Temple opening hours, 5 daily aarti timings (आरती वेळ) and festival darshan schedule at Shri Mahalaxmi Mandir Kolhapur.",
     url: `${SITE_URL}/darshan-timings`,
   },
 };
@@ -53,9 +53,9 @@ export default function DarshanTimingsPage() {
         <PageHero
           breadcrumb="Darshan Timings"
           badge="Open All 7 Days"
-          title="Darshan & Aarti"
-          titleGold="Timings"
-          description="Plan your visit to Shri Mahalakshmi (Ambabai) Temple Kolhapur with our complete daily darshan schedule and all five aarti timings."
+          title="Karveer Nivasini Ambabai"
+          titleGold="Darshan Timings"
+          description="Plan your visit to Shri Mahalakshmi (Ambabai) Temple Kolhapur with our complete daily darshan schedule (अंबाबाई दर्शन वेळ) and all five aarti timings (आरती वेळ)."
         />
 
         <main className="flex-1 py-12 px-4 sm:px-6 max-w-5xl mx-auto w-full space-y-12">
@@ -64,8 +64,8 @@ export default function DarshanTimingsPage() {
               Temple Opening Hours
             </h2>
             <p className="text-center text-stone-600 text-sm max-w-2xl mx-auto mt-3">
-              The temple opens twice daily for darshan. During festival seasons and on auspicious
-              days, timings are extended.
+              Is Mahalaxmi temple open today? Yes, the temple opens twice daily for darshan, 7 days a week. During festival seasons and on auspicious
+              days, Kolhapur Mahalaxmi temple timings are extended.
             </p>
             <div className="mt-8 overflow-hidden rounded-2xl border border-stone-200 shadow-sm">
               <table className="w-full text-sm text-left">
@@ -88,8 +88,8 @@ export default function DarshanTimingsPage() {
               </table>
             </div>
             <p className="text-xs text-stone-500 mt-3">
-              Note: Regular darshan is free. VIP priority darshan passes and special assistance
-              passes for senior citizens are available for advance booking.
+              Note: Regular darshan is free. If you are looking for a Mahalaxmi temple Kolhapur VIP pass, priority darshan passes and special assistance
+              passes for senior citizens are available for advance online booking.
             </p>
           </section>
 

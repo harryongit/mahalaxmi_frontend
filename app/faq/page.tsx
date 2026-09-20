@@ -8,15 +8,15 @@ import { SITE_URL } from "@/src/lib/seo";
 import { HelpCircle, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "FAQs – Online Puja, Darshan & Seva at Mahalaxmi Temple Kolhapur",
+  title: "FAQs – Karveer Nivasini Ambabai Mahalaxmi Temple Kolhapur",
   description:
-    "Answers to the most common questions about online puja booking, darshan timings, prasadam delivery, Rainbow verification and seva at Shri Mahalakshmi (Ambabai) Temple Kolhapur.",
+    "Answers to the most common questions about online puja booking, darshan timings (अंबाबाई दर्शन वेळ), prasadam delivery, and seva at Karveer Nivasini Shri Mahalakshmi Temple Kolhapur.",
   alternates: { canonical: "/faq" },
   openGraph: {
     type: "website",
-    title: "FAQs – Mahalaxmi Temple Kolhapur",
+    title: "FAQs – Karveer Nivasini Ambabai Temple Kolhapur",
     description:
-      "Frequently asked questions about online puja, darshan timings and seva booking at Ambabai Mahalaxmi Temple.",
+      "Frequently asked questions (mahalaxmi mandir prashna) about online puja, darshan timings and seva booking at Shree Karveer Niwasini Ambabai Mahalaxmi Temple.",
     url: `${SITE_URL}/faq`,
   },
 };
@@ -58,6 +58,10 @@ const faqs = [
     q: "Is there a VIP darshan pass to avoid long queues?",
     a: "Yes, we offer a VIP Priority Darshan Pass for a small fee which lets you skip the regular queue for a peaceful darshan. A special assisted-entry pass is also available for senior citizens, pregnant women and infants.",
   },
+  {
+    q: "What is the Shree Ambabai Mahalaxmi Temple Kolhapur dress code?",
+    a: "Devotees are requested to wear traditional and modest clothing. Shorts, mini-skirts, and revealing clothes are strictly not allowed inside the temple premises.",
+  },
 ];
 
 export default function FaqPage() {
@@ -81,7 +85,7 @@ export default function FaqPage() {
           badge="Need Help?"
           title="Frequently Asked"
           titleGold="Questions"
-          description="Everything you need to know about online puja booking, darshan timings, prasadam delivery and seva at Shri Ambabai Mahalaxmi Temple."
+          description="Everything you need to know about online puja booking, darshan timings, prasadam delivery and seva at Shree Karveer Niwasini Ambabai Mahalaxmi Temple Kolhapur."
         />
 
         <main className="flex-1 py-12 px-4 sm:px-6 max-w-3xl mx-auto w-full space-y-4">

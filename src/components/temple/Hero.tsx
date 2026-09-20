@@ -156,7 +156,7 @@ export function Hero() {
           transition={{ delay: 0.55, duration: 1, ease: [0.2, 0.7, 0.2, 1] }}
           className="font-serif mt-6 text-[clamp(3rem,9vw,8rem)] leading-[0.95] tracking-tight"
         >
-          Ambabai <span className="text-gradient-gold">Mahalaxmi</span>
+          Ambabai <span className="text-gradient-gold">Mahalaxmi Temple</span>
         </motion.h1>
 
         <motion.p

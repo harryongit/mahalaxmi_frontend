@@ -8,15 +8,15 @@ import { SITE_URL } from "@/src/lib/seo";
 import { Landmark, Scroll, Shield, Crown, Sparkles, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "History of Mahalaxmi Temple Kolhapur – 1102 AD to Today",
+  title: "History of Karveer Nivasini Shree Ambabai Mahalaxmi Temple – 1102 AD to Today",
   description:
-    "The complete history of Shri Mahalakshmi (Ambabai) Temple Kolhapur — Chalukya-era foundation, Shilahara and Maratha expansions, the Swayambhu idol of Goddess Mahalaxmi, and 900 years of unbroken tradition.",
+    "The complete history (itihas) of Karveer Nivasini Shree Ambabai Mahalaxmi Temple Kolhapur — Chalukya-era foundation, Shilahara and Maratha expansions, and the Swayambhu idol.",
   alternates: { canonical: "/temple-history" },
   openGraph: {
     type: "website",
-    title: "History of Mahalaxmi Temple Kolhapur – 1102 AD to Today",
+    title: "History of Karveer Nivasini Ambabai Mahalaxmi Temple Kolhapur",
     description:
-      "From its 1102 AD foundation to the living sanctuary it is today — the full history of Shri Mahalakshmi (Ambabai) Mandir Kolhapur.",
+      "From its 1102 AD foundation to the living sanctuary it is today — the full history of Shree Karveer Niwasini Ambabai Mahalaxmi Kolhapur.",
     url: `${SITE_URL}/temple-history`,
   },
 };
@@ -81,9 +81,9 @@ export default function TempleHistoryPage() {
         <PageHero
           breadcrumb="Temple History"
           badge="900+ Years of Devotion"
-          title="History of"
-          titleGold="Shri Mahalaxmi Mandir"
-          description="From a silent Chalukya shrine to one of India's 51 Shakti Peethas — the extraordinary nine-century journey of Ambabai Temple, Kolhapur."
+          title="History of Karveer Nivasini"
+          titleGold="Ambabai Mahalaxmi"
+          description="From a silent Chalukya shrine to one of India's 51 Shakti Peethas — the extraordinary nine-century journey (itihas) of Karveer Nivasini Ambabai Temple, Kolhapur."
         />
 
         <main className="flex-1 py-12 px-4 sm:px-6 max-w-5xl mx-auto w-full space-y-12">
@@ -92,8 +92,8 @@ export default function TempleHistoryPage() {
               One of the 51 Shakti Peethas
             </h2>
             <p>
-              Shri Mahalaxmi Mandir in Kolhapur is one of the most sacred Shakti Peethas in all of
-              India, dedicated to Goddess Mahalaxmi in Her form as <strong>Ambabai</strong>. The
+              Shree Karveer Niwasini Ambabai Mahalaxmi Kolhapur is one of the most sacred Shakti Peethas in all of
+              India, dedicated to Goddess Mahalaxmi in Her form as <strong>Karveer Nivasini Ambabai</strong>. The
               temple is one of the six great Mahalaxmi temples of the country and is widely held to
               be the most important of them.
             </p>

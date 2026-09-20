@@ -28,6 +28,10 @@ export const metadata: Metadata = {
   keywords: [
     "Mahalaxmi temple Kolhapur",
     "Ambabai temple",
+    "karveer nivasini shree ambabai mahalaxmi",
+    "shree karveer niwasini ambabai mahalaxmi kolhapur",
+    "mahalaxmi karveer nivasini",
+    "karvir nivasini ambabai",
     "online puja booking Kolhapur",
     "Mahalaxmi puja online",
     "darshan timings Kolhapur Mahalaxmi",

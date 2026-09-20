@@ -8,15 +8,15 @@ import { SITE_URL, TEMPLE_ADDRESS } from "@/src/lib/seo";
 import { Plane, Train, Bus, Car, MapPin, Clock, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "How to Reach Mahalaxmi Temple Kolhapur – By Air, Train & Road",
+  title: "How to Reach Karveer Nivasini Ambabai Mahalaxmi Temple Kolhapur",
   description:
-    "Complete travel guide to Shri Mahalakshmi (Ambabai) Temple Kolhapur — nearest airport (Kolhapur/Pune), railway station, bus stand, distance from city centre, parking and darshan tips.",
+    "Complete travel guide to Karveer Nivasini Shree Mahalakshmi (Ambabai) Temple Kolhapur — nearest airport, railway station, bus stand, and driving directions.",
   alternates: { canonical: "/how-to-reach" },
   openGraph: {
     type: "website",
-    title: "How to Reach Mahalaxmi Temple Kolhapur",
+    title: "How to Reach Karveer Nivasini Ambabai Mahalaxmi Temple Kolhapur",
     description:
-      "Directions to Shri Mahalaxmi Mandir Kolhapur by air, rail and road, with distance from the city and travel tips.",
+      "Directions to Shree Karveer Niwasini Ambabai Mahalaxmi Kolhapur by air, rail and road, with travel tips.",
     url: `${SITE_URL}/how-to-reach`,
   },
 };
@@ -33,9 +33,9 @@ const modes = [
   {
     icon: Train,
     title: "By Train",
-    name: "Kolhapur Railway Station (Chhatrapati Shahu Maharaj Terminus)",
+    name: "Kolhapur Railway Station (Nearest Railway Station)",
     detail:
-      "Direct trains connect Kolhapur with Mumbai, Pune, Bengaluru, Solapur and Miraj. The station is ~3 km from the temple — an auto-rickshaw or taxi ride of about 10 minutes.",
+      "Direct trains connect Kolhapur with Mumbai, Pune, Bengaluru, Solapur and Miraj. The Shree Ambabai Mahalaxmi Temple Kolhapur nearest railway station is Chhatrapati Shahu Maharaj Terminus (KOP) — an auto-rickshaw or taxi ride of about 10 minutes (~3 km).",
     time: "10 min by auto",
   },
   {
@@ -51,8 +51,8 @@ const modes = [
     title: "By Car",
     name: "National Highways NH-48 & NH-166",
     detail:
-      "Kolhapur is well connected by highway — ~375 km from Mumbai, ~230 km from Pune and ~120 km from Belgaum. Temple parking is available in the area around the southern courtyard.",
-    time: "Parking available",
+      "Kolhapur is well connected by highway — ~375 km from Mumbai, ~230 km from Pune and ~120 km from Belgaum. For those driving, Shree Ambabai Mahalaxmi Temple Kolhapur parking is available in the designated pay-and-park area near the southern courtyard (Vidyapeeth High School ground). Note: Mahalaxmi Ambabai to Jyotiba Temple distance is about 21 km (approx 45 mins by car).",
+    time: "Parking available nearby",
   },
 ];
 
@@ -77,9 +77,9 @@ export default function HowToReachPage() {
         <PageHero
           breadcrumb="How to Reach"
           badge="Kolhapur · Maharashtra"
-          title="Find Your Way to the"
-          titleGold="Sanctuary"
-          description="Shri Mahalaxmi Mandir sits in the very heart of Kolhapur. Here is every way to reach it — by air, train, bus or road."
+          title="Find Your Way to Karveer Nivasini"
+          titleGold="Ambabai Mahalaxmi"
+          description="Shree Karveer Niwasini Ambabai Mahalaxmi Kolhapur sits in the very heart of the city. Here is every way to reach it — by air, train, bus or road."
         />
 
         <main className="flex-1 py-12 px-4 sm:px-6 max-w-5xl mx-auto w-full space-y-12">

@@ -32,7 +32,7 @@ const sevasData = [
     id: "s1",
     category: "Pooja",
     title: "Kumkumarchan Seva",
-    subtitle: "Sacred Saffron & Vermillion Offering",
+    subtitle: "Sacred Saffron & Vermilion Offering",
     price: 551,
     time: "Daily • 07:00 AM & 05:00 PM",
     image: "https://images.unsplash.com/photo-1609766857041-ed402ea8069a?q=80&w=800",

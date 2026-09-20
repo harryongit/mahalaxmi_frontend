@@ -43,12 +43,12 @@ const sevasData = [
   {
     id: "s1",
     title: "Kumkumarchan Seva",
-    subtitle: "Sacred Saffron & Vermillion Offering",
+    subtitle: "Sacred Saffron & Vermilion Offering",
     price: 551,
     time: "Daily • 07:00 AM & 05:00 PM",
     deity: "Goddess Ambabai Mahalaxmi",
     image: "https://images.unsplash.com/photo-1609766857041-ed402ea8069a?q=80&w=800",
-    description: "Recitation of 1000 holy names of Divine Mother Mahalaxmi while offering pure saffron-blessed vermillion powder to Her divine lotus feet.",
+    description: "Recitation of 1000 holy names of Divine Mother Mahalaxmi while offering pure saffron-blessed vermilion powder to Her divine lotus feet.",
     benefits: [
       { title: "Financial Abundance", desc: "Attracts prosperous growth in business and wealth." },
       { title: "Family Protection", desc: "Bestows family immunity, health & divine grace." },

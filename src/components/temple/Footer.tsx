@@ -84,6 +84,7 @@ export function Footer() {
               { label: "Photo Gallery", href: "/gallery" },
               { label: "Festivals & Utsavs", href: "/festivals" },
               { label: "Navratri Mahotsav", href: "/navratri" },
+              { label: "Nearby Places to Visit", href: "/nearby-attractions" },
               { label: "Contact Helpline", href: "/contact" },
             ].map((l) => (
               <li key={l.label}>
@@ -102,14 +103,19 @@ export function Footer() {
           </div>
           <ul className="mt-3 space-y-2 text-xs">
             {[
+              { label: "VIP Darshan E-Pass", href: "/vip-darshan" },
               { label: "Online Puja Booking", href: "/online-puja" },
               { label: "Book by Puja / Seva", href: "/#book-puja" },
               { label: "Prasadam Home Delivery", href: "/prasadam" },
+              { label: "Aaj Ka Panchang", href: "/panchang" },
+              { label: "Kundli Generator", href: "/kundli" },
+              { label: "Sacred Mantras", href: "/mantras" },
+              { label: "108 Names of Devi", href: "/108-names" },
+              { label: "Accommodation & Stay", href: "/accommodation" },
+              { label: "Temple Parking Guide", href: "/parking" },
               { label: "FAQs for Devotees", href: "/faq" },
               { label: "How to Reach Temple", href: "/how-to-reach" },
-              { label: "Temples in Kolhapur", href: "/temples-in-kolhapur" },
               { label: "My Seva Bookings", href: "/bookings" },
-              { label: "My Profile Account", href: "/profile" },
               { label: "Annadan & Gou Seva", href: "/#donate" },
             ].map((item) => (
               <li key={item.label}>

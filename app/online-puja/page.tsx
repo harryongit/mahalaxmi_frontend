@@ -8,15 +8,15 @@ import { SITE_URL } from "@/src/lib/seo";
 import { Flame, ArrowRight, Sparkles, Award, Heart, Shield } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Online Puja & Seva Booking – Mahalaxmi Temple Kolhapur",
+  title: "Online Puja & Seva Booking – Karveer Nivasini Ambabai Temple Kolhapur",
   description:
-    "Book sacred online pujas and sevas at Shri Mahalakshmi (Ambabai) Temple Kolhapur — Kumkumarchan, Abhishek, Havan, VIP darshan and festival sevas. Prasadam delivered to your home.",
+    "Book sacred online pujas (online pooja booking) and sevas at Karveer Nivasini Shree Mahalakshmi (Ambabai) Temple Kolhapur — Kumkumarchan, Abhishek, Havan, and VIP darshan.",
   alternates: { canonical: "/online-puja" },
   openGraph: {
     type: "website",
-    title: "Online Puja & Seva Booking – Mahalaxmi Temple Kolhapur",
+    title: "Online Puja & Seva Booking – Karveer Nivasini Ambabai Temple Kolhapur",
     description:
-      "Book authentic Vedic pujas and sevas at Shri Ambabai Temple Kolhapur. Prasadam home delivery and WhatsApp video proof.",
+      "Book authentic Vedic pujas and sevas at Shree Karveer Niwasini Ambabai Mahalaxmi Kolhapur. Prasadam home delivery and WhatsApp video proof.",
     url: `${SITE_URL}/online-puja`,
   },
 };
@@ -26,7 +26,7 @@ const pujaCategories = [
     tag: "Pooja",
     description: "Sacred pujas performed by temple Vedic pujaris in your name with Gotra recitation.",
     items: [
-      { slug: "s1", name: "Kumkumarchan Seva", price: "₹551", desc: "Sacred saffron & vermillion offering", popular: true },
+      { slug: "s1", name: "Kumkumarchan Seva", price: "₹551", desc: "Sacred saffron & vermilion offering", popular: true },
       { slug: "s2", name: "Panchamrut Abhishek", price: "₹751", desc: "Vedic five-nectar holy bath ceremony" },
       { slug: "s3", name: "Padya Puja & Archana", price: "₹551", desc: "Traditional foot worship and 108-name archana" },
       { slug: "s4", name: "Kulachar Mahapuja", price: "₹5,001", desc: "Grand ancestral family worship" },
@@ -89,7 +89,7 @@ export default function OnlinePujaPage() {
           badge="Vedic Seva · Prasadam at Home"
           title="Online Puja &"
           titleGold="Seva Booking"
-          description="Reserve sacred Vedic pujas and sevas at Shri Ambabai Mahalaxmi Temple Kolhapur. WhatsApp video proof and consecrated prasadam delivered to your home."
+          description="Reserve sacred Vedic pujas (online pooja booking) and sevas at Karveer Nivasini Shree Ambabai Mahalaxmi Temple Kolhapur. WhatsApp video proof and consecrated prasadam delivered to your home."
         />
 
         <main className="flex-1 py-12 px-4 sm:px-6 max-w-5xl mx-auto w-full space-y-12">
