@@ -1,0 +1,40 @@
+diff --git a/node_modules/kundli-generator/dist/kundli-generator.js b/node_modules/kundli-generator/dist/kundli-generator.js
+index 1f3d136..0d2e0af 100644
+--- a/node_modules/kundli-generator/dist/kundli-generator.js
++++ b/node_modules/kundli-generator/dist/kundli-generator.js
+@@ -5,7 +5,7 @@ var ht;
+ function oa() {
+   if (ht) return Ie;
+   ht = 1;
+-  var a = Tt, n = /* @__PURE__ */ Symbol.for("react.element"), l = /* @__PURE__ */ Symbol.for("react.fragment"), d = Object.prototype.hasOwnProperty, o = a.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner, p = { key: !0, ref: !0, __self: !0, __source: !0 };
++  var a = Tt, n = /* @__PURE__ */ Symbol.for("react.element"), l = /* @__PURE__ */ Symbol.for("react.fragment"), d = Object.prototype.hasOwnProperty, o = (a.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED || {}).ReactCurrentOwner || {current: null}, p = { key: !0, ref: !0, __self: !0, __source: !0 };
+   function f(u, c, b) {
+     var h, _ = {}, x = null, E = null;
+     b !== void 0 && (x = "" + b), c.key !== void 0 && (x = "" + c.key), c.ref !== void 0 && (E = c.ref);
+@@ -26,7 +26,7 @@ function ca() {
+       var i = j && t[j] || t[k];
+       return typeof i == "function" ? i : null;
+     }
+-    var R = a.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
++    var R = a.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED || {};
+     function y(t) {
+       {
+         for (var i = arguments.length, m = new Array(i > 1 ? i - 1 : 0), v = 1; v < i; v++)
+@@ -347,7 +347,7 @@ function ca() {
+       if (Wt(t))
+         return y("The provided key is an unsupported type %s. This value must be coerced to a string before before using it here.", Ut(t)), tt(t);
+     }
+-    var nt = R.ReactCurrentOwner, qt = {
++    var nt = R.ReactCurrentOwner || {current: null}, qt = {
+       key: !0,
+       ref: !0,
+       __self: !0,
+@@ -441,7 +441,7 @@ function ca() {
+         return zt(t, N, J, I, v, nt.current, T);
+       }
+     }
+-    var We = R.ReactCurrentOwner, st = R.ReactDebugCurrentFrame;
++    var We = R.ReactCurrentOwner || {current: null}, st = R.ReactDebugCurrentFrame || {setExtraStackFrame: function(){}};
+     function xe(t) {
+       if (t) {
+         var i = t._owner, m = Le(t.type, t._source, i ? i.type : null);
