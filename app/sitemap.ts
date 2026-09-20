@@ -21,6 +21,14 @@ const STATIC_ROUTES: { path: string; changeFrequency: MetadataRoute.Sitemap[numb
   { path: "/terms-and-conditions", changeFrequency: "yearly", priority: 0.3 },
   { path: "/cookie-policy", changeFrequency: "yearly", priority: 0.3 },
   { path: "/delete-account", changeFrequency: "yearly", priority: 0.2 },
+  { path: "/accommodation", changeFrequency: "monthly", priority: 0.7 },
+  { path: "/parking", changeFrequency: "yearly", priority: 0.7 },
+  { path: "/nearby-attractions", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/vip-darshan", changeFrequency: "monthly", priority: 0.9 },
+  { path: "/mantras", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/108-names", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/panchang", changeFrequency: "daily", priority: 0.9 },
+  { path: "/kundli", changeFrequency: "weekly", priority: 0.8 },
 ];
 
 const PUJA_SLUGS = [
