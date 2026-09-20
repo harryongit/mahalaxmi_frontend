@@ -89,7 +89,7 @@ export default function OnlinePujaPage() {
           badge="Vedic Seva · Prasadam at Home"
           title="Online Puja &"
           titleGold="Seva Booking"
-          description="Reserve sacred Vedic pujas (online pooja booking) and sevas at Karveer Nivasini Shree Ambabai Mahalaxmi Temple Kolhapur. WhatsApp video proof and consecrated prasadam delivered to your home."
+          description="Reserve sacred Vedic pujas (online pooja booking) and perform temple seva online at Karveer Nivasini Shree Ambabai Mahalaxmi Temple Kolhapur. Receive WhatsApp video proof and consecrated prasadam delivered straight to your home."
         />
 
         <main className="flex-1 py-12 px-4 sm:px-6 max-w-5xl mx-auto w-full space-y-12">

@@ -72,7 +72,7 @@ export default function DarshanTimingsPage() {
           
           <article className="prose prose-stone max-w-none prose-headings:font-serif prose-headings:text-amber-950 prose-a:text-amber-700">
             <p className="text-lg text-stone-700 leading-relaxed font-medium">
-              If you are planning a pilgrimage to Kolhapur, knowing the exact <strong>mahalaxmi temple darshan timings</strong> is essential for a peaceful and fulfilling experience. As one of the most revered Shakti Peethas in India, the temple sees thousands of devotees daily. Here is your official guide to the temple’s daily darshan and Aarti schedule, festival timings, and practical visitor information.
+              If you are planning a pilgrimage to Kolhapur, knowing the exact <strong>mahalaxmi temple darshan timings</strong> (also commonly searched as <strong>mahalaxmi darshan timings</strong>) is essential for a peaceful and fulfilling experience. As one of the most revered Shakti Peethas in India, the temple sees thousands of devotees daily. Here is your official guide to the temple’s daily schedule, <strong>ambabai aarti timings</strong>, festival extensions, and practical visitor information.
             </p>
           </article>
 

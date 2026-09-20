@@ -36,7 +36,7 @@ export default function AmbabaiTempleKolhapurPage() {
     {
       title: "1. The Swayambhu (Self-Manifested) Idol",
       icon: Sparkles,
-      content: "The heart of the temple is the magnificent four-armed idol of Goddess Mahalaxmi, believed to be Swayambhu (self-manifested). Carved in black stone, She holds a citrus fruit (mhalunga), a mace (kaumodaki), a shield (khetaka), and a bowl (panpatra).",
+      content: "The heart of the temple is the magnificent four-armed Kolhapur Ambabai idol (also reverently called the Kolhapur Ambabai murti), believed to be Swayambhu (self-manifested). Carved in black stone, She holds a citrus fruit (mhalunga), a mace (kaumodaki), a shield (khetaka), and a bowl (panpatra).",
     },
     {
       title: "2. 7th-Century Architectural Marvel",
@@ -72,7 +72,7 @@ export default function AmbabaiTempleKolhapurPage() {
           
           <article className="prose prose-stone max-w-none prose-headings:font-serif prose-headings:text-amber-950 prose-a:text-amber-700">
             <p className="text-lg text-stone-700 leading-relaxed font-medium">
-              Nestled in the historic city of Kolhapur, Maharashtra, the <strong>Shree Ambabai Temple Kolhapur</strong> (also known as the Mahalaxmi Temple) is one of the 18 Maha Shakti Peethas. Drawing millions of devotees annually, it is a spiritual epicentre vibrating with 900 years of unbroken devotion. If you are planning a pilgrimage, here is your essential guide blending rich history with practical tips to make the most of your visit.
+              Nestled in the historic city of Kolhapur, Maharashtra, the <strong>Shree Mahalakshmi Ambabai Temple Kolhapur</strong> is one of the 18 Maha Shakti Peethas. Whether you refer to it simply as <strong>Ambabai Kolhapur</strong> or seek the most revered <strong>Ambabai temple in Kolhapur</strong>, this sacred site draws millions of devotees annually. It is a spiritual epicentre vibrating with 900 years of unbroken devotion. If you are planning a pilgrimage, here is your essential guide blending rich history with practical tips to make the most of your visit.
             </p>
           </article>
 
