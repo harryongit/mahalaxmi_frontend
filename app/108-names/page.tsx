@@ -21,542 +21,542 @@ export const metadata: Metadata = {
 
 const names = [
   {
-    "sanskrit": "ॐ mahā lakṣmī नमः",
+    "sanskrit": "ॐ महा लक्ष्मी नमः",
     "transliteration": "Oṃ mahā lakṣmī namaḥ",
     "meaning": "Glory to Mahā Lakṣmī"
   },
   {
-    "sanskrit": "ॐ īśvarī नमः",
+    "sanskrit": "ॐ ईश्वरी नमः",
     "transliteration": "Oṃ īśvarī namaḥ",
     "meaning": "Glory to the Goddess"
   },
   {
-    "sanskrit": "ॐ kamalā नमः",
+    "sanskrit": "ॐ कमला नमः",
     "transliteration": "Oṃ kamalā namaḥ",
     "meaning": "Glory to the lotus [-like] (Lakṣmī)"
   },
   {
-    "sanskrit": "ॐ chālā नमः",
+    "sanskrit": "ॐ छाला नमः",
     "transliteration": "Oṃ chālā namaḥ",
     "meaning": "Glory to the moving (shaking, stirring) One"
   },
   {
-    "sanskrit": "ॐ bhūtī नमः",
+    "sanskrit": "ॐ भूती नमः",
     "transliteration": "Oṃ bhūtī namaḥ",
     "meaning": "Glory to Existence"
   },
   {
-    "sanskrit": "ॐ hari-priyā नमः",
+    "sanskrit": "ॐ हरिप्रिया नमः",
     "transliteration": "Oṃ hari-priyā namaḥ",
     "meaning": "Glory to the One who is dear to Viṣṇu"
   },
   {
-    "sanskrit": "ॐ padmā नमः",
+    "sanskrit": "ॐ पद्मा नमः",
     "transliteration": "Oṃ padmā namaḥ",
     "meaning": "Glory to the lotus [-like] (Lakṣmī)"
   },
   {
-    "sanskrit": "ॐ padmā-layā नमः",
+    "sanskrit": "ॐ पद्मालया नमः",
     "transliteration": "Oṃ padmā-layā namaḥ",
     "meaning": "Glory to the lotus-dweller"
   },
   {
-    "sanskrit": "ॐ sampat नमः",
+    "sanskrit": "ॐ सम्पत् नमः",
     "transliteration": "Oṃ sampat namaḥ",
     "meaning": "Glory to the One who is prosperity"
   },
   {
-    "sanskrit": "ॐ ucchaiḥ नमः",
+    "sanskrit": "ॐ उच्छैः नमः",
     "transliteration": "Oṃ ucchaiḥ namaḥ",
     "meaning": "Glory to the haughty/intense One"
   },
   {
-    "sanskrit": "ॐ śrī नमः",
+    "sanskrit": "ॐ श्री नमः",
     "transliteration": "Oṃ śrī namaḥ",
     "meaning": "Glory to the auspicious One (Lakṣmī)"
   },
   {
-    "sanskrit": "ॐ padmā-dhārinī नमः",
+    "sanskrit": "ॐ पद्माधारिनी नमः",
     "transliteration": "Oṃ padmā-dhārinī namaḥ",
     "meaning": "Glory to the lotus-wearer"
   },
   {
-    "sanskrit": "ॐ durgā नमः",
+    "sanskrit": "ॐ दुर्गा नमः",
     "transliteration": "Oṃ durgā namaḥ",
     "meaning": "Glory to Durgā"
   },
   {
-    "sanskrit": "ॐ ambā नमः",
+    "sanskrit": "ॐ अम्बा नमः",
     "transliteration": "Oṃ ambā namaḥ",
     "meaning": "Glory to Mother"
   },
   {
-    "sanskrit": "ॐ gaṅgā नमः",
+    "sanskrit": "ॐ गङ्गा नमः",
     "transliteration": "Oṃ gaṅgā namaḥ",
     "meaning": "Glory to Gaṅgā"
   },
   {
-    "sanskrit": "ॐ śāradā नमः",
+    "sanskrit": "ॐ शारदा नमः",
     "transliteration": "Oṃ śāradā namaḥ",
     "meaning": "Glory to Śāradā (who represents knowledge and joy)"
   },
   {
-    "sanskrit": "ॐ tārā नमः",
+    "sanskrit": "ॐ तारा नमः",
     "transliteration": "Oṃ tārā namaḥ",
     "meaning": "Glory to the liberator"
   },
   {
-    "sanskrit": "ॐ umā नमः",
+    "sanskrit": "ॐ उमा नमः",
     "transliteration": "Oṃ umā namaḥ",
     "meaning": "Glory to Umā [lit. ‘One who is Light’]"
   },
   {
-    "sanskrit": "ॐ lalitā नमः",
+    "sanskrit": "ॐ ललिता नमः",
     "transliteration": "Oṃ lalitā namaḥ",
     "meaning": "Glory to the beloved (charming/tender/playful) One"
   },
   {
-    "sanskrit": "ॐ rādhā नमः",
+    "sanskrit": "ॐ राधा नमः",
     "transliteration": "Oṃ rādhā namaḥ",
     "meaning": "Glory to Rādhā [lit. ‘prosperity’, ‘success’]"
   },
   {
-    "sanskrit": "ॐ sītā नमः",
+    "sanskrit": "ॐ सीता नमः",
     "transliteration": "Oṃ sītā namaḥ",
     "meaning": "Glory to Sītā"
   },
   {
-    "sanskrit": "ॐ jagan-mātā नमः",
+    "sanskrit": "ॐ जगन्माता नमः",
     "transliteration": "Oṃ jagan-mātā namaḥ",
     "meaning": "Glory to the Universal Mother"
   },
   {
-    "sanskrit": "ॐ giri-jā नमः",
+    "sanskrit": "ॐ गिरिजा नमः",
     "transliteration": "Oṃ giri-jā namaḥ",
     "meaning": "Glory to the mountain-born"
   },
   {
-    "sanskrit": "ॐ śyāmā नमः",
+    "sanskrit": "ॐ श्यामा नमः",
     "transliteration": "Oṃ śyāmā namaḥ",
     "meaning": "Glory to the dark[-coloured] One"
   },
   {
-    "sanskrit": "ॐ eka-jātā नमः",
+    "sanskrit": "ॐ एकजाता नमः",
     "transliteration": "Oṃ eka-jātā namaḥ",
     "meaning": "Glory to the single creation/origin (‘One and only’)"
   },
   {
-    "sanskrit": "ॐ guru-guhā नमः",
+    "sanskrit": "ॐ गुरुगुहा नमः",
     "transliteration": "Oṃ guru-guhā namaḥ",
     "meaning": "Glory to the refuge of gurus"
   },
   {
-    "sanskrit": "ॐ anna-pūrṇā नमः",
+    "sanskrit": "ॐ अन्नपूर्णा नमः",
     "transliteration": "Oṃ anna-pūrṇā namaḥ",
     "meaning": "Glory to the food-filled One"
   },
   {
-    "sanskrit": "ॐ nīla-sarasvatī नमः",
+    "sanskrit": "ॐ नीलसरस्वती नमः",
     "transliteration": "Oṃ nīla-sarasvatī namaḥ",
     "meaning": "Glory to the dark-blue Sarasvatī (a fierce aspect of Tārā)"
   },
   {
-    "sanskrit": "ॐ śākam-bharī नमः",
+    "sanskrit": "ॐ शाकम्भरी नमः",
     "transliteration": "Oṃ śākam-bharī namaḥ",
     "meaning": "Glory to the herb/vegetable nourisher"
   },
   {
-    "sanskrit": "ॐ mahā-devī नमः",
+    "sanskrit": "ॐ महादेवी नमः",
     "transliteration": "Oṃ mahā-devī namaḥ",
     "meaning": "Glory to the Great Goddess"
   },
   {
-    "sanskrit": "ॐ brahmāṇī नमः",
+    "sanskrit": "ॐ ब्रह्माणी नमः",
     "transliteration": "Oṃ brahmāṇī namaḥ",
     "meaning": "Glory to the female Brahmā (Sarasvatī)"
   },
   {
-    "sanskrit": "ॐ rudrāṇī नमः",
+    "sanskrit": "ॐ रुद्राणी नमः",
     "transliteration": "Oṃ rudrāṇī namaḥ",
     "meaning": "Glory to the female Rudra (Durgā)"
   },
   {
-    "sanskrit": "ॐ vaiṣṇavī नमः",
+    "sanskrit": "ॐ वैष्णवी नमः",
     "transliteration": "Oṃ vaiṣṇavī namaḥ",
     "meaning": "Glory to the female Viṣṇu (Lakṣmī)"
   },
   {
-    "sanskrit": "ॐ nārāyaṇī नमः",
+    "sanskrit": "ॐ नारायणी नमः",
     "transliteration": "Oṃ nārāyaṇī namaḥ",
     "meaning": "Glory to the refuge of mankind"
   },
   {
-    "sanskrit": "ॐ mohinī नमः",
+    "sanskrit": "ॐ मोहिनी नमः",
     "transliteration": "Oṃ mohinī namaḥ",
     "meaning": "Glory to the deceiver (Viṣṇu took a female form to trick demons)"
   },
   {
-    "sanskrit": "ॐ ūrvaśī नमः",
+    "sanskrit": "ॐ ऊर्वशी नमः",
     "transliteration": "Oṃ ūrvaśī namaḥ",
     "meaning": "Glory to the immense One (Personification of the Dawn)"
   },
   {
-    "sanskrit": "ॐ varāhī नमः",
+    "sanskrit": "ॐ वराही नमः",
     "transliteration": "Oṃ varāhī namaḥ",
     "meaning": "Glory to the boar (female Varāha – the 3rd Avatāra of Viṣṇu)"
   },
   {
-    "sanskrit": "ॐ sundarī नमः",
+    "sanskrit": "ॐ सुन्दरी नमः",
     "transliteration": "Oṃ sundarī namaḥ",
     "meaning": "Glory to the beautiful One"
   },
   {
-    "sanskrit": "ॐ jananī नमः",
+    "sanskrit": "ॐ जननी नमः",
     "transliteration": "Oṃ jananī namaḥ",
     "meaning": "Glory to Mother [lit. ‘birth giver’]"
   },
   {
-    "sanskrit": "ॐ nāra-siṃhī नमः",
+    "sanskrit": "ॐ नारसिंही नमः",
     "transliteration": "Oṃ nāra-siṃhī namaḥ",
     "meaning": "Glory to the female Nāra-siṃha (Man-lion)"
   },
   {
-    "sanskrit": "ॐ hara-siddhī नमः",
+    "sanskrit": "ॐ हरसिद्धी नमः",
     "transliteration": "Oṃ hara-siddhī namaḥ",
     "meaning": "Glory to the ability of the destroyer (Śiva)"
   },
   {
-    "sanskrit": "ॐ mahā-rātri नमः",
+    "sanskrit": "ॐ महारात्रि नमः",
     "transliteration": "Oṃ mahā-rātri namaḥ",
     "meaning": "Glory to the great-night"
   },
   {
-    "sanskrit": "ॐ kāla-rātri नमः",
+    "sanskrit": "ॐ कालरात्रि नमः",
     "transliteration": "Oṃ kāla-rātri namaḥ",
     "meaning": "Glory to the black-night"
   },
   {
-    "sanskrit": "ॐ padmā-vatī नमः",
+    "sanskrit": "ॐ पद्मावती नमः",
     "transliteration": "Oṃ padmā-vatī namaḥ",
     "meaning": "Glory to the lotus-bearer"
   },
   {
-    "sanskrit": "ॐ śiva-dūtī नमः",
+    "sanskrit": "ॐ शिवदूती नमः",
     "transliteration": "Oṃ śiva-dūtī namaḥ",
     "meaning": "Glory to Śiva’s messenger"
   },
   {
-    "sanskrit": "ॐ śaila-putrī नमः",
+    "sanskrit": "ॐ शैलपुत्री नमः",
     "transliteration": "Oṃ śaila-putrī namaḥ",
     "meaning": "Glory to the daughter of the mountain"
   },
   {
-    "sanskrit": "ॐ siṃha-vāhinī नमः",
+    "sanskrit": "ॐ सिंहवाहिनी नमः",
     "transliteration": "Oṃ siṃha-vāhinī namaḥ",
     "meaning": "Glory to the lion-rider"
   },
   {
-    "sanskrit": "ॐ vindhya-vāsinī नमः",
+    "sanskrit": "ॐ विन्ध्यवासिनी नमः",
     "transliteration": "Oṃ vindhya-vāsinī namaḥ",
     "meaning": "Glory to the mountain-dweller"
   },
   {
-    "sanskrit": "ॐ mātā-bhavanī नमः",
+    "sanskrit": "ॐ माताभवनी नमः",
     "transliteration": "Oṃ mātā-bhavanī namaḥ",
     "meaning": "Glory to the mother of Existence"
   },
   {
-    "sanskrit": "ॐ maheśvarī नमः",
+    "sanskrit": "ॐ महेश्वरी नमः",
     "transliteration": "Oṃ maheśvarī namaḥ",
     "meaning": "Glory to the Great Goddess"
   },
   {
-    "sanskrit": "ॐ śaṅkarī नमः",
+    "sanskrit": "ॐ शङ्करी नमः",
     "transliteration": "Oṃ śaṅkarī namaḥ",
     "meaning": "Glory to the female Śaṅkara (i.e. Parvatī) [lit. ‘beneficent’]"
   },
   {
-    "sanskrit": "ॐ durgeśvarī नमः",
+    "sanskrit": "ॐ दुर्गेश्वरी नमः",
     "transliteration": "Oṃ durgeśvarī namaḥ",
     "meaning": "Glory to Goddess Durgā [implies overcoming of difficulty]"
   },
   {
-    "sanskrit": "ॐ jagad-īśvarī नमः",
+    "sanskrit": "ॐ जगदीश्वरी नमः",
     "transliteration": "Oṃ jagad-īśvarī namaḥ",
     "meaning": "Glory to the Universal Goddess"
   },
   {
-    "sanskrit": "ॐ bhuvaneśvarī नमः",
+    "sanskrit": "ॐ भुवनेश्वरी नमः",
     "transliteration": "Oṃ bhuvaneśvarī namaḥ",
     "meaning": "Glory to the Goddess of the earth"
   },
   {
-    "sanskrit": "ॐ tri-pura-sundarī नमः",
+    "sanskrit": "ॐ त्रिपुरसुन्दरी नमः",
     "transliteration": "Oṃ tri-pura-sundarī namaḥ",
     "meaning": "Glory to Tripurasundarī [lit. ‘The Beauty of the Three Citadels’]"
   },
   {
-    "sanskrit": "ॐ rāja-rājeśvarī नमः",
+    "sanskrit": "ॐ राजराजेश्वरी नमः",
     "transliteration": "Oṃ rāja-rājeśvarī namaḥ",
     "meaning": "Glory to Rājarājeśvarī [lit. ‘Goddess of the King of Kings’]"
   },
   {
-    "sanskrit": "ॐ parameśvarī नमः",
+    "sanskrit": "ॐ परमेश्वरी नमः",
     "transliteration": "Oṃ parameśvarī namaḥ",
     "meaning": "Glory to the Supreme Goddess"
   },
   {
-    "sanskrit": "ॐ sureśvarī नमः",
+    "sanskrit": "ॐ सुरेश्वरी नमः",
     "transliteration": "Oṃ sureśvarī namaḥ",
     "meaning": "Glory to the Goddess of the Gods"
   },
   {
-    "sanskrit": "ॐ siddheśvarī नमः",
+    "sanskrit": "ॐ सिद्धेश्वरी नमः",
     "transliteration": "Oṃ siddheśvarī namaḥ",
     "meaning": "Glory to the Goddess of accomplishment"
   },
   {
-    "sanskrit": "ॐ sarveśvarī नमः",
+    "sanskrit": "ॐ सर्वेश्वरी नमः",
     "transliteration": "Oṃ sarveśvarī namaḥ",
     "meaning": "Glory to the Goddess of all"
   },
   {
-    "sanskrit": "ॐ kāmeśvarī नमः",
+    "sanskrit": "ॐ कामेश्वरी नमः",
     "transliteration": "Oṃ kāmeśvarī namaḥ",
     "meaning": "Glory to the Goddess of desire"
   },
   {
-    "sanskrit": "ॐ kamaleśvarī नमः",
+    "sanskrit": "ॐ कमलेश्वरी नमः",
     "transliteration": "Oṃ kamaleśvarī namaḥ",
     "meaning": "Glory to the Goddess of the lotus"
   },
   {
-    "sanskrit": "ॐ akhilāṇḍeśvarī नमः",
+    "sanskrit": "ॐ अखिलाण्डेश्वरी नमः",
     "transliteration": "Oṃ akhilāṇḍeśvarī namaḥ",
     "meaning": "Glory to the Goddess-ruler of the Universe"
   },
   {
-    "sanskrit": "ॐ śaśī-śekharī नमः",
+    "sanskrit": "ॐ शशीशेखरी नमः",
     "transliteration": "Oṃ śaśī-śekharī namaḥ",
     "meaning": "Glory to the One who wears the Moon as a diadem"
   },
   {
-    "sanskrit": "ॐ bhayaṅkarī नमः",
+    "sanskrit": "ॐ भयङ्करी नमः",
     "transliteration": "Oṃ bhayaṅkarī namaḥ",
     "meaning": "Glory to the One who instills fear"
   },
   {
-    "sanskrit": "ॐ devī-kuṇḍalinī नमः",
+    "sanskrit": "ॐ देवीकुण्डलिनी नमः",
     "transliteration": "Oṃ devī-kuṇḍalinī namaḥ",
     "meaning": "Glory to the ‘serpentine power’ of the Goddess"
   },
   {
-    "sanskrit": "ॐ satya-svarūpinī नमः",
+    "sanskrit": "ॐ सत्यस्वरूपिनी नमः",
     "transliteration": "Oṃ satya-svarūpinī namaḥ",
     "meaning": "Glory to the One whose own nature is Truth"
   },
   {
-    "sanskrit": "ॐ prema-pradāyinī नमः",
+    "sanskrit": "ॐ प्रेमप्रदायिनी नमः",
     "transliteration": "Oṃ prema-pradāyinī namaḥ",
     "meaning": "Glory to the giver of love"
   },
   {
-    "sanskrit": "ॐ ānanda-dāyinī नमः",
+    "sanskrit": "ॐ आनन्ददायिनी नमः",
     "transliteration": "Oṃ ānanda-dāyinī namaḥ",
     "meaning": "Glory to the giver of bliss"
   },
   {
-    "sanskrit": "ॐ pālinī नमः",
+    "sanskrit": "ॐ पालिनी नमः",
     "transliteration": "Oṃ pālinī namaḥ",
     "meaning": "Glory to the protector"
   },
   {
-    "sanskrit": "ॐ paṭṭinī नमः",
+    "sanskrit": "ॐ पट्टिनी नमः",
     "transliteration": "Oṃ paṭṭinī namaḥ",
     "meaning": "Glory to Paṭṭinī (Goddess of fertility and health)"
   },
   {
-    "sanskrit": "ॐ kumārī नमः",
+    "sanskrit": "ॐ कुमारी नमः",
     "transliteration": "Oṃ kumārī namaḥ",
     "meaning": "Glory to the young princess"
   },
   {
-    "sanskrit": "ॐ kaumārī नमः",
+    "sanskrit": "ॐ कौमारी नमः",
     "transliteration": "Oṃ kaumārī namaḥ",
     "meaning": "Glory to the adolescent (Śakti of Skanda – Kumāra)"
   },
   {
-    "sanskrit": "ॐ savitrī नमः",
+    "sanskrit": "ॐ सवित्री नमः",
     "transliteration": "Oṃ savitrī namaḥ",
     "meaning": "Glory to the stimulator/inciter (part of the power of the Sun)"
   },
   {
-    "sanskrit": "ॐ gāyatrī नमः",
+    "sanskrit": "ॐ गायत्री नमः",
     "transliteration": "Oṃ gāyatrī namaḥ",
     "meaning": "Glory to the singer (embodiment of the Vedic gāyatrī metre)"
   },
   {
-    "sanskrit": "ॐ bhagavatī नमः",
+    "sanskrit": "ॐ भगवती नमः",
     "transliteration": "Oṃ bhagavatī namaḥ",
     "meaning": "Glory to the Blessed One (a Tantric form of Lakṣmī)"
   },
   {
-    "sanskrit": "ॐ jagad-dhātrī नमः",
+    "sanskrit": "ॐ जगद्धात्री नमः",
     "transliteration": "Oṃ jagad-dhātrī namaḥ",
     "meaning": "Glory to the creator of the universe (associated with Sarasvatī)"
   },
   {
-    "sanskrit": "ॐ gaurī नमः",
+    "sanskrit": "ॐ गौरी नमः",
     "transliteration": "Oṃ gaurī namaḥ",
     "meaning": "Glory to the fair One"
   },
   {
-    "sanskrit": "ॐ a-ditī नमः",
+    "sanskrit": "ॐ अदिती नमः",
     "transliteration": "Oṃ a-ditī namaḥ",
     "meaning": "Glory to the boundless One [lit. ‘unbroken’, ‘undivided’]"
   },
   {
-    "sanskrit": "ॐ vaḷḷī नमः",
+    "sanskrit": "ॐ वऌऌई नमः",
     "transliteration": "Oṃ vaḷḷī namaḥ",
     "meaning": "Glory to Vaḷḷī (Wife of Skanda)"
   },
   {
-    "sanskrit": "ॐ devānī नमः",
+    "sanskrit": "ॐ देवानी नमः",
     "transliteration": "Oṃ devānī namaḥ",
     "meaning": "Glory to Devānī (Wife of Skanda)"
   },
   {
-    "sanskrit": "ॐ indrāṇī नमः",
+    "sanskrit": "ॐ इन्द्राणी नमः",
     "transliteration": "Oṃ indrāṇī namaḥ",
     "meaning": "Glory to the female Indra"
   },
   {
-    "sanskrit": "ॐ rukmaṇī नमः",
+    "sanskrit": "ॐ रुक्मणी नमः",
     "transliteration": "Oṃ rukmaṇī namaḥ",
     "meaning": "Glory to Rukmaṇī (Wife of Kṛṣṇa)"
   },
   {
-    "sanskrit": "ॐ śiva-śivā-bhavānī नमः",
+    "sanskrit": "ॐ शिवशिवाभवानी नमः",
     "transliteration": "Oṃ śiva-śivā-bhavānī namaḥ",
     "meaning": "Glory to Existence – Śiva and Śivā (male and female)"
   },
   {
-    "sanskrit": "ॐ chandī नमः",
+    "sanskrit": "ॐ छन्दी नमः",
     "transliteration": "Oṃ chandī namaḥ",
     "meaning": "Glory to the ferocious One"
   },
   {
-    "sanskrit": "ॐ chāmuṇḍī नमः",
+    "sanskrit": "ॐ छामुण्डी नमः",
     "transliteration": "Oṃ chāmuṇḍī namaḥ",
     "meaning": "Glory to the emaciated One"
   },
   {
-    "sanskrit": "ॐ parvatī नमः",
+    "sanskrit": "ॐ पर्वती नमः",
     "transliteration": "Oṃ parvatī namaḥ",
     "meaning": "Glory to Parvatī (Wife of Śiva)"
   },
   {
-    "sanskrit": "ॐ bhairavī नमः",
+    "sanskrit": "ॐ भैरवी नमः",
     "transliteration": "Oṃ bhairavī namaḥ",
     "meaning": "Glory to the terrifying One (female Bhairava)"
   },
   {
-    "sanskrit": "ॐ kāśī नमः",
+    "sanskrit": "ॐ काशी नमः",
     "transliteration": "Oṃ kāśī namaḥ",
     "meaning": "Glory to the shining One [linked to Vārāṇasī – ‘City of Light’]"
   },
   {
-    "sanskrit": "ॐ mātaṅgī नमः",
+    "sanskrit": "ॐ मातङ्गी नमः",
     "transliteration": "Oṃ mātaṅgī namaḥ",
     "meaning": "Glory to the elephant (fierce child of Kaśyapa & Krodhavaśā)"
   },
   {
-    "sanskrit": "ॐ jagad-ambi नमः",
+    "sanskrit": "ॐ जगदम्बि नमः",
     "transliteration": "Oṃ jagad-ambi namaḥ",
     "meaning": "Glory to the Universal Mother"
   },
   {
-    "sanskrit": "ॐ mahā-māyā नमः",
+    "sanskrit": "ॐ महामाया नमः",
     "transliteration": "Oṃ mahā-māyā namaḥ",
     "meaning": "Glory to the Great Illusion"
   },
   {
-    "sanskrit": "ॐ mahā-śakti नमः",
+    "sanskrit": "ॐ महाशक्ति नमः",
     "transliteration": "Oṃ mahā-śakti namaḥ",
     "meaning": "Glory to Great Power"
   },
   {
-    "sanskrit": "ॐ kāmākṣī नमः",
+    "sanskrit": "ॐ कामाक्षी नमः",
     "transliteration": "Oṃ kāmākṣī namaḥ",
     "meaning": "Glory to the One of desirous-glance"
   },
   {
-    "sanskrit": "ॐ mīnākṣī नमः",
+    "sanskrit": "ॐ मीनाक्षी नमः",
     "transliteration": "Oṃ mīnākṣī namaḥ",
     "meaning": "Glory to the One of fish[-shaped] eye"
   },
   {
-    "sanskrit": "ॐ kālikā नमः",
+    "sanskrit": "ॐ कालिका नमः",
     "transliteration": "Oṃ kālikā namaḥ",
     "meaning": "Glory to the black-coloured One"
   },
   {
-    "sanskrit": "ॐ kālyai नमः",
+    "sanskrit": "ॐ काल्यै नमः",
     "transliteration": "Oṃ kālyai namaḥ",
     "meaning": "Glory to Kālī [lit. ‘the black One’]"
   },
   {
-    "sanskrit": "ॐ kālī नमः",
+    "sanskrit": "ॐ काली नमः",
     "transliteration": "Oṃ kālī namaḥ",
     "meaning": "Glory to Kālī"
   },
   {
-    "sanskrit": "ॐ mahā-kālī नमः",
+    "sanskrit": "ॐ महाकाली नमः",
     "transliteration": "Oṃ mahā-kālī namaḥ",
     "meaning": "Glory to the Great Kālī"
   },
   {
-    "sanskrit": "ॐ bhadra-kālī नमः",
+    "sanskrit": "ॐ भद्रकाली नमः",
     "transliteration": "Oṃ bhadra-kālī namaḥ",
     "meaning": "Glory to the Dear Kālī"
   },
   {
-    "sanskrit": "ॐ śyāma-kālī नमः",
+    "sanskrit": "ॐ श्यामकाली नमः",
     "transliteration": "Oṃ śyāma-kālī namaḥ",
     "meaning": "Glory to the Dark Kālī"
   },
   {
-    "sanskrit": "ॐ nitya-kālī नमः",
+    "sanskrit": "ॐ नित्यकाली नमः",
     "transliteration": "Oṃ nitya-kālī namaḥ",
     "meaning": "Glory to the Eternal Kālī"
   },
   {
-    "sanskrit": "ॐ rakṣa-kālī नमः",
+    "sanskrit": "ॐ रक्षकाली नमः",
     "transliteration": "Oṃ rakṣa-kālī namaḥ",
     "meaning": "Glory to the Protecting Kālī"
   },
   {
-    "sanskrit": "ॐ ānanda-kālī नमः",
+    "sanskrit": "ॐ आनन्दकाली नमः",
     "transliteration": "Oṃ ānanda-kālī namaḥ",
     "meaning": "Glory to the Blissful Kālī"
   },
   {
-    "sanskrit": "ॐ mahiṣāsura-mardinī नमः",
+    "sanskrit": "ॐ महिषासुरमर्दिनी नमः",
     "transliteration": "Oṃ mahiṣāsura-mardinī namaḥ",
     "meaning": "Glory to the killer of the demon Mahiṣa"
   },
   {
-    "sanskrit": "ॐ elo-keśī नमः",
+    "sanskrit": "ॐ एलोकेशी नमः",
     "transliteration": "Oṃ elo-keśī namaḥ",
     "meaning": "Glory to the One with dishevelled hair"
   },
   {
-    "sanskrit": "ॐ mukta-keśī नमः",
+    "sanskrit": "ॐ मुक्तकेशी नमः",
     "transliteration": "Oṃ mukta-keśī namaḥ",
     "meaning": "Glory to the One with loose/flowing hair"
   },
   {
-    "sanskrit": "ॐ rakta-danta dig-ambare नमः",
+    "sanskrit": "ॐ रक्तदन्त दिगम्बरे नमः",
     "transliteration": "Oṃ rakta-danta dig-ambare namaḥ",
     "meaning": "Glory to the One who is naked [lit. ‘sky-clad’] with bloody-teeth"
   }
