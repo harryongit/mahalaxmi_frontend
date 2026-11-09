@@ -31,7 +31,7 @@ export function Footer() {
       style={{ background: "linear-gradient(180deg, #2A0C14 0%, #150509 100%)" }}
     >
       {/* Top Main Columns */}
-      <div className="container-temple grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr_1.4fr]">
+      <div className="container-temple max-w-6xl mx-auto px-4 sm:px-6 grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr_1.4fr]">
         
         {/* Column 1: Mandir Brand & Social */}
         <div>
@@ -104,8 +104,6 @@ export function Footer() {
           <ul className="mt-3 space-y-2 text-xs">
             {[
               { label: "VIP Darshan E-Pass", href: "/vip-darshan" },
-              { label: "Online Puja Booking", href: "/online-puja" },
-              { label: "Book by Puja / Seva", href: "/#book-puja" },
               { label: "Prasadam Home Delivery", href: "/prasadam" },
               { label: "Aaj Ka Panchang", href: "/panchang" },
               { label: "Kundli Generator", href: "/kundli" },
@@ -165,7 +163,7 @@ export function Footer() {
       </div>
 
       {/* Horizontal Centered Legal Links Row */}
-      <div className="container-temple mt-8 pt-4 border-t border-white/10">
+      <div className="container-temple max-w-6xl mx-auto px-4 sm:px-6 mt-8 pt-4 border-t border-white/10">
         <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-xs text-white/70 pb-3 border-b border-white/5 text-center">
           <Link href="/privacy-policy" className="hover:text-[var(--gold)] transition-colors">
             Privacy Policy

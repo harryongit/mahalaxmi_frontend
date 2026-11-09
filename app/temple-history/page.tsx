@@ -159,10 +159,10 @@ export default function TempleHistoryPage() {
                     Daily Rituals <ArrowRight className="size-4" />
                   </Link>
                   <Link
-                    href="/online-puja"
+                    href="/donate"
                     className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[var(--gold)] to-amber-300 text-stone-950 font-bold text-sm px-6 py-3 hover:brightness-105 transition-all"
                   >
-                    Book Online Puja <ArrowRight className="size-4" />
+                    Sacred Danam <ArrowRight className="size-4" />
                   </Link>
                 </div>
               </div>

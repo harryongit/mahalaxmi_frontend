@@ -3,47 +3,129 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Phone, Mail, ArrowRight, ShieldCheck, Sparkles, CheckCircle } from "lucide-react";
-import { useQueryClient } from "@tanstack/react-query";
-import { apiRequest, ApiError, authApi } from "@/src/lib/api";
+import {
+  X,
+  ArrowRight,
+  ShieldCheck,
+  Sparkles,
+  CheckCircle,
+  RefreshCw,
+  ArrowLeft,
+  MessageSquare,
+} from "lucide-react";
+import { useAuth } from "@/src/context/AuthContext";
+import {
+  Country,
+  DEFAULT_COUNTRY,
+  isPhoneValid,
+  validatePhoneNumber,
+} from "@/src/lib/countryCodes";
+import { PhoneInputWithCountry } from "./PhoneInputWithCountry";
 
 interface LoginModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onLoginSuccess: (user: { name: string; phone: string; email: string }) => void;
+  isOpen?: boolean;
+  onClose?: () => void;
+  onLoginSuccess?: (user: any) => void;
 }
 
-export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps) {
-  const [tab, setTab] = useState<"login" | "signup">("login");
-  const [method, setMethod] = useState<"phone" | "email">("phone");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
+export function LoginModal({
+  isOpen: propIsOpen,
+  onClose: propOnClose,
+  onLoginSuccess,
+}: LoginModalProps) {
+  const auth = useAuth();
+
+  const isModalOpen = propIsOpen !== undefined ? propIsOpen : auth.isLoginModalOpen;
+  const handleModalClose = propOnClose || auth.closeLoginModal;
+
+  const [country, setCountry] = useState<Country>(DEFAULT_COUNTRY);
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [step, setStep] = useState<"input" | "otp">("input");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [devOtpHint, setDevOtpHint] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [loading, setLoading] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [resendCountdown, setResendCountdown] = useState(0);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const queryClient = useQueryClient();
+  // 60-second live ticking countdown timer for OTP resend
+  useEffect(() => {
+    let timer: NodeJS.Timeout | null = null;
+    if (resendCountdown > 0) {
+      timer = setInterval(() => {
+        setResendCountdown((prev) => (prev > 0 ? prev - 1 : 0));
+      }, 1000);
+    }
+    return () => {
+      if (timer) clearInterval(timer);
+    };
+  }, [resendCountdown]);
 
-  const handleSendOtp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (method === "phone" && !phone) return;
-    if (method === "email" && !email) return;
+  // Auto-dismiss error and success messages after 3 seconds
+  useEffect(() => {
+    if (!feedback) return;
+    const timer = setTimeout(() => {
+      setFeedback(null);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [feedback]);
+
+  useEffect(() => {
+    if (!isModalOpen) {
+      // Reset state on close
+      setStep("input");
+      setFeedback(null);
+      setDevOtpHint(null);
+      setOtp(["", "", "", "", "", ""]);
+      setResendCountdown(0);
+    }
+  }, [isModalOpen]);
+
+  const getFullPhoneNumber = () => {
+    return `${country.dialCode}${phoneNumber.trim().replace(/\D/g, "")}`;
+  };
+
+  const handleSendOtp = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (resendCountdown > 0 && step === "otp") {
+      return;
+    }
+
+    const cleanDigits = phoneNumber.trim().replace(/\D/g, "");
+    const validation = validatePhoneNumber(phoneNumber, country);
+
+    if (!validation.isValid) {
+      setFeedback({
+        type: "error",
+        text: validation.error || `Please enter a valid phone number for ${country.name}.`,
+      });
+      return;
+    }
+
+    const fullPhone = getFullPhoneNumber();
     setFeedback(null);
     setLoading(true);
 
     try {
-      const phoneNumber = method === "phone" ? (phone || "9876543210") : email;
-      await authApi.requestOtp(phoneNumber);
+      const res = await auth.requestOtp(fullPhone);
       setStep("otp");
+      setResendCountdown(60); // 1-minute cooldown
+      if (res && res.otp) {
+        setDevOtpHint(res.otp);
+      } else {
+        setDevOtpHint("123456");
+      }
+      setFeedback({
+        type: "success",
+        text: `Verification code sent to ${country.dialCode} ${cleanDigits}.`,
+      });
     } catch (error: any) {
-      setFeedback({ type: "error", text: error.message || "Failed to send OTP" });
+      const msg = error?.message || "Failed to send OTP. Please check your number.";
+      setFeedback({ type: "error", text: msg });
     } finally {
       setLoading(false);
     }
@@ -51,269 +133,288 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
 
   const handleVerifyOtp = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setFeedback(null);
+    const fullPhone = getFullPhoneNumber();
+    const otpString = otp.join("").trim();
 
-    const phoneNumber = method === "phone" ? (phone || "9876543210") : email;
-    const otpString = otp.join("");
     if (otpString.length < 6) {
-      setFeedback({ type: "error", text: "Please enter the 6-digit OTP" });
-      setLoading(false);
+      setFeedback({ type: "error", text: "Please enter the complete 6-digit OTP code." });
       return;
     }
 
+    setLoading(true);
+    setFeedback(null);
+
     try {
-      const res = await authApi.login(phoneNumber, otpString);
+      const res = await auth.login(fullPhone, otpString);
+      const isNew = res.is_new_user;
+      const successMessage = isNew
+        ? "Welcome to Shree Ambabai Temple! Devotee account created."
+        : res.message || "Login successful. Jai Shree Mahalakshmi!";
 
-      if (typeof window !== "undefined" && res.access_token) {
-        localStorage.setItem("access_token", res.access_token);
+      setFeedback({ type: "success", text: successMessage });
+      if (onLoginSuccess) {
+        onLoginSuccess({
+          phone: fullPhone,
+          name: auth.user?.name || "Devotee",
+        });
       }
-      queryClient.invalidateQueries({ queryKey: ["user", "me"] });
-      queryClient.invalidateQueries({ queryKey: ["user", "stats"] });
 
-      setFeedback({ type: "success", text: res.message || "Login successful. Jai Mata Di!" });
-      onLoginSuccess({
-        name: name || (method === "phone" ? "Devotee User" : email.split("@")[0]),
-        phone: phoneNumber,
-        email: email || "devotee@mahalaxmi.org",
-      });
-      resetForm();
-    } catch (error) {
-      const message =
-        error instanceof ApiError
-          ? error.message
-          : "Unable to sign in right now. Please try again.";
-      console.error("Login failed", error);
-      setFeedback({ type: "error", text: message });
+      setTimeout(() => {
+        handleModalClose();
+      }, 700);
+    } catch (error: any) {
+      const msg = error?.message || "Invalid or expired OTP code. Please try again.";
+      setFeedback({ type: "error", text: msg });
     } finally {
       setLoading(false);
     }
   };
 
-  const resetForm = () => {
-    setStep("input");
-    setPhone("");
-    setEmail("");
-    setName("");
-    setOtp(["", "", "", "", "", ""]);
+  const autoFillOtp = (code: string) => {
+    const digits = code.slice(0, 6).split("");
+    while (digits.length < 6) digits.push("");
+    setOtp(digits);
+  };
+
+  const handleOtpPaste = (e: React.ClipboardEvent) => {
+    e.preventDefault();
+    const pasteData = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 6);
+    if (pasteData) {
+      autoFillOtp(pasteData);
+    }
   };
 
   if (!mounted) return null;
 
   return createPortal(
     <AnimatePresence>
-      {isOpen && (
-        <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
-          {/* Overlay */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          {/* Backdrop Overlay */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="fixed inset-0 bg-stone-950/65 backdrop-blur-sm"
+            onClick={handleModalClose}
+            className="fixed inset-0 bg-stone-950/75 backdrop-blur-sm"
           />
 
-          {/* Modal Card - Combination of Light & Dark Theme */}
+          {/* Modal Card - overflow-visible ensures the floating dropdown is never clipped! */}
           <motion.div
-            initial={{ scale: 0.95, opacity: 0, y: 15 }}
+            initial={{ scale: 0.94, opacity: 0, y: 15 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.95, opacity: 0, y: 15 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-md overflow-hidden rounded-3xl border border-amber-200/80 bg-[#FAF8F5] text-stone-800 shadow-2xl z-10"
+            exit={{ scale: 0.94, opacity: 0, y: 15 }}
+            transition={{ type: "spring", damping: 25, stiffness: 320 }}
+            className="relative w-full max-w-md overflow-visible rounded-3xl border border-amber-300/70 bg-[#FAF8F5] text-stone-800 shadow-2xl z-10 font-sans"
           >
-            {/* Dark Regal Header Accent */}
-            <div className="p-6 bg-gradient-to-r from-[#3C0F1A] via-[#4D1624] to-[#2B0A12] text-white text-center relative">
+            {/* Regal Temple Header */}
+            <div className="p-5 sm:p-6 bg-gradient-to-r from-[#3C0F1A] via-[#4D1624] to-[#2B0A12] text-white text-center relative border-b border-amber-400/30 rounded-t-3xl">
               <button
-                onClick={onClose}
-                className="absolute top-4 right-4 size-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+                onClick={handleModalClose}
+                className="absolute top-4 right-4 size-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer"
                 aria-label="Close modal"
               >
                 <X className="size-4" />
               </button>
 
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--gold)]/15 border border-[var(--gold)]/30 text-[var(--gold)] text-xs font-semibold mb-2">
-                <Sparkles className="size-3.5" />
-                <span>Sacred Devotee Portal</span>
-              </div>
-              <h3 className="font-serif text-2xl font-bold text-gradient-gold">
-                {tab === "login" ? "Welcome Back to Mahalaxmi" : "Create Devotee Account"}
+
+              <h3 id="devotee-modal-title" className="font-serif text-2xl font-bold text-gradient-gold">
+                {step === "otp" ? "Verification OTP" : "Devotee Login"}
               </h3>
-              <p className="text-xs text-amber-100/70 mt-1">
-                To check all available pujas & offers, log in to your account
+              <p className="text-xs text-amber-100/75 mt-1">
+                {step === "otp"
+                  ? "Enter the 6-digit verification code sent to your phone"
+                  : "Enter your WhatsApp / Mobile number for instant OTP verification"}
               </p>
             </div>
 
-            {/* Light Form Body */}
-            <div className="p-6 sm:p-7 space-y-5">
-              {/* Tab Switcher */}
-              <div className="grid grid-cols-2 gap-1 p-1 bg-stone-200/70 rounded-xl border border-stone-300/60">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setTab("login");
-                    setStep("input");
-                  }}
-                  className={`py-2 text-xs font-semibold rounded-lg transition-all ${tab === "login"
-                      ? "bg-white text-stone-900 shadow-sm"
-                      : "text-stone-600 hover:text-stone-900"
+            {/* Form Body - rounded bottom */}
+            <div className="p-5 sm:p-7 space-y-4 rounded-b-3xl">
+              {/* Status Feedback Notice */}
+              {feedback && (
+                <div
+                  id="devotee-modal-feedback"
+                  className={`text-xs font-semibold rounded-xl p-3 flex items-start gap-2 ${feedback.type === "success"
+                      ? "bg-emerald-50 text-emerald-800 border border-emerald-300"
+                      : "bg-red-50 text-red-700 border border-red-300"
                     }`}
                 >
-                  Login
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setTab("signup");
-                    setStep("input");
-                  }}
-                  className={`py-2 text-xs font-semibold rounded-lg transition-all ${tab === "signup"
-                      ? "bg-white text-stone-900 shadow-sm"
-                      : "text-stone-600 hover:text-stone-900"
-                    }`}
-                >
-                  Create Account
-                </button>
-              </div>
-
-              {step === "input" ? (
-                <form onSubmit={handleSendOtp} className="space-y-4">
-                  {tab === "signup" && (
-                    <div>
-                      <label className="block text-xs text-stone-700 font-semibold mb-1">
-                        Full Name
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        placeholder="e.g. Ananya Deshmukh"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        className="w-full px-4 py-2.5 rounded-xl bg-white border border-stone-300 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 focus:outline-none text-sm text-stone-900 placeholder:text-stone-400"
-                      />
-                    </div>
+                  {feedback.type === "success" ? (
+                    <CheckCircle className="size-4 text-emerald-600 shrink-0 mt-0.5" />
+                  ) : (
+                    <X className="size-4 text-red-600 shrink-0 mt-0.5" />
                   )}
+                  <span>{feedback.text}</span>
+                </div>
+              )}
 
-                  {/* Method Switcher */}
-                  <div className="flex items-center justify-between text-xs text-stone-600 font-medium">
-                    <span>{method === "phone" ? "Mobile Number" : "Email Address"}</span>
-                    <button
-                      type="button"
-                      onClick={() => setMethod(method === "phone" ? "email" : "phone")}
-                      className="text-amber-800 hover:underline flex items-center gap-1 font-semibold"
-                    >
-                      {method === "phone" ? (
-                        <>
-                          <Mail className="size-3" /> Use Email
-                        </>
-                      ) : (
-                        <>
-                          <Phone className="size-3" /> Use Phone
-                        </>
-                      )}
-                    </button>
+              {/* STEP 1: Phone Input Screen */}
+              {step === "input" && (
+                <form id="devotee-input-form" onSubmit={handleSendOtp} className="space-y-4">
+                  {/* Phone Input with attached floating country dropdown */}
+                  <PhoneInputWithCountry
+                    country={country}
+                    onCountryChange={setCountry}
+                    phoneNumber={phoneNumber}
+                    onPhoneNumberChange={setPhoneNumber}
+                    disabled={loading}
+                    autoFocus
+                    id="devotee-phone-input"
+                    label="WhatsApp / Mobile Number"
+                    error={feedback?.type === "error" ? feedback.text : null}
+                  />
+
+                  {/* Reassurance Notice */}
+                  <div className="p-3 rounded-2xl bg-gradient-to-br from-amber-50/90 via-orange-50/30 to-amber-50/70 border border-amber-200/80 text-xs text-stone-700 flex items-start gap-2.5">
+                    <div className="p-1 rounded-lg bg-amber-100 text-amber-800 shrink-0 mt-0.5">
+                      <MessageSquare className="size-3.5" />
+                    </div>
+                    <div className="space-y-0.5">
+                      <p className="font-bold text-[11px] text-stone-800">
+                        Instant WhatsApp & SMS Verification
+                      </p>
+                      <p className="text-[10px] text-stone-600 leading-relaxed">
+                        OTP will be sent to <strong>{country.dialCode} {phoneNumber || "your number"}</strong>. Devotees without an existing account will be registered automatically.
+                      </p>
+                    </div>
                   </div>
 
-                  {method === "phone" ? (
-                    <div className="relative flex items-center">
-                      <span className="absolute left-3.5 text-xs text-stone-600 font-semibold border-r border-stone-300 pr-2.5">
-                        +91
-                      </span>
-                      <input
-                        type="tel"
-                        required
-                        maxLength={10}
-                        placeholder="98765 43210"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
-                        className="w-full pl-16 pr-4 py-2.5 rounded-xl bg-white border border-stone-300 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 focus:outline-none text-sm text-stone-900 font-medium placeholder:text-stone-400"
-                      />
-                    </div>
-                  ) : (
-                    <input
-                      type="email"
-                      required
-                      placeholder="devotee@example.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-xl bg-white border border-stone-300 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 focus:outline-none text-sm text-stone-900 font-medium placeholder:text-stone-400"
-                    />
-                  )}
-
                   <button
+                    id="devotee-send-otp-btn"
                     type="submit"
-                    disabled={loading}
-                    className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#4A1521] via-[#5C1A29] to-[#3B0E19] text-white text-sm font-semibold hover:from-[#5C1A29] hover:to-[#4A1521] shadow-lg transition-all flex items-center justify-center gap-2 border border-amber-400/30 mt-2 disabled:opacity-60"
+                    disabled={loading || phoneNumber.trim().length < 6}
+                    className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#4A1521] via-[#5C1A29] to-[#3B0E19] text-white text-sm font-bold hover:brightness-110 shadow-lg transition-all flex items-center justify-center gap-2 border border-amber-400/40 disabled:opacity-50 cursor-pointer"
                   >
-                    <span>{loading ? "Sending OTP..." : "Get Verification Code"}</span>
-                    {!loading && <ArrowRight className="size-4 text-[var(--gold)]" />}
+                    {loading ? (
+                      <>
+                        <RefreshCw className="size-4 animate-spin text-amber-300" />
+                        <span>Sending Sacred OTP...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Send Login OTP</span>
+                        <ArrowRight className="size-4 text-[var(--gold)]" />
+                      </>
+                    )}
                   </button>
                 </form>
-              ) : (
-                <form onSubmit={handleVerifyOtp} className="space-y-4 text-center">
-                  <p className="text-xs text-stone-600 font-medium">
-                    Enter 6-digit WhatsApp OTP sent to{" "}
-                    <span className="text-amber-800 font-bold">
-                      {method === "phone" ? `+91 ${phone || "98765 43210"}` : email}
-                    </span>
-                  </p>
+              )}
 
-                  {feedback && (
-                    <div
-                      className={`text-xs font-semibold rounded-lg px-3 py-2 ${
-                        feedback.type === "success"
-                          ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                          : "bg-red-50 text-red-700 border border-red-200"
-                      }`}
-                    >
-                      {feedback.text}
+              {/* STEP 2: OTP Verification Screen */}
+              {step === "otp" && (
+                <form id="devotee-otp-form" onSubmit={handleVerifyOtp} className="space-y-4 text-center">
+                  <div className="bg-amber-50/90 border border-amber-200/80 rounded-2xl p-3.5">
+                    <p className="text-xs text-stone-700">
+                      We sent a 6-digit verification OTP to:
+                    </p>
+                    <p className="text-sm font-bold text-stone-900 font-mono mt-0.5">
+                      {country.flag} {country.dialCode} {phoneNumber}
+                    </p>
+                  </div>
+
+                  {/* Dev / Test OTP Helper Pill */}
+                  {devOtpHint && (
+                    <div id="dev-otp-container" className="bg-amber-100/90 border border-amber-300 rounded-xl px-3 py-2 text-left flex items-center justify-between">
+                      <div>
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-amber-900">
+                          Dev Test OTP:
+                        </span>
+                        <span id="dev-otp-value" className="ml-1.5 font-mono font-bold text-sm text-amber-950">
+                          {devOtpHint}
+                        </span>
+                      </div>
+                      <button
+                        type="button"
+                        id="dev-otp-autofill-btn"
+                        onClick={() => autoFillOtp(devOtpHint)}
+                        className="px-2.5 py-1 rounded-lg bg-amber-800 text-amber-50 text-[10px] font-bold hover:bg-amber-900 transition-colors cursor-pointer"
+                      >
+                        Auto Fill
+                      </button>
                     </div>
                   )}
 
-                  <div className="flex justify-center gap-2.5 my-4">
+                  <div className="flex justify-center gap-2 sm:gap-2.5 my-2" onPaste={handleOtpPaste}>
                     {otp.map((digit, idx) => (
                       <input
                         key={idx}
-                        id={`otp-${idx}`}
+                        id={`otp-input-${idx}`}
                         type="text"
                         maxLength={1}
+                        inputMode="numeric"
                         value={digit}
                         onChange={(e) => {
-                          const val = e.target.value;
+                          const val = e.target.value.replace(/\D/g, "");
                           const newOtp = [...otp];
                           newOtp[idx] = val;
                           setOtp(newOtp);
                           if (val && idx < 5) {
-                            const nextInput = document.getElementById(`otp-${idx + 1}`);
+                            const nextInput = document.getElementById(`otp-input-${idx + 1}`);
                             nextInput?.focus();
                           }
                         }}
-                        className="size-10 sm:size-12 rounded-xl bg-white border border-amber-300 text-center font-bold text-xl text-stone-900 focus:outline-none focus:ring-2 focus:ring-amber-400 shadow-xs"
+                        onKeyDown={(e) => {
+                          if (e.key === "Backspace" && !otp[idx] && idx > 0) {
+                            const prevInput = document.getElementById(`otp-input-${idx - 1}`);
+                            prevInput?.focus();
+                          }
+                        }}
+                        className="size-10 sm:size-11 rounded-xl bg-white border border-stone-300 focus:border-amber-600 focus:ring-1 focus:ring-amber-400/30 text-center font-bold text-lg text-stone-900 focus:outline-none transition-colors"
                       />
                     ))}
                   </div>
 
                   <button
+                    id="devotee-verify-otp-btn"
                     type="submit"
-                    disabled={loading}
-                    className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#4A1521] via-[#5C1A29] to-[#3B0E19] text-white text-sm font-semibold hover:from-[#5C1A29] hover:to-[#4A1521] shadow-lg transition-all flex items-center justify-center gap-2 border border-amber-400/30 disabled:opacity-60"
+                    disabled={loading || otp.join("").length < 6}
+                    className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#4A1521] via-[#5C1A29] to-[#3B0E19] text-white text-sm font-bold hover:brightness-110 shadow-lg transition-all flex items-center justify-center gap-2 border border-amber-400/40 disabled:opacity-50 cursor-pointer"
                   >
-                    <CheckCircle className="size-4 text-[var(--gold)]" />
-                    <span>Verify & Proceed</span>
+                    {loading ? (
+                      <>
+                        <RefreshCw className="size-4 animate-spin text-amber-300" />
+                        <span>Verifying...</span>
+                      </>
+                    ) : (
+                      <>
+                        <CheckCircle className="size-4 text-[var(--gold)]" />
+                        <span>Verify & Sign In</span>
+                      </>
+                    )}
                   </button>
 
-                  <button
-                    type="button"
-                    onClick={() => setStep("input")}
-                    className="text-xs text-stone-500 hover:text-stone-800 underline mt-2 block mx-auto"
-                  >
-                    Change {method === "phone" ? "number" : "email"}
-                  </button>
+                  <div className="flex items-center justify-between text-xs pt-1 px-1">
+                    <button
+                      type="button"
+                      onClick={() => setStep("input")}
+                      className="flex items-center gap-1 text-stone-600 hover:text-stone-900 font-semibold cursor-pointer"
+                    >
+                      <ArrowLeft className="size-3" /> Change number
+                    </button>
+                    <button
+                      type="button"
+                      id="devotee-resend-otp-btn"
+                      onClick={() => handleSendOtp()}
+                      disabled={loading || resendCountdown > 0}
+                      className={
+                        resendCountdown > 0
+                          ? "text-stone-400 font-medium cursor-not-allowed select-none"
+                          : "text-amber-900 font-bold hover:underline cursor-pointer"
+                      }
+                    >
+                      {resendCountdown > 0 ? (
+                        <span>Resend OTP in {resendCountdown}s</span>
+                      ) : (
+                        <span>Resend OTP</span>
+                      )}
+                    </button>
+                  </div>
                 </form>
               )}
 
-              <div className="pt-3 border-t border-stone-200 text-center flex items-center justify-center gap-1.5 text-[11px] text-stone-500">
+              <div className="pt-2 border-t border-stone-200 text-center flex items-center justify-center gap-1.5 text-[11px] text-stone-500">
                 <ShieldCheck className="size-3.5 text-emerald-600" />
-                <span>100% Secure & Encryption Protected Portal</span>
+                <span>Protected by Shree Ambabai Temple Kolhapur Trust</span>
               </div>
             </div>
           </motion.div>

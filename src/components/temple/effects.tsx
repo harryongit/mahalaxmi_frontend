@@ -11,9 +11,11 @@ export function Particles({
   count?: number;
   kind?: "dust" | "petal" | "spark";
 }) {
-  // reduce on mobile
+  const [mounted, setMounted] = useState(false);
   const [n, setN] = useState(count);
+
   useEffect(() => {
+    setMounted(true);
     const apply = () => setN(window.innerWidth < 768 ? Math.max(5, Math.floor(count / 2)) : count);
     apply();
     window.addEventListener("resize", apply);
@@ -22,40 +24,43 @@ export function Particles({
 
   const items = useMemo(
     () =>
-      Array.from({ length: n }).map((_, i) => ({
-        id: i,
-        left: Math.random() * 100,
-        size: kind === "petal" ? 10 + Math.random() * 14 : 2 + Math.random() * 4,
-        delay: Math.random() * 12,
-        duration: 14 + Math.random() * 18,
-        drift: Math.random() > 0.5 ? "float-up" : "drift-down",
-      })),
-    [n, kind],
+      !mounted
+        ? []
+        : Array.from({ length: n }).map((_, i) => ({
+            id: i,
+            left: Math.random() * 100,
+            size: kind === "petal" ? 10 + Math.random() * 14 : 2 + Math.random() * 4,
+            delay: Math.random() * 12,
+            duration: 14 + Math.random() * 18,
+            drift: Math.random() > 0.5 ? "float-up" : "drift-down",
+          })),
+    [n, kind, mounted],
   );
 
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      {items.map((p) => (
-        <span
-          key={p.id}
-          className="absolute block rounded-full"
-          style={{
-            left: `${p.left}%`,
-            width: p.size,
-            height: p.size,
-            background:
-              kind === "petal"
-                ? "radial-gradient(circle at 30% 30%, #fff2c2, #f5a623 70%, #a04a00)"
-                : kind === "spark"
-                  ? "radial-gradient(circle, rgba(255,220,140,0.95), rgba(255,180,80,0))"
-                  : "radial-gradient(circle, rgba(255,240,200,0.7), rgba(255,200,120,0))",
-            borderRadius: kind === "petal" ? "60% 40% 70% 30% / 50% 60% 40% 50%" : "9999px",
-            animation: `${kind === "petal" ? "drift-down" : p.drift} ${p.duration}s linear ${p.delay}s infinite`,
-            filter: kind === "spark" ? "blur(0.5px)" : undefined,
-            opacity: 0.85,
-          }}
-        />
-      ))}
+    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+      {mounted &&
+        items.map((p) => (
+          <span
+            key={p.id}
+            className="absolute block rounded-full"
+            style={{
+              left: `${p.left}%`,
+              width: p.size,
+              height: p.size,
+              background:
+                kind === "petal"
+                  ? "radial-gradient(circle at 30% 30%, #fff2c2, #f5a623 70%, #a04a00)"
+                  : kind === "spark"
+                    ? "radial-gradient(circle, rgba(255,220,140,0.95), rgba(255,180,80,0))"
+                    : "radial-gradient(circle, rgba(255,240,200,0.7), rgba(255,200,120,0))",
+              borderRadius: kind === "petal" ? "60% 40% 70% 30% / 50% 60% 40% 50%" : "9999px",
+              animation: `${kind === "petal" ? "drift-down" : p.drift} ${p.duration}s linear ${p.delay}s infinite`,
+              filter: kind === "spark" ? "blur(0.5px)" : undefined,
+              opacity: 0.85,
+            }}
+          />
+        ))}
     </div>
   );
 }

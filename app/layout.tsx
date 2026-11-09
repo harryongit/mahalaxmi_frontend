@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import "@/src/styles.css";
 import Providers from "./providers";
 import { Toaster } from "sonner";
@@ -151,10 +152,10 @@ const organizationSchema = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en-IN">
-      <JsonLd data={templeSchema} />
-      <JsonLd data={websiteSchema} />
-      <JsonLd data={organizationSchema} />
       <head>
+        <JsonLd data={templeSchema} />
+        <JsonLd data={websiteSchema} />
+        <JsonLd data={organizationSchema} />
         <link rel="icon" href="/logo.png" />
         <link rel="apple-touch-icon" href="/logo.png" />
         <meta name="geo.region" content="IN-MH" />
@@ -172,6 +173,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Toaster richColors position="top-right" />
         <AnalyticsTracker />
         <Providers>{children}</Providers>
+        <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
       </body>
     </html>
   );

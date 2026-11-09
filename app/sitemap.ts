@@ -11,7 +11,6 @@ const STATIC_ROUTES: { path: string; changeFrequency: MetadataRoute.Sitemap[numb
   { path: "/darshan-timings", changeFrequency: "weekly", priority: 0.9 },
   { path: "/temple-history", changeFrequency: "monthly", priority: 0.6 },
   { path: "/how-to-reach", changeFrequency: "monthly", priority: 0.7 },
-  { path: "/online-puja", changeFrequency: "weekly", priority: 0.9 },
   { path: "/prasadam", changeFrequency: "monthly", priority: 0.6 },
   { path: "/faq", changeFrequency: "monthly", priority: 0.6 },
   { path: "/shree-ambabai-temple-kolhapur", changeFrequency: "monthly", priority: 0.9 },

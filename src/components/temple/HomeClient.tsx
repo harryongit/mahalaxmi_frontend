@@ -9,12 +9,19 @@ import { BookingWidget } from "@/src/components/temple/BookingWidget";
 import { UtsavBanner } from "@/src/components/temple/UtsavBanner";
 import {
   About,
-  Donate,
   Testimonials,
 } from "@/src/components/temple/Sections";
+import { ShreepujakSection } from "@/src/components/temple/ShreepujakSection";
+import { WhyTrustUs } from "@/src/components/temple/WhyTrustUs";
+import { ContactSection } from "@/src/components/temple/ContactSection";
 import { Footer } from "@/src/components/temple/Footer";
 
-export function HomeClient({ initialTestimonials }: { initialTestimonials?: any[] }) {
+export function HomeClient({
+  initialTestimonials,
+}: {
+  initialTestimonials?: any[];
+  initialGallery?: any[];
+}) {
   const [loaded, setLoaded] = useState(false);
   useLenis();
 
@@ -36,13 +43,19 @@ export function HomeClient({ initialTestimonials }: { initialTestimonials?: any[
         {/* 4. About Temple & Heritage */}
         <About />
 
-        {/* 5. Annadan & Gou Seva Contributions */}
-        <Donate />
+        {/* 5. Meet Shreepujak & Hereditary Sanctum Lineage */}
+        <ShreepujakSection />
 
-        {/* 6. Devotee Testimonials & Reviews */}
+        {/* 6. Why Devotees Trust Us (54th Gen, Born in Kolhapur, No 3rd Party) */}
+        <WhyTrustUs />
+
+        {/* 7. Devotee Testimonials & Reviews */}
         <Testimonials initialData={initialTestimonials} />
 
-        {/* 7. Footer */}
+        {/* 8. Devotee Enquiry & Helpline Contact Form */}
+        <ContactSection />
+
+        {/* 9. Footer */}
         <Footer />
       </main>
     </>

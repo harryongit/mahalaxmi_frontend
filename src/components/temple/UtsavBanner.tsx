@@ -6,12 +6,28 @@ import { HiArrowRight } from "react-icons/hi";
 import { IMG } from "./images";
 import { Reveal } from "./effects";
 
+const INITIAL_COUNTDOWN = {
+  days: 11,
+  hours: 23,
+  minutes: 54,
+  seconds: 0,
+};
+
 function useCountdown(target: number) {
-  const [now, setNow] = useState(() => Date.now());
+  const [mounted, setMounted] = useState(false);
+  const [now, setNow] = useState(0);
+
   useEffect(() => {
+    setMounted(true);
+    setNow(Date.now());
     const id = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(id);
   }, []);
+
+  if (!mounted || target === 0 || now === 0) {
+    return INITIAL_COUNTDOWN;
+  }
+
   const diff = Math.max(0, target - now);
   return {
     days: Math.floor(diff / 86400000),
@@ -22,8 +38,13 @@ function useCountdown(target: number) {
 }
 
 export function UtsavBanner() {
-  // next Diwali-style utsav, ~11 days out from first render
-  const target = useMemo(() => Date.now() + 11 * 86400000 + 23 * 3600000 + 54 * 60000, []);
+  const [target, setTarget] = useState(0);
+
+  useEffect(() => {
+    // next Diwali-style utsav, ~11 days out from client mount
+    setTarget(Date.now() + 11 * 86400000 + 23 * 3600000 + 54 * 60000);
+  }, []);
+
   const t = useCountdown(target);
 
   const units: [string, number][] = [
@@ -35,7 +56,7 @@ export function UtsavBanner() {
 
   return (
     <section id="utsav" className="relative py-16 md:py-24">
-      <div className="container-temple">
+      <div className="container-temple max-w-6xl mx-auto px-4 sm:px-6">
         <Reveal>
           <div className="relative overflow-hidden rounded-[32px] shadow-[0_40px_100px_-40px_rgba(80,30,0,0.55)]">
             <img
@@ -60,7 +81,7 @@ export function UtsavBanner() {
               </h2>
               <p className="mt-5 max-w-md text-white/75 leading-relaxed">
                 108,000 diyas will light the sanctuary in a single evening of prayer, music, and
-                prasad. Reserve your seat now.
+                prasad. Join thousands of devotees in witnessing this glorious sacred festival of lights.
               </p>
 
               <div className="mt-9 flex flex-wrap gap-3">
@@ -69,7 +90,10 @@ export function UtsavBanner() {
                     key={label}
                     className="w-[92px] rounded-2xl border border-white/15 bg-white/10 px-3 py-4 text-center backdrop-blur-md"
                   >
-                    <div className="font-serif text-3xl text-[var(--gold)]">
+                    <div
+                      suppressHydrationWarning
+                      className="font-serif text-3xl text-[var(--gold)]"
+                    >
                       {String(value).padStart(2, "0")}
                     </div>
                     <div className="mt-1 text-[9px] uppercase tracking-[0.25em] text-white/65">
@@ -83,7 +107,7 @@ export function UtsavBanner() {
                 href="/festivals"
                 className="mt-10 inline-flex items-center gap-2 rounded-full bg-card px-7 py-3.5 text-sm font-medium text-[var(--maroon)] transition-transform duration-300 hover:-translate-y-0.5"
               >
-                Reserve My Seat <HiArrowRight />
+                Explore Festival Details <HiArrowRight />
               </Link>
             </div>
           </div>

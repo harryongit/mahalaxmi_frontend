@@ -16,9 +16,22 @@ export function Head({ title, sub, action }: { title: string; sub: string; actio
   );
 }
 
-export function Card({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+export function Card({
+  children,
+  className = "",
+  onClick,
+  ...props
+}: {
+  children: React.ReactNode;
+  className?: string;
+  onClick?: () => void;
+} & React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={`rounded-[24px] border border-amber-900/10 bg-white p-6 shadow-[0_4px_25px_rgba(0,0,0,0.03)] transition-all hover:shadow-[0_10px_35px_rgba(0,0,0,0.06)] hover:border-amber-500/20 ${className}`}>
+    <div
+      onClick={onClick}
+      className={`rounded-[24px] border border-amber-900/10 bg-white p-6 shadow-[0_4px_25px_rgba(0,0,0,0.03)] transition-all hover:shadow-[0_10px_35px_rgba(0,0,0,0.06)] hover:border-amber-500/20 ${className}`}
+      {...props}
+    >
       {children}
     </div>
   );
@@ -116,24 +129,24 @@ type ListKey = "events" | "rituals" | "donations" | "testimonials" | "messages";
 export function upd(
   setS: React.Dispatch<React.SetStateAction<State>>,
   key: ListKey,
-  id: string,
+  id: string | number,
   patch: Record<string, unknown>,
 ) {
   setS(
     (p) =>
       ({
         ...p,
-        [key]: (p[key] as { id: string }[]).map((it) => (it.id === id ? { ...it, ...patch } : it)),
+        [key]: (p[key] as { id: string | number }[]).map((it) => (String(it.id) === String(id) ? { ...it, ...patch } : it)),
       }) as State,
   );
 }
 
-export function del(setS: React.Dispatch<React.SetStateAction<State>>, key: ListKey, id: string) {
+export function del(setS: React.Dispatch<React.SetStateAction<State>>, key: ListKey, id: string | number) {
   setS(
     (p) =>
       ({
         ...p,
-        [key]: (p[key] as { id: string }[]).filter((it) => it.id !== id),
+        [key]: (p[key] as { id: string | number }[]).filter((it) => String(it.id) !== String(id)),
       }) as State,
   );
 }

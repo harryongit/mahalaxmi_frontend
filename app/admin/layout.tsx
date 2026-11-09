@@ -14,18 +14,18 @@ import {
   HiOutlineBell,
   HiOutlinePlus,
   HiOutlineExternalLink,
-  HiOutlineSparkles,
   HiOutlineLogout,
   HiOutlineChartBar,
 } from "react-icons/hi";
 import { AdminProvider, useAdmin } from "./admin-context";
+import { clearAdminSession } from "@/src/lib/storage";
+import { AdminSessionModal } from "./AdminSessionModal";
 
 const TABS = [
   { href: "/admin", label: "Overview", icon: HiOutlineChartPie },
   { href: "/admin/users", label: "Devotees & Bookings", icon: HiOutlineUserGroup },
+  { href: "/admin/rituals", label: "Puja & Services", icon: HiOutlineClock },
   { href: "/admin/gallery", label: "Gallery", icon: HiOutlinePhotograph },
-  { href: "/admin/events", label: "Events", icon: HiOutlineCalendar },
-  { href: "/admin/rituals", label: "Rituals & Timings", icon: HiOutlineClock },
   { href: "/admin/donations", label: "Donations", icon: HiOutlineGift },
   { href: "/admin/testimonials", label: "Testimonials", icon: HiOutlineChatAlt2 },
   { href: "/admin/messages", label: "Enquiry", icon: HiOutlineMail },
@@ -103,31 +103,12 @@ function AdminSidebar() {
         </nav>
       </div>
 
-      {/* Storage & System Details Progress Section */}
-      <div className="relative z-10 mt-8 pt-6 border-t border-amber-900/40 space-y-4 text-xs shrink-0">
-        <div className="text-[10px] uppercase tracking-widest text-amber-400/80 font-bold flex items-center justify-between">
-          <span>STORAGE DETAILS</span>
-          <HiOutlineSparkles className="text-amber-400" />
-        </div>
-
-        {/* Monthly Seva Goal */}
-        <div>
-          <div className="flex items-center justify-between text-[11px] text-amber-100/90 mb-1.5">
-            <div className="flex items-center gap-1.5">
-              <HiOutlineGift className="text-amber-400 text-sm" />
-              <span>Monthly Seva Collection</span>
-            </div>
-            <span className="font-mono text-amber-300 text-[10px] font-bold">₹31.2k / ₹50k</span>
-          </div>
-          <div className="h-2 w-full rounded-full bg-stone-950/80 overflow-hidden border border-amber-900/40 p-0.5">
-            <div className="h-full bg-gradient-to-r from-amber-600 via-amber-400 to-amber-200 rounded-full w-[64%] shadow-[0_0_10px_rgba(245,158,11,0.6)]" />
-          </div>
-        </div>
-
+      {/* Bottom Actions */}
+      <div className="relative z-10 mt-8 pt-6 border-t border-amber-900/40 text-xs shrink-0">
         <Link
           href="/"
           target="_blank"
-          className="inline-flex items-center gap-2 text-xs font-semibold text-amber-400 hover:text-white transition-colors pt-1"
+          className="inline-flex items-center gap-2 text-xs font-semibold text-amber-400 hover:text-white transition-colors"
         >
           <span>View Public Website</span>
           <HiOutlineExternalLink className="text-xs" />
@@ -143,9 +124,7 @@ function AdminHeader() {
   const unreadCount = s.messages.filter((m) => !m.read).length;
 
   const handleLogout = () => {
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("admin_auth");
-    }
+    clearAdminSession();
     router.push("/admin/login");
   };
 
@@ -196,6 +175,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <AdminProvider>
+      <AdminSessionModal />
       <div className="min-h-screen w-full bg-[#FAF6F0] flex flex-col lg:flex-row items-start font-sans m-0 p-0">
         <AdminSidebar />
         <div className="flex-1 p-6 md:p-8 flex flex-col justify-between overflow-x-hidden min-w-0 w-full">

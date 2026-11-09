@@ -27,8 +27,8 @@ export const enquiryService = {
    * Endpoint: POST /enquiries/
    */
   createEnquiry: async (payload: EnquiryPayload): Promise<EnquiryResponse> => {
-    const response = await apiClient.post<EnquiryResponse>("/enquiries/", payload);
-    return response.data;
+    const response = await apiClient.post<any>("/enquiries/", payload);
+    return response.data?.data || response.data;
   },
 
   /**
@@ -36,8 +36,13 @@ export const enquiryService = {
    * Endpoint: GET /enquiries/admin
    */
   getAdminEnquiries: async (): Promise<EnquiryResponse[]> => {
-    const response = await apiClient.get<EnquiryResponse[]>("/enquiries/admin");
-    return response.data;
+    try {
+      const response = await apiClient.get<any>("/enquiries/admin");
+      return (response.data?.data || response.data || []) as EnquiryResponse[];
+    } catch (err) {
+      // Fallback
+      return [];
+    }
   },
 
   /**

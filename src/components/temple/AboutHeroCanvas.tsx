@@ -26,7 +26,7 @@ export function AboutHeroCanvas() {
   useEffect(() => {
     let loadedCount = 0;
     const imgArray: HTMLImageElement[] = [];
-    
+
     for (let i = 1; i <= FRAME_COUNT; i++) {
       const img = new Image();
       img.src = `/temple-frames/ezgif-frame-${pad(i)}_cleaned.jpg`;
@@ -46,13 +46,13 @@ export function AboutHeroCanvas() {
     if (!loaded || !canvasRef.current || !images[index - 1]) return;
     const ctx = canvasRef.current.getContext("2d");
     if (!ctx) return;
-    
+
     const img = images[index - 1];
-    
+
     // Fill background black to avoid edge artifacts
     ctx.fillStyle = "#000000";
     ctx.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-    
+
     // Draw centered, covering the canvas like object-fit: cover
     const scale = Math.max(
       canvasRef.current.width / img.width,
@@ -62,7 +62,7 @@ export function AboutHeroCanvas() {
     const h = img.height * scale;
     const x = canvasRef.current.width / 2 - w / 2;
     const y = canvasRef.current.height / 2 - h / 2;
-    
+
     ctx.drawImage(img, x, y, w, h);
   };
 
@@ -77,7 +77,7 @@ export function AboutHeroCanvas() {
       canvasRef.current.height = window.innerHeight;
       drawImage(1);
     }
-    
+
     // Handle resize
     const handleResize = () => {
       if (canvasRef.current) {
@@ -86,7 +86,7 @@ export function AboutHeroCanvas() {
         drawImage(Math.round(frameIndex.get()));
       }
     };
-    
+
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [loaded]);
@@ -138,15 +138,15 @@ export function AboutHeroCanvas() {
     <div ref={containerRef} className="relative h-[400vh] w-full bg-black text-white">
       {/* Sticky Canvas Container */}
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-        
+
         <canvas ref={canvasRef} className="absolute inset-0 size-full object-cover" />
-        
+
         {/* Subtle Dark Overlay to ensure text readability */}
         <div className="absolute inset-0 bg-black/20" />
 
         {/* Corner Vignette Blur to hide watermarks */}
-        <div 
-          className="absolute inset-0 z-10 pointer-events-none backdrop-blur-xl" 
+        <div
+          className="absolute inset-0 z-10 pointer-events-none backdrop-blur-xl"
           style={{
             maskImage: 'radial-gradient(ellipse 90% 90% at center, transparent 40%, black 95%)',
             WebkitMaskImage: 'radial-gradient(ellipse 90% 90% at center, transparent 40%, black 95%)'
@@ -164,7 +164,7 @@ export function AboutHeroCanvas() {
         <motion.div className="absolute left-8 top-1/2 -translate-y-1/2 flex flex-col items-center gap-4 z-40 hidden md:flex">
           <span className="text-[10px] tracking-widest font-mono text-white/50">01</span>
           <div className="w-[1px] h-32 bg-white/20 relative">
-            <motion.div 
+            <motion.div
               className="absolute top-0 w-[1px] bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]"
               style={{ height: useTransform(scrollYProgress, [0, 1], ["0%", "100%"]) }}
             />
@@ -177,9 +177,9 @@ export function AboutHeroCanvas() {
 
         {/* --- STORY BLOCKS --- */}
         <div className="absolute inset-0 z-20 pointer-events-none p-6 md:p-16 flex items-center">
-          
+
           {/* 1: Arrival (Centered) */}
-          <motion.div 
+          <motion.div
             style={{ opacity: o1, y: y1 }}
             animate={progressText !== "01 — HERITAGE" ? { opacity: 0, display: "none" } : { display: "flex" }}
             className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 drop-shadow-2xl"
@@ -197,7 +197,7 @@ export function AboutHeroCanvas() {
           </motion.div>
 
           {/* 2: Sacred Heritage (Right Aligned) */}
-          <motion.div 
+          <motion.div
             style={{ opacity: o2, y: y2 }}
             className={`absolute right-8 md:right-32 top-1/2 -translate-y-1/2 max-w-[340px] ${cardStyle}`}
           >
@@ -209,7 +209,7 @@ export function AboutHeroCanvas() {
           </motion.div>
 
           {/* 3: 51 Shakti Peethas (Left Aligned) */}
-          <motion.div 
+          <motion.div
             style={{ opacity: o3, y: y3 }}
             className={`absolute left-8 md:left-32 top-1/2 -translate-y-1/2 max-w-[340px] ${cardStyle}`}
           >
@@ -222,7 +222,7 @@ export function AboutHeroCanvas() {
           </motion.div>
 
           {/* 4: Architecture (Right Aligned, slightly lower) */}
-          <motion.div 
+          <motion.div
             style={{ opacity: o4, y: y4 }}
             className={`absolute right-8 md:right-32 top-[60%] -translate-y-1/2 max-w-[340px] ${cardStyle}`}
           >
@@ -234,7 +234,7 @@ export function AboutHeroCanvas() {
           </motion.div>
 
           {/* 5: Details/Craftsmanship (Left Aligned) */}
-          <motion.div 
+          <motion.div
             style={{ opacity: o5, y: y5 }}
             className={`absolute left-8 md:left-32 top-1/2 -translate-y-1/2 max-w-[340px] ${cardStyle}`}
           >
@@ -248,7 +248,7 @@ export function AboutHeroCanvas() {
           </motion.div>
 
           {/* 6: The Shikhara (Top Right Aligned) */}
-          <motion.div 
+          <motion.div
             style={{ opacity: o6, y: y6 }}
             className={`absolute right-8 md:right-32 top-[40%] -translate-y-1/2 max-w-[340px] ${cardStyle}`}
           >
@@ -260,7 +260,7 @@ export function AboutHeroCanvas() {
           </motion.div>
 
           {/* 7: Return (Centered) */}
-          <motion.div 
+          <motion.div
             style={{ opacity: o7, y: y7 }}
             className="absolute inset-0 flex flex-col items-center justify-center text-center px-4"
           >
@@ -274,7 +274,7 @@ export function AboutHeroCanvas() {
               </div>
             </div>
           </motion.div>
-          
+
         </div>
 
       </div>

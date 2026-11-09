@@ -162,7 +162,7 @@ export default function DarshanTimingsPage() {
                 <Video className="size-6 text-amber-800 mb-3" />
                 <h3 className="font-serif text-lg font-bold text-amber-950">Virtual Livestreams</h3>
                 <p className="text-sm text-stone-600 mt-2 leading-relaxed">
-                  Can't visit in person? The temple offers live streams of the Aarti ceremonies so you can receive the Goddess's blessings from anywhere in the world. You can also participate by <Link href="/online-puja" className="text-amber-800 underline font-semibold">booking an online Puja</Link>.
+                  Can't visit in person? The temple offers live streams of the Aarti ceremonies so you can receive the Goddess's blessings from anywhere in the world. You can also participate by <Link href="/rituals" className="text-amber-800 underline font-semibold">exploring temple rituals</Link>.
                 </p>
               </div>
 
@@ -190,10 +190,10 @@ export default function DarshanTimingsPage() {
               </div>
               <div className="mt-6 sm:mt-0 flex flex-col gap-3 shrink-0">
                 <Link
-                  href="/online-puja"
+                  href="/rituals"
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[var(--gold)] to-amber-300 text-stone-950 font-bold text-sm px-7 py-3.5 hover:brightness-105 transition-all"
                 >
-                  Book Online Puja <ArrowRight className="size-4" />
+                  View Temple Rituals <ArrowRight className="size-4" />
                 </Link>
                 <Link
                   href="/prasadam"

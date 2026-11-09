@@ -111,10 +111,10 @@ export default function VipDarshanPage() {
                 Did you know? If you book a special online puja (like Kumkumarchan or Abhishek), priority VIP darshan access for your family is often included.
               </p>
               <Link
-                href="/online-puja"
+                href="/rituals"
                 className="inline-flex items-center gap-2 text-sm font-bold text-amber-800 hover:text-amber-950 transition-colors"
               >
-                Explore Online Pujas <ArrowRight className="size-4" />
+                Explore Sacred Rituals <ArrowRight className="size-4" />
               </Link>
             </div>
           </section>

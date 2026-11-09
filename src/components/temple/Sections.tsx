@@ -25,6 +25,7 @@ import { useQuery } from "@tanstack/react-query";
 import { contentApi, serviceApi } from "@/src/lib/api";
 
 import { TestimonialForm } from "@/src/components/temple/TestimonialForm";
+import { DonationsSection } from "./DonationsSection";
 
 /* ----------------------- ABOUT ----------------------- */
 export function About() {
@@ -480,18 +481,39 @@ export function Festivals() {
         <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {isLoading ? (
             <div className="col-span-full text-center py-8 opacity-75">Loading festivals...</div>
+          ) : events.length === 0 ? (
+            <div className="col-span-full text-center py-12 text-white/70 glass-dark rounded-2xl">
+              No upcoming festivals currently scheduled. Visit the sanctum for daily divine darshan.
+            </div>
           ) : (
-          events.map((f: any, i: number) => (
-            <Reveal key={f.id || f.name} delay={i * 0.08}>
-              <div className="glass-dark rounded-2xl p-6 hover-lift">
-                <div className="text-xs uppercase tracking-[0.3em] text-[var(--gold)]">
-                  {f.date}
+          events.map((f: any, i: number) => {
+            const dateStr = (f.from_date && f.to_date && f.from_date !== f.to_date)
+              ? `${f.from_date} – ${f.to_date}`
+              : (f.from_date || f.date || "Upcoming Festival");
+
+            return (
+              <Reveal key={f.id || f.name} delay={i * 0.08}>
+                <div className="glass-dark rounded-2xl p-6 hover-lift flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="text-xs uppercase tracking-[0.25em] text-[var(--gold)] font-bold">
+                        {dateStr}
+                      </div>
+                      {f.time && (
+                        <div className="text-[11px] text-amber-200/80">
+                          {f.time}
+                        </div>
+                      )}
+                    </div>
+                    <div className="font-serif text-2xl mt-2 font-bold">{f.title || f.name}</div>
+                    <p className="text-sm text-white/70 mt-3 line-clamp-3 leading-relaxed">
+                      {f.description || f.note || "Join us for this auspicious occasion."}
+                    </p>
+                  </div>
                 </div>
-                <div className="font-serif text-3xl mt-2">{f.name}</div>
-                <p className="text-sm text-white/70 mt-3">{f.note || "Join us for this auspicious occasion."}</p>
-              </div>
-            </Reveal>
-          ))
+              </Reveal>
+            );
+          })
           )}
         </div>
       </div>
@@ -580,65 +602,9 @@ export function VirtualDarshan() {
 
 /* ----------------------- DONATIONS ----------------------- */
 export function Donate() {
-  return (
-    <section id="donate" className="relative py-28 md:py-40 overflow-hidden">
-      <div className="container-temple">
-        <div
-          className="relative rounded-[2rem] overflow-hidden p-10 md:p-16"
-          style={{
-            background:
-              "radial-gradient(ellipse at 20% 20%, oklch(0.92 0.16 88) 0%, oklch(0.74 0.17 60) 40%, oklch(0.45 0.13 35) 100%)",
-          }}
-        >
-          <Particles count={14} kind="spark" />
-          <div className="grid lg:grid-cols-[1fr_auto] gap-10 items-center relative">
-            <div>
-              <SectionEyebrow>Seva & Donations</SectionEyebrow>
-              <h2 className="font-serif text-[clamp(2.25rem,4.5vw,3.75rem)] mt-6 leading-[1.05] text-[oklch(0.20_0.02_60)]">
-                Your offering keeps the lamp burning.
-              </h2>
-              <p className="mt-5 max-w-xl text-[oklch(0.25_0.04_50)]/85">
-                Every contribution supports daily rituals, preservation of ancient carvings, and the
-                meals served to thousands of pilgrims each day.
-              </p>
-            </div>
-
-            <div className="relative">
-              {/* lotus */}
-              <motion.svg
-                viewBox="0 0 200 200"
-                className="absolute -top-10 -right-6 size-40 opacity-40"
-                animate={{ rotate: [0, 8, 0] }}
-                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <g fill="oklch(0.45 0.18 30 / 0.7)">
-                  {Array.from({ length: 8 }).map((_, i) => (
-                    <ellipse
-                      key={i}
-                      cx="100"
-                      cy="60"
-                      rx="18"
-                      ry="40"
-                      transform={`rotate(${i * 45} 100 100)`}
-                    />
-                  ))}
-                  <circle cx="100" cy="100" r="14" fill="oklch(0.92 0.16 88)" />
-                </g>
-              </motion.svg>
-              <a
-                href="#"
-                className="relative inline-flex items-center justify-center px-10 py-5 rounded-full font-medium text-[oklch(0.20_0.02_60)] bg-white shadow-[0_20px_50px_-12px_rgba(0,0,0,0.35)] hover:scale-105 transition-transform"
-              >
-                Donate Now
-                <span className="ml-3">→</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
+  return <DonationsSection />;
 }
+
 
 /* ----------------------- EVENTS ----------------------- */
 export function Events() {
@@ -660,28 +626,51 @@ export function Events() {
               </h2>
             </Reveal>
           </div>
-          <a
-            href="#"
+          <Link
+            href="/festivals"
             className="btn-ghost-gold !text-foreground !border-[color-mix(in_oklab,var(--gold)_50%,transparent)] !bg-white"
           >
-            View calendar
-          </a>
+            View All Festivals
+          </Link>
         </div>
 
         <div className="mt-14 grid md:grid-cols-3 gap-6">
           {isLoading ? (
             <div className="col-span-full text-center py-8">Loading upcoming events...</div>
+          ) : events.length === 0 ? (
+            <div className="col-span-full text-center py-12 text-stone-500 bg-white rounded-2xl border border-stone-200">
+              No upcoming events currently scheduled.
+            </div>
           ) : (
-          events.slice(0, 3).map((e: any, i: number) => (
-            <Reveal key={e.id || e.name} delay={i * 0.1}>
-              <div className="rounded-2xl bg-card border border-border p-7 hover-lift">
-                <div className="flex items-center justify-between">
-                  <div className="text-xs uppercase tracking-[0.3em] text-[var(--saffron)]">
-                    {e.date}
+          events.slice(0, 3).map((e: any, i: number) => {
+            const dateStr = (e.from_date && e.to_date && e.from_date !== e.to_date)
+              ? `${e.from_date} – ${e.to_date}`
+              : (e.from_date || e.date || "Upcoming Festival");
+
+            return (
+              <Reveal key={e.id || e.name} delay={i * 0.1}>
+                <div className="rounded-2xl bg-card border border-border p-7 hover-lift flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="text-xs uppercase tracking-[0.2em] text-[var(--saffron)] font-bold">
+                        {dateStr}
+                      </div>
+                      <HiOutlineClock className="text-[var(--maroon)] shrink-0" />
+                    </div>
+                    {e.time && (
+                      <div className="text-[11px] text-stone-500 font-medium mt-0.5">
+                        {e.time}
+                      </div>
+                    )}
+                    <h3 className="font-serif text-2xl mt-2 font-bold text-stone-900">
+                      {e.title || e.name}
+                    </h3>
+                    {(e.description || e.note) && (
+                      <p className="text-xs text-stone-600 mt-2 line-clamp-3 leading-relaxed">
+                        {e.description || e.note}
+                      </p>
+                    )}
                   </div>
-                  <HiOutlineClock className="text-[var(--maroon)]" />
-                </div>
-                <h3 className="font-serif text-2xl mt-3">{e.name}</h3>
                 <div className="mt-6 grid grid-cols-3 gap-3 text-center">
                   {[
                     ["Days", 12],
@@ -699,7 +688,8 @@ export function Events() {
                 </div>
               </div>
             </Reveal>
-          ))
+            );
+          })
           )}
         </div>
       </div>
@@ -759,48 +749,10 @@ export function Testimonials({ initialData }: { initialData?: any[] }) {
 }
 
 /* ----------------------- PUJA SERVICES ----------------------- */
-const pujaServicesData = [
-  {
-    title: "1. KUMKUMARCHAN",
-    price: "₹551",
-    description: "Kumkumarchan will be performed on silver Paduka in the name of the devotee.",
-    availableOn: ["Ghatasthapana", "Lalita Panchami", "Ashtami", "Khandi Navami", "Dasara / Dussehra"],
-    availability: "22 September to 7 October"
-  },
-  {
-    title: "2. PADYA PUJA",
-    price: "₹551",
-    description: "Padya Puja will be performed on silver Paduka in the name of the devotee.",
-    availableOn: ["Ghatasthapana", "Lalita Panchami", "Ashtami", "Khandi Navami", "Dasara / Dussehra"],
-    availability: "22 September to 7 October"
-  },
-  {
-    title: "3. PANCHAMRUT ABHISHEK",
-    price: "₹751",
-    description: "One person can sit for the pooja after wearing Sovale / Dhoti. Family members can sit behind and watch the pooja.",
-    availableOn: ["Ghatasthapana", "Lalita Panchami", "Ashtami", "Khandi Navami", "Dasara / Dussehra"],
-    availability: "22 September to 7 October"
-  },
-  {
-    title: "4. KULACHAR",
-    price: "₹5,001",
-    includes: ["Panchamrut Abhishek", "Naivedya", "Suwasini Bhojan", "Brahman Bhojan", "Kumarika Bhojan", "One Saptashati Path"],
-    availableOn: ["Ghatasthapana", "Lalita Panchami", "Ashtami", "Khandi Navami", "Dasara / Dussehra"],
-    availability: "22 September to 7 October"
-  },
-  {
-    title: "5. SAHASTRA NAMAVALI PUJA",
-    price: "₹7,001",
-    includes: ["Mahapuja", "Abhishek", "Laxmi Sahastra Namavali", "Kumkumarchan", "Shreesukta Abhishek"],
-    availableOn: ["Ghatasthapana", "Lalita Panchami", "Ashtami", "Khandi Navami", "Dasara / Dussehra"],
-    availability: "22 September to 7 October"
-  }
-];
-
 export function PujaServices() {
-  const { data: services = [], isLoading } = useQuery({
+  const { data: services = [], isLoading } = useQuery<any[]>({
     queryKey: ["services"],
-    queryFn: serviceApi.getServices,
+    queryFn: () => serviceApi.getServices(),
   });
   return (
     <section id="puja-services" className="relative py-28 md:py-40 bg-[oklch(0.13_0.02_60)] text-white overflow-hidden">
@@ -828,6 +780,10 @@ export function PujaServices() {
         <div className="mt-16 grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {isLoading ? (
             <div className="col-span-full text-center py-8 opacity-75">Loading puja services...</div>
+          ) : services.length === 0 ? (
+            <div className="col-span-full text-center py-12 px-6 glass-dark rounded-2xl border border-white/10 max-w-md mx-auto">
+              <p className="text-white/70 text-sm">Currently, no public seva services are active. Please check back soon.</p>
+            </div>
           ) : (
           services.slice(0, 4).map((s: any, i: number) => (
             <Reveal key={s.id || s.title} delay={i * 0.1}>

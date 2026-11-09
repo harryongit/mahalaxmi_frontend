@@ -123,7 +123,7 @@ export default function NavratriPage() {
                   Book 9-Day Navratri Seva <ArrowRight className="size-4" />
                 </Link>
                 <Link
-                  href="/online-puja"
+                  href="/rituals"
                   className="inline-flex items-center gap-2 rounded-full border border-amber-400/40 text-amber-100 font-bold text-sm px-7 py-3.5 hover:bg-white/5 transition-all"
                 >
                   View All Festive Sevas

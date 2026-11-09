@@ -134,11 +134,11 @@ export default function AmbabaiTempleKolhapurPage() {
               
               <div className="grid sm:grid-cols-3 gap-4">
                 <Link
-                  href="/online-puja"
+                  href="/rituals"
                   className="flex flex-col items-center justify-center p-4 rounded-xl bg-white/5 border border-amber-300/20 hover:bg-white/10 hover:border-amber-400/50 transition-all group"
                 >
-                  <span className="font-bold text-amber-300 group-hover:text-amber-200">Online Puja</span>
-                  <span className="text-xs text-stone-300 mt-1 text-center">Book Abhishek & Kumkumarchan</span>
+                  <span className="font-bold text-amber-300 group-hover:text-amber-200">Daily Rituals</span>
+                  <span className="text-xs text-stone-300 mt-1 text-center">Aartis & Sacred Sevas</span>
                 </Link>
                 <Link
                   href="/prasadam"

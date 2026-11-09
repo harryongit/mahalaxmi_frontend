@@ -10,6 +10,8 @@ export interface AdminLoginResponse {
   admin_id: number;
   access_token: string;
   token_type?: string;
+  email?: string;
+  role?: string;
 }
 
 export const authService = {

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShieldCheck, Lock, Mail, ArrowRight, Sparkles, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import { authService } from "@/src/services/authService";
+import { saveAdminSession } from "@/src/lib/storage";
 
 type ToastState = {
   type: "success" | "error" | "loading";
@@ -13,8 +14,8 @@ type ToastState = {
 
 export default function AdminLoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("admin@gmail.com");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("admin@mahalaxmipuja.com");
+  const [password, setPassword] = useState("admin123");
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState<ToastState>(null);
 
@@ -44,10 +45,11 @@ export default function AdminLoginPage() {
 
       showToast("success", data.message || "Admin Login Successful!");
 
-      if (typeof window !== "undefined") {
-        localStorage.setItem("admin_auth", "true");
-        localStorage.setItem("access_token", data.access_token);
-      }
+      saveAdminSession(data.access_token, {
+        admin_id: data.admin_id,
+        email: email.trim(),
+        role: data.role || "admin",
+      });
 
       setTimeout(() => {
         router.push("/admin");

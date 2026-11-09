@@ -12,6 +12,7 @@ import { useRazorpay } from "react-razorpay";
 import { motion, AnimatePresence } from "framer-motion";
 import { formatDate } from "@/src/lib/utils";
 import { contentApi } from "@/src/lib/api";
+import { toast } from "sonner";
 import {
   Check,
   Calendar as CalendarIcon,
@@ -36,146 +37,16 @@ import {
   HelpCircle,
   Image as ImageIcon,
   ChevronDown,
+  Loader2,
 } from "lucide-react";
 
-// Data Definitions
-const sevasData = [
-  {
-    id: "s1",
-    title: "Kumkumarchan Seva",
-    subtitle: "Sacred Saffron & Vermilion Offering",
-    price: 551,
-    time: "Daily • 07:00 AM & 05:00 PM",
-    deity: "Goddess Ambabai Mahalaxmi",
-    image: "https://images.unsplash.com/photo-1609766857041-ed402ea8069a?q=80&w=800",
-    description: "Recitation of 1000 holy names of Divine Mother Mahalaxmi while offering pure saffron-blessed vermilion powder to Her divine lotus feet.",
-    benefits: [
-      { title: "Financial Abundance", desc: "Attracts prosperous growth in business and wealth." },
-      { title: "Family Protection", desc: "Bestows family immunity, health & divine grace." },
-      { title: "Marital Harmony", desc: "Strengthens marital bonds & protects from negativity." },
-    ],
-    process: [
-      { step: 1, title: "Sankalpa", desc: "Vedic Pandits initiate Sankalpa with your Gotra & Names." },
-      { step: 2, title: "Kumkum Archana", desc: "Continuous Kumkum Archana with Lalita Sahasranama." },
-      { step: 3, title: "Prasadam & Video", desc: "WhatsApp Video proof & Consecrated Prasadam Home Courier." },
-    ],
-    gallery: [
-      "https://images.unsplash.com/photo-1609766857041-ed402ea8069a?q=80&w=800",
-      "https://images.unsplash.com/photo-1545232979-fbf34fe37b38?q=80&w=800",
-      "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?q=80&w=800",
-    ],
-    reviews: [
-      { name: "Sunita Kulkarni", text: "Received WhatsApp video proof and Kumkum prasadam in 3 days. Extremely blessed!", rating: 5 },
-      { name: "Rajesh Shinde", text: "Very authentic Vedic chanting and blissful experience.", rating: 5 },
-    ],
-    faqs: [
-      { q: "Will my Gotra be recited?", a: "Yes, Panditji recites your Gotra and family names during Sankalpa." },
-      { q: "How do I get photo/video proof?", a: "Video proof is dispatched directly to your WhatsApp number." },
-    ],
-  },
-  {
-    id: "s2",
-    title: "Panchamrut Abhishek",
-    subtitle: "Vedic Holy Bath Ceremony",
-    price: 751,
-    time: "Daily • 06:00 AM & 08:30 AM",
-    deity: "Goddess Ambabai Mahalaxmi",
-    image: "https://images.unsplash.com/photo-1545232979-fbf34fe37b38?q=80&w=800",
-    description: "Vedic ritual bathing of the deity idol with five sacred nectars (cow milk, curd, honey, ghee, sugar) with Shreesukta chanting.",
-    benefits: [
-      { title: "Removes Obstacles", desc: "Clears spiritual blockages & bestows smooth success." },
-      { title: "Physical Energy", desc: "Energizes physical health, vitality & inner peace." },
-      { title: "Permanent Wealth", desc: "Shreesukta mantras invoke permanent Mahalaxmi grace." },
-    ],
-    process: [
-      { step: 1, title: "Sankalpa", desc: "Vedic Panditji invokes Gotra & Family Sankalpa." },
-      { step: 2, title: "5-Nectar Bath", desc: "Five Nectars ritual bath with Shreesukta Chanting." },
-      { step: 3, title: "Alankar & Aarti", desc: "Fresh Silk Alankar, Aarti & WhatsApp Video proof." },
-    ],
-    gallery: [
-      "https://images.unsplash.com/photo-1545232979-fbf34fe37b38?q=80&w=800",
-      "https://images.unsplash.com/photo-1609766857041-ed402ea8069a?q=80&w=800",
-    ],
-    reviews: [
-      { name: "Vikram Patil", text: "The Panchamrut Abhishek is performed with utter purity.", rating: 5 },
-    ],
-    faqs: [
-      { q: "What time is Panchamrut Abhishek performed?", a: "Daily morning between 06:00 AM and 08:30 AM." },
-    ],
-  },
-  {
-    id: "s3",
-    title: "Padya Puja & Archana",
-    subtitle: "Sacred Foot Worship",
-    price: 551,
-    time: "Daily • 09:00 AM",
-    deity: "Goddess Ambabai Mahalaxmi",
-    image: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?q=80&w=800",
-    description: "Traditional foot worship and lotus flower offerings with 108 auspicious names of Goddess Mahalaxmi.",
-    benefits: [
-      { title: "Spiritual Peace", desc: "Purifies mind and grants tranquility." },
-      { title: "Desire Fulfillment", desc: "Fulfills noble family aspirations." },
-    ],
-    process: [
-      { step: 1, title: "108 Archana", desc: "108 Name Archana with fresh lotus flowers." },
-      { step: 2, title: "Delivery", desc: "Gotra recitation & Prasadam home delivery." },
-    ],
-    gallery: ["https://images.unsplash.com/photo-1582510003544-4d00b7f74220?q=80&w=800"],
-    reviews: [{ name: "Ananya Deshmukh", text: "Spiritual peace and quick confirmation.", rating: 5 }],
-    faqs: [{ q: "How is Prasadam delivered?", a: "Packed securely and delivered via courier to your door." }],
-  },
-];
-
-const addOnsData = [
-  {
-    id: "a1",
-    title: "Regular Otee Offering",
-    price: 351,
-    image: "https://images.unsplash.com/photo-1609766857041-ed402ea8069a?q=80&w=300",
-    description: "Haldi-Kumkum, Coconut & blouse piece.",
-  },
-  {
-    id: "a2",
-    title: "Silk Saree Otee",
-    price: 1201,
-    image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=300",
-    description: "Pure silk saree draped on Goddess.",
-  },
-  {
-    id: "a3",
-    title: "Puranpoli Naivedya",
-    price: 300,
-    image: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?q=80&w=300",
-    description: "Freshly made Puranpoli bhog.",
-  },
-  {
-    id: "a4",
-    title: "Brahman & Suwasini Bhojan",
-    price: 1201,
-    image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=300",
-    description: "Feeding Brahmans & Suwasinis.",
-  },
-  {
-    id: "a5",
-    title: "Gou Seva (Cow Feeding)",
-    price: 501,
-    image: "https://images.unsplash.com/photo-1570042707223-933390c5240c?q=80&w=300",
-    description: "Fresh fodder for cows in Goushala.",
-  },
-];
 
 
-function CheckoutForm() {
+function CheckoutForm({ dbService }: { dbService: any }) {
   const searchParams = useSearchParams();
 
-  const pujaId = searchParams.get("puja") || "lakshmi-puja";
   const initialName = searchParams.get("name") || "";
   const initialMobile = searchParams.get("mobile") || "";
-
-  const { data: dbService, isLoading: isServiceLoading } = useQuery({
-    queryKey: ["service", pujaId],
-    queryFn: () => serviceApi.getService(pujaId),
-  });
 
   const { data: festivalDates, isLoading: isFestivalsLoading } = useQuery({
     queryKey: ["festivalDates"],
@@ -184,14 +55,38 @@ function CheckoutForm() {
 
   const { Razorpay } = useRazorpay();
 
-  // Fallback to static sevasData if DB service fails or loads, but use dbService if it exists
-  const selectedPuja = dbService 
-    ? { ...dbService, price: dbService.price || 0, title: dbService.title || "Puja" } 
-    : (sevasData.find((s) => s.id === pujaId) || sevasData[0]);
+  const selectedPuja = dbService;
   
   const todayStr = new Date().toISOString().split("T")[0];
   const [selectedDate, setSelectedDate] = useState<string>(todayStr);
   const [selectedAddons, setSelectedAddons] = useState<Record<string, number>>({});
+  const [addonCategoryTab, setAddonCategoryTab] = useState<string>("All");
+
+  // Dynamic Chadhava & Naivadya category services fetched from backend API
+  const { data: dbAddons = [], isLoading: isAddonsLoading } = useQuery({
+    queryKey: ["chadhavaNaivadyaServices"],
+    queryFn: () => serviceApi.getAddOns(),
+    staleTime: 5 * 1000,
+    refetchOnMount: true,
+  });
+
+  const allOfferings: any[] = Array.isArray(dbAddons)
+    ? dbAddons
+    : Array.isArray((dbAddons as any)?.data)
+    ? (dbAddons as any).data
+    : [];
+
+  // Filter only Chadhava and Naivadya offerings
+  const filteredOfferings = allOfferings.filter((s: any) => {
+    if (s.is_active === false) return false;
+    const cat = (s.category || "").toLowerCase();
+    const isTarget = cat.includes("chadhava") || cat.includes("naivadya") || cat.includes("naivedya") || [2, 3].includes(s.category_id);
+    if (!isTarget) return false;
+
+    if (addonCategoryTab === "Chadhava") return cat.includes("chadhava") || s.category_id === 2;
+    if (addonCategoryTab === "Naivadya") return cat.includes("naivadya") || cat.includes("naivedya") || s.category_id === 3;
+    return true;
+  });
 
   // Active Step State: 1 = Seva & Addons | 2 = Devotee Details
   const [checkoutStep, setCheckoutStep] = useState<1 | 2>(1);
@@ -205,8 +100,14 @@ function CheckoutForm() {
   const [whatsapp, setWhatsapp] = useState(initialMobile);
   const [gotra, setGotra] = useState("Kashyapa");
   const [dontKnowGotra, setDontKnowGotra] = useState(false);
+  const [sankalp, setSankalp] = useState("Family Health, Prosperity & Well-being");
+  const [customSankalp, setCustomSankalp] = useState("");
   const [participatingMembers, setParticipatingMembers] = useState("");
   const [email, setEmail] = useState("");
+
+  // Payment & Booking Reference State
+  const [isPaying, setIsPaying] = useState(false);
+  const [bookingRef, setBookingRef] = useState("");
 
   // Aashirwad Box & Address State
   const [wantAashirwadBox, setWantAashirwadBox] = useState<"yes" | "no" | null>(null);
@@ -259,9 +160,49 @@ function CheckoutForm() {
 
   const handleProceedToConfirmModal = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || mobile.length < 10 || !email) return;
+    const cleanMobile = mobile.replace(/\D/g, "");
+    const cleanWhatsapp = whatsapp.replace(/\D/g, "");
+
+    if (!name.trim()) {
+      toast.error("Please enter Devotee Full Name");
+      return;
+    }
+    if (cleanMobile.length < 10) {
+      toast.error("Please enter a valid 10-digit Mobile Number");
+      return;
+    }
+    if (!email.trim() || !email.includes("@")) {
+      toast.error("Please enter a valid Email Address for receipt delivery");
+      return;
+    }
+    if (cleanWhatsapp.length < 10) {
+      toast.error("Please enter a valid 10-digit WhatsApp Number for puja photo/video updates");
+      return;
+    }
+    const finalSankalp = customSankalp.trim() || sankalp.trim();
+    if (!finalSankalp) {
+      toast.error("Please select or specify your Sankalpa / Prayer intention");
+      return;
+    }
     if (wantAashirwadBox === "yes") {
-      if (!pincode || !cityName || !stateName || !houseNo || !roadArea || !landmark) {
+      if (!pincode.trim()) {
+        toast.error("Please enter Delivery Pincode");
+        return;
+      }
+      if (!cityName.trim()) {
+        toast.error("Please enter City");
+        return;
+      }
+      if (!stateName.trim()) {
+        toast.error("Please enter State");
+        return;
+      }
+      if (!houseNo.trim()) {
+        toast.error("Please enter House / Building Number");
+        return;
+      }
+      if (!roadArea.trim()) {
+        toast.error("Please enter Road / Area name");
         return;
       }
     }
@@ -269,18 +210,52 @@ function CheckoutForm() {
   };
 
   const handleFinalSubmitAndPay = async () => {
+    setIsPaying(true);
     try {
+      // 1. Create order on backend (returns Razorpay order_id, amount in paise, key_id)
       const order = await paymentApi.createOrder(totalAmount);
       
+      const razorpayKey =
+        (order as any).key_id ||
+        process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID ||
+        "rzp_test_TrSL4uY2WXFSnY";
+
+      // 2. Ensure Razorpay script is loaded dynamically
+      if (typeof window !== "undefined" && !(window as any).Razorpay) {
+        await new Promise((resolve) => {
+          const script = document.createElement("script");
+          script.src = "https://checkout.razorpay.com/v1/checkout.js";
+          script.async = true;
+          script.onload = () => resolve(true);
+          script.onerror = () => resolve(false);
+          document.body.appendChild(script);
+        });
+      }
+
+      // Build offerings summary string
+      const selectedAddonsList = allOfferings.filter((a: any) => selectedAddons[a.id]);
+      const addonsSummary = selectedAddonsList.length > 0
+        ? selectedAddonsList.map((a: any) => `${a.title} (₹${a.price})`).join(", ")
+        : "";
+
+      // Build delivery address string
+      const deliveryAddress = wantAashirwadBox === "yes"
+        ? `${houseNo}, ${roadArea}, ${landmark ? landmark + ", " : ""}${cityName}, ${stateName} - ${pincode}`
+        : "Sanctum distribution (No postal shipping)";
+
+      const finalGotra = dontKnowGotra ? "Kashyapa" : (gotra || "Kashyapa");
+      const finalSankalp = customSankalp.trim() || sankalp.trim();
+
       const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_TUfclqVsVWvO8E",
+        key: razorpayKey,
         amount: order.amount,
-        currency: order.currency as "INR",
-        name: "Shri Mahalaxmi Mandir",
-        description: selectedPuja.title,
+        currency: (order.currency || "INR") as "INR",
+        name: "Shri Ambabai Mahalaxmi Mandir",
+        description: `${selectedPuja.title} - Seva Booking`,
         order_id: order.order_id,
         handler: async (response: any) => {
           try {
+            // Verify payment on backend
             const verifyRes = await paymentApi.verifySignature({
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
@@ -289,47 +264,124 @@ function CheckoutForm() {
 
             if (verifyRes.status === "success") {
               const payload = {
-                userName: name,
-                mobile: mobile,
-                email: email,
-                gotra: gotra,
-                familyMembers: participatingMembers,
+                userName: name.trim(),
+                mobile: mobile.replace(/\D/g, ""),
+                email: email.trim(),
+                whatsapp: whatsapp.replace(/\D/g, ""),
+                gotra: finalGotra,
+                familyMembers: participatingMembers.trim() || undefined,
+                sankalp: finalSankalp,
+                address: deliveryAddress,
+                addons: addonsSummary || undefined,
                 pujaTitle: selectedPuja.title,
                 amount: totalAmount,
                 bookingDate: new Date().toISOString(),
                 pujaSlotDate: selectedDate,
                 paymentMode: "Razorpay",
-                paymentStatus: "Paid",
+                paymentStatus: "Paid & Confirmed",
                 transactionId: response.razorpay_payment_id,
                 service_slug: dbService ? dbService.slug : selectedPuja.id,
               };
-              
+
               const { bookingApi } = await import("@/src/lib/api");
-              await bookingApi.createBooking(payload);
+              const res = await bookingApi.createBooking(payload);
               
+              setBookingRef(res?.data?.bookingRef || res?.bookingRef || `AMB-${Date.now().toString().slice(-6)}`);
               setShowConfirmModal(false);
               setIsSuccess(true);
+              toast.success("Seva booked successfully! May Shri Ambabai Mata bless you.");
             }
-          } catch (verifyErr) {
+          } catch (verifyErr: any) {
             console.error("Payment verification failed:", verifyErr);
-            alert("Payment verification failed. Please contact support.");
+            toast.error(verifyErr?.message || "Payment verification failed. Please contact temple support.");
+          } finally {
+            setIsPaying(false);
           }
         },
         prefill: {
-          name: name,
-          contact: mobile,
-          email: email,
+          name: name.trim(),
+          contact: mobile.replace(/\D/g, ""),
+          email: email.trim(),
         },
         theme: {
-          color: "#D4AF37",
+          color: "#3C0F1A",
+        },
+        modal: {
+          ondismiss: async () => {
+            setIsPaying(false);
+            toast.error("Payment was incomplete / cancelled.");
+            try {
+              const cancelPayload = {
+                userName: name.trim(),
+                mobile: mobile.replace(/\D/g, ""),
+                email: email.trim(),
+                whatsapp: whatsapp.replace(/\D/g, ""),
+                gotra: finalGotra,
+                familyMembers: participatingMembers.trim() || undefined,
+                sankalp: finalSankalp,
+                address: deliveryAddress,
+                addons: addonsSummary || undefined,
+                pujaTitle: selectedPuja.title,
+                amount: totalAmount,
+                bookingDate: new Date().toISOString(),
+                pujaSlotDate: selectedDate,
+                paymentMode: "Razorpay",
+                paymentStatus: "Payment Failed",
+                transactionId: `CANCELLED-${Date.now().toString().slice(-6)}`,
+                service_slug: dbService ? dbService.slug : selectedPuja.id,
+              };
+              const { bookingApi } = await import("@/src/lib/api");
+              await bookingApi.createBooking(cancelPayload);
+            } catch (e) {
+              console.error("Failed to record cancelled booking:", e);
+            }
+          },
         },
       };
 
-      const rzpay = new Razorpay(options);
-      rzpay.open();
-    } catch (err) {
+      const RzpConstructor = (window as any).Razorpay;
+      if (RzpConstructor) {
+        const rzpay = new RzpConstructor(options);
+        rzpay.on("payment.failed", async function (resp: any) {
+          const failReason = resp?.error?.description || "Payment failed or declined by bank";
+          toast.error(`Payment Failed: ${failReason}`);
+          setIsPaying(false);
+
+          try {
+            const failPayload = {
+              userName: name.trim(),
+              mobile: mobile.replace(/\D/g, ""),
+              email: email.trim(),
+              whatsapp: whatsapp.replace(/\D/g, ""),
+              gotra: finalGotra,
+              familyMembers: participatingMembers.trim() || undefined,
+              sankalp: finalSankalp,
+              address: deliveryAddress,
+              addons: addonsSummary || undefined,
+              pujaTitle: selectedPuja.title,
+              amount: totalAmount,
+              bookingDate: new Date().toISOString(),
+              pujaSlotDate: selectedDate,
+              paymentMode: "Razorpay",
+              paymentStatus: "Payment Failed",
+              transactionId: resp?.error?.metadata?.payment_id || `FAILED-${Date.now().toString().slice(-6)}`,
+              service_slug: dbService ? dbService.slug : selectedPuja.id,
+            };
+            const { bookingApi } = await import("@/src/lib/api");
+            await bookingApi.createBooking(failPayload);
+          } catch (e) {
+            console.error("Failed to record failed booking:", e);
+          }
+        });
+        rzpay.open();
+      } else {
+        toast.error("Razorpay gateway could not be loaded. Please check your connection.");
+        setIsPaying(false);
+      }
+    } catch (err: any) {
       console.error("Booking initialization failed:", err);
-      alert("Failed to initialize payment. Please try again.");
+      toast.error(err?.message || "Failed to initialize payment. Please try again.");
+      setIsPaying(false);
     }
   };
 
@@ -343,7 +395,7 @@ function CheckoutForm() {
   ] as const;
 
   return (
-    <div className="container-temple max-w-6xl mx-auto space-y-6">
+    <div className="container-temple max-w-6xl mx-auto px-4 sm:px-6 space-y-6">
       
       {/* SLEEK FLOATING WIZARD STEPPER TAB BAR */}
       {!isSuccess && (
@@ -394,66 +446,119 @@ function CheckoutForm() {
               className="space-y-6"
             >
               <div className="grid lg:grid-cols-[1fr_400px] gap-6 items-start">
-                {/* LEFT SIDE: ADD-ON OFFERINGS */}
+                {/* LEFT SIDE: CHADHAVA & NAIVADYA CATEGORY SERVICES */}
                 <div className="rounded-3xl border border-amber-300/80 bg-white p-5 sm:p-6 shadow-md space-y-4">
                   <div className="flex items-center justify-between border-b border-stone-200 pb-3">
                     <div className="flex items-center gap-2">
                       <Gift className="size-5 text-amber-800" />
-                      <h3 className="font-serif text-lg font-bold text-stone-900">
-                        Add-On Seva Offerings (Optional)
-                      </h3>
+                      <div>
+                        <h3 className="font-serif text-lg font-bold text-stone-900 leading-tight">
+                          Chadhava & Naivadya Offerings (Optional)
+                        </h3>
+                        <p className="text-[11px] text-stone-500">
+                          Sacred Otee, Saree, and Mahanaivedya Bhog offered to Goddess Ambabai.
+                        </p>
+                      </div>
                     </div>
-                    <span className="text-[11px] font-bold text-amber-900 bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-300">
+                    <span className="text-[11px] font-bold text-amber-900 bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-300 shrink-0">
                       {Object.keys(selectedAddons).length} Selected
                     </span>
                   </div>
 
-                  <div className="space-y-2.5">
-                    {addOnsData.map((addon) => {
-                      const active = !!selectedAddons[addon.id];
+                  {/* Chadhava & Naivadya Filter Tabs */}
+                  <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+                    {[
+                      { id: "All", name: "All Offerings", icon: "✨" },
+                      { id: "Chadhava", name: "Chadhava (Otee/Saree)", icon: "📿" },
+                      { id: "Naivadya", name: "Naivadya (Bhog)", icon: "🍃" },
+                    ].map((tab) => {
+                      const isSelected = addonCategoryTab === tab.id;
                       return (
-                        <div
-                          key={addon.id}
-                          onClick={() => toggleAddon(addon.id, addon.price)}
-                          className={`p-3 rounded-2xl border transition-all flex items-center gap-3.5 cursor-pointer ${
-                            active
-                              ? "bg-amber-50 border-amber-500 text-amber-950 shadow-xs"
-                              : "bg-white border-stone-200 hover:border-amber-300"
+                        <button
+                          key={tab.id}
+                          type="button"
+                          onClick={() => setAddonCategoryTab(tab.id)}
+                          className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
+                            isSelected
+                              ? "bg-[#3C0F1A] text-white shadow-xs"
+                              : "bg-stone-100 text-stone-600 hover:bg-stone-200 hover:text-stone-900"
                           }`}
                         >
-                          <img
-                            src={addon.image}
-                            alt={addon.title}
-                            className="size-14 rounded-xl object-cover shrink-0 border border-stone-200"
-                          />
-
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center justify-between">
-                              <h4 className="font-serif text-xs font-bold text-stone-900 truncate">
-                                {addon.title}
-                              </h4>
-                              <span className="font-serif text-xs font-bold text-amber-900 shrink-0">
-                                +₹{addon.price}
-                              </span>
-                            </div>
-                            <p className="text-[11px] text-stone-500 truncate mt-0.5">
-                              {addon.description}
-                            </p>
-                          </div>
-
-                          <div
-                            className={`size-6 rounded-xl border flex items-center justify-center shrink-0 transition-all ${
-                              active
-                                ? "bg-amber-800 border-amber-800 text-white shadow-xs"
-                                : "border-stone-300 bg-stone-50 text-stone-400"
-                            }`}
-                          >
-                            {active && <Check className="size-3.5" />}
-                          </div>
-                        </div>
+                          <span className="text-xs">{tab.icon}</span>
+                          <span>{tab.name}</span>
+                        </button>
                       );
                     })}
                   </div>
+
+                  {/* Chadhava & Naivadya Services List */}
+                  {isAddonsLoading ? (
+                    <div className="flex items-center justify-center py-8 text-stone-500 gap-2">
+                      <Loader2 className="size-5 animate-spin text-amber-700" />
+                      <span className="text-xs">Loading offerings...</span>
+                    </div>
+                  ) : filteredOfferings.length === 0 ? (
+                    <div className="text-center py-6 text-stone-500 text-xs">
+                      No offerings currently available in this category.
+                    </div>
+                  ) : (
+                    <div className="space-y-2.5">
+                      {filteredOfferings.map((offering: any) => {
+                        const active = !!selectedAddons[offering.id];
+                        return (
+                          <div
+                            key={offering.id}
+                            onClick={() => toggleAddon(offering.id, offering.price)}
+                            className={`p-3.5 rounded-2xl border transition-all flex items-center gap-3.5 cursor-pointer ${
+                              active
+                                ? "bg-amber-50/80 border-amber-500 text-amber-950 shadow-xs ring-1 ring-amber-400/40"
+                                : "bg-white border-stone-200 hover:border-amber-300 hover:shadow-2xs"
+                            }`}
+                          >
+                            <img
+                              src={offering.image || "/assets/default-service.jpg"}
+                              alt={offering.title}
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).src = "/assets/default-service.jpg";
+                              }}
+                              className="size-14 rounded-xl object-cover shrink-0 border border-stone-200"
+                            />
+
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center justify-between gap-2">
+                                <div className="flex items-center gap-1.5 min-w-0">
+                                  <h4 className="font-serif text-xs font-bold text-stone-900 truncate">
+                                    {offering.title}
+                                  </h4>
+                                  <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-md bg-amber-100 text-amber-900 border border-amber-300 shrink-0">
+                                    {offering.category || (offering.category_id === 2 ? "Chadhava" : "Naivadya")}
+                                  </span>
+                                </div>
+                                <span className="font-serif text-xs font-bold text-amber-900 shrink-0">
+                                  +₹{offering.price}
+                                </span>
+                              </div>
+                              {offering.description && (
+                                <p className="text-[11px] text-stone-500 line-clamp-2 mt-0.5 leading-relaxed">
+                                  {offering.description}
+                                </p>
+                              )}
+                            </div>
+
+                            <div
+                              className={`size-6 rounded-xl border flex items-center justify-center shrink-0 transition-all ${
+                                active
+                                  ? "bg-amber-800 border-amber-800 text-white shadow-xs"
+                                  : "border-stone-300 bg-stone-50 text-stone-400"
+                              }`}
+                            >
+                              {active && <Check className="size-3.5" />}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
 
                 {/* RIGHT SIDE: UNCLUTTERED PUJA SUMMARY & VISUAL CALENDAR */}
@@ -464,7 +569,7 @@ function CheckoutForm() {
                     <div className="p-4 bg-gradient-to-r from-[#3C0F1A] via-[#5C1A29] to-[#2B0A12] text-white flex items-center justify-between border-b border-[var(--gold)]/30">
                       <div>
                         <span className="text-[10px] text-[var(--gold)] font-bold uppercase tracking-wider block">
-                          {selectedPuja.deity}
+                          {selectedPuja.category || "Sacred Seva"}
                         </span>
                         <h3 className="font-serif text-lg font-bold text-gradient-gold">
                           {selectedPuja.title}
@@ -483,7 +588,8 @@ function CheckoutForm() {
                     <div className="p-4 space-y-3">
                       <div className="flex items-center gap-3">
                         <img
-                          src={selectedPuja.image}
+                          src={selectedPuja.image || "/assets/default-service.jpg"}
+                          onError={(e) => { (e.target as HTMLImageElement).src = "/assets/default-service.jpg"; }}
                           alt={selectedPuja.title}
                           className="size-16 rounded-xl object-cover shrink-0 border border-amber-300"
                         />
@@ -766,10 +872,19 @@ function CheckoutForm() {
                 </div>
 
                 <div className="space-y-1 pt-1">
-                  <label className="font-bold text-stone-800 flex items-center gap-1.5">
-                    <MessageCircle className="size-4 text-emerald-600" />
-                    <span>WhatsApp Number for Photo/Video Updates *</span>
-                  </label>
+                  <div className="flex items-center justify-between">
+                    <label className="font-bold text-stone-800 flex items-center gap-1.5">
+                      <MessageCircle className="size-4 text-emerald-600" />
+                      <span>WhatsApp Number for Photo/Video Updates *</span>
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => setWhatsapp(mobile)}
+                      className="text-[11px] text-amber-800 font-bold hover:underline cursor-pointer"
+                    >
+                      Same as Mobile
+                    </button>
+                  </div>
                   <div className="relative flex items-center">
                     <span className="absolute left-3 text-xs text-stone-600 font-bold border-r border-stone-300 pr-2">
                       +91
@@ -795,15 +910,20 @@ function CheckoutForm() {
                     disabled={dontKnowGotra}
                     value={dontKnowGotra ? "Kashyapa" : gotra}
                     onChange={(e) => setGotra(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-xl bg-stone-50 border border-stone-300 text-xs font-medium focus:bg-white focus:border-amber-500 focus:outline-none disabled:bg-stone-100"
+                    className="w-full px-4 py-2.5 rounded-xl bg-stone-50 border border-stone-300 text-xs font-medium focus:bg-white focus:border-amber-500 focus:outline-none disabled:bg-stone-100 cursor-pointer"
                   >
+                    <option value="Kashyapa">Kashyapa (Default / Universal Gotra)</option>
                     <option value="Atri">Atri</option>
                     <option value="Bharadvaja">Bharadvaja</option>
+                    <option value="Bhrigu">Bhrigu</option>
                     <option value="Gautama">Gautama</option>
                     <option value="Jamadagni">Jamadagni</option>
-                    <option value="Kashyapa">Kashyapa</option>
                     <option value="Vasishta">Vasishta</option>
                     <option value="Vishvamitra">Vishvamitra</option>
+                    <option value="Agastya">Agastya</option>
+                    <option value="Angirasa">Angirasa</option>
+                    <option value="Parashara">Parashara</option>
+                    <option value="Shandilya">Shandilya</option>
                   </select>
 
                   <label className="flex items-center gap-2 mt-1.5 text-stone-600 font-medium cursor-pointer">
@@ -823,13 +943,66 @@ function CheckoutForm() {
                   </label>
                 </div>
 
+                {/* Sacred Sankalpa Section */}
+                <div className="space-y-2 pt-1">
+                  <label className="font-bold text-stone-800 flex items-center gap-1.5">
+                    <Sparkles className="size-4 text-amber-600" />
+                    <span>Sacred Sankalpa / Prayer Purpose *</span>
+                  </label>
+                  <div className="flex flex-wrap gap-1.5">
+                    {[
+                      "🌸 Family Health & Well-being",
+                      "💼 Career & Business Success",
+                      "💍 Marriage & Family Harmony",
+                      "👶 Child Health & Education",
+                      "🕉️ Spiritual Peace & Prosperity",
+                      "✍️ Custom Prayer",
+                    ].map((intention) => {
+                      const isSelected = intention === "✍️ Custom Prayer"
+                        ? !!customSankalp
+                        : (sankalp === intention && !customSankalp);
+                      return (
+                        <button
+                          key={intention}
+                          type="button"
+                          onClick={() => {
+                            if (intention === "✍️ Custom Prayer") {
+                              setCustomSankalp("Special gotra prayer for my family");
+                            } else {
+                              setSankalp(intention);
+                              setCustomSankalp("");
+                            }
+                          }}
+                          className={`px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all cursor-pointer border ${
+                            isSelected
+                              ? "bg-amber-900 text-white border-amber-900 shadow-xs"
+                              : "bg-white text-stone-700 border-stone-200 hover:border-amber-300 hover:bg-amber-50/50"
+                          }`}
+                        >
+                          {intention}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <input
+                    type="text"
+                    value={customSankalp || sankalp}
+                    onChange={(e) => {
+                      setCustomSankalp(e.target.value);
+                      setSankalp(e.target.value);
+                    }}
+                    placeholder="Enter your personal prayer / wish for Panditji to recite during sankalpa *"
+                    className="w-full px-4 py-2.5 rounded-xl bg-stone-50 border border-stone-300 text-xs font-medium focus:bg-white focus:border-amber-500 focus:outline-none"
+                  />
+                </div>
+
                 <div className="space-y-1 pt-1">
                   <label className="font-bold text-stone-800 block">
                     Participating Member Names (For Panditji Recitation)
                   </label>
                   <textarea
                     rows={2}
-                    placeholder="e.g. Ramesh Deshmukh, Priya Deshmukh, Rohan Deshmukh"
+                    placeholder="e.g. Ramesh Deshmukh, Priya Deshmukh, Rohan Deshmukh (Optional)"
                     value={participatingMembers}
                     onChange={(e) => setParticipatingMembers(e.target.value)}
                     className="w-full px-4 py-2.5 rounded-xl bg-stone-50 border border-stone-300 text-xs font-medium focus:bg-white focus:border-amber-500 focus:outline-none"
@@ -959,14 +1132,14 @@ function CheckoutForm() {
         </AnimatePresence>
       ) : (
         /* Success State */
-        <div className="rounded-3xl border-2 border-emerald-400 bg-white p-8 text-center space-y-4 shadow-xl max-w-lg mx-auto">
-          <div className="size-16 rounded-full bg-emerald-100 text-emerald-600 mx-auto flex items-center justify-center border-2 border-emerald-300">
+        <div className="rounded-3xl border-2 border-emerald-400 bg-white p-8 text-center space-y-5 shadow-2xl max-w-lg mx-auto">
+          <div className="size-16 rounded-full bg-emerald-100 text-emerald-600 mx-auto flex items-center justify-center border-2 border-emerald-300 shadow-sm">
             <CheckCircle2 className="size-8" />
           </div>
 
-          <div className="space-y-1">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 block">
-              ॥ श्री अंबाबाई प्रसन्न ॥
+          <div className="space-y-2">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-700 block bg-emerald-50 py-1 px-3 rounded-full border border-emerald-200 inline-block">
+              ॥ श्री अंबाबाई महालक्ष्मी प्रसन्न ॥
             </span>
             <h2 className="font-serif text-2xl font-bold text-stone-900">
               Puja Booking Confirmed!
@@ -978,12 +1151,57 @@ function CheckoutForm() {
             </p>
           </div>
 
-          <Link
-            href="/bookings"
-            className="inline-block py-2.5 px-6 rounded-xl bg-gradient-to-r from-[#4A1521] to-[#3B0E19] text-white text-xs font-bold shadow-md"
-          >
-            View My Bookings Dashboard
-          </Link>
+          {bookingRef && (
+            <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-300/80 flex items-center justify-between gap-3 text-left">
+              <div>
+                <span className="text-[10px] uppercase font-bold text-stone-500 block">Booking Reference ID</span>
+                <span className="font-mono text-sm font-bold text-amber-950">{bookingRef}</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  navigator.clipboard.writeText(bookingRef);
+                  toast.success("Booking Reference copied!");
+                }}
+                className="px-3 py-1.5 rounded-xl bg-white border border-amber-300 text-amber-900 font-bold text-[11px] hover:bg-amber-100 cursor-pointer transition-colors shadow-2xs"
+              >
+                Copy ID
+              </button>
+            </div>
+          )}
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+            <Link
+              href="/bookings"
+              className="w-full sm:w-auto py-3 px-5 rounded-xl bg-gradient-to-r from-[#4A1521] via-[#5C1A29] to-[#3B0E19] text-white text-xs font-bold shadow-md hover:brightness-105 transition-all text-center"
+            >
+              View My Puja Bookings
+            </Link>
+            {bookingRef && (
+              <a
+                href={`${process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/api/v1"}/bookings/${bookingRef}/invoice`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto py-3 px-5 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-950 font-bold text-xs border border-amber-300 shadow-xs transition-all text-center flex items-center justify-center gap-1.5"
+              >
+                <span>Download PDF Invoice</span>
+              </a>
+            )}
+            <a
+              href={`https://wa.me/919130532666?text=Namaste,%20I%20have%20booked%20puja%20with%20Ref%20${bookingRef}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto py-3 px-4 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-xs transition-all text-center"
+            >
+              Temple WhatsApp Help
+            </a>
+            <Link
+              href="/"
+              className="w-full sm:w-auto py-3 px-4 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-bold transition-all text-center"
+            >
+              Home
+            </Link>
+          </div>
         </div>
       )}
 
@@ -1025,7 +1243,8 @@ function CheckoutForm() {
                 <div className="rounded-xl border border-amber-200 bg-white p-3.5 flex items-center justify-between gap-3 shadow-xs">
                   <div className="flex items-center gap-3">
                     <img
-                      src={selectedPuja.image}
+                      src={selectedPuja.image || "/assets/default-service.jpg"}
+                          onError={(e) => { (e.target as HTMLImageElement).src = "/assets/default-service.jpg"; }}
                       alt={selectedPuja.title}
                       className="size-14 rounded-xl object-cover shrink-0 border border-amber-200"
                     />
@@ -1037,13 +1256,36 @@ function CheckoutForm() {
                   <span className="font-serif text-lg font-bold text-amber-900">₹{selectedPuja.price}</span>
                 </div>
 
+                {Object.keys(selectedAddons).length > 0 && (
+                  <div className="rounded-xl border border-amber-300/80 bg-amber-50/60 p-3.5 space-y-2">
+                    <span className="font-bold text-amber-950 block">Selected Add-on Offerings:</span>
+                    <div className="space-y-1">
+                      {allOfferings.filter((a: any) => selectedAddons[a.id]).map((a: any) => (
+                        <div key={a.id} className="flex justify-between items-center text-[11px] text-stone-700">
+                          <span className="font-medium">• {a.title} ({a.category || "Offering"})</span>
+                          <span className="font-bold text-amber-900">+₹{a.price}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 <div className="rounded-xl border border-stone-200 bg-white p-3.5 space-y-2">
-                  <span className="font-bold text-stone-800 block">Devotee Details:</span>
+                  <span className="font-bold text-stone-800 block">Devotee & Ritual Details:</span>
                   <div className="grid grid-cols-2 gap-2 text-[11px] text-stone-700">
                     <div>Name: <strong>{name}</strong></div>
                     <div>Phone: <strong>+91 {mobile}</strong></div>
                     <div>WhatsApp: <strong>+91 {whatsapp}</strong></div>
-                    <div>Gotra: <strong>{gotra || "Kashyapa"}</strong></div>
+                    <div>Gotra: <strong>{dontKnowGotra ? "Kashyapa" : (gotra || "Kashyapa")}</strong></div>
+                    <div className="col-span-2">Email: <strong>{email}</strong></div>
+                    <div className="col-span-2 bg-amber-50 p-2 rounded-lg border border-amber-200 text-amber-950">
+                      Sankalpa: <strong>"{customSankalp || sankalp}"</strong>
+                    </div>
+                    {participatingMembers && (
+                      <div className="col-span-2 text-stone-600">
+                        Family Members: <strong>{participatingMembers}</strong>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -1064,20 +1306,42 @@ function CheckoutForm() {
                   <div className="flex items-center gap-2">
                     <button
                       type="button"
+                      disabled={isPaying}
                       onClick={() => setShowConfirmModal(false)}
-                      className="px-3 py-2 rounded-xl bg-white text-stone-700 font-bold text-xs"
+                      className="px-3 py-2.5 rounded-xl bg-white/20 hover:bg-white/30 text-white font-bold text-xs transition-colors cursor-pointer disabled:opacity-50"
                     >
                       Edit
                     </button>
                     <button
                       type="button"
+                      disabled={isPaying}
                       onClick={handleFinalSubmitAndPay}
-                      className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[var(--gold)] to-amber-300 text-stone-950 font-bold text-xs"
+                      className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[var(--gold)] via-amber-300 to-[var(--gold)] text-stone-950 font-bold text-xs shadow-md hover:brightness-105 transition-all flex items-center gap-2 cursor-pointer disabled:opacity-60"
                     >
-                      Submit & Pay ₹{totalAmount}
+                      {isPaying ? (
+                        <>
+                          <Loader2 className="size-4 animate-spin text-stone-950" />
+                          <span>Opening Razorpay Gateway...</span>
+                        </>
+                      ) : (
+                        <>
+                          <ShieldCheck className="size-4 text-emerald-800" />
+                          <span>Pay ₹{totalAmount} via Razorpay</span>
+                          <ArrowRight className="size-4" />
+                        </>
+                      )}
                     </button>
                   </div>
+                <div className="flex items-center justify-center gap-2 text-[10px] text-stone-500 pt-1 pb-1">
+                  <span className="font-semibold text-emerald-700">🔒 100% Secured via Razorpay</span>
+                  <span>•</span>
+                  <span>UPI (GPay / PhonePe / Paytm)</span>
+                  <span>•</span>
+                  <span>Cards</span>
+                  <span>•</span>
+                  <span>NetBanking</span>
                 </div>
+              </div>
 
               </div>
             </motion.div>
@@ -1090,22 +1354,56 @@ function CheckoutForm() {
 
 function CheckoutContent() {
   const searchParams = useSearchParams();
-  const pujaId = searchParams.get("puja") || "s1";
-  const selectedPuja = sevasData.find((s) => s.id === pujaId) || sevasData[0];
+  const pujaId = searchParams.get("puja") || "";
+
+  const { data: dbService, isLoading, isError } = useQuery({
+    queryKey: ["service", pujaId],
+    queryFn: () => serviceApi.getService(pujaId),
+    enabled: !!pujaId,
+  });
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-28 text-stone-600 gap-3">
+        <Loader2 className="w-8 h-8 animate-spin text-amber-800" />
+        <p className="font-medium text-sm">Loading seva details...</p>
+      </div>
+    );
+  }
+
+  if (!pujaId || isError || !dbService) {
+    return (
+      <div className="flex flex-col items-center justify-center py-24 px-4 text-center">
+        <div className="w-16 h-16 rounded-full bg-amber-50 flex items-center justify-center text-amber-800 mb-4 border border-amber-200">
+          <BookOpen className="w-8 h-8" />
+        </div>
+        <h2 className="text-xl font-bold text-stone-900 mb-2">Seva Offering Not Found</h2>
+        <p className="text-stone-600 max-w-md text-sm mb-6">
+          The seva offering you are looking for is either unavailable or no longer active. Please choose from our available offerings.
+        </p>
+        <Link
+          href="/rituals"
+          className="inline-flex items-center px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#4A1521] via-[#5C1A29] to-[#3B0E19] text-white font-semibold text-sm hover:opacity-95 transition-all shadow-md"
+        >
+          View Available Offerings
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <>
       {/* Clean & Standard PageHero */}
       <PageHero
-        breadcrumb={`Seva Checkout / ${selectedPuja.title}`}
+        breadcrumb={`Seva Checkout / ${dbService.title}`}
         badge="Secure Online Booking"
         title="Complete Your"
-        titleGold={`${selectedPuja.title} (₹${selectedPuja.price})`}
+        titleGold={`${dbService.title} (₹${dbService.price})`}
         description={`Customize your optional add-ons, pick an auspicious date, and submit devotee Gotra details.`}
       />
 
       <main className="flex-1 py-10 px-3 sm:px-6">
-        <CheckoutForm />
+        <CheckoutForm dbService={dbService} />
       </main>
     </>
   );

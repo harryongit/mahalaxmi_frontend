@@ -10,10 +10,11 @@ import {
   Sparkles,
   Flame,
   Calendar,
+  Clock,
   ArrowRight,
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { contentApi } from "@/src/lib/api";
+import { contentApi, getMediaUrl } from "@/src/lib/api";
 import { useLenis } from "@/src/lib/use-lenis";
 
 const festivalList = [
@@ -69,7 +70,7 @@ export function FestivalsClient({ initialEvents }: { initialEvents?: any[] }) {
     initialData: initialEvents,
   });
 
-  const displayList = backendEvents.length > 0 ? backendEvents : festivalList;
+  const displayList = backendEvents;
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FCF9F3] text-stone-900">
@@ -105,36 +106,60 @@ export function FestivalsClient({ initialEvents }: { initialEvents?: any[] }) {
               <div className="col-span-2 flex justify-center py-20">
                 <span className="size-10 animate-spin rounded-full border-4 border-amber-500 border-t-transparent" />
               </div>
-            ) : displayList.map((item: any) => (
+            ) : displayList.length === 0 ? (
+              <div className="col-span-2 text-center py-16 px-4 rounded-3xl border-2 border-dashed border-amber-200 bg-amber-50/40">
+                <div className="size-16 rounded-full bg-amber-100 flex items-center justify-center mx-auto text-amber-800 mb-3 shadow-inner">
+                  <Calendar className="size-8" />
+                </div>
+                <h3 className="font-serif text-2xl font-bold text-stone-800">No Upcoming Festivals Scheduled</h3>
+                <p className="text-xs sm:text-sm text-stone-600 max-w-md mx-auto mt-2">
+                  There are currently no special festivals scheduled in the calendar. The sanctum remains open daily for regular darshan, abhishek, and divine aarti.
+                </p>
+              </div>
+            ) : (
+              displayList.map((item: any) => (
               <motion.div
                 key={item.id}
                 whileHover={{ y: -6 }}
                 className="rounded-3xl border-2 border-amber-200/90 bg-white overflow-hidden shadow-lg hover:border-amber-400 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between"
               >
                 <div>
-                  <div className="relative h-56 w-full overflow-hidden">
+                  <div className="relative h-60 w-full overflow-hidden bg-stone-100">
                     <img
-                      src={item.image}
-                      alt={item.name}
+                      src={getMediaUrl(item.image) || "https://images.unsplash.com/photo-1609766857041-ed402ea8069a?q=80&w=800"}
+                      alt={item.title || item.name}
                       className="size-full object-cover hover:scale-105 transition-transform duration-700"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
 
-                    <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[var(--gold)] text-stone-950 shadow-md">
-                      {item.tag || item.category}
-                    </span>
+                    {(item.tag || item.category) && (
+                      <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[var(--gold)] text-stone-950 shadow-md">
+                        {item.tag || item.category}
+                      </span>
+                    )}
 
-                    <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-white text-xs font-semibold">
+                    <div className="absolute bottom-4 left-4 right-4 flex flex-wrap items-center justify-between gap-2 text-white text-xs font-semibold">
                       <div className="flex items-center gap-1.5 bg-black/60 px-3 py-1.5 rounded-xl backdrop-blur-md border border-white/10">
                         <Calendar className="size-3.5 text-amber-400" />
-                        <span>{item.date}</span>
+                        <span>
+                          {item.from_date && item.to_date && item.from_date !== item.to_date
+                            ? `${item.from_date} – ${item.to_date}`
+                            : (item.from_date || item.date || "Auspicious Date")}
+                        </span>
                       </div>
+
+                      {item.time && (
+                        <div className="flex items-center gap-1.5 bg-black/60 px-3 py-1.5 rounded-xl backdrop-blur-md border border-white/10">
+                          <Clock className="size-3.5 text-amber-400" />
+                          <span>{item.time}</span>
+                        </div>
+                      )}
                     </div>
                   </div>
 
                   <div className="p-6 space-y-3">
                     <h3 className="font-serif text-2xl font-bold text-stone-900">
-                      {item.name}
+                      {item.title || item.name}
                     </h3>
                     <p className="text-xs text-stone-600 leading-relaxed font-normal">
                       {item.description || item.note}
@@ -155,19 +180,8 @@ export function FestivalsClient({ initialEvents }: { initialEvents?: any[] }) {
                     )}
                   </div>
                 </div>
-
-                <div className="p-6 pt-0">
-                  <Link
-                    href="/checkout?puja=s1"
-                    className="w-full py-3 rounded-xl bg-gradient-to-r from-[#4A1521] via-[#5C1A29] to-[#3B0E19] text-white text-xs font-bold shadow-md hover:opacity-95 transition-all flex items-center justify-center gap-2"
-                  >
-                    <Flame className="size-4 text-[var(--gold)]" />
-                    <span>Book Festival Special Puja</span>
-                    <ArrowRight className="size-4" />
-                  </Link>
-                </div>
               </motion.div>
-            ))}
+            )))}
           </div>
         </section>
 

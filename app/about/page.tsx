@@ -244,10 +244,10 @@ export default function AboutPage() {
       <section className="py-24 px-4 text-center bg-amber-50">
         <h2 className="font-serif text-3xl sm:text-4xl text-amber-950 mb-6">Experience the Divine</h2>
         <Link
-          href="/online-puja"
+          href="/rituals"
           className="inline-block bg-amber-900 text-white px-8 py-3 rounded-full text-sm uppercase tracking-widest font-bold hover:bg-amber-950 transition-colors"
         >
-          Book a Seva
+          Explore Rituals
         </Link>
       </section>
 

@@ -105,10 +105,10 @@ export default function PrasadamPage() {
                 </div>
               </div>
               <Link
-                href="/online-puja"
+                href="/rituals"
                 className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[var(--gold)] to-amber-300 text-stone-950 font-bold text-sm px-7 py-3.5 hover:brightness-105 transition-all shrink-0"
               >
-                Book a Puja <ArrowRight className="size-4" />
+                View Rituals <ArrowRight className="size-4" />
               </Link>
             </div>
           </section>

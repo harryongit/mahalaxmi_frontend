@@ -139,7 +139,7 @@ export function UserSidebar({ isOpen, onClose }: UserSidebarProps) {
                       className="mt-4 w-full py-3 px-4 rounded-full bg-gradient-to-r from-[#4A1521] via-[#5C1A29] to-[#3B0E19] text-white text-sm font-semibold hover:from-[#5C1A29] hover:to-[#4A1521] shadow-lg transition-all flex items-center justify-center gap-2 border border-[var(--gold)]/30 group-hover:scale-[1.01]"
                     >
                       <LogIn className="size-4 text-[var(--gold)]" />
-                      <span>Login / Create an account</span>
+                      <span>Devotee Login</span>
                     </button>
                   </motion.div>
                 ) : (

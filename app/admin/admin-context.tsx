@@ -8,12 +8,13 @@ export type DevoteeUser = {
   id: string;
   name: string;
   mobile: string;
-  email: string;
+  gotra?: string;
   city: string;
   regDate: string;
   totalBookings: number;
   totalSpent: number;
-  status: "Active" | "VIP" | "Regular";
+  status?: string;
+  email?: string;
 };
 
 export type SevaBooking = {
@@ -21,14 +22,19 @@ export type SevaBooking = {
   bookingRef: string;
   userName: string;
   mobile: string;
+  email?: string;
+  whatsapp?: string;
   gotra: string;
   familyMembers: string;
+  sankalp?: string;
+  address?: string;
+  addons?: string;
   pujaTitle: string;
   amount: number;
   bookingDate: string;
   pujaSlotDate: string;
   paymentMode: string;
-  paymentStatus: "Paid & Confirmed" | "Completed" | "Pending Recitation";
+  paymentStatus: "Paid & Confirmed" | "Completed" | "Pending Recitation" | "Payment Failed" | "Cancelled" | string;
   transactionId: string;
 };
 
@@ -44,7 +50,17 @@ export type State = {
   events: { id: string; date: string; name: string; note: string }[];
   rituals: { id: string; time: string; name: string }[];
   services: any[];
-  donations: { id: string; name: string; amount: number; purpose: string; date: string }[];
+  categories?: { id: number; name: string; slug: string }[];
+  donations: {
+    id: string | number;
+    name: string;
+    amount: number;
+    purpose: string;
+    date: string;
+    payment_id?: string | null;
+    email?: string | null;
+    phone?: string | null;
+  }[];
   testimonials: { id: string; name: string; role: string; text: string; published: boolean }[];
   messages: { id: string; name: string; email: string; text: string; read: boolean }[];
   users: DevoteeUser[];
@@ -70,6 +86,7 @@ export const initial: State = {
   events: [],
   rituals: [],
   services: [],
+  categories: [],
   donations: [],
   users: [],
   bookings: [],

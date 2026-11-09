@@ -25,6 +25,15 @@ const nextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: "/online-puja",
+        destination: "/rituals",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
