@@ -22,7 +22,8 @@ import { IMG } from "./images";
 import Link from "next/link";
 import { Particles, Reveal, SectionEyebrow } from "./effects";
 import { useQuery } from "@tanstack/react-query";
-import { contentApi, serviceApi } from "@/src/lib/api";
+import { contentApi, serviceApi, getMediaUrl } from "@/src/lib/api";
+import { RitualCardSkeleton, DarkCardSkeleton, GalleryCardSkeleton } from "./Skeleton";
 
 import { TestimonialForm } from "@/src/components/temple/TestimonialForm";
 import { DonationsSection } from "./DonationsSection";
@@ -347,7 +348,7 @@ export function Architecture() {
 /* ----------------------- RITUALS ----------------------- */
 
 export function Rituals({ initialData }: { initialData?: any[] }) {
-  const { data: rituals = [], isLoading } = useQuery({
+  const { data: rituals = [], isLoading, isError } = useQuery({
     queryKey: ["content", "rituals"],
     queryFn: contentApi.getRituals,
     initialData,
@@ -387,8 +388,14 @@ export function Rituals({ initialData }: { initialData?: any[] }) {
         </div>
 
         <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-5 gap-5">
-          {isLoading ? (
-            <div className="col-span-full text-center py-8 opacity-75">Loading rituals...</div>
+          {isLoading || isError ? (
+            [1, 2, 3, 4, 5].map((n) => <RitualCardSkeleton key={n} />)
+          ) : rituals.length === 0 ? (
+            <div className="col-span-full text-center py-12 rounded-2xl bg-white/70 border border-amber-200/50 p-6 space-y-2">
+              <span className="text-3xl block">🔔</span>
+              <h4 className="font-serif text-lg font-bold text-stone-800">Daily Ritual Schedule Updating</h4>
+              <p className="text-xs text-stone-600">Sanctum timings are being updated for today. Daily darshan remains open.</p>
+            </div>
           ) : (
           rituals.map((r: any, i: number) => {
             const Icon = HiOutlineSun;
@@ -416,7 +423,7 @@ export function Rituals({ initialData }: { initialData?: any[] }) {
 
 /* ----------------------- FESTIVALS ----------------------- */
 export function Festivals() {
-  const { data: events = [], isLoading } = useQuery({
+  const { data: events = [], isLoading, isError } = useQuery({
     queryKey: ["content", "events"],
     queryFn: contentApi.getEvents,
   });
@@ -479,10 +486,13 @@ export function Festivals() {
         </div>
 
         <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {isLoading ? (
-            <div className="col-span-full text-center py-8 opacity-75">Loading festivals...</div>
+          {isLoading || isError ? (
+            [1, 2, 3, 4].map((n) => <DarkCardSkeleton key={n} />)
           ) : events.length === 0 ? (
-            <div className="col-span-full text-center py-12 text-white/70 glass-dark rounded-2xl">
+            <div className="col-span-full text-center py-12 text-white/80 glass-dark rounded-2xl border border-white/10 space-y-2">
+              <span className="text-3xl block">🪔</span>
+              <h4 className="font-serif text-lg font-bold text-amber-200">No Upcoming Festivals Scheduled</h4>
+              <p className="text-xs text-white/70">Visit the sanctum for daily divine darshan and evening aarti.</p>
               No upcoming festivals currently scheduled. Visit the sanctum for daily divine darshan.
             </div>
           ) : (
@@ -608,7 +618,7 @@ export function Donate() {
 
 /* ----------------------- EVENTS ----------------------- */
 export function Events() {
-  const { data: events = [], isLoading } = useQuery({
+  const { data: events = [], isLoading, isError } = useQuery({
     queryKey: ["content", "events"],
     queryFn: contentApi.getEvents,
   });
@@ -636,7 +646,17 @@ export function Events() {
 
         <div className="mt-14 grid md:grid-cols-3 gap-6">
           {isLoading ? (
-            <div className="col-span-full text-center py-8">Loading upcoming events...</div>
+            [1, 2, 3].map((n) => (
+              <div key={n} className="rounded-2xl bg-white border border-stone-200 p-7 h-52 animate-pulse space-y-4 shadow-sm">
+                <div className="flex justify-between items-center">
+                  <div className="h-4 w-28 rounded bg-stone-200" />
+                  <div className="size-5 rounded-full bg-stone-200" />
+                </div>
+                <div className="h-6 w-3/4 rounded-lg bg-stone-200" />
+                <div className="h-4 w-full rounded bg-stone-100" />
+                <div className="h-4 w-2/3 rounded bg-stone-100" />
+              </div>
+            ))
           ) : events.length === 0 ? (
             <div className="col-span-full text-center py-12 text-stone-500 bg-white rounded-2xl border border-stone-200">
               No upcoming events currently scheduled.
@@ -722,7 +742,19 @@ export function Testimonials({ initialData }: { initialData?: any[] }) {
         <div className="absolute inset-y-0 right-0 w-32 z-10 bg-gradient-to-l from-background to-transparent pointer-events-none" />
         <div className="flex gap-6 animate-scroll-x" style={{ width: "max-content" }}>
           {isLoading ? (
-            <div className="text-center py-8 w-[100vw]">Loading testimonials...</div>
+            [1, 2, 3, 4].map((n) => (
+              <div key={n} className="w-[340px] shrink-0 rounded-2xl glass-panel p-6 h-40 animate-pulse space-y-3">
+                <div className="h-4 w-full rounded bg-stone-200/60" />
+                <div className="h-4 w-3/4 rounded bg-stone-200/60" />
+                <div className="flex items-center gap-3 pt-3">
+                  <div className="size-10 rounded-full bg-stone-200/80" />
+                  <div className="space-y-1">
+                    <div className="h-4 w-24 rounded bg-stone-200/80" />
+                    <div className="h-3 w-16 rounded bg-stone-100/80" />
+                  </div>
+                </div>
+              </div>
+            ))
           ) : (
           row.map((t: any, i: number) => (
             <article
@@ -750,7 +782,7 @@ export function Testimonials({ initialData }: { initialData?: any[] }) {
 
 /* ----------------------- PUJA SERVICES ----------------------- */
 export function PujaServices() {
-  const { data: services = [], isLoading } = useQuery<any[]>({
+  const { data: services = [], isLoading, isError } = useQuery<any[]>({
     queryKey: ["services"],
     queryFn: () => serviceApi.getServices(),
   });
@@ -778,11 +810,13 @@ export function PujaServices() {
         </div>
 
         <div className="mt-16 grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          {isLoading ? (
-            <div className="col-span-full text-center py-8 opacity-75">Loading puja services...</div>
+          {isLoading || isError ? (
+            [1, 2].map((n) => <DarkCardSkeleton key={n} />)
           ) : services.length === 0 ? (
-            <div className="col-span-full text-center py-12 px-6 glass-dark rounded-2xl border border-white/10 max-w-md mx-auto">
-              <p className="text-white/70 text-sm">Currently, no public seva services are active. Please check back soon.</p>
+            <div className="col-span-full text-center py-12 px-6 glass-dark rounded-2xl border border-white/10 max-w-md mx-auto space-y-2">
+              <span className="text-3xl block">🌸</span>
+              <h4 className="font-serif text-lg font-bold text-amber-200">No Seva Services Available</h4>
+              <p className="text-white/70 text-xs">Currently, no public seva offerings are active. Please check back soon.</p>
             </div>
           ) : (
           services.slice(0, 4).map((s: any, i: number) => (
@@ -1078,11 +1112,21 @@ export function Location() {
 
 /* ----------------------- GALLERY w/ Lightbox ----------------------- */
 export function Gallery() {
+  const { data: galleryItems = [], isLoading, isError } = useQuery({
+    queryKey: ["content", "gallery"],
+    queryFn: () => contentApi.getGallery(),
+  });
+
   const [open, setOpen] = useState<number | null>(null);
+  const mediaList = galleryItems.map((item: any) => ({
+    src: getMediaUrl(item.url),
+    title: item.title || item.caption || "Sacred Moment",
+  }));
+
   const close = () => setOpen(null);
   const prev = () =>
-    setOpen((i) => (i === null ? null : (i + IMG.gallery.length - 1) % IMG.gallery.length));
-  const next = () => setOpen((i) => (i === null ? null : (i + 1) % IMG.gallery.length));
+    setOpen((i) => (i === null ? null : (i + mediaList.length - 1) % mediaList.length));
+  const next = () => setOpen((i) => (i === null ? null : (i + 1) % mediaList.length));
 
   useEffect(() => {
     if (open === null) return;
@@ -1093,7 +1137,7 @@ export function Gallery() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open]);
+  }, [open, mediaList.length]);
 
   return (
     <section id="gallery" className="relative py-28 md:py-40">
@@ -1114,36 +1158,52 @@ export function Gallery() {
           </p>
         </div>
 
-        <div className="mt-12 columns-1 sm:columns-2 lg:columns-3 gap-5 [column-fill:_balance]">
-          {IMG.gallery.map((src, i) => (
-            <Reveal key={src} delay={(i % 6) * 0.05}>
-              <button
-                onClick={() => setOpen(i)}
-                className="group mb-5 block w-full overflow-hidden rounded-2xl border border-border relative"
-                aria-label={`Open image ${i + 1}`}
-              >
-                <img
-                  src={src}
-                  alt={`Temple photograph ${i + 1}`}
-                  loading="lazy"
-                  className="w-full h-auto transition-transform duration-700 group-hover:scale-110"
-                />
-                <span className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-transparent group-hover:ring-[color-mix(in_oklab,var(--gold)_60%,transparent)] transition-colors" />
-                <span
-                  className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                  style={{
-                    background:
-                      "radial-gradient(circle at 50% 110%, color-mix(in oklab, var(--gold) 50%, transparent), transparent 50%)",
-                  }}
-                />
-              </button>
-            </Reveal>
-          ))}
+        <div className="mt-12">
+          {isLoading || isError ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {[1, 2, 3, 4, 5, 6].map((n) => (
+                <GalleryCardSkeleton key={n} />
+              ))}
+            </div>
+          ) : mediaList.length === 0 ? (
+            <div className="text-center py-16 bg-white rounded-2xl border border-stone-200 text-stone-600 space-y-2">
+              <span className="text-3xl block">🌺</span>
+              <p className="font-serif text-base font-bold text-stone-800">No Gallery Photos Available</p>
+              <p className="text-xs text-stone-500">Sacred photos will be displayed here soon.</p>
+            </div>
+          ) : (
+            <div className="columns-1 sm:columns-2 lg:columns-3 gap-5 [column-fill:_balance]">
+              {mediaList.map((item: any, i: number) => (
+                <Reveal key={item.src + i} delay={(i % 6) * 0.05}>
+                  <button
+                    onClick={() => setOpen(i)}
+                    className="group mb-5 block w-full overflow-hidden rounded-2xl border border-border relative cursor-pointer"
+                    aria-label={`Open image ${i + 1}`}
+                  >
+                    <img
+                      src={item.src}
+                      alt={item.title}
+                      loading="lazy"
+                      className="w-full h-auto transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <span className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-transparent group-hover:ring-[color-mix(in_oklab,var(--gold)_60%,transparent)] transition-colors" />
+                    <span
+                      className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                      style={{
+                        background:
+                          "radial-gradient(circle at 50% 110%, color-mix(in oklab, var(--gold) 50%, transparent), transparent 50%)",
+                      }}
+                    />
+                  </button>
+                </Reveal>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
       <AnimatePresence>
-        {open !== null && (
+        {open !== null && mediaList[open] && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -1153,7 +1213,7 @@ export function Gallery() {
           >
             <button
               onClick={close}
-              className="absolute top-5 right-5 grid size-11 place-items-center rounded-full glass-dark text-white"
+              className="absolute top-5 right-5 grid size-11 place-items-center rounded-full glass-dark text-white cursor-pointer"
               aria-label="Close"
             >
               <HiX />
@@ -1163,7 +1223,7 @@ export function Gallery() {
                 e.stopPropagation();
                 prev();
               }}
-              className="absolute left-4 md:left-10 top-1/2 -translate-y-1/2 grid size-12 place-items-center rounded-full glass-dark text-white"
+              className="absolute left-4 md:left-10 top-1/2 -translate-y-1/2 grid size-12 place-items-center rounded-full glass-dark text-white cursor-pointer"
               aria-label="Previous"
             >
               <HiChevronLeft className="size-6" />
@@ -1173,21 +1233,19 @@ export function Gallery() {
                 e.stopPropagation();
                 next();
               }}
-              className="absolute right-4 md:right-10 top-1/2 -translate-y-1/2 grid size-12 place-items-center rounded-full glass-dark text-white"
+              className="absolute right-4 md:right-10 top-1/2 -translate-y-1/2 grid size-12 place-items-center rounded-full glass-dark text-white cursor-pointer"
               aria-label="Next"
             >
               <HiChevronRight className="size-6" />
             </button>
-            <motion.img
-              key={open}
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.35 }}
-              src={IMG.gallery[open]}
-              alt={`Temple photograph ${open + 1}`}
-              className="max-h-[88vh] max-w-[92vw] object-contain rounded-xl shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
-            />
+            <div className="max-w-4xl max-h-[85vh] p-2 text-center" onClick={(e) => e.stopPropagation()}>
+              <img
+                src={mediaList[open].src}
+                alt={mediaList[open].title}
+                className="max-h-[75vh] w-auto mx-auto rounded-xl object-contain shadow-2xl"
+              />
+              <p className="mt-3 text-white/80 font-medium text-sm">{mediaList[open].title}</p>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

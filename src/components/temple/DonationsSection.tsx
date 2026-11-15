@@ -307,11 +307,11 @@ export function DonationsSection({ isStandalonePage = false }: { isStandalonePag
 
   const totalRaised = stats?.total_amount
     ? stats.total_amount
-    : donations.reduce((acc, d) => acc + (d.amount || 0), 0) || 31200;
+    : donations.reduce((acc, d) => acc + (d.amount || 0), 0);
 
   const totalDonorsCount = stats?.total_count
     ? stats.total_count
-    : Math.max(donations.length, 18);
+    : donations.length;
 
   return (
     <section
@@ -361,7 +361,11 @@ export function DonationsSection({ isStandalonePage = false }: { isStandalonePag
                 Total Danam
               </span>
               <span className="font-serif text-2xl lg:text-3xl font-bold text-[#380D12] block">
-                ₹{totalRaised.toLocaleString("en-IN")}
+                {feedLoading ? (
+                  <span className="inline-block h-7 w-28 bg-stone-200 animate-pulse rounded-lg" />
+                ) : (
+                  `₹${totalRaised.toLocaleString("en-IN")}`
+                )}
               </span>
             </div>
             <p className="text-xs text-stone-600 leading-relaxed font-normal">
@@ -382,7 +386,11 @@ export function DonationsSection({ isStandalonePage = false }: { isStandalonePag
                 Devotees
               </span>
               <span className="font-serif text-2xl lg:text-3xl font-bold text-stone-900 block">
-                {totalDonorsCount}+
+                {feedLoading ? (
+                  <span className="inline-block h-7 w-16 bg-stone-200 animate-pulse rounded-lg" />
+                ) : (
+                  `${totalDonorsCount}+`
+                )}
               </span>
             </div>
             <p className="text-xs text-stone-600 leading-relaxed font-normal">

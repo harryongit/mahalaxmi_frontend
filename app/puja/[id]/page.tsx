@@ -28,13 +28,15 @@ import {
 
 import { useQuery } from "@tanstack/react-query";
 import { serviceApi } from "@/src/lib/api";
+import { PujaDetailSkeleton } from "@/src/components/temple/Skeleton";
+
 
 export default function PujaDetailsPage() {
   const params = useParams();
   const router = useRouter();
   const pujaId = (params?.id as string) || "";
 
-  const { data: puja, isLoading } = useQuery({
+  const { data: puja, isLoading, isError } = useQuery({
     queryKey: ["service", pujaId],
     queryFn: () => serviceApi.getService(pujaId),
     enabled: !!pujaId,
@@ -85,11 +87,13 @@ export default function PujaDetailsPage() {
     }
   };
 
-  if (isLoading) {
+  if (isLoading || isError) {
     return (
-      <div className="min-h-screen flex flex-col bg-[#FCF9F3] text-stone-900 justify-center items-center">
+      <div className="min-h-screen flex flex-col bg-[#FCF9F3] text-stone-900">
         <Navbar />
-        <div className="py-20">Loading puja details...</div>
+        <main className="flex-1">
+          <PujaDetailSkeleton />
+        </main>
         <Footer />
       </div>
     );
@@ -99,11 +103,9 @@ export default function PujaDetailsPage() {
     return (
       <div className="min-h-screen flex flex-col bg-[#FCF9F3] text-stone-900">
         <Navbar />
-        <div className="flex-1 flex flex-col items-center justify-center py-24 px-4 text-center">
-          <div className="w-16 h-16 rounded-full bg-amber-50 flex items-center justify-center text-amber-800 mb-4 border border-amber-200">
-            <BookOpen className="w-8 h-8" />
-          </div>
-          <h2 className="text-xl font-bold text-stone-900 mb-2">Seva Offering Not Found</h2>
+        <div className="flex-1 flex flex-col items-center justify-center py-24 px-4 text-center space-y-3">
+          <span className="text-5xl block">🕉️</span>
+          <h2 className="text-xl font-bold text-stone-900">Seva Offering Not Found</h2>
           <p className="text-stone-600 max-w-md text-sm mb-6">
             The requested seva offering is currently unavailable or inactive. Please view our list of active offerings.
           </p>

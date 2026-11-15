@@ -15,6 +15,7 @@ import {
   Loader2,
   CheckCircle2,
 } from "lucide-react";
+import { PujaCardSkeleton } from "./Skeleton";
 import { SectionEyebrow } from "./effects";
 import { serviceApi } from "@/src/lib/api";
 import { useAuth } from "@/src/context/AuthContext";
@@ -212,9 +213,10 @@ export function BookingWidget() {
 
         {/* Filtered Sevas Cards Grid */}
         {isLoading && filteredSevas.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16 text-stone-500 gap-3">
-            <Loader2 className="size-8 animate-spin text-amber-700" />
-            <p className="text-xs font-medium">Loading sacred offerings...</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 pt-2">
+            {[1, 2, 3, 4, 5, 6].map((n) => (
+              <PujaCardSkeleton key={n} />
+            ))}
           </div>
         ) : filteredSevas.length === 0 ? (
           <div className="text-center py-16 bg-white rounded-3xl border border-stone-200/90 p-8 space-y-2.5 max-w-lg mx-auto shadow-2xs">

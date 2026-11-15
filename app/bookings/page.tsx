@@ -10,6 +10,8 @@ import { toast } from "sonner";
 import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { bookingApi } from "@/src/lib/api";
+import { BookingCardSkeleton } from "@/src/components/temple/Skeleton";
+
 import { formatDate } from "@/src/lib/utils";
 import { useAuth } from "@/src/context/AuthContext";
 
@@ -17,7 +19,7 @@ export default function BookingsPage() {
   const { isLoggedIn, isLoading: authLoading, openLoginModal } = useAuth();
   const [filter, setFilter] = useState<"all" | "confirmed" | "failed">("all");
 
-  const { data: bookingsData = [], isLoading } = useQuery({
+  const { data: bookingsData = [], isLoading, isError } = useQuery({
     queryKey: ["user", "bookings"],
     queryFn: bookingApi.getUserBookings,
     enabled: isLoggedIn,
@@ -157,11 +159,15 @@ export default function BookingsPage() {
 
               {/* Bookings List Cards */}
               <div className="space-y-4">
-                {isLoading ? (
-                  <div className="text-center py-12 text-stone-500 font-medium">Loading your bookings...</div>
+                {isLoading || isError ? (
+                  <div className="space-y-4">
+                    {[1, 2, 3].map((n) => (
+                      <BookingCardSkeleton key={n} />
+                    ))}
+                  </div>
                 ) : bookings.length === 0 ? (
                   <div className="text-center py-12 px-4 text-stone-600 bg-white rounded-3xl border border-stone-200 shadow-sm space-y-3">
-                    <Sparkles className="size-8 text-amber-500 mx-auto" />
+                    <span className="text-4xl block">🕉️</span>
                     <h3 className="font-serif text-lg font-bold text-stone-800">No Puja Bookings Found</h3>
                     <p className="text-xs text-stone-500 max-w-sm mx-auto">
                       You have not booked any sacred rituals yet. Explore temple pujas and perform sankalpa in your family name.

@@ -1352,6 +1352,41 @@ function CheckoutForm({ dbService }: { dbService: any }) {
   );
 }
 
+function CheckoutSkeleton() {
+  return (
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 animate-pulse space-y-8">
+      <div className="flex justify-center gap-3">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="h-10 w-28 rounded-xl bg-stone-200" />
+        ))}
+      </div>
+      <div className="grid lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2 space-y-6">
+          <div className="rounded-3xl border border-stone-200 bg-white p-6 space-y-4 shadow-sm">
+            <div className="h-6 w-1/3 rounded-lg bg-stone-200" />
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div className="h-11 rounded-xl bg-stone-100" />
+              <div className="h-11 rounded-xl bg-stone-100" />
+            </div>
+            <div className="h-11 rounded-xl bg-stone-100" />
+          </div>
+          <div className="rounded-3xl border border-stone-200 bg-white p-6 space-y-4 shadow-sm">
+            <div className="h-6 w-1/3 rounded-lg bg-stone-200" />
+            <div className="h-32 rounded-xl bg-stone-100" />
+          </div>
+        </div>
+        <div>
+          <div className="rounded-3xl border border-stone-200 bg-white p-6 space-y-4 shadow-sm">
+            <div className="h-6 w-1/2 rounded-lg bg-stone-200" />
+            <div className="h-12 w-full rounded-xl bg-stone-100" />
+            <div className="h-12 w-full rounded-xl bg-amber-800/40" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function CheckoutContent() {
   const searchParams = useSearchParams();
   const pujaId = searchParams.get("puja") || "";
@@ -1362,28 +1397,21 @@ function CheckoutContent() {
     enabled: !!pujaId,
   });
 
-  if (isLoading) {
-    return (
-      <div className="flex flex-col items-center justify-center py-28 text-stone-600 gap-3">
-        <Loader2 className="w-8 h-8 animate-spin text-amber-800" />
-        <p className="font-medium text-sm">Loading seva details...</p>
-      </div>
-    );
+  if (isLoading || isError) {
+    return <CheckoutSkeleton />;
   }
 
   if (!pujaId || isError || !dbService) {
     return (
-      <div className="flex flex-col items-center justify-center py-24 px-4 text-center">
-        <div className="w-16 h-16 rounded-full bg-amber-50 flex items-center justify-center text-amber-800 mb-4 border border-amber-200">
-          <BookOpen className="w-8 h-8" />
-        </div>
-        <h2 className="text-xl font-bold text-stone-900 mb-2">Seva Offering Not Found</h2>
-        <p className="text-stone-600 max-w-md text-sm mb-6">
+      <div className="flex flex-col items-center justify-center py-24 px-4 text-center space-y-3">
+        <span className="text-5xl block">🕉️</span>
+        <h2 className="text-xl font-bold text-stone-900">Seva Offering Not Found</h2>
+        <p className="text-stone-600 max-w-md text-xs">
           The seva offering you are looking for is either unavailable or no longer active. Please choose from our available offerings.
         </p>
         <Link
           href="/rituals"
-          className="inline-flex items-center px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#4A1521] via-[#5C1A29] to-[#3B0E19] text-white font-semibold text-sm hover:opacity-95 transition-all shadow-md"
+          className="mt-2 inline-flex items-center px-5 py-2.5 rounded-xl bg-[#3C0F1A] text-amber-100 font-semibold text-xs hover:bg-[#4D1624] transition-all shadow-md"
         >
           View Available Offerings
         </Link>
@@ -1413,7 +1441,7 @@ export default function CheckoutPage() {
   return (
     <div className="min-h-screen flex flex-col bg-[#FCF9F3] text-stone-900">
       <Navbar />
-      <Suspense fallback={<div className="text-center py-20 text-stone-600">Loading...</div>}>
+      <Suspense fallback={<CheckoutSkeleton />}>
         <CheckoutContent />
       </Suspense>
       <Footer />

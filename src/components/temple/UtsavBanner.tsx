@@ -5,6 +5,8 @@ import Link from "next/link";
 import { HiArrowRight } from "react-icons/hi";
 import { IMG } from "./images";
 import { Reveal } from "./effects";
+import { useQuery } from "@tanstack/react-query";
+import { contentApi, getMediaUrl } from "@/src/lib/api";
 
 const INITIAL_COUNTDOWN = {
   days: 11,
@@ -38,12 +40,25 @@ function useCountdown(target: number) {
 }
 
 export function UtsavBanner() {
+  const { data: events = [] } = useQuery({
+    queryKey: ["content", "events"],
+    queryFn: contentApi.getEvents,
+  });
+
+  const nextEvent = events.length > 0 ? events[0] : null;
   const [target, setTarget] = useState(0);
 
   useEffect(() => {
-    // next Diwali-style utsav, ~11 days out from client mount
+    if (nextEvent?.from_date) {
+      const parsed = Date.parse(nextEvent.from_date);
+      if (!isNaN(parsed) && parsed > Date.now()) {
+        setTarget(parsed);
+        return;
+      }
+    }
+    // Auspicious upcoming utsav countdown (~11 days out)
     setTarget(Date.now() + 11 * 86400000 + 23 * 3600000 + 54 * 60000);
-  }, []);
+  }, [nextEvent]);
 
   const t = useCountdown(target);
 
@@ -60,7 +75,7 @@ export function UtsavBanner() {
         <Reveal>
           <div className="relative overflow-hidden rounded-[32px] shadow-[0_40px_100px_-40px_rgba(80,30,0,0.55)]">
             <img
-              src={IMG.festival}
+              src={getMediaUrl(nextEvent?.image) || IMG.festival}
               alt="Thousands of oil lamps lit across the temple courtyard"
               loading="lazy"
               className="absolute inset-0 size-full object-cover"
@@ -77,11 +92,13 @@ export function UtsavBanner() {
                 Upcoming Utsav
               </p>
               <h2 className="font-serif mt-5 text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.98] text-white">
-                Diwali <em className="not-italic text-gradient-gold italic">Deep Utsav</em>
+                {nextEvent?.title || nextEvent?.name || (
+                  <>Diwali <em className="not-italic text-gradient-gold italic">Deep Utsav</em></>
+                )}
               </h2>
-              <p className="mt-5 max-w-md text-white/75 leading-relaxed">
-                108,000 diyas will light the sanctuary in a single evening of prayer, music, and
-                prasad. Join thousands of devotees in witnessing this glorious sacred festival of lights.
+              <p className="mt-5 max-w-md text-white/75 leading-relaxed line-clamp-3">
+                {nextEvent?.description ||
+                  "Witness the sacred festive periods and illuminated evening lamps in honor of Goddess Ambabai Mahalaxmi."}
               </p>
 
               <div className="mt-9 flex flex-wrap gap-3">

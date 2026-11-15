@@ -6,6 +6,8 @@ import { HiX, HiChevronLeft, HiChevronRight, HiPlay } from "react-icons/hi";
 import { Sparkles, Maximize2, Video, Image as ImageIcon, Tag } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { contentApi, getMediaUrl, GalleryItem } from "@/src/lib/api";
+import { GalleryCardSkeleton } from "./Skeleton";
+
 
 const CATEGORIES = [
   "All",
@@ -21,7 +23,7 @@ export function GalleryBento({ initialData }: { initialData?: any[] }) {
   const [selectedCat, setSelectedCat] = useState("All");
   const [open, setOpen] = useState<number | null>(null);
 
-  const { data: galleryData = [], isLoading } = useQuery({
+  const { data: galleryData = [], isLoading, isError } = useQuery({
     queryKey: ["content", "gallery"],
     queryFn: () => contentApi.getGallery(),
     initialData,
@@ -137,12 +139,17 @@ export function GalleryBento({ initialData }: { initialData?: any[] }) {
         </div>
 
         {/* Media Grid */}
-        {isLoading ? (
-          <div className="text-center py-16 text-stone-500 font-medium">Loading sacred gallery...</div>
+        {isLoading || isError ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+              <GalleryCardSkeleton key={n} />
+            ))}
+          </div>
         ) : filtered.length === 0 ? (
-          <div className="text-center py-16 bg-white/60 border border-dashed border-amber-300 rounded-3xl p-8">
-            <p className="font-serif text-lg font-bold text-stone-700">No media available in "{selectedCat}"</p>
-            <p className="text-xs text-stone-500 mt-1">Check back soon or select another category above.</p>
+          <div className="text-center py-16 bg-white/70 border border-dashed border-amber-300 rounded-3xl p-8 space-y-2 max-w-md mx-auto">
+            <span className="text-4xl block">🖼️</span>
+            <p className="font-serif text-lg font-bold text-stone-800">No Media Available in "{selectedCat}"</p>
+            <p className="text-xs text-stone-500">Check back soon or select another category above.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

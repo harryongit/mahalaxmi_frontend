@@ -16,55 +16,13 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { contentApi, getMediaUrl } from "@/src/lib/api";
 import { useLenis } from "@/src/lib/use-lenis";
+import { FestivalCardSkeleton } from "./Skeleton";
 
-const festivalList = [
-  {
-    id: "f1",
-    name: "Kirnotsav (Sun Rays Festival)",
-    tag: "Natural Phenomenon",
-    date: "Jan 31 – Feb 02 & Nov 09 – Nov 11",
-    deity: "Goddess Ambabai Mahalaxmi",
-    image: "https://images.unsplash.com/photo-1609766857041-ed402ea8069a?q=80&w=800",
-    description:
-      "Kirnotsav (Festival of Sun Rays) is a rare natural miracle observed at Kolhapur Mahalaxmi Mandir. As the setting sun enters the temple door, its golden rays fall directly on the feet, waist, and face of Goddess Ambabai.",
-    highlights: ["Day 1: Sun rays touch Goddess feet", "Day 2: Sun rays illuminate waist", "Day 3: Rays fall directly on divine face"],
-  },
-  {
-    id: "f2",
-    name: "Sharadiya Navratri Utsav",
-    tag: "9 Divine Nights",
-    date: "Sep 22 – Oct 02, 2026",
-    deity: "Goddess Ambabai Mahalaxmi",
-    image: "https://images.unsplash.com/photo-1545232979-fbf34fe37b38?q=80&w=800",
-    description: "Nine sacred nights honoring Goddess Mahalaxmi in Her 9 auspicious Alankar forms. Millions of pilgrims gather for daily Lalita Panchami Gaja-Shringar and Maha Aarti.",
-    highlights: ["Ghatasthapana Commencement", "Lalita Panchami Elephant Procession", "Mahashtami & Khandi Navami Havan"],
-  },
-  {
-    id: "f3",
-    name: "Rathotsav (Chariot Procession)",
-    tag: "Annual Yatra",
-    date: "Chaitra Purnima (April)",
-    deity: "Goddess Ambabai Mahalaxmi",
-    image: "https://images.unsplash.com/photo-1514533450685-4493e01d1fdc?q=80&w=800",
-    description: "The grand golden chariot carrying Goddess Ambabai is pulled by thousands of enthusiastic devotees through the historic paved streets of Kolhapur.",
-    highlights: ["Golden Chariot Decoration", "Traditional Tutari & Nagada Music", "Midnight Maha Deeparadhana"],
-  },
-  {
-    id: "f4",
-    name: "Karthikai Deepotsav",
-    tag: "108,000 Diya Festival",
-    date: "Nov 24, 2026",
-    deity: "Goddess Ambabai Mahalaxmi",
-    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800",
-    description: "The entire temple courtyard and Hemadpanthi stone pillars are illuminated with over 108,000 clay oil lamps, turning the mandir into a golden sea of light.",
-    highlights: ["108,000 Earthen Lamps Lighting", "Special Sahasranama Archana", "Grand Aarti at Twilight"],
-  },
-];
 
 export function FestivalsClient({ initialEvents }: { initialEvents?: any[] }) {
   useLenis();
 
-  const { data: backendEvents = [], isLoading } = useQuery({
+  const { data: backendEvents = [], isLoading, isError } = useQuery({
     queryKey: ["content", "events"],
     queryFn: contentApi.getEvents,
     initialData: initialEvents,
@@ -102,15 +60,14 @@ export function FestivalsClient({ initialEvents }: { initialEvents?: any[] }) {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {isLoading ? (
-              <div className="col-span-2 flex justify-center py-20">
-                <span className="size-10 animate-spin rounded-full border-4 border-amber-500 border-t-transparent" />
-              </div>
+            {isLoading || isError ? (
+              <>
+                <FestivalCardSkeleton />
+                <FestivalCardSkeleton />
+              </>
             ) : displayList.length === 0 ? (
-              <div className="col-span-2 text-center py-16 px-4 rounded-3xl border-2 border-dashed border-amber-200 bg-amber-50/40">
-                <div className="size-16 rounded-full bg-amber-100 flex items-center justify-center mx-auto text-amber-800 mb-3 shadow-inner">
-                  <Calendar className="size-8" />
-                </div>
+              <div className="col-span-2 text-center py-16 px-4 rounded-3xl border-2 border-dashed border-amber-200 bg-amber-50/40 space-y-3">
+                <span className="text-4xl block">🪔</span>
                 <h3 className="font-serif text-2xl font-bold text-stone-800">No Upcoming Festivals Scheduled</h3>
                 <p className="text-xs sm:text-sm text-stone-600 max-w-md mx-auto mt-2">
                   There are currently no special festivals scheduled in the calendar. The sanctum remains open daily for regular darshan, abhishek, and divine aarti.

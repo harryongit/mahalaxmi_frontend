@@ -29,7 +29,7 @@ export default function ProfilePage() {
     enabled: isLoggedIn,
   });
 
-  const { data: bookings, isLoading: isLoadingBookings } = useQuery({
+  const { data: bookings, isLoading: isLoadingBookings, isError: isBookingsError } = useQuery({
     queryKey: ["user", "bookings"],
     queryFn: bookingApi.getUserBookings,
     enabled: isLoggedIn,
@@ -319,8 +319,19 @@ export default function ProfilePage() {
                   </div>
                 </div>
 
-                {isLoadingBookings ? (
-                  <div className="text-center py-8 text-stone-500 text-sm font-medium">Loading your bookings...</div>
+                {isLoadingBookings || isBookingsError ? (
+                  <div className="space-y-3">
+                    {[1, 2, 3].map((n) => (
+                      <div
+                        key={n}
+                        className="p-4 rounded-2xl bg-stone-50 border border-stone-200 animate-pulse space-y-2.5"
+                      >
+                        <div className="h-5 w-48 rounded bg-stone-200" />
+                        <div className="h-3.5 w-32 rounded bg-stone-100" />
+                        <div className="h-4 w-20 rounded bg-amber-100" />
+                      </div>
+                    ))}
+                  </div>
                 ) : bookings && bookings.length > 0 ? (
                   <div className="space-y-4">
                     {bookings.map((booking: any) => (

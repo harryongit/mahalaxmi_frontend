@@ -19,9 +19,10 @@ export {
   notifyAdminSessionExpired,
 };
 
-// Server API: "https://server.ambabaimahalaxmi.com/api/v1"
+// Production Server API: "https://server.ambabaimahalaxmi.com/api/v1"
+// Local Dev API: "http://localhost:8000/api/v1"
 export const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/api/v1";
+  process.env.NEXT_PUBLIC_API_BASE_URL || "https://server.ambabaimahalaxmi.com/api/v1";
 
 /**
  * Standard API envelope returned by the backend for every 2xx response:
