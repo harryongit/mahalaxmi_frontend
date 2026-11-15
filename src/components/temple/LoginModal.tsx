@@ -7,17 +7,17 @@ import {
   X,
   ArrowRight,
   ShieldCheck,
-  Sparkles,
   CheckCircle,
+  AlertCircle,
   RefreshCw,
   ArrowLeft,
   MessageSquare,
+  Clock,
 } from "lucide-react";
 import { useAuth } from "@/src/context/AuthContext";
 import {
   Country,
   DEFAULT_COUNTRY,
-  isPhoneValid,
   validatePhoneNumber,
 } from "@/src/lib/countryCodes";
 import { PhoneInputWithCountry } from "./PhoneInputWithCountry";
@@ -42,7 +42,6 @@ export function LoginModal({
   const [phoneNumber, setPhoneNumber] = useState("");
   const [step, setStep] = useState<"input" | "otp">("input");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
-  const [devOtpHint, setDevOtpHint] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [loading, setLoading] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -65,12 +64,13 @@ export function LoginModal({
     };
   }, [resendCountdown]);
 
-  // Auto-dismiss error and success messages after 3 seconds
+  // Auto-dismiss feedback: 5s for success, 8s for errors
   useEffect(() => {
     if (!feedback) return;
+    const duration = feedback.type === "error" ? 8000 : 5000;
     const timer = setTimeout(() => {
       setFeedback(null);
-    }, 3000);
+    }, duration);
     return () => clearTimeout(timer);
   }, [feedback]);
 
@@ -79,7 +79,6 @@ export function LoginModal({
       // Reset state on close
       setStep("input");
       setFeedback(null);
-      setDevOtpHint(null);
       setOtp(["", "", "", "", "", ""]);
       setResendCountdown(0);
     }
@@ -114,17 +113,17 @@ export function LoginModal({
       const res = await auth.requestOtp(fullPhone);
       setStep("otp");
       setResendCountdown(60); // 1-minute cooldown
-      if (res && res.otp) {
-        setDevOtpHint(res.otp);
-      } else {
-        setDevOtpHint("123456");
-      }
+      setOtp(["", "", "", "", "", ""]);
+
+      const successText =
+        res?.message ||
+        `Verification OTP sent to your WhatsApp number (${country.dialCode} ${cleanDigits}).`;
       setFeedback({
         type: "success",
-        text: `Verification code sent to ${country.dialCode} ${cleanDigits}.`,
+        text: successText,
       });
     } catch (error: any) {
-      const msg = error?.message || "Failed to send OTP. Please check your number.";
+      const msg = error?.message || "Failed to send OTP. Please check your WhatsApp number.";
       setFeedback({ type: "error", text: msg });
     } finally {
       setLoading(false);
@@ -137,7 +136,7 @@ export function LoginModal({
     const otpString = otp.join("").trim();
 
     if (otpString.length < 6) {
-      setFeedback({ type: "error", text: "Please enter the complete 6-digit OTP code." });
+      setFeedback({ type: "error", text: "Please enter all 6 digits of the OTP received on WhatsApp." });
       return;
     }
 
@@ -161,7 +160,7 @@ export function LoginModal({
 
       setTimeout(() => {
         handleModalClose();
-      }, 700);
+      }, 800);
     } catch (error: any) {
       const msg = error?.message || "Invalid or expired OTP code. Please try again.";
       setFeedback({ type: "error", text: msg });
@@ -181,6 +180,7 @@ export function LoginModal({
     const pasteData = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 6);
     if (pasteData) {
       autoFillOtp(pasteData);
+      setFeedback(null);
     }
   };
 
@@ -199,7 +199,7 @@ export function LoginModal({
             className="fixed inset-0 bg-stone-950/75 backdrop-blur-sm"
           />
 
-          {/* Modal Card - overflow-visible ensures the floating dropdown is never clipped! */}
+          {/* Modal Card */}
           <motion.div
             initial={{ scale: 0.94, opacity: 0, y: 15 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
@@ -217,36 +217,49 @@ export function LoginModal({
                 <X className="size-4" />
               </button>
 
-
               <h3 id="devotee-modal-title" className="font-serif text-2xl font-bold text-gradient-gold">
                 {step === "otp" ? "Verification OTP" : "Devotee Login"}
               </h3>
               <p className="text-xs text-amber-100/75 mt-1">
                 {step === "otp"
-                  ? "Enter the 6-digit verification code sent to your phone"
-                  : "Enter your WhatsApp / Mobile number for instant OTP verification"}
+                  ? "Enter the 6-digit verification code sent to your WhatsApp"
+                  : "Enter your WhatsApp number for instant OTP verification"}
               </p>
             </div>
 
-            {/* Form Body - rounded bottom */}
+            {/* Form Body */}
             <div className="p-5 sm:p-7 space-y-4 rounded-b-3xl">
-              {/* Status Feedback Notice */}
-              {feedback && (
-                <div
-                  id="devotee-modal-feedback"
-                  className={`text-xs font-semibold rounded-xl p-3 flex items-start gap-2 ${feedback.type === "success"
-                      ? "bg-emerald-50 text-emerald-800 border border-emerald-300"
-                      : "bg-red-50 text-red-700 border border-red-300"
+              {/* Dynamic Toast / Feedback Banner */}
+              <AnimatePresence mode="wait">
+                {feedback && (
+                  <motion.div
+                    key="feedback"
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    id="devotee-modal-feedback"
+                    className={`text-xs font-semibold rounded-xl p-3 flex items-start gap-2.5 shadow-sm border ${
+                      feedback.type === "success"
+                        ? "bg-emerald-50 text-emerald-900 border-emerald-300"
+                        : "bg-red-50 text-red-900 border-red-300"
                     }`}
-                >
-                  {feedback.type === "success" ? (
-                    <CheckCircle className="size-4 text-emerald-600 shrink-0 mt-0.5" />
-                  ) : (
-                    <X className="size-4 text-red-600 shrink-0 mt-0.5" />
-                  )}
-                  <span>{feedback.text}</span>
-                </div>
-              )}
+                  >
+                    {feedback.type === "success" ? (
+                      <CheckCircle className="size-4 text-emerald-600 shrink-0 mt-0.5" />
+                    ) : (
+                      <AlertCircle className="size-4 text-red-600 shrink-0 mt-0.5" />
+                    )}
+                    <span className="leading-relaxed flex-1">{feedback.text}</span>
+                    <button
+                      type="button"
+                      onClick={() => setFeedback(null)}
+                      className="text-stone-400 hover:text-stone-600 cursor-pointer"
+                    >
+                      <X className="size-3.5" />
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               {/* STEP 1: Phone Input Screen */}
               {step === "input" && (
@@ -256,11 +269,14 @@ export function LoginModal({
                     country={country}
                     onCountryChange={setCountry}
                     phoneNumber={phoneNumber}
-                    onPhoneNumberChange={setPhoneNumber}
+                    onPhoneNumberChange={(val) => {
+                      setPhoneNumber(val);
+                      if (feedback) setFeedback(null);
+                    }}
                     disabled={loading}
                     autoFocus
                     id="devotee-phone-input"
-                    label="WhatsApp / Mobile Number"
+                    label="WhatsApp Mobile Number"
                     error={feedback?.type === "error" ? feedback.text : null}
                   />
 
@@ -271,10 +287,10 @@ export function LoginModal({
                     </div>
                     <div className="space-y-0.5">
                       <p className="font-bold text-[11px] text-stone-800">
-                        Instant WhatsApp & SMS Verification
+                        Official WhatsApp Verification
                       </p>
                       <p className="text-[10px] text-stone-600 leading-relaxed">
-                        OTP will be sent to <strong>{country.dialCode} {phoneNumber || "your number"}</strong>. Devotees without an existing account will be registered automatically.
+                        A dynamic 6-digit OTP will be delivered directly to your WhatsApp. New devotees will be registered automatically upon verification.
                       </p>
                     </div>
                   </div>
@@ -288,11 +304,11 @@ export function LoginModal({
                     {loading ? (
                       <>
                         <RefreshCw className="size-4 animate-spin text-amber-300" />
-                        <span>Sending Sacred OTP...</span>
+                        <span>Sending WhatsApp OTP...</span>
                       </>
                     ) : (
                       <>
-                        <span>Send Login OTP</span>
+                        <span>Send WhatsApp OTP</span>
                         <ArrowRight className="size-4 text-[var(--gold)]" />
                       </>
                     )}
@@ -305,35 +321,18 @@ export function LoginModal({
                 <form id="devotee-otp-form" onSubmit={handleVerifyOtp} className="space-y-4 text-center">
                   <div className="bg-amber-50/90 border border-amber-200/80 rounded-2xl p-3.5">
                     <p className="text-xs text-stone-700">
-                      We sent a 6-digit verification OTP to:
+                      We sent a 6-digit verification code to WhatsApp:
                     </p>
                     <p className="text-sm font-bold text-stone-900 font-mono mt-0.5">
                       {country.flag} {country.dialCode} {phoneNumber}
                     </p>
+                    <div className="mt-1.5 flex items-center justify-center gap-1 text-[11px] text-amber-900/80 font-medium">
+                      <Clock className="size-3 text-amber-700" />
+                      <span>Expires in 5 minutes</span>
+                    </div>
                   </div>
 
-                  {/* Dev / Test OTP Helper Pill */}
-                  {devOtpHint && (
-                    <div id="dev-otp-container" className="bg-amber-100/90 border border-amber-300 rounded-xl px-3 py-2 text-left flex items-center justify-between">
-                      <div>
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-amber-900">
-                          Dev Test OTP:
-                        </span>
-                        <span id="dev-otp-value" className="ml-1.5 font-mono font-bold text-sm text-amber-950">
-                          {devOtpHint}
-                        </span>
-                      </div>
-                      <button
-                        type="button"
-                        id="dev-otp-autofill-btn"
-                        onClick={() => autoFillOtp(devOtpHint)}
-                        className="px-2.5 py-1 rounded-lg bg-amber-800 text-amber-50 text-[10px] font-bold hover:bg-amber-900 transition-colors cursor-pointer"
-                      >
-                        Auto Fill
-                      </button>
-                    </div>
-                  )}
-
+                  {/* 6-Digit OTP Inputs */}
                   <div className="flex justify-center gap-2 sm:gap-2.5 my-2" onPaste={handleOtpPaste}>
                     {otp.map((digit, idx) => (
                       <input
@@ -342,6 +341,7 @@ export function LoginModal({
                         type="text"
                         maxLength={1}
                         inputMode="numeric"
+                        autoFocus={idx === 0}
                         value={digit}
                         onChange={(e) => {
                           const val = e.target.value.replace(/\D/g, "");
@@ -359,10 +359,14 @@ export function LoginModal({
                             prevInput?.focus();
                           }
                         }}
-                        className="size-10 sm:size-11 rounded-xl bg-white border border-stone-300 focus:border-amber-600 focus:ring-1 focus:ring-amber-400/30 text-center font-bold text-lg text-stone-900 focus:outline-none transition-colors"
+                        className="size-10 sm:size-11 rounded-xl bg-white border border-stone-300 focus:border-amber-600 focus:ring-2 focus:ring-amber-400/30 text-center font-bold text-lg text-stone-900 focus:outline-none transition-all shadow-inner"
                       />
                     ))}
                   </div>
+
+                  <p className="text-[11px] text-stone-500 italic">
+                    Tip: Tap &ldquo;Copy code&rdquo; in WhatsApp and paste here directly.
+                  </p>
 
                   <button
                     id="devotee-verify-otp-btn"
@@ -373,7 +377,7 @@ export function LoginModal({
                     {loading ? (
                       <>
                         <RefreshCw className="size-4 animate-spin text-amber-300" />
-                        <span>Verifying...</span>
+                        <span>Verifying OTP...</span>
                       </>
                     ) : (
                       <>
@@ -386,7 +390,10 @@ export function LoginModal({
                   <div className="flex items-center justify-between text-xs pt-1 px-1">
                     <button
                       type="button"
-                      onClick={() => setStep("input")}
+                      onClick={() => {
+                        setStep("input");
+                        setFeedback(null);
+                      }}
                       className="flex items-center gap-1 text-stone-600 hover:text-stone-900 font-semibold cursor-pointer"
                     >
                       <ArrowLeft className="size-3" /> Change number

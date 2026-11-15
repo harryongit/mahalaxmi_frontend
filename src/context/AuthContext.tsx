@@ -168,10 +168,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       // Fetch fresh profile
       await refreshUser();
-      setIsLoginModalOpen(false);
+
       return {
         success: true,
-        message: res.message || "Login successful. Jai Mata Di!",
+        message: res.message || "Login successful. Jai Shree Mahalakshmi!",
         is_new_user: (res as any)?.is_new_user,
       };
     },
