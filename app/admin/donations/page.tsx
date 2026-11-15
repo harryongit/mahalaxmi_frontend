@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useAdmin, uid } from "../admin-context";
 import { Head, Card } from "../admin-ui";
-import { adminContentApi, DonationItem } from "@/src/lib/api";
+import { adminContentApi, API_BASE_URL, DonationItem } from "@/src/lib/api";
 import { toast } from "sonner";
 import {
   Search,
@@ -28,6 +28,7 @@ import {
   Mail,
   Heart,
   Landmark,
+  MessageSquare,
 } from "lucide-react";
 
 export default function DonationsAdminPage() {
@@ -41,6 +42,24 @@ export default function DonationsAdminPage() {
   // Loading & refresh state
   const [loading, setLoading] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [sendingWhatsAppId, setSendingWhatsAppId] = useState<string | number | null>(null);
+
+  const handleSendWhatsApp = async (donation: DonationItem) => {
+    if (!donation.phone) {
+      toast.error("This donation has no devotee phone / WhatsApp number on record.");
+      return;
+    }
+    setSendingWhatsAppId(donation.id);
+    try {
+      const res = await adminContentApi.sendDonationWhatsApp(donation.id, donation.phone);
+      toast.success(res?.message || `Official 80G receipt dispatched to WhatsApp (${donation.phone})!`);
+    } catch (err: any) {
+      console.error("WhatsApp dispatch error:", err);
+      toast.error(err?.message || "Failed to dispatch WhatsApp receipt.");
+    } finally {
+      setSendingWhatsAppId(null);
+    }
+  };
 
   // Modals
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -594,6 +613,23 @@ export default function DonationsAdminPage() {
                         </button>
 
                         <button
+                          onClick={() => handleSendWhatsApp(d as any)}
+                          disabled={sendingWhatsAppId === d.id || !d.phone}
+                          className={`p-1.5 rounded-lg border transition-colors ${
+                            !d.phone
+                              ? "border-stone-200 bg-stone-50 text-stone-300 cursor-not-allowed"
+                              : "border-emerald-200 bg-white hover:bg-emerald-50 text-emerald-700 cursor-pointer"
+                          }`}
+                          title={d.phone ? `Send 80G PDF receipt to WhatsApp (${d.phone})` : "No phone number on record"}
+                        >
+                          {sendingWhatsAppId === d.id ? (
+                            <RefreshCw className="size-3.5 animate-spin text-emerald-700" />
+                          ) : (
+                            <MessageSquare className="size-3.5" />
+                          )}
+                        </button>
+
+                        <button
                           onClick={() => handleOpenEdit(d)}
                           className="p-1.5 rounded-lg border border-stone-200 bg-white hover:bg-stone-50 text-stone-600 hover:text-amber-700 transition-colors"
                           title="Edit Record"
@@ -822,14 +858,44 @@ export default function DonationsAdminPage() {
             </div>
 
             {/* Actions */}
-            <div className="mt-5 flex gap-2">
+            <div className="mt-5 flex flex-col gap-2">
+              <div className="flex gap-2">
+                <a
+                  href={`${API_BASE_URL}/content/donations/${receiptDonation.id}/invoice`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 py-2 px-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-amber-950 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                >
+                  <Download className="size-3.5" />
+                  <span>Download 80G PDF</span>
+                </a>
+
+                <button
+                  type="button"
+                  onClick={() => handleSendWhatsApp(receiptDonation)}
+                  disabled={sendingWhatsAppId === receiptDonation.id || !receiptDonation.phone}
+                  className={`flex-1 py-2 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-colors ${
+                    !receiptDonation.phone
+                      ? "bg-stone-100 text-stone-400 cursor-not-allowed"
+                      : "bg-emerald-700 hover:bg-emerald-800 text-white cursor-pointer"
+                  }`}
+                  title={receiptDonation.phone ? `Send to WhatsApp (${receiptDonation.phone})` : "No phone number available"}
+                >
+                  {sendingWhatsAppId === receiptDonation.id ? (
+                    <RefreshCw className="size-3.5 animate-spin" />
+                  ) : (
+                    <MessageSquare className="size-3.5" />
+                  )}
+                  <span>Send WhatsApp</span>
+                </button>
+              </div>
 
               <button
                 type="button"
                 onClick={() => setReceiptDonation(null)}
-                className="flex-1 py-2.5 rounded-xl bg-[#380D12] hover:bg-[#4A151C] text-amber-200 font-bold text-xs transition-colors cursor-pointer"
+                className="w-full py-2.5 rounded-xl bg-[#380D12] hover:bg-[#4A151C] text-amber-200 font-bold text-xs transition-colors cursor-pointer"
               >
-                Done
+                Done & Close
               </button>
             </div>
           </div>

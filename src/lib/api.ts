@@ -398,6 +398,11 @@ export const contentApi = {
   getDonationStats: () =>
     apiFetch<DonationStats>('/content/donations/stats'),
   createDonation: (data: any) => apiFetch<DonationItem>('/content/donations', { method: 'POST', body: data }),
+  sendDonationWhatsApp: (donationId: number | string, phoneNumber?: string) =>
+    apiFetch<{ success: boolean; message: string; donation_id: number; dispatched: boolean }>(
+      `/content/donations/${donationId}/send-whatsapp`,
+      { method: 'POST', body: phoneNumber ? { phone_number: phoneNumber } : {} }
+    ),
   createTestimonial: (data: any) => apiFetch<any>('/content/testimonials', { method: 'POST', body: data }),
 };
 
@@ -513,6 +518,11 @@ export const adminContentApi = {
     apiFetch<DonationItem>(`/admin/content/donations/${id}`, { method: 'PUT', body: data }),
   deleteDonation: (id: string | number) =>
     apiFetch<any>(`/admin/content/donations/${id}`, { method: 'DELETE' }),
+  sendDonationWhatsApp: (id: string | number, phoneNumber?: string) =>
+    apiFetch<{ success: boolean; message: string; dispatched: boolean }>(
+      `/admin/content/donations/${id}/send-whatsapp`,
+      { method: 'POST', body: phoneNumber ? { phone_number: phoneNumber } : {} }
+    ),
   getAddOns: (category?: string) =>
     apiFetch<any[]>(category && category.toLowerCase() !== 'all' ? `/admin/content/addons?category=${encodeURIComponent(category)}` : '/admin/content/addons'),
   createAddOn: (data: any) =>

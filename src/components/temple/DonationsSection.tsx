@@ -104,7 +104,11 @@ export function DonationsSection({ isStandalonePage = false }: { isStandalonePag
     paymentId: string;
     date: string;
     gotra?: string;
+    phone?: string;
   } | null>(null);
+
+  const [whatsappSentStatus, setWhatsappSentStatus] = useState<string | null>(null);
+  const [sendingWhatsApp, setSendingWhatsApp] = useState(false);
 
   const [copiedId, setCopiedId] = useState(false);
 
@@ -209,7 +213,9 @@ export function DonationsSection({ isStandalonePage = false }: { isStandalonePag
               year: "numeric",
             }),
             gotra: gotra.trim() || undefined,
+            phone: phone.trim() || undefined,
           });
+          setWhatsappSentStatus(phone.trim() ? "Official 80G PDF receipt sent to WhatsApp (" + phone.trim() + ")." : null);
 
           // Refresh live feed
           fetchDonationsData();
@@ -294,6 +300,24 @@ export function DonationsSection({ isStandalonePage = false }: { isStandalonePag
       setErrorMsg(err?.message || "Failed to initiate payment gateway. Please check connection.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleResendWhatsApp = async () => {
+    if (!completedDonation?.id) return;
+    const targetPhone = completedDonation.phone || phone.trim();
+    if (!targetPhone) {
+      setErrorMsg("Please provide a WhatsApp number.");
+      return;
+    }
+    setSendingWhatsApp(true);
+    try {
+      const res = await contentApi.sendDonationWhatsApp(completedDonation.id, targetPhone);
+      setWhatsappSentStatus(res?.message || `Receipt dispatched to WhatsApp (${targetPhone})!`);
+    } catch (err: any) {
+      setWhatsappSentStatus(`Failed to send WhatsApp: ${err?.message || "Please check connection"}`);
+    } finally {
+      setSendingWhatsApp(false);
     }
   };
 
@@ -869,6 +893,17 @@ export function DonationsSection({ isStandalonePage = false }: { isStandalonePag
                   </div>
                 </div>
 
+                {/* WhatsApp Delivery Status Banner */}
+                {whatsappSentStatus && (
+                  <div className="rounded-xl bg-emerald-50 border border-emerald-200/90 p-3 flex items-start gap-2 text-xs text-emerald-950">
+                    <MessageCircle className="size-4 text-emerald-600 shrink-0 mt-0.5" />
+                    <div className="flex-1">
+                      <span className="font-bold text-emerald-900 block">WhatsApp 80G Invoice Dispatched</span>
+                      <p className="text-[11px] text-emerald-700 leading-tight mt-0.5">{whatsappSentStatus}</p>
+                    </div>
+                  </div>
+                )}
+
                 <div className="space-y-2 pt-1">
                   {completedDonation.id && (
                     <a
@@ -880,6 +915,27 @@ export function DonationsSection({ isStandalonePage = false }: { isStandalonePag
                       <Download className="size-4" />
                       <span>Download Official 80G Invoice (PDF)</span>
                     </a>
+                  )}
+
+                  {completedDonation.id && (
+                    <button
+                      type="button"
+                      disabled={sendingWhatsApp}
+                      onClick={handleResendWhatsApp}
+                      className="w-full py-2.5 px-4 rounded-xl bg-emerald-700 hover:bg-emerald-800 disabled:opacity-60 text-white font-bold text-xs shadow-sm flex items-center justify-center gap-2 transition-all cursor-pointer"
+                    >
+                      {sendingWhatsApp ? (
+                        <>
+                          <RefreshCw className="size-4 animate-spin text-emerald-200" />
+                          <span>Dispatching to WhatsApp...</span>
+                        </>
+                      ) : (
+                        <>
+                          <MessageCircle className="size-4" />
+                          <span>Send / Resend PDF to WhatsApp</span>
+                        </>
+                      )}
+                    </button>
                   )}
 
                   <a
