@@ -46,6 +46,15 @@ export const enquiryService = {
   },
 
   /**
+   * Dispatch WhatsApp Template Alert to Temple Admin
+   * Endpoint: POST /enquiries/admin/{id}/send-whatsapp
+   */
+  sendAdminWhatsAppAlert: async (enquiryId: number, recipientPhone?: string): Promise<{ success: boolean; message: string; dispatched: boolean }> => {
+    const response = await apiClient.post<any>(`/enquiries/admin/${enquiryId}/send-whatsapp`, recipientPhone ? { recipient_phone: recipientPhone } : {});
+    return response.data?.data || response.data;
+  },
+
+  /**
    * Admin Reply to Enquiry
    * Endpoint: PATCH /enquiries/admin/{id}/respond
    */
