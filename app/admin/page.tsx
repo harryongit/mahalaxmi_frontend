@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
-import { adminBookingApi } from "@/src/lib/api";
+import { adminBookingApi, adminUserApi } from "@/src/lib/api";
 import { useAdmin } from "./admin-context";
 import { Head, Card } from "./admin-ui";
 import {
@@ -37,6 +37,20 @@ export default function AdminOverviewPage() {
   const allBookings = liveBookings.length > 0 ? liveBookings : (s.bookings || []);
   const confirmedCount = allBookings.filter((b) => b.paymentStatus === "Paid & Confirmed" || b.paymentStatus === "Completed").length;
   const failedCount = allBookings.filter((b) => b.paymentStatus === "Payment Failed" || b.paymentStatus?.toLowerCase().includes("fail")).length;
+
+  const { data: dbDevoteesData = [] } = useQuery({
+    queryKey: ["admin", "dashboardLiveDevotees"],
+    queryFn: adminUserApi.getUsers,
+    staleTime: 5000,
+  });
+
+  const liveDevotees: any[] = Array.isArray(dbDevoteesData)
+    ? dbDevoteesData
+    : Array.isArray((dbDevoteesData as any)?.data)
+    ? (dbDevoteesData as any).data
+    : [];
+
+  const allDevotees = liveDevotees.length > 0 ? liveDevotees : (s.users || []);
 
   return (
     <div className="space-y-8 font-sans">
@@ -96,7 +110,7 @@ export default function AdminOverviewPage() {
             </div>
           </div>
           <div className="font-serif mt-3 text-3xl font-bold text-[#3C0F1A]">
-            {s.summary.total_users || s.users?.length || 0}
+            {allDevotees.length || s.summary.total_users || 0}
           </div>
           <div className="mt-2 text-xs text-stone-500 flex items-center justify-between">
             <span>Verified accounts</span>
@@ -370,13 +384,13 @@ export default function AdminOverviewPage() {
             href="/admin/users"
             className="text-xs font-semibold text-amber-700 hover:text-amber-800 flex items-center gap-1"
           >
-            Manage All Devotees ({s.users?.length || 0}) <HiOutlineArrowRight />
+            Manage All Devotees ({allDevotees.length}) <HiOutlineArrowRight />
           </Link>
         </div>
 
-        {s.users && s.users.length > 0 ? (
+        {allDevotees.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {s.users.slice(0, 4).map((u) => (
+            {allDevotees.slice(0, 4).map((u: any) => (
               <div
                 key={u.id}
                 className="p-3.5 rounded-2xl bg-amber-50/50 border border-amber-200/80 flex items-center gap-3 hover:shadow-xs transition-all"

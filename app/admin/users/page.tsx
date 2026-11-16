@@ -15,15 +15,35 @@ import {
   HiOutlineEye,
 } from "react-icons/hi";
 import { Sparkles, UserCheck, ShieldCheck, RefreshCw } from "lucide-react";
-import { adminBookingApi } from "@/src/lib/api";
+import { adminBookingApi, adminUserApi } from "@/src/lib/api";
 import { toast } from "sonner";
 
 export default function AdminUsersPage() {
   const { s, setS } = useAdmin();
-  const [activeTab, setActiveTab] = useState<"bookings" | "users">("bookings");
+  const [activeTab, setActiveTab] = useState<"bookings" | "users">("users");
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState<string>("All");
   const [selectedBooking, setSelectedBooking] = useState<SevaBooking | null>(null);
+
+  // Live real-time devotees fetch from database (refetches every 5s)
+  const {
+    data: dbDevoteesData = [],
+    refetch: refetchLiveDevotees,
+    isFetching: isRefreshingDevotees,
+  } = useQuery({
+    queryKey: ["admin", "liveDevotees"],
+    queryFn: adminUserApi.getUsers,
+    staleTime: 0,
+    refetchInterval: 5000,
+  });
+
+  const liveUsers: DevoteeUser[] = Array.isArray(dbDevoteesData)
+    ? dbDevoteesData
+    : Array.isArray((dbDevoteesData as any)?.data)
+    ? (dbDevoteesData as any).data
+    : [];
+
+  const allUsers: DevoteeUser[] = liveUsers.length > 0 ? liveUsers : (s.users || []);
 
   // Live real-time bookings fetch from database (refetches every 5s)
   const {
@@ -67,7 +87,7 @@ export default function AdminUsersPage() {
     return matchesSearch && matchesFilter;
   });
 
-  const filteredUsers = (s.users || []).filter((u) => {
+  const filteredUsers = allUsers.filter((u) => {
     const q = search.toLowerCase();
     const nameMatch = (u.name || "").toLowerCase().includes(q);
     const mobileMatch = (u.mobile || "").includes(search);
@@ -116,7 +136,7 @@ export default function AdminUsersPage() {
             </div>
           </div>
           <div className="font-serif mt-3 text-3xl font-bold text-[#3C0F1A]">
-            {s.summary.total_users || s.users?.length || 0} Devotees
+            {allUsers.length} Devotees
           </div>
           <div className="mt-2 text-xs text-amber-800 font-semibold flex items-center justify-between">
             <span>{activeTab === "users" ? "Viewing devotee list below ↓" : "Click to view devotees list →"}</span>
@@ -186,17 +206,6 @@ export default function AdminUsersPage() {
         {/* Toggle Pill Buttons */}
         <div className="inline-flex p-1 rounded-xl bg-stone-100 border border-stone-200">
           <button
-            onClick={() => setActiveTab("bookings")}
-            className={`px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-              activeTab === "bookings"
-                ? "bg-[#3C0F1A] text-white shadow-sm"
-                : "text-stone-700 hover:text-stone-900"
-            }`}
-          >
-            📜 Seva Bookings & Payment Details ({s.bookings?.length || 0})
-          </button>
-
-          <button
             onClick={() => setActiveTab("users")}
             className={`px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
               activeTab === "users"
@@ -204,20 +213,48 @@ export default function AdminUsersPage() {
                 : "text-stone-700 hover:text-stone-900"
             }`}
           >
-            👥 Registered Devotees List ({s.users?.length || 0})
+            👥 Registered Devotees List ({allUsers.length})
+          </button>
+
+          <button
+            onClick={() => setActiveTab("bookings")}
+            className={`px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+              activeTab === "bookings"
+                ? "bg-[#3C0F1A] text-white shadow-sm"
+                : "text-stone-700 hover:text-stone-900"
+            }`}
+          >
+            📜 Seva Bookings & Payment Details ({allBookings.length})
           </button>
         </div>
 
-        {/* Search Input Bar */}
-        <div className="relative w-full sm:w-72">
-          <HiOutlineSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400 text-sm" />
-          <input
-            type="text"
-            placeholder={activeTab === "bookings" ? "Search Ref ID, Name, Puja..." : "Search Devotee Name, Phone..."}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 rounded-xl bg-stone-50 border border-stone-200 text-xs text-stone-900 placeholder:text-stone-400 focus:bg-white focus:border-amber-500 focus:outline-none"
-          />
+        {/* Search Input Bar & Refresh */}
+        <div className="flex items-center gap-2">
+          <div className="relative w-full sm:w-72">
+            <HiOutlineSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400 text-sm" />
+            <input
+              type="text"
+              placeholder={activeTab === "bookings" ? "Search Ref ID, Name, Puja..." : "Search Devotee Name, Phone..."}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-9 pr-4 py-2 rounded-xl bg-stone-50 border border-stone-200 text-xs text-stone-900 placeholder:text-stone-400 focus:bg-white focus:border-amber-500 focus:outline-none"
+            />
+          </div>
+
+          <button
+            type="button"
+            onClick={() => {
+              refetchLiveDevotees();
+              refetchLiveBookings();
+              toast.success("Live devotees and bookings refreshed!");
+            }}
+            disabled={isRefreshingDevotees || isRefreshingBookings}
+            className="p-2.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-bold flex items-center gap-1.5 border border-stone-200 transition-colors cursor-pointer shrink-0"
+            title="Refresh Live Data"
+          >
+            <RefreshCw className={`size-3.5 ${(isRefreshingDevotees || isRefreshingBookings) ? "animate-spin" : ""}`} />
+            <span className="hidden sm:inline">Refresh</span>
+          </button>
         </div>
       </div>
 
@@ -446,7 +483,14 @@ export default function AdminUsersPage() {
             ))}
           </div>
 
-          {filteredUsers.length === 0 && (
+          {isRefreshingDevotees && allUsers.length === 0 && (
+            <div className="py-12 text-center text-stone-500 text-xs font-medium flex items-center justify-center gap-2">
+              <RefreshCw className="size-4 animate-spin text-amber-700" />
+              <span>Loading registered devotees from database...</span>
+            </div>
+          )}
+
+          {filteredUsers.length === 0 && !isRefreshingDevotees && (
             <div className="py-8 text-center text-stone-500 text-xs font-medium">
               No matching registered devotees found.
             </div>

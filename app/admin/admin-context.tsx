@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { IMG } from "@/src/components/temple/images";
-import { adminDashboardApi } from "@/src/lib/api";
+import { adminDashboardApi, adminUserApi } from "@/src/lib/api";
 
 export type DevoteeUser = {
   id: string;
@@ -131,6 +131,18 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
         const backendState = await adminDashboardApi.getState();
         if (backendState) {
           setS(prev => ({ ...prev, ...backendState }));
+        }
+
+        // Additional safeguard: verify devotees list
+        if (!backendState?.users || backendState.users.length === 0) {
+          try {
+            const devotees = await adminUserApi.getUsers();
+            if (Array.isArray(devotees) && devotees.length > 0) {
+              setS(prev => ({ ...prev, users: devotees }));
+            }
+          } catch {
+            // ignore
+          }
         }
       } catch (e) {
         console.error("Failed to fetch admin state:", e);
