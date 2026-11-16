@@ -62,7 +62,8 @@ export function Navbar() {
     }
   };
 
-  const displayName = user?.name || "Devotee";
+  const rawName = user?.name ? String(user.name).trim() : "";
+  const displayName = rawName && !rawName.startsWith("gAAAAA") && rawName.length <= 60 ? rawName : "Devotee";
   const initial = displayName.trim().charAt(0).toUpperCase() || "D";
 
   return (

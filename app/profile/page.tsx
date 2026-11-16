@@ -58,8 +58,10 @@ export default function ProfilePage() {
   useEffect(() => {
     const activeUser = user || authUser;
     if (activeUser) {
+      const currentName = activeUser.name ? String(activeUser.name).trim() : "";
+      const isCustomName = currentName && currentName !== "Devotee" && !currentName.startsWith("gAAAAA") && currentName.length <= 60;
       setEditForm({
-        name: activeUser.name || "",
+        name: isCustomName ? currentName : "",
         email: activeUser.email || "",
         mobile: activeUser.mobile && !activeUser.mobile.startsWith("gAAAAA") ? activeUser.mobile : "",
         gotra: activeUser.gotra || "",
@@ -74,6 +76,9 @@ export default function ProfilePage() {
   };
 
   const activeDevotee = user || authUser;
+  const devoteeNameRaw = activeDevotee?.name ? String(activeDevotee.name).trim() : "";
+  const devoteeDisplayName = devoteeNameRaw && !devoteeNameRaw.startsWith("gAAAAA") && devoteeNameRaw.length <= 60 ? devoteeNameRaw : "Devotee";
+  const devoteeInitial = devoteeDisplayName.charAt(0).toUpperCase() || "D";
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FCF9F3] text-stone-900">
@@ -130,7 +135,7 @@ export default function ProfilePage() {
               >
                 <div className="flex flex-col sm:flex-row items-center gap-6 relative z-10">
                   <div className="size-20 rounded-full bg-[var(--gold)]/20 border-2 border-[var(--gold)] flex items-center justify-center font-serif text-3xl text-[var(--gold)] font-bold shadow-xl shrink-0">
-                    {activeDevotee?.name ? activeDevotee.name.charAt(0).toUpperCase() : "D"}
+                    {devoteeInitial}
                   </div>
 
                   <div className="text-center sm:text-left space-y-1">
@@ -139,7 +144,7 @@ export default function ProfilePage() {
                       <span>Verified Devotee</span>
                     </div>
                     <h1 className="font-serif text-2xl sm:text-3xl font-bold text-gradient-gold">
-                      {activeDevotee?.name && activeDevotee.name.trim() ? activeDevotee.name : (activeDevotee?.mobile && !activeDevotee.mobile.startsWith("gAAAAA") ? activeDevotee.mobile : "Devotee")}
+                      {devoteeDisplayName}
                     </h1>
                     <p className="text-sm text-amber-100/70">
                       Registered Member {activeDevotee?.city && activeDevotee.city.trim() ? `• ${activeDevotee.city} Circle` : ""}
@@ -200,7 +205,7 @@ export default function ProfilePage() {
                           className="mt-1 w-full p-2 border border-stone-300 rounded-lg text-stone-900 bg-white focus:outline-none focus:border-amber-500"
                         />
                       ) : (
-                        <span className="text-stone-900 font-semibold">{activeDevotee?.name && activeDevotee.name.trim() ? activeDevotee.name : "Devotee"}</span>
+                        <span className="text-stone-900 font-semibold">{devoteeDisplayName}</span>
                       )}
                     </div>
 

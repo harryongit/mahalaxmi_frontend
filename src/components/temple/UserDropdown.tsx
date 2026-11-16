@@ -41,7 +41,8 @@ export function UserDropdown({ isOpen, onClose, userBookings = [] }: UserDropdow
     onClose();
   };
 
-  const displayName = user?.name && user.name.trim() ? user.name : "Devotee";
+  const rawName = user?.name ? String(user.name).trim() : "";
+  const displayName = rawName && !rawName.startsWith("gAAAAA") && rawName.length <= 60 ? rawName : "Devotee";
   const rawMobile = user?.mobile || "";
   const cleanMobile = rawMobile.startsWith("gAAAAA") || rawMobile.length > 25 ? "" : rawMobile;
   const displayContact = cleanMobile || user?.email || "";

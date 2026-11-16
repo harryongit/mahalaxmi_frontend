@@ -62,9 +62,12 @@ export function saveUserSession(token: string, user: Partial<StoredUserDetails>)
   const now = Date.now();
   const expiresAt = now + SESSION_DURATION_MS;
 
+  const rawName = user.name ? String(user.name).trim() : "";
+  const cleanName = rawName && !rawName.startsWith("gAAAAA") && rawName.length <= 60 ? rawName : "Devotee";
+
   const userPayload: StoredUserDetails = {
     id: user.id ?? "",
-    name: user.name ?? null,
+    name: cleanName,
     mobile: user.mobile ?? "",
     email: user.email ?? null,
     city: user.city ?? null,
