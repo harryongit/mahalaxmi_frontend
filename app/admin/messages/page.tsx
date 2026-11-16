@@ -12,31 +12,15 @@ import {
   Loader2,
   RefreshCw,
   MessageSquare,
-  MessageCircle,
   Search,
   X,
   Inbox,
   User,
-  Send,
 } from "lucide-react";
 import { toast } from "sonner";
 
 export default function MessagesAdminPage() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [sendingAlertId, setSendingAlertId] = useState<number | null>(null);
-
-  const handleSendWhatsAppAlert = async (enquiryId: number) => {
-    setSendingAlertId(enquiryId);
-    try {
-      const res = await enquiryService.sendAdminWhatsAppAlert(enquiryId);
-      toast.success(res?.message || "WhatsApp enquiry alert sent to Temple Admin (9130532666)!");
-    } catch (err: any) {
-      console.error("Failed to send WhatsApp enquiry alert:", err);
-      toast.error(err?.message || "Failed to send WhatsApp enquiry alert.");
-    } finally {
-      setSendingAlertId(null);
-    }
-  };
 
   // TanStack Query for fast, cached enquiry fetching
   const {
@@ -213,47 +197,6 @@ export default function MessagesAdminPage() {
                         {m.message}
                       </p>
                     </div>
-                  </div>
-
-                  {/* WhatsApp Alert & Response Action Bar */}
-                  <div className="mt-3 pt-3 border-t border-stone-100 flex items-center justify-between gap-2 flex-wrap">
-                    <div className="flex items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={() => handleSendWhatsAppAlert(m.id)}
-                        disabled={sendingAlertId === m.id}
-                        className="px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 text-emerald-900 text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs"
-                        title="Dispatch approved WhatsApp alert (admin_enquiry_alert) to Temple Admin (9130532666)"
-                      >
-                        {sendingAlertId === m.id ? (
-                          <RefreshCw className="size-3.5 animate-spin text-emerald-700" />
-                        ) : (
-                          <Send className="size-3.5 text-emerald-700" />
-                        )}
-                        <span>Send WhatsApp Alert to Admin</span>
-                      </button>
-
-                      {m.phone && (
-                        <a
-                          href={`https://wa.me/${m.phone.replace(/\D/g, "").length === 10 ? "91" + m.phone.replace(/\D/g, "") : m.phone.replace(/\D/g, "")}?text=${encodeURIComponent(`Namaste ${m.name} Ji! Regarding your enquiry #${m.id.toString().padStart(5, "0")} (${m.subject}) at Shri Ambabai Mahalaxmi Mandir Kolhapur:`)}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="px-3 py-1.5 rounded-xl bg-stone-100 hover:bg-stone-200 border border-stone-200 text-stone-800 text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer"
-                          title="Open WhatsApp conversation with devotee"
-                        >
-                          <MessageCircle className="size-3.5 text-emerald-600" />
-                          <span>Chat with Devotee</span>
-                        </a>
-                      )}
-                    </div>
-
-                    <a
-                      href={`mailto:${m.email}?subject=${encodeURIComponent(`Re: [Enquiry #${m.id.toString().padStart(5, "0")}] ${m.subject}`)}`}
-                      className="text-stone-500 hover:text-stone-900 text-xs font-medium hover:underline flex items-center gap-1"
-                    >
-                      <Mail className="size-3.5" />
-                      <span>Reply via Email</span>
-                    </a>
                   </div>
                 </div>
               </Card>
