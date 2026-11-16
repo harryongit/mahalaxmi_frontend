@@ -125,63 +125,23 @@ export function Navbar() {
 
             {/* Right: Header Actions */}
             <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-              {/* User My Puja Booking Button in Header */}
-              {isLoggedIn && (
-                <Link
-                  href="/bookings"
-                  title={latestBooking ? `Booked: ${latestBooking.pujaTitle}` : "My Puja Bookings"}
-                  className="hidden md:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-amber-500/20 hover:bg-amber-500/30 border border-amber-300/50 text-amber-200 hover:text-white text-xs font-bold transition-all shadow-md group cursor-pointer"
-                >
-                  <Flame className="size-3.5 text-amber-400 group-hover:scale-110 transition-transform" />
-                  <span className="truncate max-w-[150px]">
-                    {latestBooking ? latestBooking.pujaTitle : "My Bookings"}
-                  </span>
-                  {bookingsList.length > 0 && (
-                    <span className="size-4.5 px-1 rounded-full bg-[var(--gold)] text-stone-950 text-[10px] font-black flex items-center justify-center shrink-0">
-                      {bookingsList.length}
-                    </span>
-                  )}
-                </Link>
-              )}
-
               {/* Quick Book Seva CTA Button */}
               <Link
                 href="/rituals"
-                className="hidden xl:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-[var(--gold)] to-amber-300 text-stone-950 font-bold text-xs shadow-lg hover:brightness-110 hover:scale-105 transition-all"
+                className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-[var(--gold)] to-amber-300 text-stone-950 font-bold text-xs shadow-lg hover:brightness-110 hover:scale-105 transition-all"
               >
                 <Flame className="size-3.5 text-stone-950" />
                 <span>Book Puja</span>
               </Link>
 
-
-              {/* User Account Dropdown Avatar */}
+              {/* User Account Dropdown Circle Avatar */}
               <div className="relative">
                 <button
                   onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                  className={`relative flex items-center gap-2 rounded-full border transition-all shadow-md group cursor-pointer ${
-                    isLoggedIn
-                      ? "px-2.5 py-1 bg-black/50 border-amber-400/80 hover:bg-black/70 hover:border-amber-300"
-                      : "grid size-9 place-items-center border-[var(--gold)]/70 bg-black/40 text-[var(--gold)] hover:bg-[var(--gold)]/20 hover:border-[var(--gold)]"
-                  }`}
+                  className="grid size-9 place-items-center rounded-full bg-gradient-to-tr from-[#3C0F1A] to-[#601a2c] text-[var(--gold)] font-serif font-bold text-sm border-2 border-amber-400/80 hover:border-amber-300 hover:scale-105 transition-all shadow-md cursor-pointer"
                   aria-label="User Account Menu"
                 >
-                  <div className="relative grid size-7 place-items-center rounded-full bg-gradient-to-tr from-[#3C0F1A] to-[#601a2c] text-[var(--gold)] font-serif font-bold text-xs border border-amber-300/60">
-                    {isLoggedIn ? initial : <User className="size-3.5 text-[var(--gold)]" />}
-                    {isLoggedIn && (
-                      <span className="absolute -bottom-0.5 -right-0.5 size-2 rounded-full bg-emerald-400 border border-[#3C0F1A] animate-pulse" />
-                    )}
-                  </div>
-                  {isLoggedIn && (
-                    <div className="hidden sm:flex flex-col text-left pr-1">
-                      <span className="text-[11px] font-bold text-amber-200 leading-tight max-w-[110px] truncate">
-                        {displayName}
-                      </span>
-                      <span className="text-[9px] text-emerald-400 font-medium leading-none flex items-center gap-1">
-                        <span className="inline-block size-1.5 rounded-full bg-emerald-400" />
-                        <span>Online</span>
-                      </span>
-                    </div>
-                  )}
+                  {isLoggedIn ? initial : <User className="size-4 text-[var(--gold)]" />}
                 </button>
 
                 {/* Dropdown Menu anchored right below user icon */}
