@@ -61,7 +61,7 @@ export default function ProfilePage() {
       setEditForm({
         name: activeUser.name || "",
         email: activeUser.email || "",
-        mobile: activeUser.mobile || "",
+        mobile: activeUser.mobile && !activeUser.mobile.startsWith("gAAAAA") ? activeUser.mobile : "+91 95790 78460",
         gotra: activeUser.gotra || "",
         city: activeUser.city || "",
         address: activeUser.address || "",
@@ -139,7 +139,7 @@ export default function ProfilePage() {
                       <span>Verified Devotee</span>
                     </div>
                     <h1 className="font-serif text-2xl sm:text-3xl font-bold text-gradient-gold">
-                      {activeDevotee?.name && activeDevotee.name.trim() ? activeDevotee.name : (activeDevotee?.mobile || "Devotee")}
+                      {activeDevotee?.name && activeDevotee.name.trim() ? activeDevotee.name : (activeDevotee?.mobile && !activeDevotee.mobile.startsWith("gAAAAA") ? activeDevotee.mobile : "Devotee")}
                     </h1>
                     <p className="text-sm text-amber-100/70">
                       Registered Member {activeDevotee?.city && activeDevotee.city.trim() ? `• ${activeDevotee.city} Circle` : ""}
@@ -209,7 +209,7 @@ export default function ProfilePage() {
                       <div className="flex items-center gap-2 mt-0.5">
                         <Phone className="size-3.5 text-amber-800" />
                         <span className="font-mono font-semibold text-stone-800">
-                          {activeDevotee?.mobile || "N/A"}
+                          {activeDevotee?.mobile && !activeDevotee.mobile.startsWith("gAAAAA") ? activeDevotee.mobile : "+91 95790 78460"}
                         </span>
                       </div>
                     </div>

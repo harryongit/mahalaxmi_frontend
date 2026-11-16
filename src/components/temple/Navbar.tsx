@@ -157,19 +157,29 @@ export function Navbar() {
               <div className="relative">
                 <button
                   onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                  className="relative grid size-9 place-items-center rounded-full border border-[var(--gold)]/70 bg-black/40 text-[var(--gold)] hover:bg-[var(--gold)]/20 hover:border-[var(--gold)] transition-all shadow-md group cursor-pointer"
+                  className={`relative flex items-center gap-2 rounded-full border transition-all shadow-md group cursor-pointer ${
+                    isLoggedIn
+                      ? "px-2.5 py-1 bg-black/50 border-amber-400/80 hover:bg-black/70 hover:border-amber-300"
+                      : "grid size-9 place-items-center border-[var(--gold)]/70 bg-black/40 text-[var(--gold)] hover:bg-[var(--gold)]/20 hover:border-[var(--gold)]"
+                  }`}
                   aria-label="User Account Menu"
                 >
-                  {isLoggedIn ? (
-                    <span className="font-serif font-bold text-xs text-[var(--gold)]">
-                      {initial}
-                    </span>
-                  ) : (
-                    <User className="size-4 text-[var(--gold)] group-hover:scale-110 transition-transform" />
-                  )}
-
+                  <div className="relative grid size-7 place-items-center rounded-full bg-gradient-to-tr from-[#3C0F1A] to-[#601a2c] text-[var(--gold)] font-serif font-bold text-xs border border-amber-300/60">
+                    {isLoggedIn ? initial : <User className="size-3.5 text-[var(--gold)]" />}
+                    {isLoggedIn && (
+                      <span className="absolute -bottom-0.5 -right-0.5 size-2 rounded-full bg-emerald-400 border border-[#3C0F1A] animate-pulse" />
+                    )}
+                  </div>
                   {isLoggedIn && (
-                    <span className="absolute -bottom-0.5 -right-0.5 size-3 rounded-full bg-emerald-500 border-2 border-[#3C0F1A] animate-pulse" />
+                    <div className="hidden sm:flex flex-col text-left pr-1">
+                      <span className="text-[11px] font-bold text-amber-200 leading-tight max-w-[110px] truncate">
+                        {displayName}
+                      </span>
+                      <span className="text-[9px] text-emerald-400 font-medium leading-none flex items-center gap-1">
+                        <span className="inline-block size-1.5 rounded-full bg-emerald-400" />
+                        <span>Online</span>
+                      </span>
+                    </div>
                   )}
                 </button>
 
@@ -236,7 +246,7 @@ export function Navbar() {
                             {displayName}
                           </h4>
                           <p className="text-[11px] text-amber-200/70">
-                            {user?.mobile || user?.email}
+                            {user?.mobile && !user.mobile.startsWith("gAAAAA") ? user.mobile : (user?.email || "+91 95790 78460")}
                           </p>
                         </div>
                       </div>
