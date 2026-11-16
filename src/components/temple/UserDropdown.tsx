@@ -43,8 +43,8 @@ export function UserDropdown({ isOpen, onClose, userBookings = [] }: UserDropdow
 
   const displayName = user?.name && user.name.trim() ? user.name : "Devotee";
   const rawMobile = user?.mobile || "";
-  const cleanMobile = rawMobile.startsWith("gAAAAA") || rawMobile.length > 25 ? "+91 95790 78460" : rawMobile;
-  const displayContact = cleanMobile || user?.email || "+91 95790 78460";
+  const cleanMobile = rawMobile.startsWith("gAAAAA") || rawMobile.length > 25 ? "" : rawMobile;
+  const displayContact = cleanMobile || user?.email || "";
   const initial = displayName.trim().charAt(0).toUpperCase() || "D";
 
   return (

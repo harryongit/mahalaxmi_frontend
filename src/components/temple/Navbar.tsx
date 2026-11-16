@@ -246,7 +246,7 @@ export function Navbar() {
                             {displayName}
                           </h4>
                           <p className="text-[11px] text-amber-200/70">
-                            {user?.mobile && !user.mobile.startsWith("gAAAAA") ? user.mobile : (user?.email || "+91 95790 78460")}
+                            {user?.mobile && !user.mobile.startsWith("gAAAAA") ? user.mobile : (user?.email || "")}
                           </p>
                         </div>
                       </div>

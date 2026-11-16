@@ -61,7 +61,7 @@ export default function ProfilePage() {
       setEditForm({
         name: activeUser.name || "",
         email: activeUser.email || "",
-        mobile: activeUser.mobile && !activeUser.mobile.startsWith("gAAAAA") ? activeUser.mobile : "+91 95790 78460",
+        mobile: activeUser.mobile && !activeUser.mobile.startsWith("gAAAAA") ? activeUser.mobile : "",
         gotra: activeUser.gotra || "",
         city: activeUser.city || "",
         address: activeUser.address || "",
@@ -209,7 +209,7 @@ export default function ProfilePage() {
                       <div className="flex items-center gap-2 mt-0.5">
                         <Phone className="size-3.5 text-amber-800" />
                         <span className="font-mono font-semibold text-stone-800">
-                          {activeDevotee?.mobile && !activeDevotee.mobile.startsWith("gAAAAA") ? activeDevotee.mobile : "+91 95790 78460"}
+                          {activeDevotee?.mobile && !activeDevotee.mobile.startsWith("gAAAAA") ? activeDevotee.mobile : "N/A"}
                         </span>
                       </div>
                     </div>
