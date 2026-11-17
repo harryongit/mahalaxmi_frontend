@@ -60,163 +60,163 @@ export default function AdminOverviewPage() {
       />
 
       {/* Quick Action Shortcuts Bar */}
-      <div className="flex flex-wrap items-center gap-3 bg-white p-4 rounded-2xl border border-stone-200 shadow-sm">
-        <span className="text-xs font-bold uppercase tracking-wider text-stone-500 mr-2">
+      <div className="flex flex-wrap items-center gap-2.5 bg-white p-3 sm:p-3.5 rounded-xl border border-stone-200 shadow-xs">
+        <span className="text-[11px] font-bold uppercase tracking-wider text-stone-500 mr-1">
           Quick Operations:
         </span>
         
         <Link
           href="/admin/rituals"
-          className="py-2 px-4 rounded-xl bg-[#3C0F1A] text-white font-bold text-xs shadow-sm hover:opacity-95 flex items-center gap-1.5 border border-amber-400/30"
+          className="py-1.5 px-3 rounded-lg bg-[#3C0F1A] text-white font-bold text-xs shadow-xs hover:opacity-95 flex items-center gap-1.5 border border-amber-400/30"
         >
-          <HiOutlinePlus className="text-sm stroke-[3]" />
+          <HiOutlinePlus className="text-xs stroke-[3]" />
           <span>+ Add New Puja Seva</span>
         </Link>
 
         <Link
           href="/admin/events"
-          className="py-2 px-4 rounded-xl bg-amber-100 text-amber-950 font-bold text-xs border border-amber-300 hover:bg-amber-200 flex items-center gap-1.5"
+          className="py-1.5 px-3 rounded-lg bg-amber-100 text-amber-950 font-bold text-xs border border-amber-300 hover:bg-amber-200 flex items-center gap-1.5"
         >
-          <HiOutlinePlus className="text-sm stroke-[3]" />
+          <HiOutlinePlus className="text-xs stroke-[3]" />
           <span>+ Schedule Utsav Event</span>
         </Link>
 
         <Link
           href="/admin/gallery"
-          className="py-2 px-4 rounded-xl bg-stone-100 text-stone-800 font-bold text-xs border border-stone-300 hover:bg-stone-200 flex items-center gap-1.5"
+          className="py-1.5 px-3 rounded-lg bg-stone-100 text-stone-800 font-bold text-xs border border-stone-300 hover:bg-stone-200 flex items-center gap-1.5"
         >
-          <HiOutlinePlus className="text-sm stroke-[3]" />
+          <HiOutlinePlus className="text-xs stroke-[3]" />
           <span>+ Upload Gallery Photo</span>
         </Link>
 
         <Link
           href="/admin/donations"
-          className="py-2 px-4 rounded-xl bg-stone-100 text-stone-800 font-bold text-xs border border-stone-300 hover:bg-stone-200 flex items-center gap-1.5"
+          className="py-1.5 px-3 rounded-lg bg-stone-100 text-stone-800 font-bold text-xs border border-stone-300 hover:bg-stone-200 flex items-center gap-1.5"
         >
-          <HiOutlinePlus className="text-sm stroke-[3]" />
+          <HiOutlinePlus className="text-xs stroke-[3]" />
           <span>+ Record Seva Donation</span>
         </Link>
       </div>
 
-      {/* 5 Stat Metric Cards */}
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
-        <Card className="relative overflow-hidden border-amber-200 hover:border-amber-400 transition-all bg-gradient-to-br from-amber-50/50 to-orange-50/30">
+      {/* 6 Stat Metric Cards - Compact, balanced executive grid */}
+      <div className="grid gap-3 sm:gap-4 grid-cols-2 md:grid-cols-3 xl:grid-cols-6">
+        <Card className="p-3.5 rounded-xl relative overflow-hidden border-amber-200/80 hover:border-amber-400 transition-all bg-gradient-to-br from-amber-50/40 to-orange-50/20">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] uppercase tracking-widest text-stone-500 font-bold">
-              Registered Devotees
+            <span className="text-[10px] uppercase tracking-wider text-stone-500 font-bold truncate">
+              Devotees
             </span>
-            <div className="size-9 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center text-lg">
+            <div className="size-7 rounded-lg bg-amber-500/10 text-amber-700 flex items-center justify-center text-sm shrink-0">
               <HiOutlineUserGroup />
             </div>
           </div>
-          <div className="font-serif mt-3 text-3xl font-bold text-[#3C0F1A]">
+          <div className="font-serif mt-1.5 text-2xl font-bold text-[#3C0F1A]">
             {allDevotees.length || s.summary.total_users || 0}
           </div>
-          <div className="mt-2 text-xs text-stone-500 flex items-center justify-between">
-            <span>Verified accounts</span>
-            <Link href="/admin/users" className="text-amber-700 font-semibold hover:underline">
-              View All →
+          <div className="mt-1.5 text-[11px] text-stone-500 flex items-center justify-between">
+            <span className="truncate">Verified accounts</span>
+            <Link href="/admin/users" className="text-amber-700 font-semibold hover:underline shrink-0">
+              View →
             </Link>
           </div>
         </Card>
 
-        <Card className="relative overflow-hidden border-amber-200 hover:border-amber-400 transition-all">
+        <Card className="p-3.5 rounded-xl relative overflow-hidden border-amber-200/80 hover:border-amber-400 transition-all">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] uppercase tracking-widest text-stone-500 font-bold">
-              Total Seva Collections
+            <span className="text-[10px] uppercase tracking-wider text-stone-500 font-bold truncate">
+              Collections
             </span>
-            <div className="size-9 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center text-lg">
+            <div className="size-7 rounded-lg bg-amber-500/10 text-amber-700 flex items-center justify-center text-sm shrink-0">
               <HiOutlineGift />
             </div>
           </div>
-          <div className="font-serif mt-3 text-3xl font-bold text-[#3C0F1A]">
+          <div className="font-serif mt-1.5 text-2xl font-bold text-[#3C0F1A]">
             ₹{s.summary.total_revenue.toLocaleString("en-IN")}
           </div>
-          <div className="mt-2 text-xs text-stone-500 flex items-center justify-between">
-            <span>{s.donations.length} records verified</span>
-            <Link href="/admin/donations" className="text-amber-700 font-semibold hover:underline">
-              View All →
+          <div className="mt-1.5 text-[11px] text-stone-500 flex items-center justify-between">
+            <span className="truncate">{s.donations.length} records</span>
+            <Link href="/admin/donations" className="text-amber-700 font-semibold hover:underline shrink-0">
+              View →
             </Link>
           </div>
         </Card>
 
-        <Card className="relative overflow-hidden border-amber-200 hover:border-amber-400 transition-all bg-gradient-to-br from-orange-50/50 to-amber-50/40">
+        <Card className="p-3.5 rounded-xl relative overflow-hidden border-amber-200/80 hover:border-amber-400 transition-all bg-gradient-to-br from-orange-50/40 to-amber-50/30">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] uppercase tracking-widest text-stone-500 font-bold">
-              Online Puja Bookings
+            <span className="text-[10px] uppercase tracking-wider text-stone-500 font-bold truncate">
+              Puja Bookings
             </span>
-            <div className="size-9 rounded-xl bg-orange-500/10 text-orange-700 flex items-center justify-center text-lg font-bold">
+            <div className="size-7 rounded-lg bg-orange-500/10 text-orange-700 flex items-center justify-center text-sm shrink-0 font-bold">
               🕉️
             </div>
           </div>
-          <div className="font-serif mt-3 text-3xl font-bold text-[#3C0F1A]">
+          <div className="font-serif mt-1.5 text-2xl font-bold text-[#3C0F1A]">
             {allBookings.length}
           </div>
-          <div className="mt-2 text-xs text-stone-500 flex items-center justify-between">
-            <span className="text-emerald-700 font-bold">{confirmedCount} Paid</span>
-            {failedCount > 0 && <span className="text-rose-600 font-bold">{failedCount} Failed</span>}
-            <Link href="/admin/users" className="text-amber-700 font-semibold hover:underline">
-              View All →
+          <div className="mt-1.5 text-[11px] text-stone-500 flex items-center justify-between">
+            <span className="text-emerald-700 font-bold truncate">{confirmedCount} Paid</span>
+            {failedCount > 0 && <span className="text-rose-600 font-bold shrink-0">{failedCount} Fail</span>}
+            <Link href="/admin/users" className="text-amber-700 font-semibold hover:underline shrink-0">
+              View →
             </Link>
           </div>
         </Card>
 
-        <Card className="relative overflow-hidden border-amber-200 hover:border-amber-400 transition-all">
+        <Card className="p-3.5 rounded-xl relative overflow-hidden border-amber-200/80 hover:border-amber-400 transition-all">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] uppercase tracking-widest text-stone-500 font-bold">
-              Published Sevas & Rituals
+            <span className="text-[10px] uppercase tracking-wider text-stone-500 font-bold truncate">
+              Sevas & Rituals
             </span>
-            <div className="size-9 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center text-lg">
+            <div className="size-7 rounded-lg bg-amber-500/10 text-amber-700 flex items-center justify-center text-sm shrink-0">
               <HiOutlineClock />
             </div>
           </div>
-          <div className="font-serif mt-3 text-3xl font-bold text-[#3C0F1A]">
+          <div className="font-serif mt-1.5 text-2xl font-bold text-[#3C0F1A]">
             {s.rituals.length} Sevas
           </div>
-          <div className="mt-2 text-xs text-stone-500 flex items-center justify-between">
-            <span>Daily Aarti & Pujas</span>
-            <Link href="/admin/rituals" className="text-amber-700 font-semibold hover:underline">
+          <div className="mt-1.5 text-[11px] text-stone-500 flex items-center justify-between">
+            <span className="truncate">Daily Aarti</span>
+            <Link href="/admin/rituals" className="text-amber-700 font-semibold hover:underline shrink-0">
               Manage →
             </Link>
           </div>
         </Card>
 
-        <Card className="relative overflow-hidden border-amber-200 hover:border-amber-400 transition-all">
+        <Card className="p-3.5 rounded-xl relative overflow-hidden border-amber-200/80 hover:border-amber-400 transition-all">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] uppercase tracking-widest text-stone-500 font-bold">
+            <span className="text-[10px] uppercase tracking-wider text-stone-500 font-bold truncate">
               Upcoming Utsavs
             </span>
-            <div className="size-9 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center text-lg">
+            <div className="size-7 rounded-lg bg-amber-500/10 text-amber-700 flex items-center justify-center text-sm shrink-0">
               <HiOutlineCalendar />
             </div>
           </div>
-          <div className="font-serif mt-3 text-3xl font-bold text-[#3C0F1A]">
+          <div className="font-serif mt-1.5 text-2xl font-bold text-[#3C0F1A]">
             {s.events.length} Festivals
           </div>
-          <div className="mt-2 text-xs text-stone-500 flex items-center justify-between">
-            <span>Next: {s.events[0]?.name || "N/A"}</span>
-            <Link href="/admin/events" className="text-amber-700 font-semibold hover:underline">
+          <div className="mt-1.5 text-[11px] text-stone-500 flex items-center justify-between">
+            <span className="truncate max-w-[85px]">{s.events[0]?.name || "N/A"}</span>
+            <Link href="/admin/events" className="text-amber-700 font-semibold hover:underline shrink-0">
               Schedule →
             </Link>
           </div>
         </Card>
 
-        <Card className="relative overflow-hidden border-amber-200 hover:border-amber-400 transition-all">
+        <Card className="p-3.5 rounded-xl relative overflow-hidden border-amber-200/80 hover:border-amber-400 transition-all">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] uppercase tracking-widest text-stone-500 font-bold">
-              Devotee Enquiries Inbox
+            <span className="text-[10px] uppercase tracking-wider text-stone-500 font-bold truncate">
+              Enquiries Inbox
             </span>
-            <div className="size-9 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center text-lg">
+            <div className="size-7 rounded-lg bg-amber-500/10 text-amber-700 flex items-center justify-center text-sm shrink-0">
               <HiOutlineMail />
             </div>
           </div>
-          <div className="font-serif mt-3 text-3xl font-bold text-[#3C0F1A]">
+          <div className="font-serif mt-1.5 text-2xl font-bold text-[#3C0F1A]">
             {s.messages.length} Messages
           </div>
-          <div className="mt-2 text-xs text-stone-500 flex items-center justify-between">
-            <span className="text-rose-600 font-semibold">{unreadCount} unread</span>
-            <Link href="/admin/messages" className="text-amber-700 font-semibold hover:underline">
-              Open Inbox →
+          <div className="mt-1.5 text-[11px] text-stone-500 flex items-center justify-between">
+            <span className="text-rose-600 font-semibold truncate">{unreadCount} unread</span>
+            <Link href="/admin/messages" className="text-amber-700 font-semibold hover:underline shrink-0">
+              Inbox →
             </Link>
           </div>
         </Card>

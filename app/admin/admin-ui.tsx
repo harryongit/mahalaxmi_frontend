@@ -6,9 +6,9 @@ import { State } from "./admin-context";
 
 export function Head({ title, sub, action }: { title: string; sub: string; action?: React.ReactNode }) {
   return (
-    <div className="mb-6 flex flex-wrap items-end justify-between gap-4 pb-4 border-b border-stone-200/80">
+    <div className="mb-5 flex flex-wrap items-end justify-between gap-3 pb-3 border-b border-stone-200/80">
       <div>
-        <h2 className="font-serif text-3xl md:text-4xl font-bold text-[#380D12]">{title}</h2>
+        <h2 className="font-serif text-2xl md:text-3xl font-bold text-[#380D12]">{title}</h2>
         <p className="mt-1 text-xs text-stone-500 font-medium">{sub}</p>
       </div>
       {action}
@@ -29,7 +29,7 @@ export function Card({
   return (
     <div
       onClick={onClick}
-      className={`rounded-[24px] border border-amber-900/10 bg-white p-6 shadow-[0_4px_25px_rgba(0,0,0,0.03)] transition-all hover:shadow-[0_10px_35px_rgba(0,0,0,0.06)] hover:border-amber-500/20 ${className}`}
+      className={`rounded-2xl border border-amber-900/10 bg-white p-4 sm:p-5 shadow-[0_2px_15px_rgba(0,0,0,0.03)] transition-all hover:shadow-[0_8px_25px_rgba(0,0,0,0.06)] hover:border-amber-500/25 ${className}`}
       {...props}
     >
       {children}

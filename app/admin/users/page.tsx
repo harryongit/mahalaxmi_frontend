@@ -119,125 +119,128 @@ export default function AdminUsersPage() {
         sub="Monitor registered devotees, payment flows, and Gotra recitation bookings."
       />
 
-      {/* 4 Overview Statistics Cards */}
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {/* 4 Overview Statistics Cards - Compact, balanced executive cards */}
+      <div className="grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Card
           onClick={() => setActiveTab("users")}
-          className={`relative overflow-hidden cursor-pointer transition-all ${
-            activeTab === "users" ? "border-amber-500 ring-2 ring-amber-400/30 bg-amber-50/40" : "border-amber-200 hover:border-amber-400"
+          className={`p-3.5 sm:p-4 rounded-xl sm:rounded-2xl relative overflow-hidden cursor-pointer transition-all ${
+            activeTab === "users" ? "border-amber-500 ring-2 ring-amber-400/30 bg-amber-50/40" : "border-amber-200/80 hover:border-amber-400"
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-[10px] uppercase tracking-widest text-stone-500 font-bold">
+            <span className="text-[10px] uppercase tracking-wider text-stone-500 font-bold truncate">
               Registered Devotees
             </span>
-            <div className="size-9 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center text-lg">
+            <div className="size-7 rounded-lg bg-amber-500/10 text-amber-700 flex items-center justify-center text-sm shrink-0">
               <HiOutlineUserGroup />
             </div>
           </div>
-          <div className="font-serif mt-3 text-3xl font-bold text-[#3C0F1A]">
-            {allUsers.length} Devotees
+          <div className="font-serif mt-1.5 text-2xl font-bold text-[#3C0F1A]">
+            {allUsers.length} <span className="text-xs font-sans font-semibold text-stone-600">Devotees</span>
           </div>
-          <div className="mt-2 text-xs text-amber-800 font-semibold flex items-center justify-between">
-            <span>{activeTab === "users" ? "Viewing devotee list below ↓" : "Click to view devotees list →"}</span>
+          <div className="mt-1.5 text-[11px] text-amber-800 font-semibold flex items-center justify-between">
+            <span>{activeTab === "users" ? "Viewing devotee list ↓" : "Click to view list →"}</span>
           </div>
         </Card>
 
         <Card
           onClick={() => setActiveTab("bookings")}
-          className={`relative overflow-hidden cursor-pointer transition-all ${
-            activeTab === "bookings" ? "border-amber-500 ring-2 ring-amber-400/30 bg-amber-50/40" : "border-amber-200 hover:border-amber-400"
+          className={`p-3.5 sm:p-4 rounded-xl sm:rounded-2xl relative overflow-hidden cursor-pointer transition-all ${
+            activeTab === "bookings" ? "border-amber-500 ring-2 ring-amber-400/30 bg-amber-50/40" : "border-amber-200/80 hover:border-amber-400"
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-[10px] uppercase tracking-widest text-stone-500 font-bold">
+            <span className="text-[10px] uppercase tracking-wider text-stone-500 font-bold truncate">
               Online Seva Bookings
             </span>
-            <div className="size-9 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center text-lg">
+            <div className="size-7 rounded-lg bg-amber-500/10 text-amber-700 flex items-center justify-center text-sm shrink-0">
               <HiOutlineCreditCard />
             </div>
           </div>
-          <div className="font-serif mt-3 text-3xl font-bold text-[#3C0F1A]">
-            {allBookings.length} Total ({successfulBookingsCount} Paid, {failedBookingsCount} Failed)
+          <div className="font-serif mt-1.5 text-2xl font-bold text-[#3C0F1A]">
+            {allBookings.length} <span className="text-xs font-sans font-semibold text-stone-600">Bookings</span>
           </div>
-          <div className="mt-2 text-xs text-emerald-600 font-semibold flex items-center gap-1">
-            <HiOutlineCheckCircle />
-            <span>{activeTab === "bookings" ? "Viewing bookings below ↓" : "Click to view bookings →"}</span>
+          <div className="mt-1.5 flex items-center gap-1.5 text-[11px]">
+            <span className="px-1.5 py-0.5 rounded-md bg-emerald-100 text-emerald-800 font-bold">{successfulBookingsCount} Paid</span>
+            {failedBookingsCount > 0 && (
+              <span className="px-1.5 py-0.5 rounded-md bg-rose-100 text-rose-800 font-bold">{failedBookingsCount} Failed</span>
+            )}
+            <span className="ml-auto text-amber-800 font-semibold">{activeTab === "bookings" ? "Viewing ↓" : "View →"}</span>
           </div>
         </Card>
 
-        <Card className="relative overflow-hidden border-amber-200">
+        <Card className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl relative overflow-hidden border-amber-200/80 hover:border-amber-400 transition-all">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] uppercase tracking-widest text-stone-500 font-bold">
-              Total Booking Collections
+            <span className="text-[10px] uppercase tracking-wider text-stone-500 font-bold truncate">
+              Booking Collections
             </span>
-            <div className="size-9 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center text-lg">
-              <Sparkles className="size-4 text-amber-600" />
+            <div className="size-7 rounded-lg bg-amber-500/10 text-amber-700 flex items-center justify-center text-sm shrink-0">
+              <Sparkles className="size-3.5 text-amber-700" />
             </div>
           </div>
-          <div className="font-serif mt-3 text-3xl font-bold text-[#3C0F1A]">
-            ₹{s.summary.total_revenue.toLocaleString("en-IN")}
+          <div className="font-serif mt-1.5 text-2xl font-bold text-[#3C0F1A]">
+            ₹{totalBookedAmount > 0 ? totalBookedAmount.toLocaleString("en-IN") : s.summary.total_revenue.toLocaleString("en-IN")}
           </div>
-          <div className="mt-2 text-xs text-stone-500">
-            Dakshina received via UPI & Bank
+          <div className="mt-1.5 text-[11px] text-stone-500 truncate">
+            Dakshina via UPI & Gateway
           </div>
         </Card>
 
-        <Card className="relative overflow-hidden border-amber-200">
+        <Card className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl relative overflow-hidden border-amber-200/80 hover:border-amber-400 transition-all">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] uppercase tracking-widest text-stone-500 font-bold">
-              Gotra Recitations Scheduled
+            <span className="text-[10px] uppercase tracking-wider text-stone-500 font-bold truncate">
+              Gotra Recitations
             </span>
-            <div className="size-9 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center text-lg">
+            <div className="size-7 rounded-lg bg-amber-500/10 text-amber-700 flex items-center justify-center text-sm shrink-0">
               <HiOutlineClock />
             </div>
           </div>
-          <div className="font-serif mt-3 text-3xl font-bold text-[#3C0F1A]">
-            {s.bookings?.filter((b) => b.paymentStatus !== "Completed").length || 0} Pending
+          <div className="font-serif mt-1.5 text-2xl font-bold text-[#3C0F1A]">
+            {allBookings.filter((b) => b.paymentStatus === "Paid & Confirmed" || b.paymentStatus === "Pending Recitation").length || 0} <span className="text-xs font-sans font-semibold text-stone-600">Pending</span>
           </div>
-          <div className="mt-2 text-xs text-amber-700 font-medium">
+          <div className="mt-1.5 text-[11px] text-amber-700 font-medium truncate">
             Ready for Panditji recitation
           </div>
         </Card>
       </div>
 
       {/* Main View Switcher & Search Bar */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-stone-200 shadow-sm">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-white p-3 sm:p-3.5 rounded-xl border border-stone-200/90 shadow-xs">
         {/* Toggle Pill Buttons */}
-        <div className="inline-flex p-1 rounded-xl bg-stone-100 border border-stone-200">
+        <div className="inline-flex p-1 rounded-lg bg-stone-100 border border-stone-200">
           <button
             onClick={() => setActiveTab("users")}
-            className={`px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+            className={`px-3 py-1.5 rounded-md text-xs font-bold transition-all cursor-pointer ${
               activeTab === "users"
-                ? "bg-[#3C0F1A] text-white shadow-sm"
+                ? "bg-[#3C0F1A] text-white shadow-xs"
                 : "text-stone-700 hover:text-stone-900"
             }`}
           >
-            👥 Registered Devotees List ({allUsers.length})
+            👥 Devotees ({allUsers.length})
           </button>
 
           <button
             onClick={() => setActiveTab("bookings")}
-            className={`px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+            className={`px-3 py-1.5 rounded-md text-xs font-bold transition-all cursor-pointer ${
               activeTab === "bookings"
-                ? "bg-[#3C0F1A] text-white shadow-sm"
+                ? "bg-[#3C0F1A] text-white shadow-xs"
                 : "text-stone-700 hover:text-stone-900"
             }`}
           >
-            📜 Seva Bookings & Payment Details ({allBookings.length})
+            📜 Seva Bookings ({allBookings.length})
           </button>
         </div>
 
         {/* Search Input Bar & Refresh */}
         <div className="flex items-center gap-2">
           <div className="relative w-full sm:w-72">
-            <HiOutlineSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400 text-sm" />
+            <HiOutlineSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 text-xs" />
             <input
               type="text"
               placeholder={activeTab === "bookings" ? "Search Ref ID, Name, Puja..." : "Search Devotee Name, Phone..."}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 rounded-xl bg-stone-50 border border-stone-200 text-xs text-stone-900 placeholder:text-stone-400 focus:bg-white focus:border-amber-500 focus:outline-none"
+              className="w-full pl-8 pr-3 py-1.5 rounded-lg bg-stone-50 border border-stone-200 text-xs text-stone-900 placeholder:text-stone-400 focus:bg-white focus:border-amber-500 focus:outline-none"
             />
           </div>
 
@@ -249,7 +252,7 @@ export default function AdminUsersPage() {
               toast.success("Live devotees and bookings refreshed!");
             }}
             disabled={isRefreshingDevotees || isRefreshingBookings}
-            className="p-2.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-bold flex items-center gap-1.5 border border-stone-200 transition-colors cursor-pointer shrink-0"
+            className="p-2 rounded-lg bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-bold flex items-center gap-1 border border-stone-200 transition-colors cursor-pointer shrink-0"
             title="Refresh Live Data"
           >
             <RefreshCw className={`size-3.5 ${(isRefreshingDevotees || isRefreshingBookings) ? "animate-spin" : ""}`} />
@@ -440,42 +443,40 @@ export default function AdminUsersPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
             {filteredUsers.map((user) => (
               <div
                 key={user.id}
-                className="p-4 rounded-2xl bg-amber-50/40 border border-amber-200/80 flex items-start justify-between gap-4 hover:shadow-md transition-all"
+                className="p-3.5 rounded-xl bg-gradient-to-br from-white to-amber-50/30 border border-amber-200/70 hover:border-amber-400 hover:shadow-xs transition-all flex items-start justify-between gap-3"
               >
-                <div className="flex items-start gap-3">
-                  <div className="size-11 rounded-2xl bg-[#3C0F1A] text-amber-200 font-serif font-bold text-lg flex items-center justify-center border-2 border-amber-300 shrink-0">
+                <div className="flex items-start gap-2.5 min-w-0 flex-1">
+                  <div className="size-9 rounded-xl bg-[#3C0F1A] text-amber-200 font-serif font-bold text-sm flex items-center justify-center border border-amber-300 shrink-0">
                     {((user.name || "Devotee").trim().charAt(0) || "D").toUpperCase()}
                   </div>
-                  <div className="space-y-1">
-                    <h4 className="font-bold text-stone-900 text-sm">
+                  <div className="min-w-0 flex-1 space-y-0.5">
+                    <h4 className="font-bold text-stone-900 text-xs truncate">
                       {user.name && user.name.trim() ? user.name : "Devotee"}
                     </h4>
 
-                    <div className="flex items-center gap-1.5 text-xs text-stone-600">
-                      <HiOutlinePhone className="text-amber-700 shrink-0" />
+                    <div className="flex items-center gap-1 text-[11px] text-stone-600">
+                      <HiOutlinePhone className="text-amber-700 shrink-0 size-3" />
                       <span className="font-mono">{user.mobile || "-"}</span>
                     </div>
 
-                    <div className="text-[11px] text-stone-600 flex flex-wrap items-center gap-x-2 gap-y-0.5 pt-0.5">
-                      <span>Gotra: <strong className="text-stone-800">{user.gotra && user.gotra.trim() ? user.gotra : "-"}</strong></span>
+                    <div className="text-[10px] text-stone-500 flex flex-wrap items-center gap-x-1.5 gap-y-0.5 pt-0.5">
+                      <span>Gotra: <strong className="text-stone-700">{user.gotra && user.gotra.trim() ? user.gotra : "-"}</strong></span>
                       <span>•</span>
-                      <span>City: <strong className="text-stone-800">{user.city && user.city.trim() ? user.city : "-"}</strong></span>
-                      <span>•</span>
-                      <span>Joined: <span className="text-stone-700">{user.regDate || "-"}</span></span>
+                      <span>City: <strong className="text-stone-700">{user.city && user.city.trim() ? user.city : "-"}</strong></span>
                     </div>
                   </div>
                 </div>
 
-                <div className="text-right space-y-1 shrink-0">
-                  <div className="text-[10px] uppercase text-stone-400 font-bold">Total Sevas</div>
-                  <div className="font-serif text-lg font-bold text-[#3C0F1A]">
-                    {user.totalBookings || 0} Bookings
+                <div className="text-right shrink-0 pl-2 border-l border-amber-100/80">
+                  <div className="text-[9px] uppercase text-stone-400 font-bold">Sevas</div>
+                  <div className="font-serif text-sm font-bold text-[#3C0F1A]">
+                    {user.totalBookings || 0}
                   </div>
-                  <div className="text-xs font-bold text-amber-900">
+                  <div className="text-[11px] font-bold text-amber-900">
                     ₹{Number(user.totalSpent || 0).toLocaleString("en-IN")}
                   </div>
                 </div>
