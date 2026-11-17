@@ -243,9 +243,9 @@ export default function AdminOverviewPage() {
 
       {/* Dedicated Card: Recent Online Puja Bookings */}
       <Card className="border-amber-300/80 shadow-md">
-        <div className="flex items-center justify-between mb-4 pb-3 border-b border-stone-100">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-stone-100">
           <div>
-            <h3 className="font-serif text-lg font-bold text-[#3C0F1A] flex items-center gap-2">
+            <h3 className="font-serif text-lg font-bold text-[#3C0F1A] flex items-center gap-2 flex-wrap">
               <Sparkles className="size-4.5 text-amber-700" />
               <span>Recent Online Puja Bookings</span>
               <span className="text-xs font-sans px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 font-bold">
@@ -256,14 +256,14 @@ export default function AdminOverviewPage() {
           </div>
           <Link
             href="/admin/users"
-            className="text-xs font-semibold text-amber-700 hover:text-amber-800 flex items-center gap-1"
+            className="text-xs font-semibold text-amber-700 hover:text-amber-800 flex items-center gap-1 shrink-0"
           >
             Manage All Bookings <HiOutlineArrowRight />
           </Link>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+          <table className="w-full text-left text-xs min-w-[650px]">
             <thead>
               <tr className="border-b border-stone-200 text-[10px] uppercase tracking-wider text-stone-500 font-bold bg-stone-50">
                 <th className="py-2.5 px-3">Ref ID</th>
@@ -393,7 +393,7 @@ export default function AdminOverviewPage() {
 
       {/* Recently Registered Devotees Section */}
       <Card>
-        <div className="flex items-center justify-between mb-4 pb-3 border-b border-stone-100">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-stone-100">
           <div>
             <h3 className="font-serif text-lg font-bold text-[#3C0F1A]">
               Recently Registered Devotees
@@ -402,7 +402,7 @@ export default function AdminOverviewPage() {
           </div>
           <Link
             href="/admin/users"
-            className="text-xs font-semibold text-amber-700 hover:text-amber-800 flex items-center gap-1"
+            className="text-xs font-semibold text-amber-700 hover:text-amber-800 flex items-center gap-1 shrink-0"
           >
             Manage All Devotees ({allDevotees.length}) <HiOutlineArrowRight />
           </Link>

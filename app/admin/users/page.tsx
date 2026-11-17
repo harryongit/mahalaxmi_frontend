@@ -322,7 +322,7 @@ export default function AdminUsersPage() {
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
+            <table className="w-full text-left text-xs min-w-[760px]">
               <thead>
                 <tr className="border-b border-stone-200 text-[11px] uppercase tracking-wider text-stone-500 font-bold bg-stone-50">
                   <th className="py-3 px-4">Booking Ref</th>

@@ -7,8 +7,8 @@ import { State } from "./admin-context";
 export function Head({ title, sub, action }: { title: string; sub: string; action?: React.ReactNode }) {
   return (
     <div className="mb-5 flex flex-wrap items-end justify-between gap-3 pb-3 border-b border-stone-200/80">
-      <div>
-        <h2 className="font-serif text-2xl md:text-3xl font-bold text-[#380D12]">{title}</h2>
+      <div className="min-w-0">
+        <h2 className="font-serif text-xl sm:text-2xl md:text-3xl font-bold text-[#380D12]">{title}</h2>
         <p className="mt-1 text-xs text-stone-500 font-medium">{sub}</p>
       </div>
       {action}

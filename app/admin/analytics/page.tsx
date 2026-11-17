@@ -42,7 +42,7 @@ export default function AnalyticsPage() {
       />
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <Card className="!p-5 bg-gradient-to-br from-amber-50 to-white border-amber-100">
           <div className="flex justify-between items-start">
             <div>
