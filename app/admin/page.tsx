@@ -5,7 +5,14 @@ import { useQuery } from "@tanstack/react-query";
 import { adminBookingApi, adminUserApi } from "@/src/lib/api";
 import { useAdmin } from "./admin-context";
 import { Head, Card } from "./admin-ui";
-import { Sparkles } from "lucide-react";
+import {
+  Sparkles,
+  Flame,
+  CalendarPlus,
+  UploadCloud,
+  Coins,
+  ArrowUpRight,
+} from "lucide-react";
 import {
   HiOutlinePhotograph,
   HiOutlineCalendar,
@@ -60,43 +67,117 @@ export default function AdminOverviewPage() {
         sub={`Official Sansthan management portal for ${s.settings.templeName}.`}
       />
 
-      {/* Quick Action Shortcuts Bar */}
-      <div className="flex flex-wrap items-center gap-2.5 bg-white p-3.5 rounded-2xl border border-stone-200/90 shadow-xs">
-        <span className="text-[11px] font-bold uppercase tracking-wider text-stone-500 mr-1.5">
-          Quick Operations:
-        </span>
-        
-        <Link
-          href="/admin/rituals"
-          className="py-2 px-3.5 rounded-xl bg-[#3C0F1A] text-white font-bold text-xs shadow-xs hover:bg-[#521524] transition-colors flex items-center gap-1.5 border border-amber-400/30"
-        >
-          <HiOutlinePlus className="size-3.5 stroke-[2.5]" />
-          <span>Add New Puja Seva</span>
-        </Link>
+      {/* Quick Action Operations - Distinct, Executive Interactive Action Cards */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="size-2 rounded-full bg-amber-500 animate-pulse" />
+            <h3 className="text-xs font-bold uppercase tracking-wider text-stone-600">
+              Quick Administrative Actions
+            </h3>
+          </div>
+          <span className="text-[11px] text-stone-400 font-medium hidden sm:inline">
+            Direct Operations Launcher
+          </span>
+        </div>
 
-        <Link
-          href="/admin/events"
-          className="py-2 px-3.5 rounded-xl bg-amber-100 text-amber-950 font-bold text-xs border border-amber-300 hover:bg-amber-200 transition-colors flex items-center gap-1.5"
-        >
-          <HiOutlinePlus className="size-3.5 stroke-[2.5]" />
-          <span>Schedule Utsav Event</span>
-        </Link>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          {/* Action 1: Add New Puja Seva */}
+          <Link
+            href="/admin/rituals"
+            className="group relative flex items-center gap-3.5 p-3.5 rounded-2xl bg-white border border-stone-200/90 hover:border-amber-500/80 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer overflow-hidden"
+          >
+            <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-amber-500/10 via-transparent to-transparent rounded-bl-full pointer-events-none" />
+            <div className="size-11 rounded-xl bg-gradient-to-br from-[#3C0F1A] via-[#4A1522] to-[#24080F] text-amber-300 flex items-center justify-center shadow-xs border border-amber-500/30 group-hover:scale-105 transition-transform shrink-0">
+              <Flame className="size-5 text-amber-300" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center justify-between gap-1">
+                <h4 className="font-serif text-sm font-bold text-stone-900 group-hover:text-[#3C0F1A] transition-colors truncate">
+                  Add Puja Seva
+                </h4>
+                <div className="size-6 rounded-full bg-stone-100 text-stone-400 flex items-center justify-center group-hover:bg-[#3C0F1A] group-hover:text-amber-300 transition-colors shrink-0">
+                  <ArrowUpRight className="size-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                </div>
+              </div>
+              <p className="text-[11px] text-stone-500 truncate mt-0.5">
+                New ritual or gotra booking
+              </p>
+            </div>
+          </Link>
 
-        <Link
-          href="/admin/gallery"
-          className="py-2 px-3.5 rounded-xl bg-stone-100 text-stone-800 font-bold text-xs border border-stone-300 hover:bg-stone-200 transition-colors flex items-center gap-1.5"
-        >
-          <HiOutlinePlus className="size-3.5 stroke-[2.5]" />
-          <span>Upload Gallery Photo</span>
-        </Link>
+          {/* Action 2: Schedule Utsav Event */}
+          <Link
+            href="/admin/events"
+            className="group relative flex items-center gap-3.5 p-3.5 rounded-2xl bg-white border border-stone-200/90 hover:border-amber-400 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer overflow-hidden"
+          >
+            <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-amber-400/10 via-transparent to-transparent rounded-bl-full pointer-events-none" />
+            <div className="size-11 rounded-xl bg-gradient-to-br from-amber-100 to-amber-200 text-amber-900 flex items-center justify-center shadow-xs border border-amber-300/80 group-hover:scale-105 transition-transform shrink-0">
+              <CalendarPlus className="size-5 text-amber-800" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center justify-between gap-1">
+                <h4 className="font-serif text-sm font-bold text-stone-900 group-hover:text-amber-900 transition-colors truncate">
+                  Schedule Festival
+                </h4>
+                <div className="size-6 rounded-full bg-stone-100 text-stone-400 flex items-center justify-center group-hover:bg-amber-600 group-hover:text-white transition-colors shrink-0">
+                  <ArrowUpRight className="size-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                </div>
+              </div>
+              <p className="text-[11px] text-stone-500 truncate mt-0.5">
+                Temple utsav & celebration
+              </p>
+            </div>
+          </Link>
 
-        <Link
-          href="/admin/donations"
-          className="py-2 px-3.5 rounded-xl bg-stone-100 text-stone-800 font-bold text-xs border border-stone-300 hover:bg-stone-200 transition-colors flex items-center gap-1.5"
-        >
-          <HiOutlinePlus className="size-3.5 stroke-[2.5]" />
-          <span>Record Seva Donation</span>
-        </Link>
+          {/* Action 3: Upload Gallery Photo */}
+          <Link
+            href="/admin/gallery"
+            className="group relative flex items-center gap-3.5 p-3.5 rounded-2xl bg-white border border-stone-200/90 hover:border-indigo-400 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer overflow-hidden"
+          >
+            <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-indigo-500/10 via-transparent to-transparent rounded-bl-full pointer-events-none" />
+            <div className="size-11 rounded-xl bg-gradient-to-br from-indigo-50 to-indigo-100 text-indigo-900 flex items-center justify-center shadow-xs border border-indigo-200/80 group-hover:scale-105 transition-transform shrink-0">
+              <UploadCloud className="size-5 text-indigo-700" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center justify-between gap-1">
+                <h4 className="font-serif text-sm font-bold text-stone-900 group-hover:text-indigo-950 transition-colors truncate">
+                  Upload Media
+                </h4>
+                <div className="size-6 rounded-full bg-stone-100 text-stone-400 flex items-center justify-center group-hover:bg-indigo-700 group-hover:text-white transition-colors shrink-0">
+                  <ArrowUpRight className="size-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                </div>
+              </div>
+              <p className="text-[11px] text-stone-500 truncate mt-0.5">
+                Sanctum photos & videos
+              </p>
+            </div>
+          </Link>
+
+          {/* Action 4: Record Seva Donation */}
+          <Link
+            href="/admin/donations"
+            className="group relative flex items-center gap-3.5 p-3.5 rounded-2xl bg-white border border-stone-200/90 hover:border-emerald-500 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer overflow-hidden"
+          >
+            <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-emerald-500/10 via-transparent to-transparent rounded-bl-full pointer-events-none" />
+            <div className="size-11 rounded-xl bg-gradient-to-br from-emerald-50 to-emerald-100 text-emerald-900 flex items-center justify-center shadow-xs border border-emerald-200/80 group-hover:scale-105 transition-transform shrink-0">
+              <Coins className="size-5 text-emerald-700" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center justify-between gap-1">
+                <h4 className="font-serif text-sm font-bold text-stone-900 group-hover:text-emerald-950 transition-colors truncate">
+                  Record Seva Daan
+                </h4>
+                <div className="size-6 rounded-full bg-stone-100 text-stone-400 flex items-center justify-center group-hover:bg-emerald-700 group-hover:text-white transition-colors shrink-0">
+                  <ArrowUpRight className="size-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                </div>
+              </div>
+              <p className="text-[11px] text-stone-500 truncate mt-0.5">
+                Counter receipt & 80G daan
+              </p>
+            </div>
+          </Link>
+        </div>
       </div>
 
       {/* 6 Stat Metric Cards - 3 Columns with generous width, clean typography, NO truncation */}
