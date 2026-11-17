@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { FaInstagram, FaFacebookF } from "react-icons/fa6";
 import { MapPin, Phone, Mail, MessageCircle } from "lucide-react";
 
 export function Footer() {
@@ -48,15 +49,36 @@ export function Footer() {
             One of the sacred 51 Shakti Peethas in India. A living sanctuary of devotion, Vedic rituals, and divine blessings for prosperity and peace.
           </p>
 
-          <div className="mt-4">
+          <div className="mt-4 flex flex-wrap items-center gap-2.5">
+            <a
+              href="https://www.instagram.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="grid size-8 place-items-center rounded-full border border-white/10 bg-white/5 hover:border-[var(--gold)] hover:text-[var(--gold)] hover:bg-white/10 transition-colors"
+              title="Follow on Instagram"
+            >
+              <FaInstagram className="size-3.5" />
+            </a>
+            <a
+              href="https://www.facebook.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+              className="grid size-8 place-items-center rounded-full border border-white/10 bg-white/5 hover:border-[var(--gold)] hover:text-[var(--gold)] hover:bg-white/10 transition-colors"
+              title="Follow on Facebook"
+            >
+              <FaFacebookF className="size-3.5" />
+            </a>
             <a
               href="https://wa.me/919130532666?text=Namaste%20Mandir%20Office"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-emerald-500/40 bg-emerald-950/40 hover:bg-emerald-900/60 text-emerald-300 hover:text-emerald-100 text-xs font-semibold transition-all shadow-xs"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-emerald-500/40 bg-emerald-950/40 hover:bg-emerald-900/60 text-emerald-300 hover:text-emerald-100 text-xs font-semibold transition-all shadow-xs"
+              title="Official WhatsApp Helpline"
             >
               <MessageCircle className="size-3.5 text-emerald-400" />
-              <span>Devotee WhatsApp Helpline</span>
+              <span>WhatsApp Helpline</span>
             </a>
           </div>
         </div>
@@ -160,6 +182,10 @@ export function Footer() {
           <span className="text-white/20">•</span>
           <Link href="/terms-and-conditions" className="hover:text-[var(--gold)] transition-colors">
             Terms & Conditions
+          </Link>
+          <span className="text-white/20">•</span>
+          <Link href="/cookie-policy" className="hover:text-[var(--gold)] transition-colors">
+            Cookie Policy
           </Link>
           <span className="text-white/20">•</span>
           <Link href="/delete-account" className="text-rose-300 hover:text-rose-200 transition-colors font-medium">
