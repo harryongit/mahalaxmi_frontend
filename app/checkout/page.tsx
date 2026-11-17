@@ -56,7 +56,7 @@ function CheckoutForm({ dbService }: { dbService: any }) {
   const { Razorpay } = useRazorpay();
 
   const selectedPuja = dbService;
-  
+
   const todayStr = new Date().toISOString().split("T")[0];
   const [selectedDate, setSelectedDate] = useState<string>(todayStr);
   const [selectedAddons, setSelectedAddons] = useState<Record<string, number>>({});
@@ -73,8 +73,8 @@ function CheckoutForm({ dbService }: { dbService: any }) {
   const allOfferings: any[] = Array.isArray(dbAddons)
     ? dbAddons
     : Array.isArray((dbAddons as any)?.data)
-    ? (dbAddons as any).data
-    : [];
+      ? (dbAddons as any).data
+      : [];
 
   // Filter only Chadhava and Naivadya offerings
   const filteredOfferings = allOfferings.filter((s: any) => {
@@ -214,7 +214,7 @@ function CheckoutForm({ dbService }: { dbService: any }) {
     try {
       // 1. Create order on backend (returns Razorpay order_id, amount in paise, key_id)
       const order = await paymentApi.createOrder(totalAmount);
-      
+
       const razorpayKey =
         (order as any).key_id ||
         process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID ||
@@ -285,7 +285,7 @@ function CheckoutForm({ dbService }: { dbService: any }) {
 
               const { bookingApi } = await import("@/src/lib/api");
               const res = await bookingApi.createBooking(payload);
-              
+
               setBookingRef(res?.data?.bookingRef || res?.bookingRef || `AMB-${Date.now().toString().slice(-6)}`);
               setShowConfirmModal(false);
               setIsSuccess(true);
@@ -396,17 +396,16 @@ function CheckoutForm({ dbService }: { dbService: any }) {
 
   return (
     <div className="container-temple max-w-6xl mx-auto px-4 sm:px-6 space-y-6">
-      
+
       {/* SLEEK FLOATING WIZARD STEPPER TAB BAR */}
       {!isSuccess && (
         <div className="bg-white rounded-2xl p-2 border border-amber-300/80 shadow-sm flex items-center justify-between max-w-xl mx-auto text-xs">
           <button
             onClick={() => setCheckoutStep(1)}
-            className={`flex-1 py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 font-bold transition-all cursor-pointer ${
-              checkoutStep === 1
+            className={`flex-1 py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 font-bold transition-all cursor-pointer ${checkoutStep === 1
                 ? "bg-[#3C0F1A] text-white shadow-md"
                 : "text-stone-600 hover:text-stone-900"
-            }`}
+              }`}
           >
             <span className="size-5 rounded-full bg-[var(--gold)] text-stone-950 text-[11px] font-bold flex items-center justify-center shadow-xs">
               1
@@ -419,11 +418,10 @@ function CheckoutForm({ dbService }: { dbService: any }) {
               setCheckoutStep(2);
               window.scrollTo({ top: 120, behavior: "smooth" });
             }}
-            className={`flex-1 py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 font-bold transition-all cursor-pointer ${
-              checkoutStep === 2
+            className={`flex-1 py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 font-bold transition-all cursor-pointer ${checkoutStep === 2
                 ? "bg-[#3C0F1A] text-white shadow-md"
                 : "text-stone-600 hover:text-stone-900"
-            }`}
+              }`}
           >
             <span className="size-5 rounded-full bg-[var(--gold)] text-stone-950 text-[11px] font-bold flex items-center justify-center shadow-xs">
               2
@@ -478,11 +476,10 @@ function CheckoutForm({ dbService }: { dbService: any }) {
                           key={tab.id}
                           type="button"
                           onClick={() => setAddonCategoryTab(tab.id)}
-                          className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
-                            isSelected
+                          className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${isSelected
                               ? "bg-[#3C0F1A] text-white shadow-xs"
                               : "bg-stone-100 text-stone-600 hover:bg-stone-200 hover:text-stone-900"
-                          }`}
+                            }`}
                         >
                           <span className="text-xs">{tab.icon}</span>
                           <span>{tab.name}</span>
@@ -509,11 +506,10 @@ function CheckoutForm({ dbService }: { dbService: any }) {
                           <div
                             key={offering.id}
                             onClick={() => toggleAddon(offering.id, offering.price)}
-                            className={`p-3.5 rounded-2xl border transition-all flex items-center gap-3.5 cursor-pointer ${
-                              active
+                            className={`p-3.5 rounded-2xl border transition-all flex items-center gap-3.5 cursor-pointer ${active
                                 ? "bg-amber-50/80 border-amber-500 text-amber-950 shadow-xs ring-1 ring-amber-400/40"
                                 : "bg-white border-stone-200 hover:border-amber-300 hover:shadow-2xs"
-                            }`}
+                              }`}
                           >
                             <img
                               src={offering.image || "/assets/default-service.jpg"}
@@ -546,11 +542,10 @@ function CheckoutForm({ dbService }: { dbService: any }) {
                             </div>
 
                             <div
-                              className={`size-6 rounded-xl border flex items-center justify-center shrink-0 transition-all ${
-                                active
+                              className={`size-6 rounded-xl border flex items-center justify-center shrink-0 transition-all ${active
                                   ? "bg-amber-800 border-amber-800 text-white shadow-xs"
                                   : "border-stone-300 bg-stone-50 text-stone-400"
-                              }`}
+                                }`}
                             >
                               {active && <Check className="size-3.5" />}
                             </div>
@@ -642,11 +637,10 @@ function CheckoutForm({ dbService }: { dbService: any }) {
                                   type="button"
                                   key={item.date}
                                   onClick={() => setSelectedDate(item.date)}
-                                  className={`shrink-0 px-2.5 py-1 rounded-lg text-[10px] font-bold border transition-all ${
-                                    active
+                                  className={`shrink-0 px-2.5 py-1 rounded-lg text-[10px] font-bold border transition-all ${active
                                       ? "bg-amber-800 text-white border-amber-800 shadow-xs"
                                       : "bg-white text-stone-700 border-amber-300 hover:border-amber-500"
-                                  }`}
+                                    }`}
                                 >
                                   {item.label}
                                 </button>
@@ -682,7 +676,7 @@ function CheckoutForm({ dbService }: { dbService: any }) {
 
               {/* SEPARATE INTERACTIVE TABS: Overview | Benefits | Process | Gallery | Reviews | FAQs */}
               <div className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm space-y-5">
-                
+
                 {/* Horizontal Tab Buttons Bar */}
                 <div className="flex overflow-x-auto border-b border-stone-200 pb-2 gap-2 scrollbar-thin">
                   {tabsList.map((t) => {
@@ -693,11 +687,10 @@ function CheckoutForm({ dbService }: { dbService: any }) {
                         key={t.id}
                         type="button"
                         onClick={() => setDetailsTab(t.id)}
-                        className={`shrink-0 px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer border ${
-                          active
+                        className={`shrink-0 px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer border ${active
                             ? "bg-amber-900 text-white border-amber-900 shadow-sm"
                             : "bg-stone-50 text-stone-600 border-stone-200 hover:border-amber-300 hover:text-amber-900"
-                        }`}
+                          }`}
                       >
                         <Icon className="size-3.5" />
                         <span>{t.label}</span>
@@ -730,7 +723,7 @@ function CheckoutForm({ dbService }: { dbService: any }) {
                   {/* BENEFITS TAB */}
                   {detailsTab === "benefits" && (
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                      {selectedPuja.benefits?.map((b: {title: string, desc: string}, i: number) => (
+                      {selectedPuja.benefits?.map((b: { title: string, desc: string }, i: number) => (
                         <div key={i} className="p-3.5 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-1">
                           <span className="font-serif font-bold text-amber-900 text-sm block">{b.title}</span>
                           <p className="text-stone-600 leading-snug">{b.desc}</p>
@@ -742,7 +735,7 @@ function CheckoutForm({ dbService }: { dbService: any }) {
                   {/* PROCESS TAB */}
                   {detailsTab === "process" && (
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-2">
-                      {selectedPuja.process?.map((p: {step: number, title: string, desc: string}, i: number) => (
+                      {selectedPuja.process?.map((p: { step: number, title: string, desc: string }, i: number) => (
                         <div key={i} className="p-3 rounded-xl bg-stone-50 border border-stone-200 flex items-center gap-3">
                           <span className="size-6 rounded-full bg-[#3C0F1A] text-amber-300 font-bold flex items-center justify-center shrink-0">
                             {p.step}
@@ -768,7 +761,7 @@ function CheckoutForm({ dbService }: { dbService: any }) {
                   {/* REVIEWS TAB */}
                   {detailsTab === "reviews" && (
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-2.5">
-                      {selectedPuja.reviews?.map((r: {name: string, text: string}, i: number) => (
+                      {selectedPuja.reviews?.map((r: { name: string, text: string }, i: number) => (
                         <div key={i} className="p-3 rounded-xl bg-stone-50 border border-stone-200 space-y-1">
                           <div className="flex justify-between items-center font-bold text-stone-900">
                             <span>{r.name}</span>
@@ -783,7 +776,7 @@ function CheckoutForm({ dbService }: { dbService: any }) {
                   {/* FAQS TAB */}
                   {detailsTab === "faqs" && (
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-2">
-                      {selectedPuja.faqs?.map((f: {q: string, a: string}, i: number) => (
+                      {selectedPuja.faqs?.map((f: { q: string, a: string }, i: number) => (
                         <div key={i} className="p-3 rounded-xl bg-stone-50 border border-stone-200 space-y-1">
                           <strong className="text-stone-900 block font-bold">Q: {f.q}</strong>
                           <p className="text-stone-600">A: {f.a}</p>
@@ -860,15 +853,15 @@ function CheckoutForm({ dbService }: { dbService: any }) {
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-stone-700 mb-2">Email Address *</label>
-                    <input
-                      type="email"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="For invoice delivery"
-                      className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:ring-2 focus:ring-[var(--gold)]/20 focus:border-[var(--gold)] outline-none transition-all"
-                    />
+                  <label className="block text-sm font-medium text-stone-700 mb-2">Email Address *</label>
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="For invoice delivery"
+                    className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:ring-2 focus:ring-[var(--gold)]/20 focus:border-[var(--gold)] outline-none transition-all"
+                  />
                 </div>
 
                 <div className="space-y-1 pt-1">
@@ -973,11 +966,10 @@ function CheckoutForm({ dbService }: { dbService: any }) {
                               setCustomSankalp("");
                             }
                           }}
-                          className={`px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all cursor-pointer border ${
-                            isSelected
+                          className={`px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all cursor-pointer border ${isSelected
                               ? "bg-amber-900 text-white border-amber-900 shadow-xs"
                               : "bg-white text-stone-700 border-stone-200 hover:border-amber-300 hover:bg-amber-50/50"
-                          }`}
+                            }`}
                         >
                           {intention}
                         </button>
@@ -1024,22 +1016,20 @@ function CheckoutForm({ dbService }: { dbService: any }) {
                       <button
                         type="button"
                         onClick={() => setWantAashirwadBox("yes")}
-                        className={`px-5 py-2 rounded-xl font-bold text-xs transition-all ${
-                          wantAashirwadBox === "yes"
+                        className={`px-5 py-2 rounded-xl font-bold text-xs transition-all ${wantAashirwadBox === "yes"
                             ? "bg-amber-800 text-white shadow-md"
                             : "bg-white text-stone-700 border border-stone-300"
-                        }`}
+                          }`}
                       >
                         Yes
                       </button>
                       <button
                         type="button"
                         onClick={() => setWantAashirwadBox("no")}
-                        className={`px-5 py-2 rounded-xl font-bold text-xs transition-all ${
-                          wantAashirwadBox === "no"
+                        className={`px-5 py-2 rounded-xl font-bold text-xs transition-all ${wantAashirwadBox === "no"
                             ? "bg-stone-800 text-white shadow-md"
                             : "bg-white text-stone-700 border border-stone-300"
-                        }`}
+                          }`}
                       >
                         No
                       </button>
@@ -1188,7 +1178,7 @@ function CheckoutForm({ dbService }: { dbService: any }) {
               </a>
             )}
             <a
-              href={`https://wa.me/919130532666?text=Namaste,%20I%20have%20booked%20puja%20with%20Ref%20${bookingRef}`}
+              href={`https://wa.me/919371623260?text=Namaste,%20I%20have%20booked%20puja%20with%20Ref%20${bookingRef}`}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full sm:w-auto py-3 px-4 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-xs transition-all text-center"
@@ -1244,7 +1234,7 @@ function CheckoutForm({ dbService }: { dbService: any }) {
                   <div className="flex items-center gap-3">
                     <img
                       src={selectedPuja.image || "/assets/default-service.jpg"}
-                          onError={(e) => { (e.target as HTMLImageElement).src = "/assets/default-service.jpg"; }}
+                      onError={(e) => { (e.target as HTMLImageElement).src = "/assets/default-service.jpg"; }}
                       alt={selectedPuja.title}
                       className="size-14 rounded-xl object-cover shrink-0 border border-amber-200"
                     />
@@ -1332,16 +1322,16 @@ function CheckoutForm({ dbService }: { dbService: any }) {
                       )}
                     </button>
                   </div>
-                <div className="flex items-center justify-center gap-2 text-[10px] text-stone-500 pt-1 pb-1">
-                  <span className="font-semibold text-emerald-700">🔒 100% Secured via Razorpay</span>
-                  <span>•</span>
-                  <span>UPI (GPay / PhonePe / Paytm)</span>
-                  <span>•</span>
-                  <span>Cards</span>
-                  <span>•</span>
-                  <span>NetBanking</span>
+                  <div className="flex items-center justify-center gap-2 text-[10px] text-stone-500 pt-1 pb-1">
+                    <span className="font-semibold text-emerald-700">🔒 100% Secured via Razorpay</span>
+                    <span>•</span>
+                    <span>UPI (GPay / PhonePe / Paytm)</span>
+                    <span>•</span>
+                    <span>Cards</span>
+                    <span>•</span>
+                    <span>NetBanking</span>
+                  </div>
                 </div>
-              </div>
 
               </div>
             </motion.div>

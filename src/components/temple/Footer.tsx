@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { FaInstagram, FaFacebookF } from "react-icons/fa6";
-import { MapPin, Phone, Mail, MessageCircle } from "lucide-react";
+import { FaInstagram, FaFacebookF, FaWhatsapp } from "react-icons/fa6";
+import { MapPin, Phone, Mail } from "lucide-react";
 
 export function Footer() {
   const pathname = usePathname();
@@ -32,7 +32,7 @@ export function Footer() {
     >
       {/* Top Main Columns */}
       <div className="container-temple max-w-6xl mx-auto px-4 sm:px-6 grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr_1.4fr]">
-        
+
         {/* Column 1: Mandir Brand & Helpline */}
         <div>
           <div className="flex items-center gap-3">
@@ -71,14 +71,14 @@ export function Footer() {
               <FaFacebookF className="size-3.5" />
             </a>
             <a
-              href="https://wa.me/919130532666?text=Namaste%20Mandir%20Office"
+              href="https://wa.me/919371623260?text=Namaste%20Mandir%20Office"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-emerald-500/40 bg-emerald-950/40 hover:bg-emerald-900/60 text-emerald-300 hover:text-emerald-100 text-xs font-semibold transition-all shadow-xs"
-              title="Official WhatsApp Helpline"
+              aria-label="WhatsApp"
+              className="grid size-8 place-items-center rounded-full border border-white/10 bg-white/5 hover:border-[var(--gold)] hover:text-[var(--gold)] hover:bg-white/10 transition-colors"
+              title="Chat on WhatsApp (+91 93716 23260)"
             >
-              <MessageCircle className="size-3.5 text-emerald-400" />
-              <span>WhatsApp Helpline</span>
+              <FaWhatsapp className="size-3.5" />
             </a>
           </div>
         </div>
@@ -148,8 +148,8 @@ export function Footer() {
             <div className="flex items-start gap-2.5">
               <Phone className="size-4 text-[var(--gold)] shrink-0 mt-0.5" />
               <div>
-                <a href="tel:+919876543210" className="block font-bold text-amber-200 hover:underline">
-                  +91 98765 43210
+                <a href="tel:+919371623260" className="block font-bold text-amber-200 hover:underline">
+                  +91 93716 23260
                 </a>
                 <a href="tel:+912312654321" className="block text-white/60 hover:underline">
                   +91 231 265 4321

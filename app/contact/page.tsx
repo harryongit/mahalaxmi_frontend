@@ -148,7 +148,7 @@ export default function ContactPage() {
             </div>
             <strong className="font-serif text-lg font-bold text-stone-900 block">Helpline Numbers</strong>
             <p className="text-xs text-stone-600 leading-relaxed font-normal">
-              +91 98765 43210<br />+91 231 265 4321
+              +91 93716 23260<br />+91 231 265 4321
             </p>
           </motion.div>
 
@@ -341,7 +341,7 @@ export default function ContactPage() {
               </p>
               <div className="pt-2 flex items-center gap-3 text-xs font-bold text-[var(--gold)]">
                 <Phone className="size-4" />
-                <span>Call Center: +91 98765 43210 (06:00 AM – 09:00 PM)</span>
+                <span>Call Center: +91 93716 23260 (06:00 AM – 09:00 PM)</span>
               </div>
             </div>
 
