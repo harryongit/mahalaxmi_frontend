@@ -18,7 +18,7 @@ export function AdminSessionModal() {
 
     window.addEventListener("admin:session-expired", handleExpiredEvent);
 
-    // 2. Proactive check every 10 seconds for 1-hour expiration
+    // 2. Proactive check every 10 seconds for 7-hour expiration
     const interval = setInterval(() => {
       if (isAdminSessionExpired()) {
         setIsExpired(true);
@@ -83,7 +83,7 @@ export function AdminSessionModal() {
                 Admin Session Expired
               </h3>
               <p className="text-xs text-stone-300 leading-relaxed pt-1">
-                Your 1-hour session has expired for security reasons. Please log in again to continue accessing the Temple Sansthan Admin Dashboard.
+                Your 7-hour session has expired for security reasons. Please log in again to continue accessing the Temple Sansthan Admin Dashboard.
               </p>
             </div>
 

@@ -5,7 +5,7 @@
  * - Devotee User Session: user_token, user_details ({ id, name, mobile, email, ... })
  * - Admin Sansthan Session: admin_token, admin_details ({ admin_id, email, role, ... })
  * 
- * Enforces a 1-hour (60 minutes) JWT session lifetime.
+ * Enforces a 7-hour (420 minutes) JWT session lifetime.
  * - For Devotee: silent auto-logout on expiry (NO modal popup).
  * - For Admin: triggers an explicit Session Expired modal popup.
  */
@@ -26,7 +26,7 @@ export const STORAGE_KEYS = {
   LEGACY_ACCESS_TOKEN: "access_token",
 } as const;
 
-export const SESSION_DURATION_MS = 60 * 60 * 1000; // 1 Hour in milliseconds
+export const SESSION_DURATION_MS = 7 * 60 * 60 * 1000; // 7 Hours in milliseconds
 
 export interface StoredUserDetails {
   id: number | string;
@@ -207,7 +207,7 @@ export function isAdminSessionExpired(): boolean {
   const token = localStorage.getItem(STORAGE_KEYS.ADMIN_TOKEN);
   const expiresAt = localStorage.getItem(STORAGE_KEYS.ADMIN_SESSION_EXPIRES_AT);
 
-  // If flagged as logged in but missing token or past 1 hour, session is expired
+  // If flagged as logged in but missing token or past 7 hours, session is expired
   if (!token) return true;
   if (!expiresAt) return false;
 

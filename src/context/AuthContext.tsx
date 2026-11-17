@@ -110,7 +110,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     refreshUser();
   }, [refreshUser]);
 
-  // Periodic check for 1-hour session expiration + custom event listener
+  // Periodic check for 7-hour session expiration + custom event listener
   useEffect(() => {
     if (typeof window === "undefined") return;
 
