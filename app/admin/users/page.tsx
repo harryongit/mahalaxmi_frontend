@@ -14,7 +14,20 @@ import {
   HiOutlineSearch,
   HiOutlineEye,
 } from "react-icons/hi";
-import { Sparkles, UserCheck, ShieldCheck, RefreshCw } from "lucide-react";
+import {
+  Sparkles,
+  UserCheck,
+  ShieldCheck,
+  RefreshCw,
+  Users,
+  Receipt,
+  Phone,
+  MessageCircle,
+  Gift,
+  Check,
+  X,
+  Filter,
+} from "lucide-react";
 import { adminBookingApi, adminUserApi } from "@/src/lib/api";
 import { toast } from "sonner";
 
@@ -210,24 +223,26 @@ export default function AdminUsersPage() {
         <div className="inline-flex p-1 rounded-lg bg-stone-100 border border-stone-200">
           <button
             onClick={() => setActiveTab("users")}
-            className={`px-3 py-1.5 rounded-md text-xs font-bold transition-all cursor-pointer ${
+            className={`px-3 py-1.5 rounded-md text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
               activeTab === "users"
                 ? "bg-[#3C0F1A] text-white shadow-xs"
                 : "text-stone-700 hover:text-stone-900"
             }`}
           >
-            👥 Devotees ({allUsers.length})
+            <Users className="size-3.5" />
+            <span>Devotees ({allUsers.length})</span>
           </button>
 
           <button
             onClick={() => setActiveTab("bookings")}
-            className={`px-3 py-1.5 rounded-md text-xs font-bold transition-all cursor-pointer ${
+            className={`px-3 py-1.5 rounded-md text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
               activeTab === "bookings"
                 ? "bg-[#3C0F1A] text-white shadow-xs"
                 : "text-stone-700 hover:text-stone-900"
             }`}
           >
-            📜 Seva Bookings ({allBookings.length})
+            <Receipt className="size-3.5" />
+            <span>Seva Bookings ({allBookings.length})</span>
           </button>
         </div>
 
@@ -272,22 +287,24 @@ export default function AdminUsersPage() {
               <p className="text-xs text-stone-500">Real-time record of puja bookings, gotra details & dakshina payments</p>
             </div>
 
-            {/* Filter Tabs & Real-time Refresh */}
+            {/* Status Dropdown Filter & Real-time Refresh */}
             <div className="flex flex-wrap items-center gap-2 text-xs">
-              <span className="text-stone-500 font-medium">Filter Status:</span>
-              {["All", "Paid & Confirmed", "Completed", "Payment Failed", "Pending Recitation"].map((status) => (
-                <button
-                  key={status}
-                  onClick={() => setFilterStatus(status)}
-                  className={`px-3 py-1 rounded-lg text-xs font-semibold cursor-pointer border ${
-                    filterStatus === status
-                      ? "bg-amber-100 text-amber-950 border-amber-300 font-bold"
-                      : "bg-stone-50 text-stone-600 border-stone-200 hover:bg-stone-100"
-                  }`}
+              <div className="flex items-center gap-2">
+                <Filter className="size-3.5 text-stone-400" />
+                <label htmlFor="booking-status-filter" className="text-stone-500 font-medium">Status:</label>
+                <select
+                  id="booking-status-filter"
+                  value={filterStatus}
+                  onChange={(e) => setFilterStatus(e.target.value)}
+                  className="rounded-xl border border-stone-200 bg-stone-50/70 px-3 py-1.5 text-xs text-stone-700 font-medium focus:bg-white focus:border-amber-500 focus:outline-none cursor-pointer"
                 >
-                  {status}
-                </button>
-              ))}
+                  <option value="All">All Booking Statuses</option>
+                  <option value="Paid & Confirmed">Paid & Confirmed</option>
+                  <option value="Completed">Completed</option>
+                  <option value="Payment Failed">Payment Failed</option>
+                  <option value="Pending Recitation">Pending Recitation</option>
+                </select>
+              </div>
 
               <button
                 type="button"
@@ -295,7 +312,7 @@ export default function AdminUsersPage() {
                   refetchLiveBookings();
                   toast.success("Bookings refreshed from database");
                 }}
-                className="px-3 py-1 rounded-lg bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-900 font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer ml-auto"
+                className="px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-900 font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer ml-auto"
                 title="Refresh live bookings from database"
               >
                 <RefreshCw className={`size-3.5 ${isRefreshingBookings ? "animate-spin" : ""}`} />
@@ -327,12 +344,14 @@ export default function AdminUsersPage() {
                     </td>
                     <td className="py-3.5 px-4">
                       <div className="font-bold text-stone-900">{b.userName}</div>
-                      <div className="text-[11px] text-stone-600 font-mono flex items-center gap-1">
-                        <span>📱 {b.mobile}</span>
+                      <div className="text-[11px] text-stone-600 font-mono flex items-center gap-1.5">
+                        <Phone className="size-3 text-stone-400 shrink-0" />
+                        <span>{b.mobile}</span>
                       </div>
                       {b.whatsapp && (
-                        <div className="text-[10px] text-emerald-700 font-mono">
-                          💬 WA: {b.whatsapp}
+                        <div className="text-[10px] text-emerald-700 font-mono flex items-center gap-1">
+                          <MessageCircle className="size-2.5 text-emerald-600 shrink-0" />
+                          <span>WA: {b.whatsapp}</span>
                         </div>
                       )}
                       {b.email && (
@@ -344,8 +363,9 @@ export default function AdminUsersPage() {
                     <td className="py-3.5 px-4">
                       <div className="font-bold text-[#3C0F1A]">{b.pujaTitle}</div>
                       {b.addons && (
-                        <div className="text-[10px] text-amber-800 font-semibold truncate max-w-[180px]" title={b.addons}>
-                          🎁 {b.addons}
+                        <div className="text-[10px] text-amber-800 font-semibold truncate max-w-[180px] flex items-center gap-1" title={b.addons}>
+                          <Gift className="size-3 text-amber-700 shrink-0" />
+                          <span>{b.addons}</span>
                         </div>
                       )}
                     </td>
@@ -413,7 +433,10 @@ export default function AdminUsersPage() {
                           </button>
                         )}
                         {b.paymentStatus === "Completed" && (
-                          <span className="text-[11px] text-stone-400 font-semibold">Done ✓</span>
+                          <span className="text-[11px] text-emerald-700 font-semibold flex items-center gap-1">
+                            <Check className="size-3" />
+                            <span>Done</span>
+                          </span>
                         )}
                       </div>
                     </td>
@@ -516,8 +539,9 @@ export default function AdminUsersPage() {
                 type="button"
                 onClick={() => setSelectedBooking(null)}
                 className="size-8 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center cursor-pointer transition-colors"
+                aria-label="Close"
               >
-                ✕
+                <X className="size-4" />
               </button>
             </div>
 
@@ -547,7 +571,8 @@ export default function AdminUsersPage() {
                         rel="noreferrer"
                         className="px-2 py-0.5 rounded-md bg-emerald-600 text-white font-bold text-[10px] hover:bg-emerald-700 transition-colors inline-flex items-center gap-1"
                       >
-                        💬 Chat
+                        <MessageCircle className="size-3" />
+                        <span>Chat</span>
                       </a>
                     </div>
                   </div>

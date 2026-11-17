@@ -488,142 +488,78 @@ export default function GalleryAdminPage() {
           </span>
         </div>
 
-        {/* ROW 1: DEDICATED CATEGORY FILTER CHIPS */}
-        <div className="bg-white p-3.5 rounded-2xl border border-stone-200/90 shadow-sm space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] uppercase tracking-wider font-bold text-stone-500 flex items-center gap-1.5">
-              <Filter className="size-3 text-amber-700" />
-              Filter by Category
-            </span>
-            {selectedCategory !== "all" && (
+        {/* FILTER & SEARCH TOOLBAR (DROPDOWNS) */}
+        <div className="bg-white p-3 sm:p-3.5 rounded-2xl border border-stone-200/90 shadow-xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+          {/* Search Input */}
+          <div className="relative flex-1 min-w-[220px]">
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-stone-400" />
+            <input
+              type="text"
+              placeholder="Search by title, filename, or category..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full rounded-xl border border-stone-200/90 bg-stone-50/70 pl-10 pr-8 py-2 text-xs text-stone-800 placeholder:text-stone-400 focus:bg-white focus:outline-none focus:border-amber-500 font-sans transition-all"
+            />
+            {searchQuery && (
               <button
-                onClick={() => setSelectedCategory("all")}
-                className="text-[11px] font-bold text-amber-800 hover:underline cursor-pointer"
+                onClick={() => setSearchQuery("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 cursor-pointer"
               >
-                Clear Category Filter
+                <X className="size-3.5" />
               </button>
             )}
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
-            {/* 'All' button */}
-            <button
-              onClick={() => setSelectedCategory("all")}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all border cursor-pointer flex items-center gap-1.5 ${selectedCategory === "all"
-                ? "bg-[#380D12] text-amber-200 border-[#380D12] shadow-md ring-2 ring-amber-500/20"
-                : "bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100 hover:border-amber-300"
-                }`}
-            >
-              <span>All Categories</span>
-              <span
-                className={`text-[10px] px-2 py-0.5 font-bold rounded-full ${selectedCategory === "all"
-                  ? "bg-white/20 text-white"
-                  : "bg-stone-200 text-stone-700"
-                  }`}
+          <div className="flex flex-wrap items-center gap-2.5">
+            {/* Category Filter Dropdown */}
+            <div className="flex items-center gap-1.5">
+              <Filter className="size-3.5 text-stone-400" />
+              <label htmlFor="gallery-cat-filter" className="text-xs text-stone-500 font-medium">Category:</label>
+              <select
+                id="gallery-cat-filter"
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value as any)}
+                className="rounded-xl border border-stone-200 bg-stone-50/70 px-3 py-1.5 text-xs text-stone-700 font-medium focus:bg-white focus:border-amber-500 focus:outline-none cursor-pointer"
               >
-                {totalCount}
-              </span>
-            </button>
-
-            {/* Individual Category Buttons */}
-            {CATEGORIES.map((cat) => {
-              const active = selectedCategory === cat;
-              const Icon = CATEGORY_ICONS[cat] || Tag;
-              const count = items.filter((i) => {
-                const itemCat = i.category || (i.media_type === "video" ? "Video" : "Sanctum");
-                return itemCat.toLowerCase() === cat.toLowerCase();
-              }).length;
-
-              return (
-                <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all border cursor-pointer flex items-center gap-1.5 ${active
-                    ? "bg-[#380D12] text-amber-200 border-[#380D12] shadow-md ring-2 ring-amber-500/20"
-                    : "bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100 hover:border-amber-300"
-                    }`}
-                >
-                  <Icon className="size-3.5" />
-                  <span>{cat}</span>
-                  <span
-                    className={`text-[10px] px-2 py-0.5 font-bold rounded-full ${active
-                      ? "bg-white/20 text-white"
-                      : "bg-stone-200 text-stone-700"
-                      }`}
-                  >
-                    {count}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* ROW 2: VISIBILITY STATUS TABS + SEARCH INPUT WITH REFRESH BUTTON */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-          {/* Status Segmented Buttons */}
-          <div className="inline-flex items-center p-1 bg-stone-100 rounded-2xl border border-stone-200 text-xs font-semibold">
-            <button
-              onClick={() => setSelectedStatus("all")}
-              className={`px-3 py-1.5 rounded-xl transition-all cursor-pointer ${selectedStatus === "all"
-                ? "bg-white text-stone-900 shadow-sm"
-                : "text-stone-600 hover:text-stone-900"
-                }`}
-            >
-              All Status ({totalCount})
-            </button>
-            <button
-              onClick={() => setSelectedStatus("active")}
-              className={`px-3 py-1.5 rounded-xl transition-all cursor-pointer flex items-center gap-1.5 ${selectedStatus === "active"
-                ? "bg-emerald-700 text-white shadow-sm"
-                : "text-stone-600 hover:text-stone-900"
-                }`}
-            >
-              <Eye className="size-3" />
-              Active ({items.filter((i) => i.is_active).length})
-            </button>
-            <button
-              onClick={() => setSelectedStatus("inactive")}
-              className={`px-3 py-1.5 rounded-xl transition-all cursor-pointer flex items-center gap-1.5 ${selectedStatus === "inactive"
-                ? "bg-stone-700 text-white shadow-sm"
-                : "text-stone-600 hover:text-stone-900"
-                }`}
-            >
-              <EyeOff className="size-3" />
-              Inactive ({items.filter((i) => !i.is_active).length})
-            </button>
-          </div>
-
-          {/* Search Input with Refresh Icon on Right Side */}
-          <div className="flex items-center gap-2 min-w-[260px] flex-1 max-w-md">
-            <div className="relative flex-1">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-stone-400" />
-              <input
-                type="text"
-                placeholder="Search by title, filename, or category..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full rounded-2xl border border-stone-200/90 bg-white pl-10 pr-8 py-2 text-xs text-stone-800 placeholder:text-stone-400 focus:outline-none focus:border-amber-500 font-sans shadow-sm"
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery("")}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 cursor-pointer"
-                >
-                  <X className="size-3.5" />
-                </button>
-              )}
+                <option value="all">All Categories ({totalCount})</option>
+                {CATEGORIES.map((cat) => {
+                  const count = items.filter((i) => {
+                    const itemCat = i.category || (i.media_type === "video" ? "Video" : "Sanctum");
+                    return itemCat.toLowerCase() === cat.toLowerCase();
+                  }).length;
+                  return (
+                    <option key={cat} value={cat}>
+                      {cat} ({count})
+                    </option>
+                  );
+                })}
+              </select>
             </div>
 
-            {/* Refresh Button displaying ONLY icon on right side of search */}
+            {/* Visibility Status Filter Dropdown */}
+            <div className="flex items-center gap-1.5">
+              <label htmlFor="gallery-status-filter" className="text-xs text-stone-500 font-medium">Status:</label>
+              <select
+                id="gallery-status-filter"
+                value={selectedStatus}
+                onChange={(e) => setSelectedStatus(e.target.value as any)}
+                className="rounded-xl border border-stone-200 bg-stone-50/70 px-3 py-1.5 text-xs text-stone-700 font-medium focus:bg-white focus:border-amber-500 focus:outline-none cursor-pointer"
+              >
+                <option value="all">All Statuses ({totalCount})</option>
+                <option value="active">Active Only ({items.filter((i) => i.is_active).length})</option>
+                <option value="inactive">Inactive Only ({items.filter((i) => !i.is_active).length})</option>
+              </select>
+            </div>
+
+            {/* Refresh Button */}
             <button
               onClick={loadGallery}
               disabled={loading}
               title="Refresh Gallery"
               aria-label="Refresh Gallery"
-              className="size-9 rounded-2xl bg-white border border-stone-200 text-stone-700 hover:border-amber-400 hover:text-amber-700 hover:bg-amber-50/50 shadow-xs transition-all flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-60"
+              className="size-8.5 rounded-xl bg-white border border-stone-200 text-stone-700 hover:border-amber-400 hover:text-amber-700 hover:bg-amber-50/50 shadow-xs transition-all flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-60"
             >
-              <RefreshCw className={`size-3.5 ${loading ? "animate-spin text-amber-500" : ""}`} />
+              <RefreshCw className={`size-3.5 ${loading ? "animate-spin text-amber-600" : ""}`} />
             </button>
           </div>
         </div>

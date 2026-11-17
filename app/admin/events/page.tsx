@@ -18,6 +18,7 @@ import {
   Sparkles,
   X,
   ExternalLink,
+  Info,
 } from "lucide-react";
 
 export default function EventsAdminPage() {
@@ -393,8 +394,9 @@ export default function EventsAdminPage() {
                       </div>
                     </div>
 
-                    <p className="text-[10px] text-stone-500 italic">
-                      💡 Tip: For 1-day events (e.g. Rathotsav, Deepotsav), specify only <strong>From Date</strong>. For multi-day utsavs (e.g. Navratri, Kirnotsav), fill both <strong>From Date</strong> and <strong>To Date</strong>.
+                    <p className="text-[10px] text-stone-500 flex items-start gap-1">
+                      <Info className="size-3.5 text-amber-600 shrink-0 mt-0.5" />
+                      <span><strong>Tip:</strong> For 1-day events (e.g. Rathotsav, Deepotsav), specify only <strong>From Date</strong>. For multi-day utsavs (e.g. Navratri, Kirnotsav), fill both <strong>From Date</strong> and <strong>To Date</strong>.</span>
                     </p>
                   </div>
 

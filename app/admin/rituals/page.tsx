@@ -27,16 +27,33 @@ import {
   EyeOff,
   ChevronDown,
   ChevronUp,
+  Flame,
+  Tag,
+  X,
+  Check,
 } from "lucide-react";
 import { toast } from "sonner";
 
 // The 4 allowed Service Types (Darshan & Events removed as requested)
 const SERVICE_CATEGORIES = [
-  { id: 1, name: "Puja", slug: "puja", icon: "🕉️", color: "border-amber-400 bg-amber-50 text-amber-900" },
-  { id: 2, name: "Chadhava", slug: "chadhava", icon: "📿", color: "border-rose-400 bg-rose-50 text-rose-900" },
-  { id: 3, name: "Naivadya", slug: "naivadya", icon: "🍃", color: "border-emerald-400 bg-emerald-50 text-emerald-900" },
-  { id: 4, name: "Other", slug: "other", icon: "🙏", color: "border-indigo-400 bg-indigo-50 text-indigo-900" },
+  { id: 1, name: "Puja", slug: "puja", icon: "Puja", color: "border-amber-400 bg-amber-50 text-amber-900" },
+  { id: 2, name: "Chadhava", slug: "chadhava", icon: "Chadhava", color: "border-rose-400 bg-rose-50 text-rose-900" },
+  { id: 3, name: "Naivadya", slug: "naivadya", icon: "Naivadya", color: "border-emerald-400 bg-emerald-50 text-emerald-900" },
+  { id: 4, name: "Other", slug: "other", icon: "Other", color: "border-indigo-400 bg-indigo-50 text-indigo-900" },
 ];
+
+function CategoryIcon({ id, className = "size-3.5" }: { id?: number; className?: string }) {
+  switch (id) {
+    case 1:
+      return <Flame className={className} />;
+    case 2:
+      return <Gift className={className} />;
+    case 3:
+      return <Sparkles className={className} />;
+    default:
+      return <Tag className={className} />;
+  }
+}
 
 const DEFAULT_SERVICE_IMAGE = "/assets/default-service.jpg";
 function ImageUploader({
@@ -196,7 +213,7 @@ function ServiceModal({
     image: "",
     description: "",
     tag: "",
-    icon: "🕉️",
+    icon: "Puja",
     is_active: true,
     category_id: 1,
     category: "Puja",
@@ -239,7 +256,7 @@ function ServiceModal({
       ...data,
       category_id: catId,
       category: selectedCat ? selectedCat.name : "Puja",
-      icon: selectedCat ? selectedCat.icon : "🕉️",
+      icon: selectedCat ? selectedCat.name : "Puja",
     });
   };
 
@@ -560,8 +577,8 @@ function ServiceModal({
         {/* Header */}
         <div className="sticky top-0 bg-white border-b border-stone-200 px-6 py-4 flex items-center justify-between z-20 shadow-2xs">
           <div className="flex items-center gap-3">
-            <div className="size-10 rounded-2xl bg-amber-100 flex items-center justify-center text-xl">
-              {SERVICE_CATEGORIES.find((c) => c.id === data.category_id)?.icon || "🕉️"}
+            <div className="size-10 rounded-2xl bg-amber-100 text-amber-900 flex items-center justify-center">
+              <CategoryIcon id={data.category_id} className="size-5" />
             </div>
             <div>
               <h2 className="font-serif text-lg font-bold text-amber-950">
@@ -575,8 +592,9 @@ function ServiceModal({
           <button
             onClick={onClose}
             className="text-stone-400 hover:text-stone-700 font-bold text-sm size-8 flex items-center justify-center rounded-full hover:bg-stone-100 transition-colors cursor-pointer"
+            aria-label="Close"
           >
-            ✕
+            <X className="size-4" />
           </button>
         </div>
 
@@ -652,7 +670,9 @@ function ServiceModal({
                             : "border-stone-200 bg-white/70 hover:bg-white hover:border-stone-300"
                         }`}
                       >
-                        <span className="text-xl">{cat.icon}</span>
+                        <div className="size-8 rounded-lg bg-amber-500/10 text-amber-800 flex items-center justify-center shrink-0">
+                          <CategoryIcon id={cat.id} className="size-4" />
+                        </div>
                         <div>
                           <span className="block font-bold text-stone-900 text-xs">{cat.name}</span>
                           <span className="block text-[10px] text-stone-500">
@@ -756,8 +776,9 @@ function ServiceModal({
                       Upload Required
                     </span>
                   ) : (
-                    <span className="text-[10px] text-emerald-700 bg-emerald-50 font-bold px-2 py-0.5 rounded-md border border-emerald-200">
-                      Image Uploaded ✓
+                    <span className="text-[10px] text-emerald-700 bg-emerald-50 font-bold px-2 py-0.5 rounded-md border border-emerald-200 inline-flex items-center gap-1">
+                      <Check className="size-3" />
+                      <span>Image Uploaded</span>
                     </span>
                   )}
                 </div>
@@ -829,9 +850,10 @@ function ServiceModal({
                 <button
                   type="button"
                   onClick={handleLoadBenefitTemplates}
-                  className="px-3 py-1.5 rounded-xl bg-white border border-amber-300 text-amber-900 font-bold text-[11px] hover:bg-amber-100 transition-colors cursor-pointer shrink-0"
+                  className="px-3 py-1.5 rounded-xl bg-white border border-amber-300 text-amber-900 font-bold text-[11px] hover:bg-amber-100 transition-colors cursor-pointer shrink-0 flex items-center gap-1.5"
                 >
-                  ✨ Load Temple Templates
+                  <Sparkles className="size-3.5 text-amber-600" />
+                  <span>Load Temple Templates</span>
                 </button>
               </div>
 
@@ -905,9 +927,10 @@ function ServiceModal({
                 <button
                   type="button"
                   onClick={handleLoadProcessTemplates}
-                  className="px-3 py-1.5 rounded-xl bg-white border border-amber-300 text-amber-900 font-bold text-[11px] hover:bg-amber-100 transition-colors cursor-pointer shrink-0"
+                  className="px-3 py-1.5 rounded-xl bg-white border border-amber-300 text-amber-900 font-bold text-[11px] hover:bg-amber-100 transition-colors cursor-pointer shrink-0 flex items-center gap-1.5"
                 >
-                  ✨ Load 4-Step Vedic Process
+                  <Sparkles className="size-3.5 text-amber-600" />
+                  <span>Load 4-Step Vedic Process</span>
                 </button>
               </div>
 
@@ -981,9 +1004,10 @@ function ServiceModal({
                 <button
                   type="button"
                   onClick={handleLoadSanctumGallery}
-                  className="px-3 py-1.5 rounded-xl bg-white border border-amber-300 text-amber-900 font-bold text-[11px] hover:bg-amber-100 transition-colors cursor-pointer shrink-0"
+                  className="px-3 py-1.5 rounded-xl bg-white border border-amber-300 text-amber-900 font-bold text-[11px] hover:bg-amber-100 transition-colors cursor-pointer shrink-0 flex items-center gap-1.5"
                 >
-                  ✨ Load Sanctum Photos
+                  <Sparkles className="size-3.5 text-amber-600" />
+                  <span>Load Sanctum Photos</span>
                 </button>
               </div>
 
@@ -1001,8 +1025,9 @@ function ServiceModal({
                         type="button"
                         onClick={() => handleRemoveGallery(i)}
                         className="absolute top-1.5 right-1.5 size-6 rounded-full bg-red-600 text-white flex items-center justify-center opacity-90 hover:opacity-100 cursor-pointer shadow-sm"
+                        aria-label="Remove photo"
                       >
-                        ✕
+                        <X className="size-3.5" />
                       </button>
                     </div>
                   );
@@ -1053,9 +1078,10 @@ function ServiceModal({
                 <button
                   type="button"
                   onClick={handleLoadReviewTemplates}
-                  className="px-3 py-1.5 rounded-xl bg-white border border-amber-300 text-amber-900 font-bold text-[11px] hover:bg-amber-100 transition-colors cursor-pointer shrink-0"
+                  className="px-3 py-1.5 rounded-xl bg-white border border-amber-300 text-amber-900 font-bold text-[11px] hover:bg-amber-100 transition-colors cursor-pointer shrink-0 flex items-center gap-1.5"
                 >
-                  ✨ Load Sample Reviews
+                  <Sparkles className="size-3.5 text-amber-600" />
+                  <span>Load Sample Reviews</span>
                 </button>
               </div>
 
@@ -1070,8 +1096,10 @@ function ServiceModal({
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-stone-900 text-xs">{r.name}</span>
                         <span className="text-[10px] text-stone-500">({r.location || "India"})</span>
-                        <span className="text-amber-500 text-[11px]">
-                          {"★".repeat(r.rating || 5)}
+                        <span className="inline-flex items-center gap-0.5">
+                          {Array.from({ length: r.rating || 5 }).map((_, idx) => (
+                            <Star key={idx} className="size-3 fill-amber-400 text-amber-400" />
+                          ))}
                         </span>
                       </div>
                       <p className="text-xs text-stone-700 italic mt-1 leading-relaxed">
@@ -1120,9 +1148,9 @@ function ServiceModal({
                       onChange={(e) => setRRating(Number(e.target.value))}
                       className="w-full px-3 py-2 rounded-xl bg-white border border-stone-300 text-xs focus:outline-none focus:border-amber-500 font-bold text-amber-900"
                     >
-                      <option value={5}>⭐⭐⭐⭐⭐ (5 Stars)</option>
-                      <option value={4}>⭐⭐⭐⭐ (4 Stars)</option>
-                      <option value={3}>⭐⭐⭐ (3 Stars)</option>
+                      <option value={5}>5 Stars (Highest)</option>
+                      <option value={4}>4 Stars (Very Good)</option>
+                      <option value={3}>3 Stars (Good)</option>
                     </select>
                   </div>
                 </div>
@@ -1159,9 +1187,10 @@ function ServiceModal({
                 <button
                   type="button"
                   onClick={handleLoadFaqTemplates}
-                  className="px-3 py-1.5 rounded-xl bg-white border border-amber-300 text-amber-900 font-bold text-[11px] hover:bg-amber-100 transition-colors cursor-pointer shrink-0"
+                  className="px-3 py-1.5 rounded-xl bg-white border border-amber-300 text-amber-900 font-bold text-[11px] hover:bg-amber-100 transition-colors cursor-pointer shrink-0 flex items-center gap-1.5"
                 >
-                  ✨ Load Standard FAQs
+                  <Sparkles className="size-3.5 text-amber-600" />
+                  <span>Load Standard FAQs</span>
                 </button>
               </div>
 
@@ -1425,8 +1454,8 @@ export default function RitualsAdminPage() {
               {services.length}
             </h3>
           </div>
-          <div className="size-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-700 font-bold">
-            🕉️
+          <div className="size-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-700">
+            <Sparkles className="size-5" />
           </div>
         </div>
 
@@ -1459,63 +1488,57 @@ export default function RitualsAdminPage() {
         </div>
       </div>
 
-      {/* Category Tabs & Search Controls */}
-      <div className="bg-white p-4 rounded-2xl border border-stone-200 shadow-2xs space-y-3">
-        {/* Category Tabs: All, Puja, Chadhava, Naivadya, Other */}
-        <div className="flex flex-wrap items-center gap-2 border-b border-stone-100 pb-3">
-          {[
-            { id: "All", name: "All Services", icon: "✨", count: categoryCounts.All },
-            { id: "Puja", name: "Puja", icon: "🕉️", count: categoryCounts.Puja },
-            { id: "Chadhava", name: "Chadhava", icon: "📿", count: categoryCounts.Chadhava },
-            { id: "Naivadya", name: "Naivadya", icon: "🍃", count: categoryCounts.Naivadya },
-            { id: "Other", name: "Other", icon: "🙏", count: categoryCounts.Other },
-          ].map((tab) => {
-            const isSelected = activeCategoryFilter === tab.id;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveCategoryFilter(tab.id)}
-                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                  isSelected
-                    ? "bg-amber-900 text-white shadow-sm"
-                    : "bg-stone-100 text-stone-600 hover:bg-stone-200 hover:text-stone-900"
-                }`}
-              >
-                <span>{tab.icon}</span>
-                <span>{tab.name}</span>
-                <span
-                  className={`ml-1 px-1.5 py-0.2 rounded-full text-[10px] ${
-                    isSelected ? "bg-white/20 text-white" : "bg-stone-200 text-stone-700"
-                  }`}
-                >
-                  {tab.count}
-                </span>
-              </button>
-            );
-          })}
+      {/* Filter Toolbar (Dropdowns & Search) */}
+      <div className="bg-white p-3.5 rounded-2xl border border-stone-200/90 shadow-xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+        {/* Search Input */}
+        <div className="relative flex-1 min-w-[220px]">
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-stone-400" />
+          <input
+            type="text"
+            placeholder="Search by title, subtitle, slot..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-10 pr-4 py-2 rounded-xl bg-stone-50/70 border border-stone-200 text-xs text-stone-900 placeholder:text-stone-400 focus:outline-none focus:border-amber-500 focus:bg-white transition-all"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery("")}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 cursor-pointer"
+            >
+              <X className="size-3.5" />
+            </button>
+          )}
         </div>
 
-        {/* Search & Status Filters */}
-        <div className="flex flex-col sm:flex-row items-center gap-3 justify-between">
-          <div className="relative w-full sm:w-80">
-            <Search className="absolute left-3 top-2.5 size-4 text-stone-400" />
-            <input
-              type="text"
-              placeholder="Search by title, subtitle, slot..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-3 py-1.5 rounded-xl bg-stone-50 border border-stone-300 text-xs text-stone-900 focus:outline-none focus:border-amber-500 focus:bg-white"
-            />
+        <div className="flex flex-wrap items-center gap-2.5">
+          {/* Category Dropdown Filter */}
+          <div className="flex items-center gap-1.5">
+            <Filter className="size-3.5 text-stone-400" />
+            <label htmlFor="service-cat-filter" className="text-xs text-stone-500 font-medium">Category:</label>
+            <select
+              id="service-cat-filter"
+              value={activeCategoryFilter}
+              onChange={(e) => setActiveCategoryFilter(e.target.value)}
+              className="rounded-xl border border-stone-200 bg-stone-50/70 px-3 py-1.5 text-xs text-stone-700 font-medium focus:bg-white focus:border-amber-500 focus:outline-none cursor-pointer"
+            >
+              <option value="All">All Categories ({categoryCounts.All})</option>
+              <option value="Puja">Puja ({categoryCounts.Puja})</option>
+              <option value="Chadhava">Chadhava ({categoryCounts.Chadhava})</option>
+              <option value="Naivadya">Naivadya ({categoryCounts.Naivadya})</option>
+              <option value="Other">Other ({categoryCounts.Other})</option>
+            </select>
           </div>
 
-          <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
-            <span className="text-[11px] font-bold text-stone-500">Status:</span>
+          {/* Status Dropdown Filter */}
+          <div className="flex items-center gap-1.5">
+            <label htmlFor="service-status-filter" className="text-xs text-stone-500 font-medium">Status:</label>
             <select
+              id="service-status-filter"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-3 py-1.5 rounded-xl bg-stone-50 border border-stone-300 text-xs text-stone-800 font-semibold focus:outline-none focus:border-amber-500"
+              className="rounded-xl border border-stone-200 bg-stone-50/70 px-3 py-1.5 text-xs text-stone-700 font-medium focus:bg-white focus:border-amber-500 focus:outline-none cursor-pointer"
             >
-              <option value="all">All ({services.length})</option>
+              <option value="all">All Statuses ({services.length})</option>
               <option value="active">Active Only ({activeCount})</option>
               <option value="inactive">Inactive Only ({inactiveCount})</option>
             </select>
@@ -1526,8 +1549,8 @@ export default function RitualsAdminPage() {
       {/* Services List Display */}
       {filteredServices.length === 0 ? (
         <div className="p-12 text-center bg-white rounded-3xl border border-stone-200 shadow-2xs space-y-3">
-          <div className="size-16 rounded-full bg-amber-50 text-amber-700 flex items-center justify-center mx-auto text-2xl">
-            🕉️
+          <div className="size-14 rounded-full bg-amber-50 text-amber-700 flex items-center justify-center mx-auto">
+            <Sparkles className="size-7" />
           </div>
           <h4 className="font-serif text-lg font-bold text-stone-800">No Services Found</h4>
           <p className="text-xs text-stone-500 max-w-md mx-auto">
@@ -1600,9 +1623,9 @@ export default function RitualsAdminPage() {
                       <div className="flex flex-wrap items-center gap-2">
                         {/* Category Badge */}
                         <span
-                          className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${categoryObj.color}`}
+                          className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${categoryObj.color}`}
                         >
-                          <span>{categoryObj.icon}</span>
+                          <CategoryIcon id={categoryObj.id} className="size-3" />
                           <span>{categoryObj.name}</span>
                         </span>
 

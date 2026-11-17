@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { adminBookingApi, adminUserApi } from "@/src/lib/api";
 import { useAdmin } from "./admin-context";
 import { Head, Card } from "./admin-ui";
+import { Sparkles } from "lucide-react";
 import {
   HiOutlinePhotograph,
   HiOutlineCalendar,
@@ -150,8 +151,8 @@ export default function AdminOverviewPage() {
             <span className="text-xs uppercase tracking-wider text-stone-500 font-bold">
               Online Puja Bookings
             </span>
-            <div className="size-9 rounded-xl bg-orange-500/10 text-orange-700 flex items-center justify-center text-base font-bold shrink-0">
-              🕉️
+            <div className="size-9 rounded-xl bg-orange-500/10 text-orange-700 flex items-center justify-center shrink-0">
+              <Sparkles className="size-4.5" />
             </div>
           </div>
           <div className="font-serif mt-2.5 text-3xl font-bold text-[#3C0F1A]">
@@ -245,7 +246,8 @@ export default function AdminOverviewPage() {
         <div className="flex items-center justify-between mb-4 pb-3 border-b border-stone-100">
           <div>
             <h3 className="font-serif text-lg font-bold text-[#3C0F1A] flex items-center gap-2">
-              <span>🕉️ Recent Online Puja Bookings</span>
+              <Sparkles className="size-4.5 text-amber-700" />
+              <span>Recent Online Puja Bookings</span>
               <span className="text-xs font-sans px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 font-bold">
                 {allBookings.length} Total
               </span>

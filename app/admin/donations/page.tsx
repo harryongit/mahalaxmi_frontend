@@ -29,6 +29,7 @@ import {
   Heart,
   Landmark,
   MessageSquare,
+  Sparkles,
 } from "lucide-react";
 
 export default function DonationsAdminPage() {
@@ -516,7 +517,7 @@ export default function DonationsAdminPage() {
                             {d.name || "Anonymous Devotee"}
                           </div>
                           {d.name && d.name.toLowerCase().includes("anonymous") && (
-                            <span className="text-[10px] text-stone-400 font-medium">Gupt Daan 🙏</span>
+                            <span className="text-[10px] text-stone-400 font-medium">Gupt Daan</span>
                           )}
                         </div>
                       </div>
@@ -795,7 +796,7 @@ export default function DonationsAdminPage() {
             {/* Receipt Header */}
             <div className="text-center pb-4 border-b border-dashed border-stone-200">
               <div className="size-12 rounded-full bg-[#380D12] text-amber-300 flex items-center justify-center mx-auto mb-2 text-xl font-serif">
-                🕉
+                <Sparkles className="size-5 text-amber-300" />
               </div>
               <h4 className="font-serif text-lg font-bold text-[#380D12]">
                 Shri Karveer Nivasini Ambabai Mandir
