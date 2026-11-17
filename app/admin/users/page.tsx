@@ -119,86 +119,86 @@ export default function AdminUsersPage() {
         sub="Monitor registered devotees, payment flows, and Gotra recitation bookings."
       />
 
-      {/* 4 Overview Statistics Cards - Compact, balanced executive cards */}
-      <div className="grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {/* 4 Overview Statistics Cards - Balanced, spacious executive cards */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Card
           onClick={() => setActiveTab("users")}
-          className={`p-3.5 sm:p-4 rounded-xl sm:rounded-2xl relative overflow-hidden cursor-pointer transition-all ${
-            activeTab === "users" ? "border-amber-500 ring-2 ring-amber-400/30 bg-amber-50/40" : "border-amber-200/80 hover:border-amber-400"
+          className={`p-4 sm:p-5 rounded-2xl relative overflow-hidden cursor-pointer transition-all ${
+            activeTab === "users" ? "border-amber-500 ring-2 ring-amber-400/30 bg-amber-50/40" : "border-stone-200/90 hover:border-amber-400 bg-white"
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-[10px] uppercase tracking-wider text-stone-500 font-bold truncate">
+            <span className="text-xs uppercase tracking-wider text-stone-500 font-bold">
               Registered Devotees
             </span>
-            <div className="size-7 rounded-lg bg-amber-500/10 text-amber-700 flex items-center justify-center text-sm shrink-0">
+            <div className="size-8.5 rounded-xl bg-amber-500/10 text-amber-700 flex items-center justify-center text-base shrink-0">
               <HiOutlineUserGroup />
             </div>
           </div>
-          <div className="font-serif mt-1.5 text-2xl font-bold text-[#3C0F1A]">
+          <div className="font-serif mt-2 text-3xl font-bold text-[#3C0F1A]">
             {allUsers.length} <span className="text-xs font-sans font-semibold text-stone-600">Devotees</span>
           </div>
-          <div className="mt-1.5 text-[11px] text-amber-800 font-semibold flex items-center justify-between">
+          <div className="mt-2.5 pt-2.5 border-t border-stone-100 text-xs text-amber-800 font-semibold flex items-center justify-between">
             <span>{activeTab === "users" ? "Viewing devotee list ↓" : "Click to view list →"}</span>
           </div>
         </Card>
 
         <Card
           onClick={() => setActiveTab("bookings")}
-          className={`p-3.5 sm:p-4 rounded-xl sm:rounded-2xl relative overflow-hidden cursor-pointer transition-all ${
-            activeTab === "bookings" ? "border-amber-500 ring-2 ring-amber-400/30 bg-amber-50/40" : "border-amber-200/80 hover:border-amber-400"
+          className={`p-4 sm:p-5 rounded-2xl relative overflow-hidden cursor-pointer transition-all ${
+            activeTab === "bookings" ? "border-amber-500 ring-2 ring-amber-400/30 bg-amber-50/40" : "border-stone-200/90 hover:border-amber-400 bg-white"
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-[10px] uppercase tracking-wider text-stone-500 font-bold truncate">
+            <span className="text-xs uppercase tracking-wider text-stone-500 font-bold">
               Online Seva Bookings
             </span>
-            <div className="size-7 rounded-lg bg-amber-500/10 text-amber-700 flex items-center justify-center text-sm shrink-0">
+            <div className="size-8.5 rounded-xl bg-amber-500/10 text-amber-700 flex items-center justify-center text-base shrink-0">
               <HiOutlineCreditCard />
             </div>
           </div>
-          <div className="font-serif mt-1.5 text-2xl font-bold text-[#3C0F1A]">
+          <div className="font-serif mt-2 text-3xl font-bold text-[#3C0F1A]">
             {allBookings.length} <span className="text-xs font-sans font-semibold text-stone-600">Bookings</span>
           </div>
-          <div className="mt-1.5 flex items-center gap-1.5 text-[11px]">
-            <span className="px-1.5 py-0.5 rounded-md bg-emerald-100 text-emerald-800 font-bold">{successfulBookingsCount} Paid</span>
+          <div className="mt-2.5 pt-2.5 border-t border-stone-100 flex items-center gap-1.5 text-xs">
+            <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[11px]">{successfulBookingsCount} Paid</span>
             {failedBookingsCount > 0 && (
-              <span className="px-1.5 py-0.5 rounded-md bg-rose-100 text-rose-800 font-bold">{failedBookingsCount} Failed</span>
+              <span className="px-2 py-0.5 rounded-full bg-rose-100 text-rose-800 font-bold text-[11px]">{failedBookingsCount} Failed</span>
             )}
             <span className="ml-auto text-amber-800 font-semibold">{activeTab === "bookings" ? "Viewing ↓" : "View →"}</span>
           </div>
         </Card>
 
-        <Card className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl relative overflow-hidden border-amber-200/80 hover:border-amber-400 transition-all">
+        <Card className="p-4 sm:p-5 rounded-2xl relative overflow-hidden border-stone-200/90 hover:border-amber-400 transition-all bg-white">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] uppercase tracking-wider text-stone-500 font-bold truncate">
+            <span className="text-xs uppercase tracking-wider text-stone-500 font-bold">
               Booking Collections
             </span>
-            <div className="size-7 rounded-lg bg-amber-500/10 text-amber-700 flex items-center justify-center text-sm shrink-0">
-              <Sparkles className="size-3.5 text-amber-700" />
+            <div className="size-8.5 rounded-xl bg-amber-500/10 text-amber-700 flex items-center justify-center text-base shrink-0">
+              <Sparkles className="size-4 text-amber-700" />
             </div>
           </div>
-          <div className="font-serif mt-1.5 text-2xl font-bold text-[#3C0F1A]">
+          <div className="font-serif mt-2 text-3xl font-bold text-[#3C0F1A]">
             ₹{totalBookedAmount > 0 ? totalBookedAmount.toLocaleString("en-IN") : s.summary.total_revenue.toLocaleString("en-IN")}
           </div>
-          <div className="mt-1.5 text-[11px] text-stone-500 truncate">
+          <div className="mt-2.5 pt-2.5 border-t border-stone-100 text-xs text-stone-500">
             Dakshina via UPI & Gateway
           </div>
         </Card>
 
-        <Card className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl relative overflow-hidden border-amber-200/80 hover:border-amber-400 transition-all">
+        <Card className="p-4 sm:p-5 rounded-2xl relative overflow-hidden border-stone-200/90 hover:border-amber-400 transition-all bg-white">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] uppercase tracking-wider text-stone-500 font-bold truncate">
+            <span className="text-xs uppercase tracking-wider text-stone-500 font-bold">
               Gotra Recitations
             </span>
-            <div className="size-7 rounded-lg bg-amber-500/10 text-amber-700 flex items-center justify-center text-sm shrink-0">
+            <div className="size-8.5 rounded-xl bg-amber-500/10 text-amber-700 flex items-center justify-center text-base shrink-0">
               <HiOutlineClock />
             </div>
           </div>
-          <div className="font-serif mt-1.5 text-2xl font-bold text-[#3C0F1A]">
+          <div className="font-serif mt-2 text-3xl font-bold text-[#3C0F1A]">
             {allBookings.filter((b) => b.paymentStatus === "Paid & Confirmed" || b.paymentStatus === "Pending Recitation").length || 0} <span className="text-xs font-sans font-semibold text-stone-600">Pending</span>
           </div>
-          <div className="mt-1.5 text-[11px] text-amber-700 font-medium truncate">
+          <div className="mt-2.5 pt-2.5 border-t border-stone-100 text-xs text-amber-700 font-medium">
             Ready for Panditji recitation
           </div>
         </Card>
