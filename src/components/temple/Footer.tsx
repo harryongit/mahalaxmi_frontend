@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { FaInstagram, FaFacebookF, FaYoutube, FaXTwitter } from "react-icons/fa6";
-import { MapPin, Phone, Mail } from "lucide-react";
+import { MapPin, Phone, Mail, MessageCircle } from "lucide-react";
 
 export function Footer() {
   const pathname = usePathname();
@@ -27,13 +26,13 @@ export function Footer() {
 
   return (
     <footer
-      className="relative pt-12 pb-6 text-white/80"
+      className="relative pt-12 pb-6 text-white/80 font-sans"
       style={{ background: "linear-gradient(180deg, #2A0C14 0%, #150509 100%)" }}
     >
       {/* Top Main Columns */}
       <div className="container-temple max-w-6xl mx-auto px-4 sm:px-6 grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr_1.4fr]">
         
-        {/* Column 1: Mandir Brand & Social */}
+        {/* Column 1: Mandir Brand & Helpline */}
         <div>
           <div className="flex items-center gap-3">
             <img
@@ -42,49 +41,38 @@ export function Footer() {
               className="size-10 rounded-full object-cover border border-[var(--gold)]/50 shadow-md"
             />
             <span className="font-serif text-xl text-gradient-gold font-bold">
-              Shri Mahalaxmi Mandir, Kolhapur
+              Shri Mahalaxmi Mandir
             </span>
           </div>
           <p className="mt-3 max-w-sm text-xs text-white/70 leading-relaxed font-normal">
             One of the sacred 51 Shakti Peethas in India. A living sanctuary of devotion, Vedic rituals, and divine blessings for prosperity and peace.
           </p>
-          <div className="mt-5 flex gap-3">
-            {[
-              { icon: FaInstagram, href: "#", label: "Instagram" },
-              { icon: FaFacebookF, href: "#", label: "Facebook" },
-              { icon: FaYoutube, href: "#", label: "YouTube" },
-              { icon: FaXTwitter, href: "#", label: "X (Twitter)" },
-            ].map((s, i) => {
-              const Icon = s.icon;
-              return (
-                <Link
-                  key={i}
-                  href={s.href}
-                  aria-label={s.label}
-                  className="grid size-9 place-items-center rounded-full border border-white/10 bg-white/5 hover:border-[var(--gold)] hover:text-[var(--gold)] hover:bg-white/10 transition-colors"
-                >
-                  <Icon className="size-3.5" />
-                </Link>
-              );
-            })}
+
+          <div className="mt-4">
+            <a
+              href="https://wa.me/919130532666?text=Namaste%20Mandir%20Office"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-emerald-500/40 bg-emerald-950/40 hover:bg-emerald-900/60 text-emerald-300 hover:text-emerald-100 text-xs font-semibold transition-all shadow-xs"
+            >
+              <MessageCircle className="size-3.5 text-emerald-400" />
+              <span>Devotee WhatsApp Helpline</span>
+            </a>
           </div>
         </div>
 
-        {/* Column 2: Explore Temple */}
+        {/* Column 2: Explore Temple (Active working pages) */}
         <div>
           <div className="text-xs uppercase font-bold tracking-[0.2em] text-[var(--gold)]">
             Explore Temple
           </div>
-          <ul className="mt-3 space-y-2 text-xs">
+          <ul className="mt-3 space-y-2.5 text-xs">
             {[
               { label: "About Mandir", href: "/about" },
               { label: "Temple History", href: "/temple-history" },
-              { label: "Darshan Timings", href: "/darshan-timings" },
-              { label: "Daily Rituals", href: "/rituals" },
-              { label: "Photo Gallery", href: "/gallery" },
+              { label: "Darshan & Aarti Timings", href: "/darshan-timings" },
+              { label: "Sacred Photo Gallery", href: "/gallery" },
               { label: "Festivals & Utsavs", href: "/festivals" },
-              { label: "Navratri Mahotsav", href: "/navratri" },
-              { label: "Nearby Places to Visit", href: "/nearby-attractions" },
               { label: "Contact Helpline", href: "/contact" },
             ].map((l) => (
               <li key={l.label}>
@@ -96,25 +84,18 @@ export function Footer() {
           </ul>
         </div>
 
-        {/* Column 3: Devotee Services */}
+        {/* Column 3: Devotee Services (Active working services) */}
         <div>
           <div className="text-xs uppercase font-bold tracking-[0.2em] text-[var(--gold)]">
             Devotee Services
           </div>
-          <ul className="mt-3 space-y-2 text-xs">
+          <ul className="mt-3 space-y-2.5 text-xs">
             {[
-              { label: "VIP Darshan E-Pass", href: "/vip-darshan" },
-              { label: "Prasadam Home Delivery", href: "/prasadam" },
-              { label: "Aaj Ka Panchang", href: "/panchang" },
-              { label: "Kundli Generator", href: "/kundli" },
-              { label: "Sacred Mantras", href: "/mantras" },
-              { label: "108 Names of Devi", href: "/108-names" },
-              { label: "Accommodation & Stay", href: "/accommodation" },
-              { label: "Temple Parking Guide", href: "/parking" },
-              { label: "FAQs for Devotees", href: "/faq" },
+              { label: "Book Online Puja", href: "/rituals" },
+              { label: "Record Seva Donation", href: "/donate" },
+              { label: "My Puja Bookings", href: "/bookings" },
+              { label: "Devotee FAQs", href: "/faq" },
               { label: "How to Reach Temple", href: "/how-to-reach" },
-              { label: "My Seva Bookings", href: "/bookings" },
-              { label: "Annadan & Gou Seva", href: "/#donate" },
             ].map((item) => (
               <li key={item.label}>
                 <Link
@@ -134,7 +115,7 @@ export function Footer() {
           <div className="text-xs uppercase font-bold tracking-[0.2em] text-[var(--gold)]">
             Temple Contact & Helpline
           </div>
-          <div className="mt-3 space-y-2.5 text-xs text-white/80">
+          <div className="mt-3 space-y-3 text-xs text-white/80">
             <div className="flex items-start gap-2.5">
               <MapPin className="size-4 text-[var(--gold)] shrink-0 mt-0.5" />
               <span className="leading-relaxed">
@@ -145,16 +126,24 @@ export function Footer() {
             <div className="flex items-start gap-2.5">
               <Phone className="size-4 text-[var(--gold)] shrink-0 mt-0.5" />
               <div>
-                <span className="block font-bold text-amber-200">+91 98765 43210</span>
-                <span className="block text-white/60">+91 231 265 4321</span>
+                <a href="tel:+919876543210" className="block font-bold text-amber-200 hover:underline">
+                  +91 98765 43210
+                </a>
+                <a href="tel:+912312654321" className="block text-white/60 hover:underline">
+                  +91 231 265 4321
+                </a>
               </div>
             </div>
 
             <div className="flex items-start gap-2.5">
               <Mail className="size-4 text-[var(--gold)] shrink-0 mt-0.5" />
               <div>
-                <span className="block">info@mahalaxmikolhapur.com</span>
-                <span className="block text-white/60">hello@ambabaimahalaxmi.org</span>
+                <a href="mailto:info@mahalaxmikolhapur.com" className="block hover:underline hover:text-[var(--gold)]">
+                  info@mahalaxmikolhapur.com
+                </a>
+                <a href="mailto:seva@ambabaimahalaxmi.org" className="block text-white/60 hover:underline hover:text-[var(--gold)]">
+                  seva@ambabaimahalaxmi.org
+                </a>
               </div>
             </div>
           </div>
@@ -171,10 +160,6 @@ export function Footer() {
           <span className="text-white/20">•</span>
           <Link href="/terms-and-conditions" className="hover:text-[var(--gold)] transition-colors">
             Terms & Conditions
-          </Link>
-          <span className="text-white/20">•</span>
-          <Link href="/cookie-policy" className="hover:text-[var(--gold)] transition-colors">
-            Cookie Policy
           </Link>
           <span className="text-white/20">•</span>
           <Link href="/delete-account" className="text-rose-300 hover:text-rose-200 transition-colors font-medium">
