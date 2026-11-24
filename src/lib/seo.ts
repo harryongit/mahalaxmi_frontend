@@ -15,7 +15,7 @@ export const TEMPLE_ADDRESS = {
   addressCountry: "IN",
 };
 
-export const TEMPLE_PHONE = "+91 231 265 4321";
+export const TEMPLE_PHONE = "+91 93716 23260";
 export const TEMPLE_EMAIL = "info@mahalaxmikolhapur.com";
 export const TEMPLE_LAT = "16.7028";
 export const TEMPLE_LNG = "74.2404";

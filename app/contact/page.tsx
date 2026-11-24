@@ -110,7 +110,7 @@ export default function ContactPage() {
       />
 
       <main className="flex-1 py-12 px-4 sm:px-6 space-y-16 max-w-6xl mx-auto w-full">
-        
+
         {/* TOP QUICK CONTACT INFO CARDS (4 CARDS GRID) */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <motion.div
@@ -148,7 +148,7 @@ export default function ContactPage() {
             </div>
             <strong className="font-serif text-lg font-bold text-stone-900 block">Helpline Numbers</strong>
             <p className="text-xs text-stone-600 leading-relaxed font-normal">
-              +91 93716 23260<br />+91 231 265 4321
+              +91 93716 23260
             </p>
           </motion.div>
 
@@ -168,7 +168,7 @@ export default function ContactPage() {
 
         {/* TWO COLUMN CONTACT FORM & MAP LOCATION SECTION */}
         <section className="grid lg:grid-cols-2 gap-8 items-start">
-          
+
           {/* Left Column — Send Us a Message Form */}
           <div className="rounded-3xl border-2 border-amber-300/80 bg-white p-6 sm:p-8 shadow-xl space-y-6">
             <div className="border-b border-stone-200 pb-3">
@@ -299,7 +299,7 @@ export default function ContactPage() {
 
           {/* Right Column — Map Banner & VIP Helpline Card */}
           <div className="space-y-6">
-            
+
             {/* Map Visual Banner */}
             <div className="rounded-3xl border-2 border-amber-300/80 bg-white overflow-hidden shadow-xl relative aspect-[16/10]">
               <img
@@ -308,7 +308,7 @@ export default function ContactPage() {
                 className="size-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-              
+
               <div className="absolute bottom-4 left-4 right-4 p-4 rounded-2xl bg-black/60 backdrop-blur-md border border-white/20 text-white flex items-center justify-between">
                 <div>
                   <strong className="font-serif text-base font-bold text-amber-300 block">
@@ -316,7 +316,7 @@ export default function ContactPage() {
                   </strong>
                   <span className="text-[11px] text-white/80">Mahalaxmi Temple Road, Kolhapur 416012</span>
                 </div>
-                
+
                 <a
                   href="https://maps.google.com"
                   target="_blank"
@@ -421,9 +421,8 @@ export default function ContactPage() {
                   >
                     <span>{faq.q}</span>
                     <ChevronDown
-                      className={`size-5 text-amber-800 transition-transform ${
-                        isOpen ? "rotate-180" : ""
-                      }`}
+                      className={`size-5 text-amber-800 transition-transform ${isOpen ? "rotate-180" : ""
+                        }`}
                     />
                   </button>
 
