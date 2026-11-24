@@ -20,6 +20,12 @@ const baseLinks = [
   { label: "Donate", href: "/donate" },
 ];
 
+// ============================================================================
+// SITE STATUS: Set to true while website is under development.
+// When the website is 100% completed, simply set this to false to remove all tags!
+// ============================================================================
+export const IS_WEBSITE_UNDER_DEVELOPMENT = true;
+
 
 
 export function Navbar() {
@@ -73,9 +79,22 @@ export function Navbar() {
         initial={{ y: -40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="fixed inset-x-0 top-0 z-50 px-3 sm:px-6 pt-3 pointer-events-none"
+        className="fixed inset-x-0 top-0 z-50 pointer-events-none"
       >
-        <div className="max-w-6xl mx-auto pointer-events-auto">
+        {/* Under Development Top Notification Strip */}
+        {IS_WEBSITE_UNDER_DEVELOPMENT && (
+          <div className="w-full bg-gradient-to-r from-[#20050B] via-[#3C0F1A] to-[#20050B] border-b border-amber-400/40 text-amber-200 py-1.5 px-3 sm:px-6 text-center text-[10px] sm:text-xs font-medium shadow-md flex items-center justify-center gap-2 pointer-events-auto backdrop-blur-md">
+            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-400/50 text-amber-300 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider shrink-0">
+              <span className="size-1.5 rounded-full bg-amber-400 animate-pulse" />
+              Notice
+            </span>
+            <span className="truncate text-amber-100/90">
+              Official Website is <strong className="text-amber-300 font-bold">Under Development</strong>. Online Sevas & Puja Bookings are in testing.
+            </span>
+          </div>
+        )}
+
+        <div className="max-w-6xl mx-auto px-3 sm:px-6 pt-2.5 sm:pt-3 pointer-events-auto">
           <div
             className={`rounded-full transition-all duration-500 px-3 sm:px-5 py-2 sm:py-2.5 flex items-center justify-between border-2 border-[var(--gold)]/60 shadow-2xl backdrop-blur-2xl ${solid
               ? "bg-[#2A0A12]/95 shadow-amber-950/40"
@@ -93,12 +112,27 @@ export function Navbar() {
 
               </div>
               <div className="flex flex-col">
-                <span className="font-serif text-sm sm:text-lg font-bold text-gradient-gold leading-none tracking-wide">
-                  Ambabai Mahalaxmi
-                </span>
-                <span className="text-[8px] sm:text-[9px] uppercase tracking-widest text-amber-200/80 font-medium">
-                  Kolhapur Mandir
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="font-serif text-sm sm:text-lg font-bold text-gradient-gold leading-none tracking-wide">
+                    Ambabai Mahalaxmi
+                  </span>
+                  {IS_WEBSITE_UNDER_DEVELOPMENT && (
+                    <span className="hidden md:inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/25 border border-amber-400/50 text-amber-300 text-[9px] font-bold uppercase tracking-wider">
+                      <span className="size-1.5 rounded-full bg-amber-400 animate-pulse" />
+                      Under Dev
+                    </span>
+                  )}
+                </div>
+                <div className="flex items-center gap-1.5 mt-0.5">
+                  <span className="text-[8px] sm:text-[9px] uppercase tracking-widest text-amber-200/80 font-medium">
+                    Kolhapur Mandir
+                  </span>
+                  {IS_WEBSITE_UNDER_DEVELOPMENT && (
+                    <span className="md:hidden inline-flex items-center gap-1 text-[8px] font-bold text-amber-300">
+                      • <span className="size-1 rounded-full bg-amber-400 animate-pulse" /> In Development
+                    </span>
+                  )}
+                </div>
               </div>
             </Link>
 
@@ -192,6 +226,17 @@ export function Navbar() {
                   <HiX className="size-5" />
                 </button>
               </div>
+
+              {/* Under Development Banner on Mobile Drawer */}
+              {IS_WEBSITE_UNDER_DEVELOPMENT && (
+                <div className="mx-6 mt-4 p-3 rounded-2xl bg-amber-500/10 border border-amber-400/30 flex items-center gap-2.5 text-xs text-amber-200">
+                  <span className="size-2 rounded-full bg-amber-400 animate-pulse shrink-0" />
+                  <div>
+                    <strong className="block text-amber-300 font-bold">Website Under Development</strong>
+                    <span className="text-[10px] text-amber-200/70">Online booking & features are currently being tested and finalized.</span>
+                  </div>
+                </div>
+              )}
 
               {/* User Identity or Sign In Banner on Mobile */}
               <div className="px-6 pt-5">
