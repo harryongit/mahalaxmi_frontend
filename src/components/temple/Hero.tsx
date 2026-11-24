@@ -1,126 +1,28 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  Flame,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
-
-// 7 Authentic Kolhapur Ambabai Temple Photos
-const HERO_SLIDES = [
-  {
-    id: "shikhara-gold",
-    src: "/assets/gallery/IMG-20261009-WA0014.jpg",
-    title: "श्री अंबाबाई महालक्ष्मी सुवर्ण शिखर दर्शन",
-    englishTitle: "Golden Shikhara Night View",
-  },
-  {
-    id: "suvarna-palkhi",
-    src: "/assets/gallery/IMG-20261007-WA0081.jpg",
-    title: "श्री अंबाबाई महालक्ष्मीची सुवर्ण पालखी",
-    englishTitle: "Sacred Golden Palanquin",
-  },
-  {
-    id: "navratri-deepotsav",
-    src: "/assets/gallery/IMG-20261009-WA0012.jpg",
-    title: "नवरात्र दीपोत्सव मंदिर दर्शन",
-    englishTitle: "Navratri Festival Illumination",
-  },
-  {
-    id: "sanctum-architecture",
-    src: "/assets/gallery/IMG-20261010-WA0057.jpg",
-    title: "प्राचीन हेमाडपंथी दगडी खांब व सभामंडप",
-    englishTitle: "7th-Century Hemadpanthi Architecture",
-  },
-  {
-    id: "royal-alankar",
-    src: "/assets/gallery/IMG-20261007-WA0091.jpg",
-    title: "श्री महालक्ष्मी मातेचे ऐतिहासिक सुवर्ण अलंकार",
-    englishTitle: "Royal Sacred Gold Ornaments",
-  },
-  {
-    id: "priests-seva",
-    src: "/assets/gallery/IMG-20261007-WA0045.jpg",
-    title: "पूजक मंडळ - मंदिर अभिषेक सेवा विधी",
-    englishTitle: "Hereditary Priests Seva Preparation",
-  },
-  {
-    id: "golden-kalash",
-    src: "/assets/gallery/IMG-20261007-WA0040.jpg",
-    title: "मंदिराचे सुवर्ण कळस व शिखर",
-    englishTitle: "Golden Kalash & Temple Spire",
-  },
-];
-
-// Fluid Directional Swipe Animation Variants
-const slideVariants = {
-  enter: (direction: number) => ({
-    x: direction >= 0 ? "100%" : "-100%",
-    opacity: 0.5,
-  }),
-  center: {
-    zIndex: 1,
-    x: 0,
-    opacity: 1,
-    transition: {
-      x: { duration: 0.75, ease: [0.25, 1, 0.5, 1] as const },
-      opacity: { duration: 0.4 },
-    },
-  },
-  exit: (direction: number) => ({
-    zIndex: 0,
-    x: direction >= 0 ? "-100%" : "100%",
-    opacity: 0.5,
-    transition: {
-      x: { duration: 0.75, ease: [0.25, 1, 0.5, 1] as const },
-      opacity: { duration: 0.4 },
-    },
-  }),
-};
+import { useState, useRef, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Flame, Volume2, VolumeX } from "lucide-react";
 
 export function Hero() {
-  const [[currentIndex, direction], setSlideState] = useState([0, 1]);
-  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isMuted, setIsMuted] = useState(true);
 
-  const currentSlide = HERO_SLIDES[currentIndex];
-
-  const paginate = (newDirection: number) => {
-    setSlideState(([prevIndex]) => {
-      const nextIndex = (prevIndex + newDirection + HERO_SLIDES.length) % HERO_SLIDES.length;
-      return [nextIndex, newDirection];
-    });
-  };
-
-  const jumpToSlide = (targetIndex: number) => {
-    setSlideState(([prevIndex]) => {
-      const dir = targetIndex >= prevIndex ? 1 : -1;
-      return [targetIndex, dir];
-    });
-  };
-
-  // Continuous 3-Second Automatic Swipe
   useEffect(() => {
-    const timer = setInterval(() => {
-      paginate(1);
-    }, 3000);
-    return () => clearInterval(timer);
+    // Ensure video starts playing automatically across all devices
+    if (videoRef.current) {
+      videoRef.current.play().catch((err) => {
+        console.log("Autoplay was prevented, playing muted fallback:", err);
+      });
+    }
   }, []);
 
-  // Mobile Touch Swipe Handlers
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStartX(e.touches[0].clientX);
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (touchStartX === null) return;
-    const diff = touchStartX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 40) {
-      if (diff > 0) paginate(1); // Swipe left -> next
-      else paginate(-1);         // Swipe right -> prev
+  const toggleAudio = () => {
+    if (videoRef.current) {
+      const nextMuted = !videoRef.current.muted;
+      videoRef.current.muted = nextMuted;
+      setIsMuted(nextMuted);
     }
-    setTouchStartX(null);
   };
 
   const scrollToBooking = (e: React.MouseEvent) => {
@@ -136,65 +38,65 @@ export function Hero() {
   return (
     <section
       id="home"
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
       className="relative min-h-[92vh] sm:min-h-screen w-full overflow-hidden flex flex-col justify-between items-center text-center pt-28 sm:pt-36 pb-6 select-none"
     >
       {/* ========================================================================= */}
-      {/* 1. ATTRACTIVE DIRECTIONAL SWIPE BACKGROUND IMAGES                         */}
+      {/* 1. CINEMATIC BACKGROUND VIDEO (/assets/hero-video.mp4)                     */}
       {/* ========================================================================= */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <AnimatePresence initial={false} custom={direction}>
-          <motion.div
-            key={currentSlide.id}
-            custom={direction}
-            variants={slideVariants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            className="absolute inset-0 size-full"
-            style={{ willChange: "transform" }}
-          >
-            <img
-              src={currentSlide.src}
-              alt={currentSlide.englishTitle}
-              className="size-full object-cover object-center"
-              draggable={false}
-            />
-          </motion.div>
-        </AnimatePresence>
+        <video
+          ref={videoRef}
+          src="/assets/hero-video.mp4"
+          autoPlay
+          muted={isMuted}
+          loop
+          playsInline
+          preload="auto"
+          poster="/assets/gallery/IMG-20261009-WA0014.jpg"
+          className="size-full object-cover object-center scale-105"
+        />
 
-        {/* High-Contrast Gradient: Rich contrast ensuring text is 100% crystal-clear on all photos */}
+        {/* High-Contrast Cinematic Gradient Overlays */}
         <div
           className="absolute inset-0 z-10"
           style={{
             background:
-              "linear-gradient(180deg, rgba(8, 1, 3, 0.78) 0%, rgba(8, 1, 3, 0.52) 38%, rgba(8, 1, 3, 0.58) 62%, rgba(5, 1, 2, 0.9) 100%)",
+              "linear-gradient(180deg, rgba(8, 1, 3, 0.76) 0%, rgba(8, 1, 3, 0.48) 35%, rgba(8, 1, 3, 0.58) 65%, rgba(5, 1, 2, 0.92) 100%)",
+          }}
+        />
+        {/* Radial Vignette for focused center typography */}
+        <div
+          className="absolute inset-0 z-10"
+          style={{
+            background:
+              "radial-gradient(ellipse at center, transparent 35%, rgba(5, 1, 2, 0.65) 100%)",
           }}
         />
       </div>
 
-      {/* Manual Swipe Chevron Buttons (Desktop) */}
+      {/* Audio Mute/Unmute Floating Button */}
       <button
         type="button"
-        onClick={() => paginate(-1)}
-        className="hidden md:flex absolute left-4 lg:left-6 top-1/2 -translate-y-1/2 z-30 size-12 rounded-full bg-black/55 hover:bg-black/85 border border-amber-400/60 hover:border-amber-300 text-amber-200 hover:text-white backdrop-blur-md items-center justify-center transition-all hover:scale-110 active:scale-95 cursor-pointer shadow-2xl"
-        aria-label="Previous slide"
+        onClick={toggleAudio}
+        className="absolute right-4 sm:right-8 bottom-6 z-30 inline-flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-full bg-black/60 hover:bg-black/85 border border-amber-400/50 text-amber-200 text-xs font-semibold backdrop-blur-md shadow-xl transition-all cursor-pointer hover:scale-105 active:scale-95"
+        title={isMuted ? "Unmute Temple Video Audio" : "Mute Audio"}
+        aria-label={isMuted ? "Unmute Temple Video Audio" : "Mute Audio"}
       >
-        <ChevronLeft className="size-6" />
-      </button>
-
-      <button
-        type="button"
-        onClick={() => paginate(1)}
-        className="hidden md:flex absolute right-4 lg:right-6 top-1/2 -translate-y-1/2 z-30 size-12 rounded-full bg-black/55 hover:bg-black/85 border border-amber-400/60 hover:border-amber-300 text-amber-200 hover:text-white backdrop-blur-md items-center justify-center transition-all hover:scale-110 active:scale-95 cursor-pointer shadow-2xl"
-        aria-label="Next slide"
-      >
-        <ChevronRight className="size-6" />
+        {isMuted ? (
+          <>
+            <VolumeX className="size-4 text-amber-400" />
+            <span className="hidden sm:inline text-[11px]">Unmute Audio</span>
+          </>
+        ) : (
+          <>
+            <Volume2 className="size-4 text-emerald-400 animate-pulse" />
+            <span className="hidden sm:inline text-[11px]">Audio Playing</span>
+          </>
+        )}
       </button>
 
       {/* ========================================================================= */}
-      {/* 2. ONLY MANDATORY & PROPERLY DISPLAYED CONTENT                            */}
+      {/* 2. HERO CONTENT                                                            */}
       {/* ========================================================================= */}
       <div className="relative z-20 max-w-3xl mx-auto px-4 sm:px-6 my-auto space-y-5 sm:space-y-6">
         
@@ -213,7 +115,7 @@ export function Hero() {
           <span className="text-xs text-stone-200 font-medium">Kolhapur</span>
         </motion.div>
 
-        {/* Temple Name / Headline (Using valid Tailwind typography & crisp high-contrast colors) */}
+        {/* Temple Name / Headline */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
@@ -238,7 +140,7 @@ export function Hero() {
           Official digital portal. Book daily Puja, Abhishek and Gotra Sankalpa with sacred prasad delivered to your home.
         </motion.p>
 
-        {/* Single Primary Action Button (Watch Video button removed as requested) */}
+        {/* Single Primary Action Button */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
@@ -258,39 +160,18 @@ export function Hero() {
       </div>
 
       {/* ========================================================================= */}
-      {/* 3. MINIMAL SLIDE INDICATORS & PROPER HIGH-CONTRAST CAPTION                */}
+      {/* 3. BOTTOM CINEMATIC DARSHAN BADGE                                          */}
       {/* ========================================================================= */}
-      <div className="relative z-20 w-full max-w-md mx-auto px-4 pb-2 space-y-2.5">
-        {/* Caption */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentSlide.id}
-            initial={{ opacity: 0, y: 5 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -5 }}
-            transition={{ duration: 0.25 }}
-            className="text-xs sm:text-sm text-amber-200 font-serif bg-black/80 px-4 py-1.5 rounded-full border border-amber-400/40 backdrop-blur-md inline-block shadow-lg"
-          >
-            ✨ {currentSlide.title}
-          </motion.div>
-        </AnimatePresence>
-
-        {/* 7 Clean Navigation Dots */}
-        <div className="flex items-center justify-center gap-2">
-          {HERO_SLIDES.map((slide, idx) => (
-            <button
-              key={slide.id}
-              type="button"
-              onClick={() => jumpToSlide(idx)}
-              className={`transition-all rounded-full cursor-pointer ${
-                idx === currentIndex
-                  ? "w-8 h-2 bg-gradient-to-r from-amber-400 to-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.8)]"
-                  : "w-2 h-2 bg-white/45 hover:bg-white/80"
-              }`}
-              aria-label={`Go to slide ${idx + 1}`}
-            />
-          ))}
-        </div>
+      <div className="relative z-20 pb-2">
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="text-xs sm:text-sm text-amber-200 font-serif bg-black/80 px-4 py-1.5 rounded-full border border-amber-400/40 backdrop-blur-md inline-flex items-center gap-2 shadow-lg"
+        >
+          <span className="size-2 rounded-full bg-amber-400 animate-pulse" />
+          <span>श्री अंबाबाई महालक्ष्मी मंदिर • पवित्र दर्शन</span>
+        </motion.div>
       </div>
     </section>
   );
