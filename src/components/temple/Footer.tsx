@@ -158,11 +158,8 @@ export function Footer() {
             <div className="flex items-start gap-2.5">
               <Mail className="size-4 text-[var(--gold)] shrink-0 mt-0.5" />
               <div>
-                <a href="mailto:info@mahalaxmikolhapur.com" className="block hover:underline hover:text-[var(--gold)]">
-                  info@mahalaxmikolhapur.com
-                </a>
-                <a href="mailto:seva@ambabaimahalaxmi.org" className="block text-white/60 hover:underline hover:text-[var(--gold)]">
-                  seva@ambabaimahalaxmi.org
+                <a href="mailto:contact@ambabaimahalaxmi.com" className="block hover:underline hover:text-[var(--gold)]">
+                  contact@ambabaimahalaxmi.com
                 </a>
               </div>
             </div>

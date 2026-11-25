@@ -75,7 +75,7 @@ export default function PrivacyPolicyPage() {
               4. Devotee Rights & Account Deletion
             </h3>
             <p className="text-stone-600">
-              Devotees have full right to request account deletion or data erasure at any time via our dedicated <a href="/delete-account" className="text-amber-900 font-bold underline">Delete My Account</a> page or by emailing <strong>info@mahalaxmikolhapur.com</strong>.
+              Devotees have full right to request account deletion or data erasure at any time via our dedicated <a href="/delete-account" className="text-amber-900 font-bold underline">Delete My Account</a> page or by emailing <strong>contact@ambabaimahalaxmi.com</strong>.
             </p>
           </section>
 

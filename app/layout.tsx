@@ -12,6 +12,7 @@ import {
   OG_IMAGE,
   TEMPLE_ADDRESS,
   TEMPLE_PHONE,
+  TEMPLE_EMAIL,
 } from "@/src/lib/seo";
 
 export const viewport: Viewport = {
@@ -88,7 +89,7 @@ const templeSchema = {
   alternateName: ["Mahalakshmi Mandir Kolhapur", "Ambabai Mandir"],
   url: SITE_URL,
   telephone: TEMPLE_PHONE,
-  email: "info@mahalaxmikolhapur.com",
+  email: TEMPLE_EMAIL,
   image: OG_IMAGE,
   description:
     "Shri Mahalakshmi (Ambabai) Temple in Kolhapur is one of the 51 Shakti Peethas and the chief abode of Goddess Mahalakshmi. Book online puja & seva, view darshan timings and festivals.",

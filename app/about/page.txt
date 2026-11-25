@@ -98,7 +98,7 @@ export default function AboutPage() {
               </div>
               <strong className="text-[var(--gold)] font-bold block text-sm font-serif">Contact Details</strong>
               <p className="text-amber-100/90 leading-relaxed font-medium">
-                +91 98765 43210<br />info@mahalaxmikolhapur.com
+                +91 93716 23260<br />contact@ambabaimahalaxmi.com
               </p>
             </motion.div>
 

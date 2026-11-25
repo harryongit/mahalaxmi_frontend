@@ -1096,7 +1096,7 @@ export function Location() {
               <li className="flex gap-4">
                 <HiOutlineMail className="size-5 mt-1 text-[var(--saffron)]" />
                 <div>
-                  <div className="font-medium">hello@ambabaimahalaxmi.org</div>
+                  <div className="font-medium">contact@ambabaimahalaxmi.com</div>
                   <div className="text-sm opacity-80">
                     For events, donations and volunteer inquiries.
                   </div>

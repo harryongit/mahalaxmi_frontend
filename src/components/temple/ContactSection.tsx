@@ -156,16 +156,10 @@ export function ContactSection() {
                       Email Desk
                     </span>
                     <a
-                      href="mailto:info@mahalaxmikolhapur.com"
+                      href="mailto:contact@ambabaimahalaxmi.com"
                       className="text-sm font-bold text-stone-800 hover:text-amber-800 transition-colors block"
                     >
-                      info@mahalaxmikolhapur.com
-                    </a>
-                    <a
-                      href="mailto:seva@ambabaimahalaxmi.org"
-                      className="text-xs text-stone-600 hover:text-amber-800 transition-colors block"
-                    >
-                      seva@ambabaimahalaxmi.org
+                      contact@ambabaimahalaxmi.com
                     </a>
                   </div>
                 </div>

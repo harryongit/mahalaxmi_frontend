@@ -160,11 +160,8 @@ export default function ContactPage() {
             </div>
             <strong className="font-serif text-lg font-bold text-stone-900 block">Email Inquiries</strong>
             <p className="text-xs text-stone-600 leading-relaxed font-normal">
-              <a href="mailto:info@mahalaxmikolhapur.com" className="hover:text-amber-800 transition-colors block font-medium">
-                info@mahalaxmikolhapur.com
-              </a>
-              <a href="mailto:seva@ambabaimahalaxmi.org" className="hover:text-amber-800 transition-colors block text-stone-500 mt-0.5">
-                seva@ambabaimahalaxmi.org
+              <a href="mailto:contact@ambabaimahalaxmi.com" className="hover:text-amber-800 transition-colors block font-medium">
+                contact@ambabaimahalaxmi.com
               </a>
             </p>
           </motion.div>
