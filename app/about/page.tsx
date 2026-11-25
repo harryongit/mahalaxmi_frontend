@@ -106,30 +106,142 @@ export default function AboutPage() {
       {/* 1. Immersive Temple Hero */}
       <AboutHeroCanvas />
 
-      {/* 2. Our Sacred Journey */}
-      <section className="py-20 sm:py-28 px-4 sm:px-6 max-w-4xl mx-auto w-full text-center space-y-8">
-        <div className="space-y-3">
-          <span className="text-[11px] uppercase tracking-[0.25em] font-bold text-amber-900 bg-amber-100/90 border border-amber-300/80 px-4 py-1.5 rounded-full inline-block shadow-2xs">
-            Our Sacred Journey
-          </span>
-          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-amber-950 leading-tight">
-            Bridging Devotion &amp; Divine Grace
-          </h2>
-          <p className="text-sm sm:text-base text-amber-900/80 font-medium max-w-2xl mx-auto">
-            Connecting devotees worldwide to Goddess Shree Mahalaxmi Ambabai.
-          </p>
-        </div>
+      {/* 2. Our Sacred Journey: Bridging Devotion & Divine Grace */}
+      <section className="py-20 sm:py-28 px-4 sm:px-6 max-w-7xl mx-auto w-full relative">
+        {/* Subtle Ambient Glow */}
+        <div className="absolute top-1/2 left-0 -translate-y-1/2 w-80 h-80 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="space-y-6 text-sm sm:text-base text-stone-700 leading-relaxed max-w-3xl mx-auto text-left bg-white/80 border border-amber-200/90 p-8 sm:p-10 rounded-3xl shadow-sm">
-          <p className="font-serif text-lg text-amber-950/90 leading-relaxed italic border-l-4 border-[var(--gold)] pl-4">
-            MahalaxmiPuja was born from a vision to bring divine blessing to devotees who can not visit physically, in a virtual format, by using modern technology.
-          </p>
-          <p>
-            We believe that distance should never be a barrier to seeking divine blessings. Through our innovative online platform, we bring the sacred rituals of Shree Mahalaxmi Ambabai directly to your homes, maintaining the authenticity and sanctity of traditional temple worship.
-          </p>
-          <p>
-            Our experienced pandits perform each puja with complete dedication and devotion, ensuring that every ritual follows the ancient Vedic traditions. From simple offerings to elaborate ceremonies, we treat each service with equal reverence and care.
-          </p>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center relative z-10">
+          
+          {/* Left Column: Sacred Story & Vision */}
+          <div className="lg:col-span-7 space-y-6 sm:space-y-8 text-left">
+            <div className="space-y-3">
+              <span className="text-[11px] uppercase tracking-[0.25em] font-bold text-amber-900 bg-amber-100/90 border border-amber-300/80 px-4 py-1.5 rounded-full inline-flex items-center gap-1.5 shadow-2xs">
+                <Sparkles className="size-3.5 text-amber-700" />
+                <span>Our Sacred Journey</span>
+              </span>
+              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-amber-950 leading-[1.15]">
+                Bridging Devotion &amp; Divine Grace
+              </h2>
+              <p className="text-sm sm:text-base text-amber-900/80 font-medium">
+                Connecting devotees worldwide to Goddess Shree Mahalaxmi Ambabai.
+              </p>
+            </div>
+
+            {/* Vision Callout Card */}
+            <div className="p-6 sm:p-7 rounded-3xl bg-gradient-to-br from-amber-50/80 via-white to-amber-100/40 border-2 border-amber-300/80 shadow-md relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-amber-600 via-[var(--gold)] to-amber-600" />
+              <p className="font-serif text-base sm:text-lg text-amber-950 leading-relaxed italic pl-3">
+                &ldquo;MahalaxmiPuja was born from a vision to bring divine blessing to devotees who can not visit physically, in a virtual format, by using modern technology.&rdquo;
+              </p>
+            </div>
+
+            {/* Narrative Body */}
+            <div className="space-y-4 text-sm sm:text-base text-stone-700 leading-relaxed font-normal">
+              <p>
+                We believe that distance should never be a barrier to seeking divine blessings. Through our innovative online platform, we bring the sacred rituals of Shree Mahalaxmi Ambabai directly to your homes, maintaining the authenticity and sanctity of traditional temple worship.
+              </p>
+              <p>
+                Our experienced pandits perform each puja with complete dedication and devotion, ensuring that every ritual follows the ancient Vedic traditions. From simple offerings to elaborate ceremonies, we treat each service with equal reverence and care.
+              </p>
+            </div>
+
+            {/* 3 Core Sacred Reassurances (Pillars) */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-2">
+              <div className="p-3.5 rounded-2xl bg-white/90 border border-amber-200/90 shadow-2xs flex items-center gap-3">
+                <div className="size-10 rounded-xl bg-[#3C0F1A] text-[var(--gold)] flex items-center justify-center shrink-0 shadow-xs border border-[var(--gold)]/30">
+                  <Flame className="size-4 sm:size-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-stone-900">Vedic Authenticity</h4>
+                  <p className="text-[11px] text-stone-500">Verified Pandits</p>
+                </div>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-white/90 border border-amber-200/90 shadow-2xs flex items-center gap-3">
+                <div className="size-10 rounded-xl bg-[#3C0F1A] text-[var(--gold)] flex items-center justify-center shrink-0 shadow-xs border border-[var(--gold)]/30">
+                  <ShieldCheck className="size-4 sm:size-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-stone-900">Name &amp; Gotra Sankalp</h4>
+                  <p className="text-[11px] text-stone-500">Personalized Puja</p>
+                </div>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-white/90 border border-amber-200/90 shadow-2xs flex items-center gap-3">
+                <div className="size-10 rounded-xl bg-[#3C0F1A] text-[var(--gold)] flex items-center justify-center shrink-0 shadow-xs border border-[var(--gold)]/30">
+                  <Gift className="size-4 sm:size-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-stone-900">Prasad &amp; Video</h4>
+                  <p className="text-[11px] text-stone-500">Doorstep Delivery</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Right Column: Visual Archival Composition */}
+          <div className="lg:col-span-5 relative flex justify-center">
+            <div className="relative w-full max-w-md">
+              
+              {/* Decorative Background Frame / Halo */}
+              <div className="absolute -inset-3 rounded-[2.5rem] bg-gradient-to-tr from-amber-400/30 via-amber-200/20 to-transparent blur-md -z-10" />
+
+              {/* Main Photo Card */}
+              <div className="relative rounded-[2.2rem] overflow-hidden border-2 border-amber-300/80 shadow-2xl bg-stone-900 aspect-[4/5]">
+                <img
+                  src="/assets/gallery/IMG-20261007-WA0085.jpg"
+                  alt="Devotee and Shreepujak at Ambabai Temple"
+                  className="w-full h-full object-cover filter contrast-[1.03]"
+                />
+                
+                {/* Subtle Gradient Shade at Bottom */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
+
+                {/* Floating Top Badge */}
+                <div className="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-none">
+                  <span className="text-[10px] uppercase font-bold tracking-widest text-amber-200 bg-stone-950/80 backdrop-blur-md px-3 py-1 rounded-full border border-amber-400/40 shadow-sm flex items-center gap-1.5">
+                    <Sparkles className="size-3 text-amber-400" />
+                    <span>Kolhapur Dham</span>
+                  </span>
+                  <span className="text-[10px] font-mono text-white/80 bg-black/60 px-2 py-0.5 rounded backdrop-blur-xs">
+                    ESTD. 7TH CENTURY
+                  </span>
+                </div>
+
+                {/* Bottom Caption Overlay */}
+                <div className="absolute bottom-5 left-5 right-5 text-left text-white space-y-1">
+                  <span className="text-[10px] uppercase font-bold tracking-widest text-amber-400 block">
+                    Authentic Temple Tradition
+                  </span>
+                  <h4 className="font-serif text-lg font-bold text-white drop-shadow-sm leading-tight">
+                    Shreepujak Seva &amp; Devotee Darshan
+                  </h4>
+                  <p className="text-xs text-stone-300 font-light leading-relaxed">
+                    Centuries-old sacred rituals performed with complete devotion and Vedic sanctity.
+                  </p>
+                </div>
+              </div>
+
+              {/* Overlapping Floating Experience Badge */}
+              <div className="absolute -bottom-5 -left-4 sm:-left-6 bg-white/95 backdrop-blur-md border border-amber-300 p-3.5 sm:p-4 rounded-2xl shadow-xl flex items-center gap-3">
+                <div className="size-11 rounded-xl bg-[#3C0F1A] text-[var(--gold)] flex items-center justify-center font-bold shadow-sm shrink-0 border border-[var(--gold)]/30">
+                  <Clock className="size-5" />
+                </div>
+                <div className="text-left">
+                  <span className="text-xs font-bold text-stone-900 block font-serif">
+                    Vedic Parampara
+                  </span>
+                  <span className="text-[11px] text-amber-800 font-medium">
+                    100% Authentic Pujas
+                  </span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
         </div>
       </section>
 
