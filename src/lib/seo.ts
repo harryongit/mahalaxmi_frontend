@@ -20,6 +20,14 @@ export const TEMPLE_EMAIL = "contact@ambabaimahalaxmi.com";
 export const TEMPLE_LAT = "16.7028";
 export const TEMPLE_LNG = "74.2404";
 
+export const SOCIAL_LINKS = {
+  facebook: "https://www.facebook.com/people/Ambabai-Mahalaxmi/61595450204771/",
+  instagram: "https://www.instagram.com/ambabaimahalaxmi/",
+  whatsappOffice:
+    "https://wa.me/919371623260?text=Jai%20Shree%20Ambabai%20Mahalaxmi!%20Namaste,%20I%20would%20like%20to%20inquire%20about%20temple%20darshan%20and%20puja%20seva.",
+  whatsappCommunity: "https://chat.whatsapp.com/FYhRGAKRuLW8lxqkAY9Qb6",
+};
+
 export const OG_IMAGE = `${SITE_URL}/og-cover.jpg`;
 
 export const festivals = [

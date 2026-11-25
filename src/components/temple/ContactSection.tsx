@@ -13,7 +13,9 @@ import {
   Sparkles,
   HelpCircle,
   ShieldCheck,
+  Share2,
 } from "lucide-react";
+import { FaInstagram, FaFacebookF } from "react-icons/fa6";
 import { enquiryService } from "@/src/services/enquiryService";
 
 const SUBJECT_OPTIONS = [
@@ -185,6 +187,38 @@ export function ContactSection() {
                       <span>Get Directions</span>
                       <span>→</span>
                     </a>
+                  </div>
+                </div>
+
+                {/* Social Connect */}
+                <div className="flex items-start gap-3.5 pt-2 border-t border-stone-200/70">
+                  <div className="size-10 rounded-2xl bg-amber-100 text-amber-900 flex items-center justify-center shrink-0 shadow-xs">
+                    <Share2 className="size-4" />
+                  </div>
+                  <div>
+                    <span className="text-[11px] uppercase tracking-wider text-stone-400 font-bold block mb-1">
+                      Official Social Channels
+                    </span>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <a
+                        href="https://www.facebook.com/people/Ambabai-Mahalaxmi/61595450204771/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-stone-200 bg-stone-50 hover:bg-amber-50 hover:border-amber-300 text-xs font-semibold text-stone-700 hover:text-amber-900 transition-colors"
+                      >
+                        <FaFacebookF className="size-3 text-[#1877F2]" />
+                        <span>Facebook</span>
+                      </a>
+                      <a
+                        href="https://www.instagram.com/ambabaimahalaxmi/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-stone-200 bg-stone-50 hover:bg-amber-50 hover:border-amber-300 text-xs font-semibold text-stone-700 hover:text-amber-900 transition-colors"
+                      >
+                        <FaInstagram className="size-3 text-[#E1306C]" />
+                        <span>Instagram</span>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>

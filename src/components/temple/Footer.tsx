@@ -51,7 +51,7 @@ export function Footer() {
 
           <div className="mt-4 flex flex-wrap items-center gap-2.5">
             <a
-              href="https://www.instagram.com/"
+              href="https://www.instagram.com/ambabaimahalaxmi/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"
@@ -61,7 +61,7 @@ export function Footer() {
               <FaInstagram className="size-3.5" />
             </a>
             <a
-              href="https://www.facebook.com/"
+              href="https://www.facebook.com/people/Ambabai-Mahalaxmi/61595450204771/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Facebook"
@@ -71,7 +71,7 @@ export function Footer() {
               <FaFacebookF className="size-3.5" />
             </a>
             <a
-              href="https://wa.me/919371623260?text=Namaste%20Mandir%20Office"
+              href="https://wa.me/919371623260?text=Jai%20Shree%20Ambabai%20Mahalaxmi!%20Namaste,%20I%20would%20like%20to%20inquire%20about%20temple%20darshan%20and%20puja%20seva."
               target="_blank"
               rel="noopener noreferrer"
               aria-label="WhatsApp"

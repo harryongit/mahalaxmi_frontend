@@ -20,7 +20,9 @@ import {
   Plane,
   Bus,
   ChevronDown,
+  Share2,
 } from "lucide-react";
+import { FaInstagram, FaFacebookF } from "react-icons/fa6";
 import { IMG } from "@/src/components/temple/images";
 import { enquiryService } from "@/src/services/enquiryService";
 
@@ -111,8 +113,8 @@ export default function ContactPage() {
 
       <main className="flex-1 py-12 px-4 sm:px-6 space-y-16 max-w-6xl mx-auto w-full">
 
-        {/* TOP QUICK CONTACT INFO CARDS (3 CARDS GRID) */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* TOP QUICK CONTACT INFO CARDS (4 CARDS GRID) */}
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           <motion.div
             whileHover={{ y: -4, scale: 1.01 }}
             className="p-6 rounded-3xl border-2 border-amber-200/90 bg-gradient-to-br from-white via-amber-50/40 to-amber-100/30 shadow-md hover:border-amber-400 hover:shadow-xl transition-all duration-300 space-y-3"
@@ -163,7 +165,41 @@ export default function ContactPage() {
               <a href="mailto:contact@ambabaimahalaxmi.com" className="hover:text-amber-800 transition-colors block font-medium">
                 contact@ambabaimahalaxmi.com
               </a>
+              <span className="block text-[11px] text-stone-500 mt-1">Dedicated Official Support Desk</span>
             </p>
+          </motion.div>
+
+          <motion.div
+            whileHover={{ y: -4, scale: 1.01 }}
+            className="p-6 rounded-3xl border-2 border-amber-200/90 bg-gradient-to-br from-white via-amber-50/40 to-amber-100/30 shadow-md hover:border-amber-400 hover:shadow-xl transition-all duration-300 space-y-3"
+          >
+            <div className="size-12 rounded-2xl bg-[#3C0F1A] text-[var(--gold)] flex items-center justify-center font-bold shadow-md border border-[var(--gold)]/30">
+              <Share2 className="size-6" />
+            </div>
+            <strong className="font-serif text-lg font-bold text-stone-900 block">Social Channels</strong>
+            <p className="text-xs text-stone-600 leading-relaxed font-normal">
+              Connect with official darshan feeds & daily updates.
+            </p>
+            <div className="flex flex-wrap items-center gap-2 pt-1">
+              <a
+                href="https://www.facebook.com/people/Ambabai-Mahalaxmi/61595450204771/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-amber-300/80 bg-white hover:bg-amber-100/80 text-xs font-bold text-stone-800 hover:text-amber-950 transition-colors shadow-xs"
+              >
+                <FaFacebookF className="size-3.5 text-[#1877F2]" />
+                <span>Facebook</span>
+              </a>
+              <a
+                href="https://www.instagram.com/ambabaimahalaxmi/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-amber-300/80 bg-white hover:bg-amber-100/80 text-xs font-bold text-stone-800 hover:text-amber-950 transition-colors shadow-xs"
+              >
+                <FaInstagram className="size-3.5 text-[#E1306C]" />
+                <span>Instagram</span>
+              </a>
+            </div>
           </motion.div>
         </section>
 

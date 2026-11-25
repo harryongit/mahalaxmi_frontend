@@ -13,6 +13,7 @@ import {
   TEMPLE_ADDRESS,
   TEMPLE_PHONE,
   TEMPLE_EMAIL,
+  SOCIAL_LINKS,
 } from "@/src/lib/seo";
 
 export const viewport: Viewport = {
@@ -117,6 +118,8 @@ const templeSchema = {
   publicAccess: true,
   sameAs: [
     "https://en.wikipedia.org/wiki/Mahalakshmi_Temple,_Kolhapur",
+    SOCIAL_LINKS.facebook,
+    SOCIAL_LINKS.instagram,
   ],
 };
 
