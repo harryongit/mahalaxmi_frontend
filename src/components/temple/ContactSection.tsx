@@ -110,7 +110,7 @@ export function ContactSection() {
             Connect with the Mandir Office
           </h2>
           <p className="mt-3 text-sm text-stone-600 leading-relaxed font-sans">
-            Have questions about daily Darshan timings, Special Pujas, Kirnotsav, or Prasadam dispatch? Send your enquiry directly to the temple cell.
+            Have questions about Special Pujas, Kirnotsav, Prasad delivery, or Gotra Sankalpa? Send your enquiry directly to the temple cell.
           </p>
         </div>
 
@@ -137,12 +137,12 @@ export function ContactSection() {
                       Direct Helpline
                     </span>
                     <a
-                      href="tel:+914412345678"
+                      href="tel:+919371623260"
                       className="text-sm font-bold text-stone-800 hover:text-amber-800 transition-colors"
                     >
-                      +91 44 1234 5678
+                      +91 93716 23260
                     </a>
-                    <p className="text-[11px] text-stone-500">Available 5:00 AM – 9:30 PM Daily</p>
+                    <p className="text-[11px] text-stone-500">Available 24/7 for Devotee Assistance</p>
                   </div>
                 </div>
 
@@ -156,12 +156,17 @@ export function ContactSection() {
                       Email Desk
                     </span>
                     <a
-                      href="mailto:hello@ambabaimahalaxmi.org"
-                      className="text-sm font-bold text-stone-800 hover:text-amber-800 transition-colors"
+                      href="mailto:info@mahalaxmikolhapur.com"
+                      className="text-sm font-bold text-stone-800 hover:text-amber-800 transition-colors block"
                     >
-                      hello@ambabaimahalaxmi.org
+                      info@mahalaxmikolhapur.com
                     </a>
-                    <p className="text-[11px] text-stone-500">For Sevas, Donations & Grievances</p>
+                    <a
+                      href="mailto:seva@ambabaimahalaxmi.org"
+                      className="text-xs text-stone-600 hover:text-amber-800 transition-colors block"
+                    >
+                      seva@ambabaimahalaxmi.org
+                    </a>
                   </div>
                 </div>
 
@@ -172,28 +177,20 @@ export function ContactSection() {
                   </div>
                   <div>
                     <span className="text-[11px] uppercase tracking-wider text-stone-400 font-bold block">
-                      Sanctum Address
+                      Our Address
                     </span>
                     <p className="text-sm font-bold text-stone-800 leading-snug">
-                      Mahalaxmi Temple Road, Kolhapur
+                      2818,A Ward, Varuntirth Ves , Shivaji Peth,Kolhapur.416012
                     </p>
-                    <p className="text-[11px] text-stone-500">Maharashtra 416012, India</p>
-                  </div>
-                </div>
-
-                {/* Hours */}
-                <div className="flex items-start gap-3.5">
-                  <div className="size-10 rounded-2xl bg-amber-100 text-amber-900 flex items-center justify-center shrink-0 shadow-xs">
-                    <Clock className="size-4" />
-                  </div>
-                  <div>
-                    <span className="text-[11px] uppercase tracking-wider text-stone-400 font-bold block">
-                      Temple Timings
-                    </span>
-                    <p className="text-sm font-bold text-stone-800">
-                      5:00 AM – 12:30 PM &nbsp;•&nbsp; 4:00 PM – 9:30 PM
-                    </p>
-                    <p className="text-[11px] text-stone-500">Open on all 365 days of the year</p>
+                    <a
+                      href="https://www.google.com/maps/search/?api=1&query=2818+A+Ward+Varuntirth+Ves+Shivaji+Peth+Kolhapur+416012"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-xs font-bold text-amber-800 hover:text-amber-950 mt-1.5 underline decoration-amber-500/60"
+                    >
+                      <span>Get Directions</span>
+                      <span>→</span>
+                    </a>
                   </div>
                 </div>
               </div>

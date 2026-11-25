@@ -111,8 +111,8 @@ export default function ContactPage() {
 
       <main className="flex-1 py-12 px-4 sm:px-6 space-y-16 max-w-6xl mx-auto w-full">
 
-        {/* TOP QUICK CONTACT INFO CARDS (4 CARDS GRID) */}
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* TOP QUICK CONTACT INFO CARDS (3 CARDS GRID) */}
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <motion.div
             whileHover={{ y: -4, scale: 1.01 }}
             className="p-6 rounded-3xl border-2 border-amber-200/90 bg-gradient-to-br from-white via-amber-50/40 to-amber-100/30 shadow-md hover:border-amber-400 hover:shadow-xl transition-all duration-300 space-y-3"
@@ -120,23 +120,19 @@ export default function ContactPage() {
             <div className="size-12 rounded-2xl bg-[#3C0F1A] text-[var(--gold)] flex items-center justify-center font-bold shadow-md border border-[var(--gold)]/30">
               <MapPin className="size-6" />
             </div>
-            <strong className="font-serif text-lg font-bold text-stone-900 block">Temple Address</strong>
+            <strong className="font-serif text-lg font-bold text-stone-900 block">Our Address</strong>
             <p className="text-xs text-stone-600 leading-relaxed font-normal">
-              Mahalaxmi Temple Road, Kolhapur, Maharashtra 416012, India
+              2818,A Ward, Varuntirth Ves , Shivaji Peth,Kolhapur.416012
             </p>
-          </motion.div>
-
-          <motion.div
-            whileHover={{ y: -4, scale: 1.01 }}
-            className="p-6 rounded-3xl border-2 border-amber-200/90 bg-gradient-to-br from-white via-amber-50/40 to-amber-100/30 shadow-md hover:border-amber-400 hover:shadow-xl transition-all duration-300 space-y-3"
-          >
-            <div className="size-12 rounded-2xl bg-[#3C0F1A] text-[var(--gold)] flex items-center justify-center font-bold shadow-md border border-[var(--gold)]/30">
-              <Clock className="size-6" />
-            </div>
-            <strong className="font-serif text-lg font-bold text-stone-900 block">Temple Timings</strong>
-            <p className="text-xs text-stone-600 leading-relaxed font-normal">
-              5:00 AM – 12:30 PM &nbsp;·&nbsp; 4:00 PM – 9:30 PM (Daily Aarti)
-            </p>
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=2818+A+Ward+Varuntirth+Ves+Shivaji+Peth+Kolhapur+416012"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1 text-xs font-bold text-amber-800 hover:text-amber-950 pt-1 underline decoration-amber-500/60"
+            >
+              <span>Get Directions</span>
+              <span>→</span>
+            </a>
           </motion.div>
 
           <motion.div
@@ -148,7 +144,10 @@ export default function ContactPage() {
             </div>
             <strong className="font-serif text-lg font-bold text-stone-900 block">Helpline Numbers</strong>
             <p className="text-xs text-stone-600 leading-relaxed font-normal">
-              +91 93716 23260
+              <a href="tel:+919371623260" className="hover:text-amber-800 transition-colors font-bold text-sm">
+                +91 93716 23260
+              </a>
+              <span className="block text-[11px] text-stone-500 mt-1">24/7 Devotee Call &amp; WhatsApp Assistance</span>
             </p>
           </motion.div>
 
@@ -161,7 +160,12 @@ export default function ContactPage() {
             </div>
             <strong className="font-serif text-lg font-bold text-stone-900 block">Email Inquiries</strong>
             <p className="text-xs text-stone-600 leading-relaxed font-normal">
-              info@mahalaxmikolhapur.com<br />hello@ambabaimahalaxmi.org
+              <a href="mailto:info@mahalaxmikolhapur.com" className="hover:text-amber-800 transition-colors block font-medium">
+                info@mahalaxmikolhapur.com
+              </a>
+              <a href="mailto:seva@ambabaimahalaxmi.org" className="hover:text-amber-800 transition-colors block text-stone-500 mt-0.5">
+                seva@ambabaimahalaxmi.org
+              </a>
             </p>
           </motion.div>
         </section>
@@ -314,11 +318,13 @@ export default function ContactPage() {
                   <strong className="font-serif text-base font-bold text-amber-300 block">
                     Shri Mahalaxmi Mandir, Kolhapur
                   </strong>
-                  <span className="text-[11px] text-white/80">Mahalaxmi Temple Road, Kolhapur 416012</span>
+                  <span className="text-[11px] text-white/80 block max-w-xs">
+                    2818,A Ward, Varuntirth Ves , Shivaji Peth,Kolhapur.416012
+                  </span>
                 </div>
 
                 <a
-                  href="https://maps.google.com"
+                  href="https://www.google.com/maps/search/?api=1&query=2818+A+Ward+Varuntirth+Ves+Shivaji+Peth+Kolhapur+416012"
                   target="_blank"
                   rel="noreferrer"
                   className="px-3.5 py-2 rounded-xl bg-[var(--gold)] text-stone-950 font-bold text-xs shadow-md shrink-0 hover:brightness-110"
