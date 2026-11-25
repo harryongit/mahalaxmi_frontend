@@ -14,20 +14,22 @@ import {
   ArrowRight,
   Loader2,
   CheckCircle2,
+  Package,
+  HeartHandshake,
 } from "lucide-react";
 import { PujaCardSkeleton } from "./Skeleton";
 import { SectionEyebrow } from "./effects";
 import { serviceApi } from "@/src/lib/api";
 import { useAuth } from "@/src/context/AuthContext";
 
-// 4 Sacred Service Categories (Darshan & Events removed as requested)
+// 4 Sacred Service Categories with Lucide icons (no emojis)
 export const DEFAULT_SERVICE_IMAGE = "/assets/default-service.jpg";
 
 export const SERVICE_TYPES = [
-  { id: "Puja", label: "Puja", icon: "🕉️" },
-  { id: "Chadhava", label: "Chadhava", icon: "📿" },
-  { id: "Naivadya", label: "Naivadya", icon: "🍃" },
-  { id: "Other", label: "Other", icon: "🙏" },
+  { id: "Puja", label: "Puja", icon: Flame },
+  { id: "Chadhava", label: "Chadhava", icon: Sparkles },
+  { id: "Naivadya", label: "Naivadya", icon: Package },
+  { id: "Other", label: "Other", icon: HeartHandshake },
 ];
 
 // Helper to return proper dynamic offering label by category (not hardcoded static "Dakshina")
@@ -193,6 +195,7 @@ export function BookingWidget() {
           <div className="inline-flex items-center gap-1 sm:gap-1.5 p-1 rounded-2xl bg-[#F4EFE6] border border-amber-200/90 shadow-2xs">
             {SERVICE_TYPES.map((tab) => {
               const isActive = activeTab === tab.id;
+              const IconComponent = tab.icon;
               return (
                 <button
                   key={tab.id}
@@ -203,7 +206,7 @@ export function BookingWidget() {
                       : "text-stone-700 hover:text-amber-950 hover:bg-white/60"
                   }`}
                 >
-                  <span className="text-sm">{tab.icon}</span>
+                  <IconComponent className={`size-3.5 ${isActive ? "text-[var(--gold)]" : "text-amber-800"}`} />
                   <span>{tab.label}</span>
                 </button>
               );
@@ -219,8 +222,10 @@ export function BookingWidget() {
             ))}
           </div>
         ) : filteredSevas.length === 0 ? (
-          <div className="text-center py-16 bg-white rounded-3xl border border-stone-200/90 p-8 space-y-2.5 max-w-lg mx-auto shadow-2xs">
-            <span className="text-4xl block">🕉️</span>
+          <div className="text-center py-16 bg-white rounded-3xl border border-stone-200/90 p-8 space-y-3 max-w-lg mx-auto shadow-2xs">
+            <div className="size-14 mx-auto rounded-2xl bg-amber-100/80 border border-amber-300/80 text-amber-900 flex items-center justify-center shadow-sm">
+              <Sparkles className="size-7 text-amber-800" />
+            </div>
             <h4 className="font-serif text-lg font-bold text-stone-800">
               No Active {activeTab} Offerings Available
             </h4>
