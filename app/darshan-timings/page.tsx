@@ -69,7 +69,7 @@ export default function DarshanTimingsPage() {
         />
 
         <main className="flex-1 py-12 px-4 sm:px-6 max-w-5xl mx-auto w-full space-y-12">
-          
+
           <article className="prose prose-stone max-w-none prose-headings:font-serif prose-headings:text-amber-950 prose-a:text-amber-700">
             <p className="text-lg text-stone-700 leading-relaxed font-medium">
               If you are planning a pilgrimage to Kolhapur, knowing the exact <strong>mahalaxmi temple darshan timings</strong> (also commonly searched as <strong>mahalaxmi darshan timings</strong>) is essential for a peaceful and fulfilling experience. As one of the most revered Shakti Peethas in India, the temple sees thousands of devotees daily. Here is your official guide to the temple’s daily schedule, <strong>ambabai aarti timings</strong>, festival extensions, and practical visitor information.
@@ -126,56 +126,8 @@ export default function DarshanTimingsPage() {
             </div>
           </section>
 
-          <section className="bg-white border border-stone-200 rounded-3xl p-8 shadow-sm">
-            <h2 className="font-serif text-2xl text-amber-950 mb-4">Festival & Kirnotsav Timings</h2>
-            <p className="text-sm text-stone-700 leading-relaxed mb-4">
-              During major festivals like <strong>Navratri</strong> and <strong>Diwali</strong>, the Mahalaxmi temple darshan timings are significantly extended, often remaining open continuously from 4:00 AM until late at night. 
-            </p>
-            <p className="text-sm text-stone-700 leading-relaxed">
-              Additionally, during the rare <strong>Kirnotsav (Festival of Rays)</strong> occurring in January and November, special darshan arrangements are made in the late afternoon (around 4:30 PM to sunset) so devotees can witness the setting sun's rays illuminating the Swayambhu idol.
-            </p>
-          </section>
 
-          <section>
-            <h2 className="font-serif text-2xl sm:text-3xl text-center text-amber-950">
-              Darshan Options & Visitor Tips
-            </h2>
-            <div className="mt-8 grid md:grid-cols-2 gap-6">
-              
-              <div className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
-                <Sunrise className="size-6 text-amber-800 mb-3" />
-                <h3 className="font-serif text-lg font-bold text-amber-950">Best Time to Visit (Queue-Free Windows)</h3>
-                <p className="text-sm text-stone-600 mt-2 leading-relaxed">
-                  To avoid heavy crowds, the absolute best time for a peaceful walk-in darshan is early morning between <strong>5:30 AM and 7:00 AM</strong> (right after Kakad Aarti), or early afternoon around <strong>1:00 PM to 2:30 PM</strong>. Peak hours are typically from 9:00 AM to 12:00 PM and 6:00 PM to 8:30 PM.
-                </p>
-              </div>
 
-              <div className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
-                <Clock className="size-6 text-amber-800 mb-3" />
-                <h3 className="font-serif text-lg font-bold text-amber-950">VIP & Priority Darshan</h3>
-                <p className="text-sm text-stone-600 mt-2 leading-relaxed">
-                  Standard walk-in darshan is free and takes roughly 30–45 minutes on regular days. If you are short on time, you can book <Link href="/vip-darshan" className="text-amber-800 underline font-semibold">VIP / Prioritised Darshan Passes</Link> online. Special access is always provided for senior citizens, pregnant women, and physically challenged devotees.
-                </p>
-              </div>
-
-              <div className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
-                <Video className="size-6 text-amber-800 mb-3" />
-                <h3 className="font-serif text-lg font-bold text-amber-950">Virtual Livestreams</h3>
-                <p className="text-sm text-stone-600 mt-2 leading-relaxed">
-                  Can't visit in person? The temple offers live streams of the Aarti ceremonies so you can receive the Goddess's blessings from anywhere in the world. You can also participate by <Link href="/rituals" className="text-amber-800 underline font-semibold">exploring temple rituals</Link>.
-                </p>
-              </div>
-
-              <div className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
-                <Car className="size-6 text-amber-800 mb-3" />
-                <h3 className="font-serif text-lg font-bold text-amber-950">Transport & Accommodation</h3>
-                <p className="text-sm text-stone-600 mt-2 leading-relaxed">
-                  The temple is located just 2.5 km from Kolhapur Railway Station. Auto-rickshaws and taxis are readily available. For overnight stays, you can explore <Link href="/accommodation" className="text-amber-800 underline font-semibold">Yatri Niwas (Temple Accommodation)</Link> or browse numerous <Link href="/nearby-attractions" className="text-amber-800 underline font-semibold">nearby hotels</Link> suited for pilgrims.
-                </p>
-              </div>
-
-            </div>
-          </section>
 
           <section className="rounded-3xl bg-gradient-to-r from-[#2A0C14] via-[#3C0F1A] to-[#1F070E] text-white p-8 sm:p-10 overflow-hidden relative">
             <div className="absolute top-0 right-1/4 size-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
