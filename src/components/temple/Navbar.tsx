@@ -48,8 +48,8 @@ export function Navbar() {
   const bookingsList: any[] = Array.isArray(userBookingsData)
     ? userBookingsData
     : Array.isArray((userBookingsData as any)?.data)
-    ? (userBookingsData as any).data
-    : [];
+      ? (userBookingsData as any).data
+      : [];
 
   const latestBooking = bookingsList[0];
 
@@ -116,12 +116,7 @@ export function Navbar() {
                   <span className="font-serif text-sm sm:text-lg font-bold text-gradient-gold leading-none tracking-wide">
                     Ambabai Mahalaxmi
                   </span>
-                  {IS_WEBSITE_UNDER_DEVELOPMENT && (
-                    <span className="hidden md:inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/25 border border-amber-400/50 text-amber-300 text-[9px] font-bold uppercase tracking-wider">
-                      <span className="size-1.5 rounded-full bg-amber-400 animate-pulse" />
-                      Under Dev
-                    </span>
-                  )}
+
                 </div>
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <span className="text-[8px] sm:text-[9px] uppercase tracking-widest text-amber-200/80 font-medium">

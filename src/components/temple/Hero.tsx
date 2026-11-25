@@ -165,19 +165,7 @@ export function Hero() {
       {/* ========================================================================= */}
       <div className="relative z-20 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 my-auto">
         <div className="max-w-xl text-left space-y-3.5 sm:space-y-4">
-          
-          {/* Sacred Invocation Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-black/60 border border-amber-400/40 backdrop-blur-md shadow-md"
-          >
-            <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
-            <span className="font-serif font-bold text-xs sm:text-[13px] text-amber-300 tracking-wide">
-              ॥ श्री करवीर निवासिनी महालक्ष्मी प्रसन्न ॥
-            </span>
-          </motion.div>
+
 
           {/* Clean, Elegant Temple Title (No clutter, prominent gold gradient) */}
           <motion.div
@@ -259,11 +247,10 @@ export function Hero() {
                   key={slide.id}
                   type="button"
                   onClick={() => jumpToSlide(idx)}
-                  className={`transition-all rounded-full cursor-pointer ${
-                    idx === currentIndex
+                  className={`transition-all rounded-full cursor-pointer ${idx === currentIndex
                       ? "w-7 h-1.5 bg-gradient-to-r from-amber-400 to-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.8)]"
                       : "w-1.5 h-1.5 bg-white/40 hover:bg-white/70"
-                  }`}
+                    }`}
                   aria-label={`Go to slide ${idx + 1}`}
                 />
               ))}
