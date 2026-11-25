@@ -25,8 +25,6 @@ import { Particles, Reveal, SectionEyebrow } from "./effects";
 import { useQuery } from "@tanstack/react-query";
 import { contentApi, serviceApi, getMediaUrl } from "@/src/lib/api";
 import { RitualCardSkeleton, DarkCardSkeleton, GalleryCardSkeleton } from "./Skeleton";
-
-import { TestimonialForm } from "@/src/components/temple/TestimonialForm";
 import { DonationsSection } from "./DonationsSection";
 
 /* ----------------------- ABOUT ----------------------- */
@@ -755,58 +753,82 @@ export function Testimonials({ initialData }: { initialData?: any[] }) {
     queryFn: contentApi.getTestimonials,
     initialData,
   });
-  
-  const row = testimonialsData.length > 0 ? [...testimonialsData, ...testimonialsData] : [];
+
+  // Ensure enough items for smooth continuous scrolling if items exist
+  const row =
+    testimonialsData.length > 0
+      ? testimonialsData.length < 4
+        ? [...testimonialsData, ...testimonialsData, ...testimonialsData, ...testimonialsData]
+        : [...testimonialsData, ...testimonialsData]
+      : [];
+
   return (
-    <section className="relative py-24 overflow-hidden">
+    <section className="relative py-20 md:py-28 overflow-hidden">
       <div className="container-temple text-center max-w-2xl mx-auto">
         <SectionEyebrow>Voices of Devotees</SectionEyebrow>
         <h2 className="font-serif text-[clamp(2rem,4vw,3.25rem)] mt-6 leading-[1.05]">
           A thousand journeys, <span className="text-gradient-gold">one sanctuary.</span>
         </h2>
-        <div className="mt-8">
-          <TestimonialForm />
-        </div>
       </div>
-      <div className="mt-14 relative">
-        <div className="absolute inset-y-0 left-0 w-32 z-10 bg-gradient-to-r from-background to-transparent pointer-events-none" />
-        <div className="absolute inset-y-0 right-0 w-32 z-10 bg-gradient-to-l from-background to-transparent pointer-events-none" />
-        <div className="flex gap-6 animate-scroll-x" style={{ width: "max-content" }}>
-          {isLoading ? (
-            [1, 2, 3, 4].map((n) => (
-              <div key={n} className="w-[340px] shrink-0 rounded-2xl glass-panel p-6 h-40 animate-pulse space-y-3">
+
+      {isLoading ? (
+        <div className="mt-14 relative overflow-hidden">
+          <div className="flex gap-6 justify-center">
+            {[1, 2, 3, 4].map((n) => (
+              <div
+                key={n}
+                className="w-[340px] shrink-0 rounded-2xl bg-card/60 border border-border/60 p-6 h-44 animate-pulse space-y-3"
+              >
                 <div className="h-4 w-full rounded bg-stone-200/60" />
                 <div className="h-4 w-3/4 rounded bg-stone-200/60" />
-                <div className="flex items-center gap-3 pt-3">
+                <div className="flex items-center gap-3 pt-4">
                   <div className="size-10 rounded-full bg-stone-200/80" />
-                  <div className="space-y-1">
+                  <div className="space-y-1.5">
                     <div className="h-4 w-24 rounded bg-stone-200/80" />
                     <div className="h-3 w-16 rounded bg-stone-100/80" />
                   </div>
                 </div>
               </div>
-            ))
-          ) : (
-          row.map((t: any, i: number) => (
-            <article
-              key={i}
-              className="w-[340px] shrink-0 rounded-2xl glass-panel p-6 shadow-[0_15px_40px_-20px_rgba(80,30,0,0.25)]"
-            >
-              <p className="text-foreground/85 leading-relaxed">"{t.text}"</p>
-              <div className="mt-5 flex items-center gap-3">
-                <div className="size-10 rounded-full grid place-items-center font-serif text-[var(--maroon)] bg-[color-mix(in_oklab,var(--gold)_25%,transparent)]">
-                  {t.name?.[0] || "U"}
-                </div>
-                <div>
-                  <div className="font-medium text-sm">{t.name}</div>
-                  <div className="text-xs text-foreground/60">{t.role || "Devotee"}</div>
-                </div>
-              </div>
-            </article>
-          ))
-          )}
+            ))}
+          </div>
         </div>
-      </div>
+      ) : testimonialsData.length === 0 ? (
+        <div className="container-temple mt-10">
+          <div className="text-center py-12 px-6 rounded-2xl bg-card/70 border border-border/70 max-w-md mx-auto space-y-2">
+            <span className="text-3xl block">🙏</span>
+            <h4 className="font-serif text-lg font-bold text-[var(--maroon)]">Devotee Reviews</h4>
+            <p className="text-foreground/70 text-xs leading-relaxed">
+              Devotee testimonials and blessings will appear here soon.
+            </p>
+          </div>
+        </div>
+      ) : (
+        <div className="mt-14 relative">
+          <div className="absolute inset-y-0 left-0 w-24 sm:w-36 z-10 bg-gradient-to-r from-background to-transparent pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-24 sm:w-36 z-10 bg-gradient-to-l from-background to-transparent pointer-events-none" />
+          <div className="flex gap-6 animate-scroll-x hover:[animation-play-state:paused]" style={{ width: "max-content" }}>
+            {row.map((t: any, i: number) => (
+              <article
+                key={i}
+                className="w-[340px] shrink-0 rounded-2xl bg-card/90 border border-border/80 p-6 shadow-[0_15px_40px_-20px_rgba(80,30,0,0.18)] flex flex-col justify-between hover:border-[var(--gold)]/60 transition-colors"
+              >
+                <p className="text-foreground/85 leading-relaxed text-sm sm:text-base italic">
+                  &ldquo;{t.text}&rdquo;
+                </p>
+                <div className="mt-5 pt-4 border-t border-border/50 flex items-center gap-3">
+                  <div className="size-10 rounded-full grid place-items-center font-serif font-bold text-[var(--maroon)] bg-[color-mix(in_oklab,var(--gold)_25%,transparent)] shrink-0">
+                    {t.name?.[0]?.toUpperCase() || "D"}
+                  </div>
+                  <div>
+                    <div className="font-medium text-sm text-foreground">{t.name || "Devotee"}</div>
+                    <div className="text-xs text-foreground/60">{t.role || "Devotee"}</div>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      )}
     </section>
   );
 }
