@@ -18,6 +18,9 @@ import {
   MapPin,
   Clock,
   Sparkles,
+  Video,
+  Gift,
+  Truck,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -328,27 +331,60 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* Why Choose Us Minimal Variant */}
-        <div className="border-t border-amber-900/10 pt-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          <div className="flex flex-col items-center">
-            <ShieldCheck className="text-amber-700 w-6 h-6 mb-3" />
-            <span className="text-xs font-bold uppercase tracking-wider text-stone-900 mb-1">Authentic</span>
-            <span className="text-xs text-stone-500">Hereditary Shreepujak</span>
+        {/* Why Choose MahalaxmiPuja Section */}
+        <div className="border-t border-amber-900/10 pt-16 space-y-10">
+          <div className="text-center max-w-2xl mx-auto space-y-3">
+            <span className="text-xs uppercase tracking-[0.25em] font-bold text-amber-800 bg-amber-100 px-3.5 py-1 rounded-full border border-amber-300 inline-block">
+              Devotee Reassurance
+            </span>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-stone-900">
+              Why Choose MahalaxmiPuja?
+            </h2>
+            <p className="text-xs sm:text-sm text-stone-600 font-medium leading-relaxed">
+              We combine ancient traditions with modern convenience to deliver authentic spiritual experiences.
+            </p>
           </div>
-          <div className="flex flex-col items-center">
-            <Users className="text-amber-700 w-6 h-6 mb-3" />
-            <span className="text-xs font-bold uppercase tracking-wider text-stone-900 mb-1">Trusted</span>
-            <span className="text-xs text-stone-500">50,000+ Devotees</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <Heart className="text-amber-700 w-6 h-6 mb-3" />
-            <span className="text-xs font-bold uppercase tracking-wider text-stone-900 mb-1">Devoted</span>
-            <span className="text-xs text-stone-500">Performed with Love</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <Zap className="text-amber-700 w-6 h-6 mb-3" />
-            <span className="text-xs font-bold uppercase tracking-wider text-stone-900 mb-1">Fast</span>
-            <span className="text-xs text-stone-500">Instant Booking</span>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              {
+                icon: ShieldCheck,
+                title: "Authentic Rituals",
+                desc: "Traditional pujas performed by verified and experienced pandits following ancient Vedic traditions.",
+              },
+              {
+                icon: Video,
+                title: "Video Recording",
+                desc: "Watch your personalized puja ceremony in high definition video sent directly to your phone.",
+              },
+              {
+                icon: Gift,
+                title: "Blessed Prasad",
+                desc: "Receive blessed prasad and sacred items from the temple delivered to your doorstep.",
+              },
+              {
+                icon: Truck,
+                title: "Pan-India Delivery",
+                desc: "We deliver blessed prasad and puja materials across India with proper care and reverence.",
+              },
+            ].map((feature, i) => (
+              <motion.div
+                key={i}
+                whileHover={{ y: -5, scale: 1.01 }}
+                transition={{ duration: 0.25 }}
+                className="p-6 rounded-3xl border-2 border-amber-200/90 bg-gradient-to-br from-white via-amber-50/40 to-amber-100/30 shadow-md hover:border-amber-400 hover:shadow-xl transition-all duration-300 text-center flex flex-col items-center space-y-3.5"
+              >
+                <div className="size-12 rounded-2xl bg-[#3C0F1A] text-[var(--gold)] flex items-center justify-center font-bold shadow-md border border-[var(--gold)]/30">
+                  <feature.icon className="size-6" />
+                </div>
+                <h3 className="font-serif text-lg font-bold text-stone-900">
+                  {feature.title}
+                </h3>
+                <p className="text-xs text-stone-600 leading-relaxed font-normal">
+                  {feature.desc}
+                </p>
+              </motion.div>
+            ))}
           </div>
         </div>
 
