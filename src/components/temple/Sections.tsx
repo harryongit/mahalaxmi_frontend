@@ -927,59 +927,12 @@ export function PujaServices() {
 }
 
 /* ----------------------- ADD-ON SEVA ----------------------- */
-const addOnServicesData = [
-  {
-    title: "REGULAR OTEE",
-    price: "₹351",
-    description: "Nariyal, Halad, Kunkum, Khaan, Tandul, Phutane, etc. will be offered in the devotee's name.",
-    availability: "22 September to 7 October"
-  },
-  {
-    title: "SAREE OTEE",
-    price: "₹1,201",
-    description: "Saree + Regular Otee will be offered in the devotee's name.",
-    availability: "22 September to 7 October"
-  },
-  {
-    title: "PURANPOLI NAIVEDYA",
-    price: "₹300",
-    description: "Naivedya will be offered in the devotee's name.",
-    availability: "22 September to 7 October"
-  },
-  {
-    title: "PURANPOLI MEAL",
-    price: "₹300 per person",
-    description: "Meal for one person.",
-    availability: "22 September to 7 October"
-  },
-  {
-    title: "BRAHMAN, SUWASINI & KUMARIKA BHOJAN",
-    price: "₹1,201",
-    description: "Bhojan for Brahman, Kumarika and Suwasini.",
-    availability: "22 September to 7 October"
-  },
-  {
-    title: "ANNADAN",
-    price: "Custom",
-    minPrice: "₹10",
-    description: "Every Friday, Sakhar Phutane / Sweet Upama / Shabudana Khichadi will be given as Prasad.",
-    availability: "22 September to 7 October",
-    customAmount: true
-  },
-  {
-    title: "GOU SEVA",
-    price: "Custom",
-    description: "Allow devotees to enter any amount for Gou Seva.",
-    customAmount: true
-  },
-  {
-    title: "COURIER CHARGES",
-    price: "₹100",
-    description: "Courier charges for Prasad home delivery."
-  }
-];
-
 export function AddOnServices() {
+  const { data: addOns = [], isLoading, isError } = useQuery<any[]>({
+    queryKey: ["services", "addons"],
+    queryFn: () => serviceApi.getAddOns(),
+  });
+
   return (
     <section id="addon-services" className="relative py-20 md:py-28 bg-[oklch(0.13_0.02_60)] text-white overflow-hidden border-t border-white/5">
       <div className="container-temple relative">
@@ -995,57 +948,56 @@ export function AddOnServices() {
         </div>
 
         <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {addOnServicesData.map((s, i) => (
-            <Reveal key={s.title} delay={i * 0.05}>
-              <div className="h-full rounded-2xl glass-dark p-6 hover-lift flex flex-col border border-[color-mix(in_oklab,var(--gold)_15%,transparent)] hover:border-[color-mix(in_oklab,var(--gold)_40%,transparent)]">
-                <div className="flex-1 space-y-4">
-                  <div className="flex items-start justify-between gap-3">
-                    <h3 className="font-serif text-xl text-[var(--gold)]">{s.title}</h3>
-                    {s.price !== "Custom" && (
-                      <span className="text-[var(--saffron)] font-medium text-sm whitespace-nowrap bg-white/5 px-2 py-1 rounded-md">
-                        {s.price}
-                      </span>
+          {isLoading || isError ? (
+            [1, 2, 3, 4].map((n) => <DarkCardSkeleton key={n} />)
+          ) : addOns.length === 0 ? (
+            <div className="col-span-full text-center py-12 px-6 glass-dark rounded-2xl border border-white/10 max-w-md mx-auto space-y-2">
+              <span className="text-3xl block">📿</span>
+              <h4 className="font-serif text-lg font-bold text-amber-200">No Add-On Offerings</h4>
+              <p className="text-white/70 text-xs">Currently, no additional add-on sevas are active. Please check back soon.</p>
+            </div>
+          ) : (
+            addOns.map((s: any, i: number) => (
+              <Reveal key={s.id || s.title || i} delay={i * 0.05}>
+                <div className="h-full rounded-2xl glass-dark p-6 hover-lift flex flex-col border border-[color-mix(in_oklab,var(--gold)_15%,transparent)] hover:border-[color-mix(in_oklab,var(--gold)_40%,transparent)]">
+                  <div className="flex-1 space-y-4">
+                    <div className="flex items-start justify-between gap-3">
+                      <h3 className="font-serif text-xl text-[var(--gold)]">{s.title || s.name}</h3>
+                      {s.price && (
+                        <span className="text-[var(--saffron)] font-medium text-sm whitespace-nowrap bg-white/5 px-2 py-1 rounded-md">
+                          ₹{s.price}
+                        </span>
+                      )}
+                    </div>
+                    
+                    {s.description && (
+                      <p className="text-sm text-white/70 line-clamp-3">
+                        {s.description}
+                      </p>
+                    )}
+                    
+                    {s.time && (
+                      <div>
+                        <div className="text-[10px] uppercase tracking-[0.2em] opacity-80 text-white/50 mb-1">
+                          Timing / Duration
+                        </div>
+                        <div className="text-xs text-white/80">{s.time}</div>
+                      </div>
                     )}
                   </div>
                   
-                  {s.description && (
-                    <p className="text-sm text-white/70">
-                      {s.description}
-                    </p>
-                  )}
-                  
-                  {s.availability && (
-                    <div>
-                      <div className="text-[10px] uppercase tracking-[0.2em] opacity-80 text-white/50 mb-1">
-                        Available
-                      </div>
-                      <div className="text-xs text-white/80">{s.availability}</div>
-                    </div>
-                  )}
-
-                  {s.customAmount && (
-                    <div className="mt-4 pt-4 border-t border-white/10">
-                      <label className="text-[10px] uppercase tracking-[0.2em] opacity-80 text-white/50 block mb-2">
-                        {s.minPrice ? `Amount (Min ${s.minPrice})` : "Enter Amount (₹)"}
-                      </label>
-                      <input 
-                        type="number" 
-                        min={s.minPrice ? s.minPrice.replace(/\D/g,'') : "1"}
-                        placeholder="₹ Amount" 
-                        className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-[var(--gold)] focus:ring-1 focus:ring-[var(--gold)] transition-colors"
-                      />
-                    </div>
-                  )}
+                  <div className="mt-6 pt-4">
+                    <Link
+                      href={s.slug ? `/puja/${s.slug}` : "#book-puja"}
+                      className="btn-gold w-full justify-center !py-2.5 !text-sm"
+                    >
+                      Add to Booking
+                    </Link>
+                  </div>
                 </div>
-                
-                <div className="mt-6 pt-4">
-                  <button className="btn-gold w-full justify-center !py-2.5 !text-sm">
-                    Add to Booking
-                  </button>
-                </div>
-              </div>
-            </Reveal>
-          ))}
+              </Reveal>
+            ))
+          )}
         </div>
       </div>
     </section>
