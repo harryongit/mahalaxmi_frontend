@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useLenis } from "@/src/lib/use-lenis";
 import { Navbar } from "@/src/components/temple/Navbar";
 import { Footer } from "@/src/components/temple/Footer";
@@ -24,8 +25,42 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
+const DEITY_GALLERY = [
+  {
+    src: "/assets/gallery/IMG-20261007-WA0081.jpg",
+    title: "Mata Ambabai Vigraha",
+    caption: "Sacred Swayambhu Idol in Divine Golden Alankar",
+  },
+  {
+    src: "/assets/gallery/IMG-20261007-WA0037.jpg",
+    title: "Inner Sanctum (Garbhagriha)",
+    caption: "Sacred inner chamber revered across centuries",
+  },
+  {
+    src: "/assets/gallery/IMG-20261010-WA0057.jpg",
+    title: "Temple Gopuram & Illumination",
+    caption: "Aura of the grand entrance tower lit in evening reverence",
+  },
+  {
+    src: "/assets/gallery/IMG-20261010-WA0072.jpg",
+    title: "Ancient Stone Carvings",
+    caption: "Masterful Hemadpanthi pillars and historic inscriptions",
+  },
+  {
+    src: "/assets/gallery/IMG-20261009-WA0014.jpg",
+    title: "Deepotsav & Temple Complex",
+    caption: "Divine celebration in the sacred temple courtyard",
+  },
+  {
+    src: "/assets/gallery/IMG-20261007-WA0065.jpg",
+    title: "Sacred Rathotsav Procession",
+    caption: "Grand chariot procession of Goddess Mahalaxmi",
+  },
+];
+
 export default function AboutPage() {
   useLenis();
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FCF9F3] text-stone-900">
@@ -61,27 +96,111 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 3. Sacred Deity */}
-      <section className="py-24 px-4 sm:px-6 w-full border-t border-amber-900/10 bg-amber-50/30">
-        <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <h2 className="text-xs uppercase tracking-[0.3em] font-bold text-amber-800 mb-4">
-              SACRED DEITY
-            </h2>
-            <h3 className="font-serif text-3xl sm:text-4xl text-amber-950 mb-6">
-              Goddess Mahalaxmi <br /> (Ambabai)
-            </h3>
-            <p className="text-sm text-stone-700 leading-relaxed">
-              The idol of Mahalaxmi is believed to be self-manifested (Swayambhu). Seated on a stone platform, the image of the four-armed deity is carved in black stone, holding sacred symbols in her hands. She is revered as the mother of the universe, blessing devotees with spiritual liberation and worldly prosperity alike.
+      {/* 3. Sacred Deity & Temple Gallery */}
+      <section className="py-20 sm:py-28 px-4 sm:px-6 w-full border-t border-amber-900/10 bg-amber-50/40">
+        <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-12 items-center">
+          
+          {/* Left Details Column (5 cols) */}
+          <div className="lg:col-span-5 space-y-6 text-center lg:text-left">
+            <div>
+              <span className="text-xs uppercase tracking-[0.25em] font-bold text-amber-800 bg-amber-100 px-3.5 py-1 rounded-full border border-amber-300 inline-block mb-3">
+                Sacred Deity &amp; Sanctuary
+              </span>
+              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-amber-950 leading-tight">
+                Goddess Mahalaxmi <br className="hidden sm:inline" />
+                <span className="text-amber-800">(Ambabai)</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-stone-500 font-medium mt-1">
+                Karveer Nivasini — The Eternal Mother of the Universe
+              </p>
+            </div>
+
+            <p className="text-sm text-stone-700 leading-relaxed font-normal">
+              The sacred idol of Goddess Mahalaxmi is believed to be self-manifested (<strong>Swayambhu</strong>), carved in ancient black stone and seated upon an elevated stone throne. Holding divine symbols of spiritual liberation and cosmic benevolence, Mata Ambabai blesses all devotees with inner peace, righteous conduct, and prosperity.
             </p>
+
+            {/* Devotional Highlights */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-2 text-left">
+              <div className="p-3 rounded-2xl bg-white border border-amber-200/80 shadow-xs space-y-1">
+                <span className="text-xs font-bold text-amber-900 block">Swayambhu</span>
+                <span className="text-[11px] text-stone-500 block leading-tight">Self-manifested black stone deity</span>
+              </div>
+              <div className="p-3 rounded-2xl bg-white border border-amber-200/80 shadow-xs space-y-1">
+                <span className="text-xs font-bold text-amber-900 block">51 Shakti Peethas</span>
+                <span className="text-[11px] text-stone-500 block leading-tight">Chief sacred abode of Mahalakshmi</span>
+              </div>
+              <div className="p-3 rounded-2xl bg-white border border-amber-200/80 shadow-xs space-y-1">
+                <span className="text-xs font-bold text-amber-900 block">Daily Alankars</span>
+                <span className="text-[11px] text-stone-500 block leading-tight">Vedic pujas &amp; royal ornate robes</span>
+              </div>
+            </div>
+
+            <div className="pt-2">
+              <Link
+                href="/gallery"
+                className="inline-flex items-center gap-2 text-xs font-bold text-amber-900 hover:text-amber-700 underline decoration-amber-400 decoration-2 underline-offset-4 transition-colors"
+              >
+                <span>View Complete Sacred Photo Gallery</span>
+                <span>→</span>
+              </Link>
+            </div>
           </div>
-          <div className="aspect-[4/5] rounded-xl overflow-hidden shadow-2xl relative border-4 border-white">
-            <img
-              src={IMG.about}
-              alt="Goddess Mahalaxmi"
-              className="w-full h-full object-cover"
-            />
+
+          {/* Right Interactive Gallery Column (7 cols) */}
+          <div className="lg:col-span-7 space-y-4">
+            {/* Main Featured Photo */}
+            <div className="relative aspect-[4/3] sm:aspect-[16/10] rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-stone-900 group">
+              <motion.img
+                key={selectedImageIndex}
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.35 }}
+                src={DEITY_GALLERY[selectedImageIndex].src}
+                alt={DEITY_GALLERY[selectedImageIndex].title}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
+              <div className="absolute bottom-4 left-4 right-4 text-white z-10 flex items-end justify-between gap-4">
+                <div>
+                  <span className="text-[10px] uppercase font-bold tracking-widest text-[var(--gold)] bg-black/60 px-2.5 py-0.5 rounded-full border border-[var(--gold)]/40 inline-block mb-1">
+                    Photo {selectedImageIndex + 1} of {DEITY_GALLERY.length}
+                  </span>
+                  <h4 className="font-serif text-lg sm:text-xl font-bold text-white drop-shadow-md">
+                    {DEITY_GALLERY[selectedImageIndex].title}
+                  </h4>
+                  <p className="text-xs text-amber-100/90 drop-shadow-xs font-normal">
+                    {DEITY_GALLERY[selectedImageIndex].caption}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Thumbnail Navigation Strip */}
+            <div className="grid grid-cols-6 gap-2 sm:gap-3">
+              {DEITY_GALLERY.map((item, index) => {
+                const isSelected = selectedImageIndex === index;
+                return (
+                  <button
+                    key={index}
+                    onClick={() => setSelectedImageIndex(index)}
+                    className={`relative aspect-square rounded-xl overflow-hidden border-2 transition-all cursor-pointer ${
+                      isSelected
+                        ? "border-[var(--gold)] shadow-md scale-105 ring-2 ring-amber-400/50"
+                        : "border-stone-200/90 hover:border-amber-400 opacity-70 hover:opacity-100"
+                    }`}
+                    title={item.title}
+                  >
+                    <img
+                      src={item.src}
+                      alt={item.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </button>
+                );
+              })}
+            </div>
           </div>
+
         </div>
       </section>
 
