@@ -328,7 +328,83 @@ export default function AboutPage() {
 
       </section>
 
-      {/* 10. Visit Contact Action */}
+      {/* 10. How We Serve You */}
+      <section className="py-20 px-4 sm:px-6 max-w-6xl mx-auto w-full space-y-10">
+        <div className="text-center max-w-2xl mx-auto space-y-3">
+          <span className="text-xs uppercase tracking-[0.25em] font-bold text-amber-800 bg-amber-100 px-3.5 py-1 rounded-full border border-amber-300 inline-block">
+            Seamless Devotee Journey
+          </span>
+          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-stone-900">
+            How We Serve You
+          </h2>
+          <p className="text-xs sm:text-sm text-stone-600 font-medium">
+            Simple steps to receive divine blessings
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[
+            {
+              step: "1",
+              number: "01",
+              emoji: "🙏",
+              title: "Choose Service",
+              desc: "Select from our range of authentic temple services and pujas",
+            },
+            {
+              step: "2",
+              number: "02",
+              emoji: "📅",
+              title: "Book Online",
+              desc: "Provide your details and preferred date/time for the ceremony",
+            },
+            {
+              step: "3",
+              number: "03",
+              emoji: "🕉️",
+              title: "Puja Performed",
+              desc: "Our experienced pandits perform the ritual with your name and gotra",
+            },
+            {
+              step: "4",
+              number: "04",
+              emoji: "🎁",
+              title: "Receive Blessings",
+              desc: "Get video recording and blessed prasad delivered to your home",
+            },
+          ].map((item) => (
+            <motion.div
+              key={item.step}
+              whileHover={{ y: -5, scale: 1.01 }}
+              transition={{ duration: 0.25 }}
+              className="group p-6 rounded-3xl border-2 border-amber-200/90 bg-gradient-to-br from-white via-amber-50/40 to-amber-100/30 shadow-md hover:border-amber-400 hover:shadow-xl transition-all duration-300 flex flex-col justify-between space-y-4 relative overflow-hidden"
+            >
+              <div className="flex items-center justify-between">
+                <div className="size-12 rounded-2xl bg-[#3C0F1A] text-2xl flex items-center justify-center shadow-md border border-[var(--gold)]/30 group-hover:scale-105 transition-transform">
+                  <span>{item.emoji}</span>
+                </div>
+                <span className="font-serif text-3xl font-bold text-amber-900/20 group-hover:text-amber-800/40 transition-colors">
+                  {item.number}
+                </span>
+              </div>
+
+              <div className="space-y-1.5">
+                <span className="text-[10px] uppercase font-bold tracking-widest text-amber-800 bg-amber-100 px-2.5 py-0.5 rounded-full inline-block border border-amber-200">
+                  Step {item.step}
+                </span>
+                <h3 className="font-serif text-lg font-bold text-stone-900">
+                  {item.title}
+                </h3>
+                <p className="text-xs text-stone-600 leading-relaxed font-normal">
+                  {item.desc}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* 11. Visit Contact Action */}
       <section className="py-24 px-4 text-center bg-amber-50">
         <h2 className="font-serif text-3xl sm:text-4xl text-amber-950 mb-6">Experience the Divine</h2>
         <Link
