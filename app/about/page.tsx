@@ -15,6 +15,9 @@ import {
   Eye,
   HeartHandshake,
   CheckCircle2,
+  MapPin,
+  Clock,
+  Sparkles,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -116,34 +119,89 @@ export default function AboutPage() {
       </section>
 
       {/* 6. Temple Information */}
-      <section className="py-24 px-4 sm:px-6 max-w-4xl mx-auto w-full">
-        <div className="border border-amber-900/10 p-8 sm:p-12 bg-white text-center">
-          <h2 className="text-xs uppercase tracking-[0.3em] font-bold text-amber-800 mb-10">
-            TEMPLE INFORMATION
+      <section className="py-16 sm:py-20 px-4 sm:px-6 max-w-5xl mx-auto w-full space-y-8">
+        <div className="text-center space-y-2">
+          <span className="text-xs uppercase tracking-[0.25em] font-bold text-amber-800 bg-amber-100 px-3.5 py-1 rounded-full border border-amber-300">
+            Visitor Information
+          </span>
+          <h2 className="font-serif text-3xl font-bold text-stone-900">
+            Temple Information
           </h2>
-          <div className="grid sm:grid-cols-3 gap-8">
-            <div>
-              <div className="text-xs uppercase tracking-widest text-amber-900/50 mb-2">Address</div>
-              <p className="text-sm font-medium text-stone-800">
-                Shri Ambabai Temple, Bhavani Mandap, <br />
-                Mahadwar Rd, B Ward, C Ward, <br />
-                Kolhapur, Maharashtra 416012
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Card 1: Address */}
+          <div className="p-6 rounded-3xl border-2 border-amber-200/90 bg-gradient-to-br from-white via-amber-50/40 to-amber-100/30 shadow-md hover:border-amber-400 hover:shadow-xl transition-all duration-300 text-center flex flex-col items-center justify-between space-y-4">
+            <div className="size-12 rounded-2xl bg-[#3C0F1A] text-[var(--gold)] flex items-center justify-center font-bold shadow-md border border-[var(--gold)]/30">
+              <MapPin className="size-6" />
+            </div>
+            <div className="space-y-1.5">
+              <span className="text-[10px] uppercase tracking-widest font-bold text-amber-800 block">
+                Address
+              </span>
+              <p className="text-xs text-stone-700 leading-relaxed font-medium">
+                Shri Ambabai Temple, Bhavani Mandap, Mahadwar Rd, B Ward, C Ward, Kolhapur, Maharashtra 416012
               </p>
             </div>
-            <div>
-              <div className="text-xs uppercase tracking-widest text-amber-900/50 mb-2">Temple Timings</div>
-              <p className="text-sm font-medium text-stone-800">
-                5:00 AM – 9:30 PM <br />
-                (Open Daily)
+            <a
+              href="https://www.google.com/maps/place/Shri+Ambabai+Temple,+Kolhapur/@17.6389066,72.7138336,8z/data=!4m22!1m15!4m14!1m6!1m2!1s0x3bc2b8c684c414d3:0x4756a62035babeb2!2sPimple+Gurav,+Pimpri-Chinchwad,+Maharashtra!2m2!1d73.8134424!2d18.5865962!1m6!1m2!1s0x3bc0555a31825e95:0x48d3dac4a165bedf!2sShri+Ambabai+Temple,+Kolhapur,+Bhavani+Mandap,+Mahadwar+Rd,+B+Ward,+C+Ward,+Kolhapur,+Maharashtra+416012!2m2!1d74.2226431!2d16.6948594!3m5!1s0x3bc0555a31825e95:0x48d3dac4a165bedf!8m2!3d16.6948594!4d74.2226431!16zL20vMDZqczNz?entry=ttu&g_ep=EgoyMDI2MTEyMy4wIKXMDSoASAFQAw%3D%3D"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-xs font-bold text-amber-800 hover:text-amber-950 underline decoration-amber-500/60"
+            >
+              <span>Get Directions</span>
+              <span>→</span>
+            </a>
+          </div>
+
+          {/* Card 2: Temple Timings */}
+          <div className="p-6 rounded-3xl border-2 border-amber-200/90 bg-gradient-to-br from-white via-amber-50/40 to-amber-100/30 shadow-md hover:border-amber-400 hover:shadow-xl transition-all duration-300 text-center flex flex-col items-center justify-between space-y-4">
+            <div className="size-12 rounded-2xl bg-[#3C0F1A] text-[var(--gold)] flex items-center justify-center font-bold shadow-md border border-[var(--gold)]/30">
+              <Clock className="size-6" />
+            </div>
+            <div className="space-y-1.5">
+              <span className="text-[10px] uppercase tracking-widest font-bold text-amber-800 block">
+                Temple Timings
+              </span>
+              <p className="font-serif text-lg font-bold text-stone-900">
+                5:00 AM – 10:00 PM
+              </p>
+              <p className="text-[11px] text-stone-500 font-medium">
+                Open Daily for Darshan &amp; Rituals
               </p>
             </div>
-            <div>
-              <div className="text-xs uppercase tracking-widest text-amber-900/50 mb-2">Presiding Deity</div>
-              <p className="text-sm font-medium text-stone-800">
-                Goddess Mahalaxmi <br />
-                (Ambabai)
+            <Link
+              href="/darshan-timings"
+              className="inline-flex items-center gap-1 text-xs font-bold text-amber-800 hover:text-amber-950 underline decoration-amber-500/60"
+            >
+              <span>View Aarti Timings</span>
+              <span>→</span>
+            </Link>
+          </div>
+
+          {/* Card 3: Presiding Deity */}
+          <div className="p-6 rounded-3xl border-2 border-amber-200/90 bg-gradient-to-br from-white via-amber-50/40 to-amber-100/30 shadow-md hover:border-amber-400 hover:shadow-xl transition-all duration-300 text-center flex flex-col items-center justify-between space-y-4">
+            <div className="size-12 rounded-2xl bg-[#3C0F1A] text-[var(--gold)] flex items-center justify-center font-bold shadow-md border border-[var(--gold)]/30">
+              <Sparkles className="size-6" />
+            </div>
+            <div className="space-y-1.5">
+              <span className="text-[10px] uppercase tracking-widest font-bold text-amber-800 block">
+                Presiding Deity
+              </span>
+              <p className="font-serif text-lg font-bold text-stone-900">
+                Goddess Mahalaxmi
+              </p>
+              <p className="text-[11px] text-stone-500 font-medium">
+                Karveer Nivasini Ambabai (Swayambhu)
               </p>
             </div>
+            <Link
+              href="/temple-history"
+              className="inline-flex items-center gap-1 text-xs font-bold text-amber-800 hover:text-amber-950 underline decoration-amber-500/60"
+            >
+              <span>Explore History</span>
+              <span>→</span>
+            </Link>
           </div>
         </div>
       </section>
