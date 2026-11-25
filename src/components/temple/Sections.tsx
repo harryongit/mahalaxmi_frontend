@@ -20,6 +20,7 @@ import {
 } from "react-icons/hi";
 import { IMG } from "./images";
 import Link from "next/link";
+import { Compass, Eye, HeartHandshake } from "lucide-react";
 import { Particles, Reveal, SectionEyebrow } from "./effects";
 import { useQuery } from "@tanstack/react-query";
 import { contentApi, serviceApi, getMediaUrl } from "@/src/lib/api";
@@ -48,8 +49,8 @@ export function About() {
       <div className="container-temple grid lg:grid-cols-2 gap-14 items-center relative">
         <motion.div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-[0_30px_80px_-30px_rgba(80,30,0,0.35)]">
           <motion.img
-            src={IMG.about}
-            alt="Temple interior, soft lamps glowing"
+            src={IMG.architecture}
+            alt="Temple architecture showcase"
             className="size-full object-cover"
             style={{ scale, y: ty }}
           />
@@ -78,27 +79,80 @@ export function About() {
           <Reveal delay={0.2}>
             <div className="mt-6 space-y-4 text-foreground/80 leading-relaxed max-w-xl text-sm sm:text-base font-medium">
               <p>
-                One of the most sacred Shakti Peethas in India, Shri Mahalaxmi Mandir in Kolhapur is dedicated to Goddess Mahalaxmi (Ambabai). The temple is renowned for its ancient heritage, spiritual significance, and the powerful deity who blesses devotees with prosperity and well-being.
+                Shri Ambabai Mahalaxmi Mandir, a revered Shakti Peetha in Kolhapur, blends centuries‑old heritage with vibrant devotion.
               </p>
-              <p>
-                The Mahalaxmi Temple of Kolhapur is one of the oldest and most significant temples in India. It is believed to have been originally built during the Chalukya period (7th century CE). The temple has been renovated and expanded over centuries by various dynasties including the Shilahara, Yadava, and Maratha rulers. It is one of the 51 Shakti Peethas and holds immense importance in Hindu tradition.
-              </p>
-              <p>
-                The idol of Mahalaxmi is believed to be self-manifested (Swayambhu). The temple is one of the six Mahalaxmi temples and is considered the most important. The annual Kirnotsav, where the rays of the setting sun fall directly on the face of the idol, is a unique natural phenomenon observed in January and November.
-              </p>
+              <Link href="/about" className="inline-block mt-4 py-2 px-5 rounded-full bg-gradient-to-r from-[var(--gold)] to-amber-500 text-white font-semibold hover:opacity-90">
+                Learn More About Us
+              </Link>
             </div>
           </Reveal>
 
-          <div className="mt-10 grid sm:grid-cols-3 gap-6">
+          <div className="mt-10 grid sm:grid-cols-3 gap-5 lg:gap-6">
             {[
-              { t: "Mission", d: "To preserve sacred tradition with grace and openness." },
-              { t: "Vision", d: "A spiritual home for every seeker, of every path." },
-              { t: "Values", d: "Reverence. Service. Compassion. Beauty." },
+              {
+                title: "Mission",
+                icon: Compass,
+                accent: "from-amber-500 via-yellow-400 to-amber-600",
+                iconColor: "text-amber-600 dark:text-amber-400",
+                badgeBg: "bg-amber-500/10 border-amber-500/25",
+                desc: "To preserve sacred tradition with grace and openness.",
+              },
+              {
+                title: "Vision",
+                icon: Eye,
+                accent: "from-orange-500 via-amber-500 to-orange-600",
+                iconColor: "text-orange-600 dark:text-orange-400",
+                badgeBg: "bg-orange-500/10 border-orange-500/25",
+                desc: "A spiritual home for every seeker, of every path.",
+              },
+              {
+                title: "Values",
+                icon: HeartHandshake,
+                accent: "from-rose-500 via-red-500 to-amber-500",
+                iconColor: "text-[var(--maroon)] dark:text-rose-400",
+                badgeBg: "bg-rose-500/10 border-rose-500/25",
+                desc: "Reverence. Service. Compassion. Beauty.",
+                tags: ["Reverence", "Service", "Compassion", "Beauty"],
+              },
             ].map((b, i) => (
-              <Reveal key={b.t} delay={0.3 + i * 0.08}>
-                <div className="rounded-2xl p-5 bg-card border border-border hover-lift">
-                  <div className="font-serif text-xl text-[var(--maroon)]">{b.t}</div>
-                  <p className="mt-2 text-sm text-foreground/70">{b.d}</p>
+              <Reveal key={b.title} delay={0.3 + i * 0.08}>
+                <div className="relative group h-full rounded-2xl p-5 sm:p-6 bg-gradient-to-b from-card via-card to-[color-mix(in_oklab,var(--gold)_8%,transparent)] border border-border/80 hover:border-[var(--gold)]/70 shadow-sm hover:shadow-[0_12px_32px_-8px_rgba(212,160,60,0.22)] transition-all duration-300 flex flex-col justify-between overflow-hidden hover:-translate-y-1">
+                  {/* Decorative top accent glow */}
+                  <div
+                    className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${b.accent} opacity-80 group-hover:opacity-100 transition-opacity`}
+                  />
+
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className={`size-11 rounded-xl ${b.badgeBg} ${b.iconColor} border flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-sm`}>
+                        <b.icon className="size-5" />
+                      </div>
+                      <span className="text-[10px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded-full bg-muted/70 text-muted-foreground border border-border/50">
+                        Sanctuary
+                      </span>
+                    </div>
+
+                    <h3 className="font-serif text-xl sm:text-2xl font-bold text-[var(--maroon)] dark:text-amber-300 tracking-wide">
+                      {b.title}
+                    </h3>
+
+                    {b.tags ? (
+                      <div className="mt-3 flex flex-wrap gap-1.5">
+                        {b.tags.map((tag) => (
+                          <span
+                            key={tag}
+                            className="px-2.5 py-1 rounded-md text-xs font-medium bg-amber-500/10 text-amber-900 dark:text-amber-200 border border-amber-500/25 shadow-2xs"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="mt-3 text-sm text-foreground/80 leading-relaxed font-normal">
+                        {b.desc}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </Reveal>
             ))}
