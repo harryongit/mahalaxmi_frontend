@@ -20,7 +20,7 @@ import {
 } from "react-icons/hi";
 import { IMG } from "./images";
 import Link from "next/link";
-import { Compass, Eye, HeartHandshake } from "lucide-react";
+import { Compass, Eye, HeartHandshake, ArrowRight } from "lucide-react";
 import { Particles, Reveal, SectionEyebrow } from "./effects";
 import { useQuery } from "@tanstack/react-query";
 import { contentApi, serviceApi, getMediaUrl } from "@/src/lib/api";
@@ -77,86 +77,63 @@ export function About() {
             </h2>
           </Reveal>
           <Reveal delay={0.2}>
-            <div className="mt-6 space-y-4 text-foreground/80 leading-relaxed max-w-xl text-sm sm:text-base font-medium">
-              <p>
-                Shri Ambabai Mahalaxmi Mandir, a revered Shakti Peetha in Kolhapur, blends centuries‑old heritage with vibrant devotion.
-              </p>
-              <Link href="/about" className="inline-block mt-4 py-2 px-5 rounded-full bg-gradient-to-r from-[var(--gold)] to-amber-500 text-white font-semibold hover:opacity-90">
-                Learn More About Us
-              </Link>
-            </div>
+            <p className="mt-6 text-foreground/80 leading-relaxed max-w-xl text-base sm:text-lg">
+              Shri Ambabai Mahalaxmi Mandir, a revered Shakti Peetha in Kolhapur, blends centuries‑old heritage with vibrant devotion.
+            </p>
           </Reveal>
 
-          <div className="mt-10 grid sm:grid-cols-3 gap-5 lg:gap-6">
+          {/* Mission, Vision, Values - Elegant Feature Stack */}
+          <div className="mt-8 space-y-3.5 max-w-xl">
             {[
               {
                 title: "Mission",
                 icon: Compass,
-                accent: "from-amber-500 via-yellow-400 to-amber-600",
-                iconColor: "text-amber-600 dark:text-amber-400",
-                badgeBg: "bg-amber-500/10 border-amber-500/25",
+                badgeBg: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
                 desc: "To preserve sacred tradition with grace and openness.",
               },
               {
                 title: "Vision",
                 icon: Eye,
-                accent: "from-orange-500 via-amber-500 to-orange-600",
-                iconColor: "text-orange-600 dark:text-orange-400",
-                badgeBg: "bg-orange-500/10 border-orange-500/25",
+                badgeBg: "bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/20",
                 desc: "A spiritual home for every seeker, of every path.",
               },
               {
                 title: "Values",
                 icon: HeartHandshake,
-                accent: "from-rose-500 via-red-500 to-amber-500",
-                iconColor: "text-[var(--maroon)] dark:text-rose-400",
-                badgeBg: "bg-rose-500/10 border-rose-500/25",
-                desc: "Reverence. Service. Compassion. Beauty.",
-                tags: ["Reverence", "Service", "Compassion", "Beauty"],
+                badgeBg: "bg-rose-500/10 text-[var(--maroon)] dark:text-rose-400 border-rose-500/20",
+                desc: "Reverence, Service, Compassion, and Beauty.",
               },
-            ].map((b, i) => (
-              <Reveal key={b.title} delay={0.3 + i * 0.08}>
-                <div className="relative group h-full rounded-2xl p-5 sm:p-6 bg-gradient-to-b from-card via-card to-[color-mix(in_oklab,var(--gold)_8%,transparent)] border border-border/80 hover:border-[var(--gold)]/70 shadow-sm hover:shadow-[0_12px_32px_-8px_rgba(212,160,60,0.22)] transition-all duration-300 flex flex-col justify-between overflow-hidden hover:-translate-y-1">
-                  {/* Decorative top accent glow */}
-                  <div
-                    className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${b.accent} opacity-80 group-hover:opacity-100 transition-opacity`}
-                  />
-
-                  <div>
-                    <div className="flex items-center justify-between mb-4">
-                      <div className={`size-11 rounded-xl ${b.badgeBg} ${b.iconColor} border flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-sm`}>
-                        <b.icon className="size-5" />
-                      </div>
-                      <span className="text-[10px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded-full bg-muted/70 text-muted-foreground border border-border/50">
-                        Sanctuary
-                      </span>
-                    </div>
-
-                    <h3 className="font-serif text-xl sm:text-2xl font-bold text-[var(--maroon)] dark:text-amber-300 tracking-wide">
-                      {b.title}
-                    </h3>
-
-                    {b.tags ? (
-                      <div className="mt-3 flex flex-wrap gap-1.5">
-                        {b.tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="px-2.5 py-1 rounded-md text-xs font-medium bg-amber-500/10 text-amber-900 dark:text-amber-200 border border-amber-500/25 shadow-2xs"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="mt-3 text-sm text-foreground/80 leading-relaxed font-normal">
-                        {b.desc}
-                      </p>
-                    )}
+            ].map((item, i) => (
+              <Reveal key={item.title} delay={0.25 + i * 0.08}>
+                <div className="group flex items-center gap-4 p-4 rounded-2xl bg-card/70 hover:bg-card border border-border/80 hover:border-[var(--gold)]/60 shadow-2xs hover:shadow-md transition-all duration-300">
+                  <div className={`size-11 rounded-xl shrink-0 ${item.badgeBg} border flex items-center justify-center group-hover:scale-105 transition-transform duration-300 shadow-2xs`}>
+                    <item.icon className="size-5" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <span className="font-serif text-lg font-bold text-[var(--maroon)] dark:text-amber-300 tracking-wide">
+                      {item.title}
+                    </span>
+                    <p className="text-sm text-foreground/75 leading-relaxed mt-0.5">
+                      {item.desc}
+                    </p>
                   </div>
                 </div>
               </Reveal>
             ))}
           </div>
+
+          {/* CTA Link to About page */}
+          <Reveal delay={0.5}>
+            <div className="mt-9">
+              <Link
+                href="/about"
+                className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-gradient-to-r from-[var(--gold)] via-amber-500 to-amber-600 text-stone-900 font-semibold shadow-md hover:shadow-lg hover:brightness-105 active:scale-98 transition-all duration-200"
+              >
+                <span>Learn More About Us</span>
+                <ArrowRight className="size-4" />
+              </Link>
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>
