@@ -24,51 +24,58 @@ export function MusicPlayer() {
     audio.addEventListener("playing", handlePlay);
     audio.addEventListener("pause", handlePause);
 
-    // 1. Try immediate unmuted autoplay
-    const playPromise = audio.play();
-    if (playPromise !== undefined) {
-      playPromise
-        .then(() => {
-          setIsPlaying(true);
-        })
-        .catch(() => {
-          // Browser autoplay policy blocked unmuted sound on direct load.
-          // Listen to the very first user interaction anywhere on the screen to trigger sound.
-          const triggerEvents = [
-            "click",
-            "pointerdown",
-            "touchstart",
-            "touchend",
-            "scroll",
-            "wheel",
-            "keydown",
-          ];
+    // If devotee previously explicitly paused audio, respect their preference
+    const explicitlyPaused =
+      typeof window !== "undefined" &&
+      localStorage.getItem("mahalaxmi_music_disabled") === "true";
 
-          const unlockOnInteraction = () => {
-            if (audioRef.current && audioRef.current.paused) {
-              audioRef.current
-                .play()
-                .then(() => {
-                  setIsPlaying(true);
-                  cleanup();
-                })
-                .catch(() => {});
-            }
-          };
+    if (!explicitlyPaused) {
+      // 1. Try immediate unmuted autoplay
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setIsPlaying(true);
+          })
+          .catch(() => {
+            // Browser autoplay policy blocked unmuted sound on direct load.
+            // Listen to the very first user interaction anywhere on the screen to trigger sound.
+            const triggerEvents = [
+              "click",
+              "pointerdown",
+              "touchstart",
+              "touchend",
+              "scroll",
+              "wheel",
+              "keydown",
+            ];
 
-          const cleanup = () => {
+            const unlockOnInteraction = () => {
+              if (audioRef.current && audioRef.current.paused) {
+                audioRef.current
+                  .play()
+                  .then(() => {
+                    setIsPlaying(true);
+                    cleanup();
+                  })
+                  .catch(() => {});
+              }
+            };
+
+            const cleanup = () => {
+              triggerEvents.forEach((evt) => {
+                window.removeEventListener(evt, unlockOnInteraction);
+              });
+            };
+
             triggerEvents.forEach((evt) => {
-              window.removeEventListener(evt, unlockOnInteraction);
-            });
-          };
-
-          triggerEvents.forEach((evt) => {
-            window.addEventListener(evt, unlockOnInteraction, {
-              once: true,
-              passive: true,
+              window.addEventListener(evt, unlockOnInteraction, {
+                once: true,
+                passive: true,
+              });
             });
           });
-        });
+      }
     }
 
     return () => {
@@ -83,6 +90,9 @@ export function MusicPlayer() {
     if (!audio) return;
 
     if (audio.paused) {
+      try {
+        localStorage.removeItem("mahalaxmi_music_disabled");
+      } catch {}
       audio
         .play()
         .then(() => setIsPlaying(true))
@@ -90,6 +100,9 @@ export function MusicPlayer() {
           console.warn("Audio playback error:", err);
         });
     } else {
+      try {
+        localStorage.setItem("mahalaxmi_music_disabled", "true");
+      } catch {}
       audio.pause();
       setIsPlaying(false);
     }

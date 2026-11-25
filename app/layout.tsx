@@ -81,6 +81,7 @@ export const metadata: Metadata = {
 };
 
 import { AnalyticsTracker } from "@/src/components/AnalyticsTracker";
+import { MusicPlayer } from "@/src/components/temple/MusicPlayer";
 
 const templeSchema = {
   "@context": "https://schema.org",
@@ -176,7 +177,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-background text-foreground antialiased">
         <Toaster richColors position="top-right" />
         <AnalyticsTracker />
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <MusicPlayer />
+        </Providers>
         <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
       </body>
     </html>

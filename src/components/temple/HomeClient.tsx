@@ -16,7 +16,6 @@ import { ShreepujakSection } from "@/src/components/temple/ShreepujakSection";
 import { WhyTrustUs } from "@/src/components/temple/WhyTrustUs";
 import { ContactSection } from "@/src/components/temple/ContactSection";
 import { Footer } from "@/src/components/temple/Footer";
-import { MusicPlayer } from "@/src/components/temple/MusicPlayer";
 
 export function HomeClient({
   initialTestimonials,
@@ -59,9 +58,6 @@ export function HomeClient({
 
         {/* 9. Footer */}
         <Footer />
-
-        {/* 10. Ambient Divine Temple Chants Player (Bottom-Right) */}
-        <MusicPlayer />
       </main>
     </>
   );

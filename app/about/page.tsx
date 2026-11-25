@@ -10,7 +10,6 @@ import {
   MapPin,
   Clock,
   Sparkles,
-  Heart,
   CalendarCheck,
   Flame,
   Gift,
@@ -107,122 +106,30 @@ export default function AboutPage() {
       {/* 1. Immersive Temple Hero */}
       <AboutHeroCanvas />
 
-      {/* 2. Our Sacred Journey: Bridging Devotion & Divine Grace */}
-      <section className="py-20 sm:py-28 px-4 sm:px-6 max-w-6xl mx-auto w-full space-y-12">
-        {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto space-y-3">
-          <span className="text-[11px] uppercase tracking-[0.25em] font-bold text-amber-900 bg-amber-100/90 border border-amber-300/80 px-4 py-1.5 rounded-full inline-flex items-center gap-1.5 shadow-2xs">
-            <Sparkles className="size-3.5 text-amber-700" />
-            <span>Our Sacred Journey</span>
+      {/* 2. Our Sacred Journey */}
+      <section className="py-20 sm:py-28 px-4 sm:px-6 max-w-4xl mx-auto w-full text-center space-y-8">
+        <div className="space-y-3">
+          <span className="text-[11px] uppercase tracking-[0.25em] font-bold text-amber-900 bg-amber-100/90 border border-amber-300/80 px-4 py-1.5 rounded-full inline-block shadow-2xs">
+            Our Sacred Journey
           </span>
-          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-amber-950 leading-tight">
+          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-amber-950 leading-tight">
             Bridging Devotion &amp; Divine Grace
           </h2>
-          <p className="text-xs sm:text-sm text-amber-900/80 font-medium max-w-xl mx-auto">
+          <p className="text-sm sm:text-base text-amber-900/80 font-medium max-w-2xl mx-auto">
             Connecting devotees worldwide to Goddess Shree Mahalaxmi Ambabai.
           </p>
         </div>
 
-        {/* 3 Balanced Sacred Story Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-          {/* Card 1: The Founding Vision */}
-          <motion.div
-            whileHover={{ y: -6 }}
-            transition={{ duration: 0.25 }}
-            className="p-7 sm:p-8 rounded-3xl bg-white/90 border border-amber-200/90 shadow-sm hover:border-amber-400 hover:shadow-xl transition-all duration-300 flex flex-col justify-between space-y-5 relative overflow-hidden"
-          >
-            <div className="flex items-center justify-between">
-              <div className="size-13 rounded-2xl bg-[#3C0F1A] text-[var(--gold)] flex items-center justify-center font-bold shadow-md border border-[var(--gold)]/30">
-                <Sparkles className="size-6" />
-              </div>
-              <span className="font-serif text-4xl font-bold text-amber-900/15">
-                01
-              </span>
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-[10px] uppercase font-bold tracking-widest text-amber-800 bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-200">
-                  Divine Vision
-                </span>
-                <span className="text-xs text-amber-900/60 font-serif">
-                  दृष्टी व संकल्प
-                </span>
-              </div>
-              <h3 className="font-serif text-xl font-bold text-amber-950 pt-1">
-                A Sacred Beginning
-              </h3>
-              <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-normal">
-                MahalaxmiPuja was born from a vision to bring divine blessing to devotees who can not visit physically, in a virtual format, by using modern technology.
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Card 2: Zero Distance */}
-          <motion.div
-            whileHover={{ y: -6 }}
-            transition={{ duration: 0.25 }}
-            className="p-7 sm:p-8 rounded-3xl bg-white/90 border border-amber-200/90 shadow-sm hover:border-amber-400 hover:shadow-xl transition-all duration-300 flex flex-col justify-between space-y-5 relative overflow-hidden"
-          >
-            <div className="flex items-center justify-between">
-              <div className="size-13 rounded-2xl bg-[#3C0F1A] text-[var(--gold)] flex items-center justify-center font-bold shadow-md border border-[var(--gold)]/30">
-                <Heart className="size-6" />
-              </div>
-              <span className="font-serif text-4xl font-bold text-amber-900/15">
-                02
-              </span>
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-[10px] uppercase font-bold tracking-widest text-amber-800 bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-200">
-                  Transcending Distance
-                </span>
-                <span className="text-xs text-amber-900/60 font-serif">
-                  अखंड भक्ती
-                </span>
-              </div>
-              <h3 className="font-serif text-xl font-bold text-amber-950 pt-1">
-                Devotion Without Boundaries
-              </h3>
-              <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-normal">
-                We believe that distance should never be a barrier to seeking divine blessings. Through our innovative online platform, we bring the sacred rituals of Shree Mahalaxmi Ambabai directly to your homes, maintaining the authenticity and sanctity of traditional temple worship.
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Card 3: Vedic Authenticity */}
-          <motion.div
-            whileHover={{ y: -6 }}
-            transition={{ duration: 0.25 }}
-            className="p-7 sm:p-8 rounded-3xl bg-white/90 border border-amber-200/90 shadow-sm hover:border-amber-400 hover:shadow-xl transition-all duration-300 flex flex-col justify-between space-y-5 relative overflow-hidden"
-          >
-            <div className="flex items-center justify-between">
-              <div className="size-13 rounded-2xl bg-[#3C0F1A] text-[var(--gold)] flex items-center justify-center font-bold shadow-md border border-[var(--gold)]/30">
-                <Flame className="size-6" />
-              </div>
-              <span className="font-serif text-4xl font-bold text-amber-900/15">
-                03
-              </span>
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-[10px] uppercase font-bold tracking-widest text-amber-800 bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-200">
-                  Vedic Tradition
-                </span>
-                <span className="text-xs text-amber-900/60 font-serif">
-                  वैदिक परंपरा
-                </span>
-              </div>
-              <h3 className="font-serif text-xl font-bold text-amber-950 pt-1">
-                Dedication &amp; Sanctity
-              </h3>
-              <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-normal">
-                Our experienced pandits perform each puja with complete dedication and devotion, ensuring that every ritual follows the ancient Vedic traditions. From simple offerings to elaborate ceremonies, we treat each service with equal reverence and care.
-              </p>
-            </div>
-          </motion.div>
+        <div className="space-y-6 text-sm sm:text-base text-stone-700 leading-relaxed max-w-3xl mx-auto text-left bg-white/80 border border-amber-200/90 p-8 sm:p-10 rounded-3xl shadow-sm">
+          <p className="font-serif text-lg text-amber-950/90 leading-relaxed italic border-l-4 border-[var(--gold)] pl-4">
+            MahalaxmiPuja was born from a vision to bring divine blessing to devotees who can not visit physically, in a virtual format, by using modern technology.
+          </p>
+          <p>
+            We believe that distance should never be a barrier to seeking divine blessings. Through our innovative online platform, we bring the sacred rituals of Shree Mahalaxmi Ambabai directly to your homes, maintaining the authenticity and sanctity of traditional temple worship.
+          </p>
+          <p>
+            Our experienced pandits perform each puja with complete dedication and devotion, ensuring that every ritual follows the ancient Vedic traditions. From simple offerings to elaborate ceremonies, we treat each service with equal reverence and care.
+          </p>
         </div>
       </section>
 
