@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLenis } from "@/src/lib/use-lenis";
 import { Navbar } from "@/src/components/temple/Navbar";
 import { Footer } from "@/src/components/temple/Footer";
@@ -27,51 +27,83 @@ import {
   Package,
   ZoomIn,
   X,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import Link from "next/link";
 
 const VINTAGE_PHOTOS = [
   {
-    src: "/assets/gallery/IMG-20261007-WA0081.jpg",
-    title: "Mata Ambabai Swayambhu Vigraha",
-    caption: "Divine Golden Alankar Darshan",
+    src: "/assets/gallery/IMG-20261009-WA0014.jpg",
+    title: "Shree Ambabai Mandir Shikhara",
+    marathi: "श्री अंबाबाई मंदिर शिखर दर्शन",
+    tag: "Temple Architecture",
+    caption: "Grand illuminated Hemadpanthi temple spires crowned with golden kalash at night.",
     tilt: "sm:-rotate-1",
   },
   {
-    src: "/assets/gallery/IMG-20261010-WA0057.jpg",
-    title: "Historic Temple Gopuram",
-    caption: "Evening Illumination, 7th Century Complex",
-    tilt: "sm:rotate-2",
+    src: "/assets/gallery/IMG-20261007-WA0096.jpg",
+    title: "Suvarna Alankar & Mukut",
+    marathi: "श्री महालक्ष्मी सुवर्ण अलंकार",
+    tag: "Royal Regalia",
+    caption: "Sacred gold crown, Kolhapuri saaj necklaces, royal simha crest, and paduka.",
+    tilt: "sm:rotate-1.5",
   },
   {
-    src: "/assets/gallery/IMG-20261007-WA0037.jpg",
-    title: "Garbhagriha Inner Sanctum",
-    caption: "Sacred Inner Chamber & Silver Threshold",
-    tilt: "sm:-rotate-2",
-  },
-  {
-    src: "/assets/gallery/IMG-20261010-WA0072.jpg",
-    title: "Ancient Hemadpanthi Carvings",
-    caption: "Monolithic Stone Pillars & Sculptures",
-    tilt: "sm:rotate-1",
-  },
-  {
-    src: "/assets/gallery/IMG-20261009-WA0014.jpg",
-    title: "Sacred Deepotsav Courtyard",
-    caption: "Festival of Divine Lamps & Devotees",
+    src: "/assets/gallery/IMG-20261007-WA0097.jpg",
+    title: "Ratnajadit Mukut Jal-Abhishek",
+    marathi: "रत्नजडित मुकुट अभिषेक",
+    tag: "Ritual Seva",
+    caption: "Holy water ablution and purification of the gemstone-studded golden crown.",
     tilt: "sm:-rotate-1.5",
   },
   {
-    src: "/assets/gallery/IMG-20261007-WA0065.jpg",
-    title: "Traditional Rathotsav Procession",
-    caption: "Centuries-Old Royal Chariot Utsav",
+    src: "/assets/gallery/IMG-20261007-WA0058.jpg",
+    title: "Suvarna Prabhavali Cleansing",
+    marathi: "सुवर्ण प्रभावळ स्नान सेवा",
+    tag: "Shreepujak Seva",
+    caption: "Hereditary priests performing holy bath of the golden Sheshnag arch.",
+    tilt: "sm:rotate-1",
+  },
+  {
+    src: "/assets/gallery/IMG-20261010-WA0057.jpg",
+    title: "Hemadpanthi Stambha Mandap",
+    marathi: "प्राचीन स्तंभ मंडप",
+    tag: "Sanctum Architecture",
+    caption: "Carved black basalt monolithic stone pillars inside the 7th-century complex.",
+    tilt: "sm:-rotate-1",
+  },
+  {
+    src: "/assets/gallery/IMG-20261010-WA0072.jpg",
+    title: "Dev-Koshta Stone Sculptures",
+    marathi: "मंदिर बाह्य भिंतीवरील देवकोष्ट मूर्ती",
+    tag: "Heritage Carvings",
+    caption: "Illuminated exterior stone wall niches and historic carvings of deities.",
     tilt: "sm:rotate-1.5",
   },
 ];
 
 export default function AboutPage() {
   useLenis();
-  const [activePhoto, setActivePhoto] = useState<typeof VINTAGE_PHOTOS[0] | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+  // Keyboard navigation for image lightbox preview
+  useEffect(() => {
+    if (activeIndex === null) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setActiveIndex(null);
+      } else if (e.key === "ArrowRight") {
+        setActiveIndex((prev) => (prev !== null ? (prev + 1) % VINTAGE_PHOTOS.length : null));
+      } else if (e.key === "ArrowLeft") {
+        setActiveIndex((prev) =>
+          prev !== null ? (prev - 1 + VINTAGE_PHOTOS.length) % VINTAGE_PHOTOS.length : null
+        );
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [activeIndex]);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FCF9F3] text-stone-900">
@@ -129,10 +161,10 @@ export default function AboutPage() {
             {VINTAGE_PHOTOS.map((photo, i) => (
               <motion.div
                 key={i}
-                whileHover={{ y: -8, scale: 1.02 }}
+                whileHover={{ y: -6, scale: 1.015 }}
                 transition={{ duration: 0.25 }}
-                onClick={() => setActivePhoto(photo)}
-                className={`group cursor-pointer bg-[#FFFDF9] p-3.5 sm:p-4 pb-6 sm:pb-7 rounded-2xl border-2 border-amber-200/90 shadow-md hover:shadow-2xl hover:border-amber-400 transition-all duration-300 relative ${photo.tilt} hover:rotate-0 hover:z-20`}
+                onClick={() => setActiveIndex(i)}
+                className={`group cursor-pointer bg-[#FFFDF9] p-3.5 sm:p-4 pb-5 sm:pb-6 rounded-2xl border border-amber-200/90 shadow-sm hover:shadow-xl hover:border-amber-400 transition-all duration-300 relative ${photo.tilt} hover:rotate-0 hover:z-20`}
               >
                 {/* Vintage Tape Pin on Top */}
                 <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 w-14 h-4 bg-amber-200/60 backdrop-blur-xs border-x border-amber-300/80 -rotate-1 shadow-2xs pointer-events-none z-10" />
@@ -142,30 +174,36 @@ export default function AboutPage() {
                   <img
                     src={photo.src}
                     alt={photo.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 filter sepia-[0.10] contrast-[1.03]"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 filter sepia-[0.08] contrast-[1.03]"
                   />
-                  {/* Subtle Grain & Hover Shimmer Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
-                    <span className="text-[11px] text-white font-medium flex items-center gap-1 drop-shadow-sm">
-                      <ZoomIn className="size-3.5" />
-                      <span>Click to view photo</span>
+                  {/* Subtle Hover Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-between p-3">
+                    <span className="text-[11px] text-white font-medium flex items-center gap-1.5 bg-black/60 px-2.5 py-1 rounded-full backdrop-blur-xs border border-white/20">
+                      <ZoomIn className="size-3.5 text-amber-300" />
+                      <span>Click to preview</span>
+                    </span>
+                    <span className="text-[10px] text-amber-200/90 font-mono">
+                      #{i + 1}
                     </span>
                   </div>
                 </div>
 
-                {/* Vintage Handwritten / Serif Caption */}
-                <div className="pt-3.5 px-1 flex items-start justify-between gap-2">
-                  <div>
-                    <h3 className="font-serif text-base font-bold text-stone-900 group-hover:text-amber-900 transition-colors">
-                      {photo.title}
-                    </h3>
-                    <p className="text-xs text-amber-900/70 font-serif italic mt-0.5">
-                      {photo.caption}
-                    </p>
+                {/* Card Details with accurate title, marathi name & caption */}
+                <div className="pt-3.5 px-1 space-y-1">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-[10px] uppercase font-bold tracking-wider text-amber-800 bg-amber-100 px-2 py-0.5 rounded border border-amber-200/80">
+                      {photo.tag}
+                    </span>
+                    <span className="text-[11px] text-amber-900/60 font-serif">
+                      {photo.marathi}
+                    </span>
                   </div>
-                  <span className="text-[10px] font-mono font-bold text-amber-900/50 bg-amber-100/70 px-2 py-0.5 rounded-md border border-amber-200/60 shrink-0">
-                    #{i + 1}
-                  </span>
+                  <h3 className="font-serif text-base font-bold text-stone-900 group-hover:text-amber-900 transition-colors pt-0.5">
+                    {photo.title}
+                  </h3>
+                  <p className="text-xs text-stone-600 line-clamp-2 leading-relaxed">
+                    {photo.caption}
+                  </p>
                 </div>
               </motion.div>
             ))}
@@ -185,42 +223,118 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Lightbox Modal for Full View */}
-      {activePhoto && (
+      {/* Modern Lightbox Preview for Full View */}
+      {activeIndex !== null && (
         <div
-          onClick={() => setActivePhoto(null)}
-          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 cursor-pointer"
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setActiveIndex(null)}
+          className="fixed inset-0 z-50 bg-stone-950/95 backdrop-blur-md flex flex-col justify-between items-center p-3 sm:p-6 transition-all select-none"
         >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
+          {/* Top Control Bar */}
+          <div
             onClick={(e) => e.stopPropagation()}
-            className="relative max-w-4xl w-full bg-[#FAF7F2] p-4 sm:p-6 rounded-3xl shadow-2xl border-2 border-amber-300 space-y-4"
+            className="w-full max-w-5xl flex items-center justify-between gap-4 z-20"
           >
+            <div className="flex items-center gap-2.5">
+              <span className="text-[11px] sm:text-xs font-mono font-bold tracking-wider text-amber-300 bg-amber-950/70 border border-amber-500/30 px-3 py-1 rounded-full shadow-inner">
+                {activeIndex + 1} / {VINTAGE_PHOTOS.length}
+              </span>
+              <span className="text-xs uppercase tracking-wider font-semibold text-stone-300 hidden sm:inline-block bg-white/5 border border-white/10 px-3 py-1 rounded-full">
+                {VINTAGE_PHOTOS[activeIndex].tag}
+              </span>
+            </div>
+
             <button
-              onClick={() => setActivePhoto(null)}
-              className="absolute top-4 right-4 size-10 rounded-full bg-stone-900/80 hover:bg-stone-900 text-white flex items-center justify-center cursor-pointer transition-colors shadow-md z-10"
-              title="Close"
+              onClick={() => setActiveIndex(null)}
+              className="size-10 sm:size-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all border border-white/20 cursor-pointer hover:scale-105 active:scale-95 shadow-lg"
+              title="Close (Esc)"
             >
               <X className="size-5" />
             </button>
-            <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-stone-950 border border-stone-200">
+          </div>
+
+          {/* Central Image & Left/Right Arrows */}
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative flex-1 w-full max-w-5xl flex items-center justify-center my-2 sm:my-3 min-h-0"
+          >
+            {/* Prev Button */}
+            <button
+              onClick={() =>
+                setActiveIndex((prev) =>
+                  prev !== null ? (prev - 1 + VINTAGE_PHOTOS.length) % VINTAGE_PHOTOS.length : null
+                )
+              }
+              className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 size-10 sm:size-12 rounded-full bg-black/60 hover:bg-amber-600 text-white flex items-center justify-center transition-all border border-white/20 cursor-pointer hover:scale-110 active:scale-95 backdrop-blur-sm shadow-2xl z-20"
+              title="Previous Photo (Left Arrow)"
+            >
+              <ChevronLeft className="size-5 sm:size-6" />
+            </button>
+
+            {/* Main High-Res Image */}
+            <motion.div
+              key={activeIndex}
+              initial={{ opacity: 0, scale: 0.97 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.2 }}
+              className="relative max-h-full flex items-center justify-center p-1"
+            >
               <img
-                src={activePhoto.src}
-                alt={activePhoto.title}
-                className="w-full h-full object-contain"
+                src={VINTAGE_PHOTOS[activeIndex].src}
+                alt={VINTAGE_PHOTOS[activeIndex].title}
+                className="max-h-[66vh] sm:max-h-[72vh] w-auto max-w-full object-contain rounded-xl sm:rounded-2xl shadow-2xl border border-white/15 ring-1 ring-amber-500/20"
               />
-            </div>
-            <div className="text-center space-y-1">
-              <h3 className="font-serif text-xl sm:text-2xl font-bold text-stone-900">
-                {activePhoto.title}
+            </motion.div>
+
+            {/* Next Button */}
+            <button
+              onClick={() =>
+                setActiveIndex((prev) =>
+                  prev !== null ? (prev + 1) % VINTAGE_PHOTOS.length : null
+                )
+              }
+              className="absolute right-1 sm:right-4 top-1/2 -translate-y-1/2 size-10 sm:size-12 rounded-full bg-black/60 hover:bg-amber-600 text-white flex items-center justify-center transition-all border border-white/20 cursor-pointer hover:scale-110 active:scale-95 backdrop-blur-sm shadow-2xl z-20"
+              title="Next Photo (Right Arrow)"
+            >
+              <ChevronRight className="size-5 sm:size-6" />
+            </button>
+          </div>
+
+          {/* Bottom Information Card & Dots */}
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-2xl bg-stone-900/90 border border-amber-500/25 backdrop-blur-md rounded-2xl px-5 sm:px-7 py-3 sm:py-3.5 text-center space-y-1.5 shadow-2xl z-20"
+          >
+            <div className="flex items-center justify-center flex-wrap gap-x-2 gap-y-0.5">
+              <h3 className="text-base sm:text-lg font-serif font-bold text-amber-100">
+                {VINTAGE_PHOTOS[activeIndex].title}
               </h3>
-              <p className="text-xs sm:text-sm text-amber-900/70 font-serif italic">
-                {activePhoto.caption}
-              </p>
+              <span className="text-xs sm:text-sm text-amber-400 font-medium font-serif">
+                ({VINTAGE_PHOTOS[activeIndex].marathi})
+              </span>
             </div>
-          </motion.div>
+
+            <p className="text-xs sm:text-sm text-stone-300 leading-relaxed font-light">
+              {VINTAGE_PHOTOS[activeIndex].caption}
+            </p>
+
+            {/* Navigation Dots */}
+            <div className="flex items-center justify-center gap-1.5 pt-1">
+              {VINTAGE_PHOTOS.map((_, dotIdx) => (
+                <button
+                  key={dotIdx}
+                  onClick={() => setActiveIndex(dotIdx)}
+                  className={`h-1.5 rounded-full transition-all cursor-pointer ${
+                    dotIdx === activeIndex
+                      ? "w-6 bg-amber-400"
+                      : "w-1.5 bg-white/25 hover:bg-white/50"
+                  }`}
+                  title={`View photo ${dotIdx + 1}`}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       )}
 
