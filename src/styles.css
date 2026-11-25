@@ -35,7 +35,10 @@
   --color-maroon: var(--maroon);
   --color-stone-deep: var(--stone-deep);
   --font-serif: "Cormorant Garamond", ui-serif, Georgia, serif;
-  --font-display: "Cormorant Garamond", ui-serif, Georgia, serif;
+  --font-display: "Playfair Display", "Cinzel", Georgia, serif;
+  --font-playfair: "Playfair Display", Georgia, serif;
+  --font-cinzel: "Cinzel", serif;
+  --font-cinzel-dec: "Cinzel Decorative", "Cinzel", serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -112,6 +115,18 @@
   @media (min-width: 640px) {
     padding-inline: 1.5rem;
   }
+}
+
+@utility font-playfair {
+  font-family: var(--font-playfair);
+}
+
+@utility font-cinzel {
+  font-family: var(--font-cinzel);
+}
+
+@utility font-cinzel-dec {
+  font-family: var(--font-cinzel-dec);
 }
 
 @utility text-gradient-gold {

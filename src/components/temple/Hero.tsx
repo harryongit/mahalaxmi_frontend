@@ -186,7 +186,7 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="space-y-1"
           >
-            <h1 className="font-serif text-3xl sm:text-5xl lg:text-[56px] font-bold text-white tracking-tight leading-[1.14] drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
+            <h1 className="font-cinzel-dec text-2xl sm:text-4xl lg:text-[50px] font-bold text-white tracking-wide leading-[1.18] drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
               Shri Ambabai <br />
               <span className="text-gradient-gold">Mahalaxmi Mandir</span>
             </h1>
