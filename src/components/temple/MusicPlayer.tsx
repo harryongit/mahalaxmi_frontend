@@ -7,60 +7,71 @@ const AUDIO_SRC = "/assets/Ya Devi Sarvabhuteshu by Om Voices .mp3.mpeg";
 
 export function MusicPlayer() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [hasInteracted, setHasInteracted] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
+  // Default to ON as requested
+  const [isPlaying, setIsPlaying] = useState(true);
 
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    audio.volume = 0.65;
+    audio.volume = 0.7;
     audio.loop = true;
 
-    // Attempt direct autoplay
-    const attemptPlay = () => {
-      audio
-        .play()
+    const onPlay = () => setIsPlaying(true);
+    const onPause = () => setIsPlaying(false);
+
+    audio.addEventListener("play", onPlay);
+    audio.addEventListener("pause", onPause);
+
+    // 1. Attempt immediate unmuted play on load
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise
         .then(() => {
           setIsPlaying(true);
-          setHasInteracted(true);
         })
         .catch(() => {
-          // Autoplay blocked by browser policy - wait for first user gesture
-          setIsPlaying(false);
+          // If browser policy delays unmuted audio until user interaction,
+          // listen to any gentle user event to start playback immediately.
+          const triggerEvents = [
+            "pointerdown",
+            "pointermove",
+            "touchstart",
+            "touchend",
+            "scroll",
+            "wheel",
+            "click",
+            "keydown",
+            "focus",
+          ];
+
+          const unlockAndPlay = () => {
+            if (audioRef.current && audioRef.current.paused) {
+              audioRef.current
+                .play()
+                .then(() => {
+                  setIsPlaying(true);
+                  removeUnlockListeners();
+                })
+                .catch(() => {});
+            }
+          };
+
+          const removeUnlockListeners = () => {
+            triggerEvents.forEach((evt) => {
+              window.removeEventListener(evt, unlockAndPlay);
+            });
+          };
+
+          triggerEvents.forEach((evt) => {
+            window.addEventListener(evt, unlockAndPlay, { once: true, passive: true });
+          });
         });
-    };
-
-    attemptPlay();
-
-    // Browser policy: Listen for any first user interaction (scroll, click, touch, key) to start playback
-    const startAudioOnInteraction = () => {
-      if (audioRef.current && !audioRef.current.paused) return;
-      audioRef.current
-        ?.play()
-        .then(() => {
-          setIsPlaying(true);
-          setHasInteracted(true);
-          cleanupListeners();
-        })
-        .catch(() => {});
-    };
-
-    const cleanupListeners = () => {
-      window.removeEventListener("click", startAudioOnInteraction);
-      window.removeEventListener("touchstart", startAudioOnInteraction);
-      window.removeEventListener("scroll", startAudioOnInteraction);
-      window.removeEventListener("keydown", startAudioOnInteraction);
-    };
-
-    window.addEventListener("click", startAudioOnInteraction, { once: true });
-    window.addEventListener("touchstart", startAudioOnInteraction, { once: true });
-    window.addEventListener("scroll", startAudioOnInteraction, { once: true });
-    window.addEventListener("keydown", startAudioOnInteraction, { once: true });
+    }
 
     return () => {
-      cleanupListeners();
+      audio.removeEventListener("play", onPlay);
+      audio.removeEventListener("pause", onPause);
     };
   }, []);
 
@@ -76,7 +87,6 @@ export function MusicPlayer() {
         .play()
         .then(() => {
           setIsPlaying(true);
-          setHasInteracted(true);
         })
         .catch((err) => {
           console.warn("Audio playback error:", err);
@@ -86,14 +96,17 @@ export function MusicPlayer() {
 
   return (
     <>
-      <audio ref={audioRef} src={AUDIO_SRC} preload="auto" />
+      <audio
+        ref={audioRef}
+        src={AUDIO_SRC}
+        autoPlay
+        playsInline
+        loop
+        preload="auto"
+      />
 
       {/* Floating Bottom-Right Music Control Pill */}
-      <div
-        className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-40 flex items-center gap-2 select-none"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
+      <div className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-40 flex items-center gap-2 select-none">
         <button
           onClick={togglePlayback}
           aria-label={isPlaying ? "Pause temple chants" : "Play temple chants"}
@@ -111,7 +124,7 @@ export function MusicPlayer() {
             />
           )}
 
-          {/* Icon / Sound Visualizer Bars */}
+          {/* Equalizer Sound Waves when playing */}
           <div className="relative z-10 flex items-center justify-center size-7 rounded-full bg-amber-400/15 border border-amber-400/30 text-amber-300 shrink-0">
             {isPlaying ? (
               <div className="flex items-end gap-0.5 h-3.5 px-0.5">
@@ -125,7 +138,7 @@ export function MusicPlayer() {
             )}
           </div>
 
-          {/* Chants Title & Status Text */}
+          {/* Track Details */}
           <div className="relative z-10 flex flex-col text-left pr-1">
             <span className="text-[11px] sm:text-xs font-serif font-bold tracking-wide text-amber-100 flex items-center gap-1">
               <span>Ya Devi Sarvabhuteshu</span>
