@@ -103,7 +103,7 @@ export default function ContactPage() {
 
       <PageHero
         breadcrumb="Contact Us"
-        badge="24/7 Devotee Assistance"
+        badge="9:00 AM – 9:00 PM Devotee Assistance"
         title="Get in Touch with"
         titleGold="Temple Sansthan"
         description="Have questions about visiting Kolhapur Mahalaxmi Mandir, ritual timings, online booking, or donations? We are here to assist you."
@@ -122,10 +122,10 @@ export default function ContactPage() {
             </div>
             <strong className="font-serif text-lg font-bold text-stone-900 block">Our Address</strong>
             <p className="text-xs text-stone-600 leading-relaxed font-normal">
-              2818,A Ward, Varuntirth Ves , Shivaji Peth,Kolhapur.416012
+              Shri Ambabai Temple, Kolhapur, Bhavani Mandap, Mahadwar Rd, B Ward, C Ward, Kolhapur, Maharashtra 416012
             </p>
             <a
-              href="https://www.google.com/maps/place/16%C2%B041'33.9%22N+74%C2%B013'15.6%22E/@16.6929139,74.2211889,20z/data=!4m4!3m3!8m2!3d16.69275!4d74.221?entry=ttu&g_ep=EgoyMDI2MTEyMy4wIKXMDSoASAFQAw%3D%3D"
+              href="https://www.google.com/maps/search/?api=1&query=Shri+Ambabai+Temple,+Kolhapur,+Bhavani+Mandap,+Mahadwar+Rd,+B+Ward,+C+Ward,+Kolhapur,+Maharashtra+416012"
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-1 text-xs font-bold text-amber-800 hover:text-amber-950 pt-1 underline decoration-amber-500/60"
@@ -147,7 +147,7 @@ export default function ContactPage() {
               <a href="tel:+919371623260" className="hover:text-amber-800 transition-colors font-bold text-sm">
                 +91 93716 23260
               </a>
-              <span className="block text-[11px] text-stone-500 mt-1">24/7 Devotee Call &amp; WhatsApp Assistance</span>
+              <span className="block text-[11px] text-stone-500 mt-1">Available 9:00 AM – 9:00 PM for Devotee Assistance</span>
             </p>
           </motion.div>
 
@@ -318,13 +318,13 @@ export default function ContactPage() {
                   <strong className="font-serif text-base font-bold text-amber-300 block">
                     Shri Mahalaxmi Mandir, Kolhapur
                   </strong>
-                  <span className="text-[11px] text-white/80 block max-w-xs">
-                    2818,A Ward, Varuntirth Ves , Shivaji Peth,Kolhapur.416012
+                  <span className="text-[11px] text-white/80 block max-w-xs leading-tight">
+                    Shri Ambabai Temple, Kolhapur, Bhavani Mandap, Mahadwar Rd, B Ward, C Ward, Kolhapur, Maharashtra 416012
                   </span>
                 </div>
 
                 <a
-                  href="https://www.google.com/maps/place/16%C2%B041'33.9%22N+74%C2%B013'15.6%22E/@16.6929139,74.2211889,20z/data=!4m4!3m3!8m2!3d16.69275!4d74.221?entry=ttu&g_ep=EgoyMDI2MTEyMy4wIKXMDSoASAFQAw%3D%3D"
+                  href="https://www.google.com/maps/search/?api=1&query=Shri+Ambabai+Temple,+Kolhapur,+Bhavani+Mandap,+Mahadwar+Rd,+B+Ward,+C+Ward,+Kolhapur,+Maharashtra+416012"
                   target="_blank"
                   rel="noreferrer"
                   className="px-3.5 py-2 rounded-xl bg-[var(--gold)] text-stone-950 font-bold text-xs shadow-md shrink-0 hover:brightness-110"
@@ -347,7 +347,7 @@ export default function ContactPage() {
               </p>
               <div className="pt-2 flex items-center gap-3 text-xs font-bold text-[var(--gold)]">
                 <Phone className="size-4" />
-                <span>Call Center: +91 93716 23260 (06:00 AM – 09:00 PM)</span>
+                <span>Call Center: +91 93716 23260 (09:00 AM – 09:00 PM)</span>
               </div>
             </div>
 

@@ -141,7 +141,7 @@ export function Footer() {
             <div className="flex items-start gap-2.5">
               <MapPin className="size-4 text-[var(--gold)] shrink-0 mt-0.5" />
               <span className="leading-relaxed">
-                2818,A Ward, Varuntirth Ves , Shivaji Peth,Kolhapur.416012
+                Shri Ambabai Temple, Kolhapur, Bhavani Mandap, Mahadwar Rd, B Ward, C Ward, Kolhapur, Maharashtra 416012
               </span>
             </div>
 

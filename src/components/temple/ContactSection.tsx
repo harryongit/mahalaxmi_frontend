@@ -142,7 +142,7 @@ export function ContactSection() {
                     >
                       +91 93716 23260
                     </a>
-                    <p className="text-[11px] text-stone-500">Available 24/7 for Devotee Assistance</p>
+                    <p className="text-[11px] text-stone-500">Available 9:00 AM – 9:00 PM for Devotee Assistance</p>
                   </div>
                 </div>
 
@@ -180,10 +180,10 @@ export function ContactSection() {
                       Our Address
                     </span>
                     <p className="text-sm font-bold text-stone-800 leading-snug">
-                      2818,A Ward, Varuntirth Ves , Shivaji Peth,Kolhapur.416012
+                      Shri Ambabai Temple, Kolhapur, Bhavani Mandap, Mahadwar Rd, B Ward, C Ward, Kolhapur, Maharashtra 416012
                     </p>
                     <a
-                      href="https://www.google.com/maps/place/16%C2%B041'33.9%22N+74%C2%B013'15.6%22E/@16.6929139,74.2211889,20z/data=!4m4!3m3!8m2!3d16.69275!4d74.221?entry=ttu&g_ep=EgoyMDI2MTEyMy4wIKXMDSoASAFQAw%3D%3D"
+                      href="https://www.google.com/maps/search/?api=1&query=Shri+Ambabai+Temple,+Kolhapur,+Bhavani+Mandap,+Mahadwar+Rd,+B+Ward,+C+Ward,+Kolhapur,+Maharashtra+416012"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1 text-xs font-bold text-amber-800 hover:text-amber-950 mt-1.5 underline decoration-amber-500/60"
