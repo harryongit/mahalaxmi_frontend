@@ -25,45 +25,53 @@ import {
   Flame,
   CalendarCheck,
   Package,
+  ZoomIn,
+  X,
 } from "lucide-react";
 import Link from "next/link";
 
-const DEITY_GALLERY = [
+const VINTAGE_PHOTOS = [
   {
     src: "/assets/gallery/IMG-20261007-WA0081.jpg",
-    title: "Mata Ambabai Vigraha",
-    caption: "Sacred Swayambhu Idol in Divine Golden Alankar",
-  },
-  {
-    src: "/assets/gallery/IMG-20261007-WA0037.jpg",
-    title: "Inner Sanctum (Garbhagriha)",
-    caption: "Sacred inner chamber revered across centuries",
+    title: "Mata Ambabai Swayambhu Vigraha",
+    caption: "Divine Golden Alankar Darshan",
+    tilt: "sm:-rotate-1",
   },
   {
     src: "/assets/gallery/IMG-20261010-WA0057.jpg",
-    title: "Temple Gopuram & Illumination",
-    caption: "Aura of the grand entrance tower lit in evening reverence",
+    title: "Historic Temple Gopuram",
+    caption: "Evening Illumination, 7th Century Complex",
+    tilt: "sm:rotate-2",
+  },
+  {
+    src: "/assets/gallery/IMG-20261007-WA0037.jpg",
+    title: "Garbhagriha Inner Sanctum",
+    caption: "Sacred Inner Chamber & Silver Threshold",
+    tilt: "sm:-rotate-2",
   },
   {
     src: "/assets/gallery/IMG-20261010-WA0072.jpg",
-    title: "Ancient Stone Carvings",
-    caption: "Masterful Hemadpanthi pillars and historic inscriptions",
+    title: "Ancient Hemadpanthi Carvings",
+    caption: "Monolithic Stone Pillars & Sculptures",
+    tilt: "sm:rotate-1",
   },
   {
     src: "/assets/gallery/IMG-20261009-WA0014.jpg",
-    title: "Deepotsav & Temple Complex",
-    caption: "Divine celebration in the sacred temple courtyard",
+    title: "Sacred Deepotsav Courtyard",
+    caption: "Festival of Divine Lamps & Devotees",
+    tilt: "sm:-rotate-1.5",
   },
   {
     src: "/assets/gallery/IMG-20261007-WA0065.jpg",
-    title: "Sacred Rathotsav Procession",
-    caption: "Grand chariot procession of Goddess Mahalaxmi",
+    title: "Traditional Rathotsav Procession",
+    caption: "Centuries-Old Royal Chariot Utsav",
+    tilt: "sm:rotate-1.5",
   },
 ];
 
 export default function AboutPage() {
   useLenis();
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [activePhoto, setActivePhoto] = useState<typeof VINTAGE_PHOTOS[0] | null>(null);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FCF9F3] text-stone-900">
@@ -99,113 +107,122 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 3. Sacred Deity & Temple Gallery */}
-      <section className="py-20 sm:py-28 px-4 sm:px-6 w-full border-t border-amber-900/10 bg-amber-50/40">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-12 items-center">
+      {/* 3. Archival Glimpses / Vintage Sacred Photos */}
+      <section className="py-20 sm:py-28 px-4 sm:px-6 w-full border-t border-amber-900/10 bg-[#FAF7F2]/60">
+        <div className="max-w-6xl mx-auto space-y-12">
           
-          {/* Left Details Column (5 cols) */}
-          <div className="lg:col-span-5 space-y-6 text-center lg:text-left">
-            <div>
-              <span className="text-xs uppercase tracking-[0.25em] font-bold text-amber-800 bg-amber-100 px-3.5 py-1 rounded-full border border-amber-300 inline-block mb-3">
-                Sacred Deity &amp; Sanctuary
-              </span>
-              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-amber-950 leading-tight">
-                Goddess Mahalaxmi <br className="hidden sm:inline" />
-                <span className="text-amber-800">(Ambabai)</span>
-              </h2>
-              <p className="text-xs sm:text-sm text-stone-500 font-medium mt-1">
-                Karveer Nivasini — The Eternal Mother of the Universe
-              </p>
-            </div>
-
-            <p className="text-sm text-stone-700 leading-relaxed font-normal">
-              The sacred idol of Goddess Mahalaxmi is believed to be self-manifested (<strong>Swayambhu</strong>), carved in ancient black stone and seated upon an elevated stone throne. Holding divine symbols of spiritual liberation and cosmic benevolence, Mata Ambabai blesses all devotees with inner peace, righteous conduct, and prosperity.
+          {/* Section Header */}
+          <div className="text-center max-w-2xl mx-auto space-y-3">
+            <span className="text-xs uppercase tracking-[0.25em] font-bold text-amber-800 bg-amber-100 px-3.5 py-1 rounded-full border border-amber-300 inline-block shadow-2xs">
+              Sacred Visual Heritage
+            </span>
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-stone-900">
+              Archival Glimpses of Shree Ambabai
+            </h2>
+            <p className="text-xs sm:text-sm text-stone-600 font-medium leading-relaxed">
+              Timeless moments of divinity, ancient stone architecture, and sacred traditions captured across generations.
             </p>
-
-            {/* Devotional Highlights */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-2 text-left">
-              <div className="p-3 rounded-2xl bg-white border border-amber-200/80 shadow-xs space-y-1">
-                <span className="text-xs font-bold text-amber-900 block">Swayambhu</span>
-                <span className="text-[11px] text-stone-500 block leading-tight">Self-manifested black stone deity</span>
-              </div>
-              <div className="p-3 rounded-2xl bg-white border border-amber-200/80 shadow-xs space-y-1">
-                <span className="text-xs font-bold text-amber-900 block">51 Shakti Peethas</span>
-                <span className="text-[11px] text-stone-500 block leading-tight">Chief sacred abode of Mahalakshmi</span>
-              </div>
-              <div className="p-3 rounded-2xl bg-white border border-amber-200/80 shadow-xs space-y-1">
-                <span className="text-xs font-bold text-amber-900 block">Daily Alankars</span>
-                <span className="text-[11px] text-stone-500 block leading-tight">Vedic pujas &amp; royal ornate robes</span>
-              </div>
-            </div>
-
-            <div className="pt-2">
-              <Link
-                href="/gallery"
-                className="inline-flex items-center gap-2 text-xs font-bold text-amber-900 hover:text-amber-700 underline decoration-amber-400 decoration-2 underline-offset-4 transition-colors"
-              >
-                <span>View Complete Sacred Photo Gallery</span>
-                <span>→</span>
-              </Link>
-            </div>
           </div>
 
-          {/* Right Interactive Gallery Column (7 cols) */}
-          <div className="lg:col-span-7 space-y-4">
-            {/* Main Featured Photo */}
-            <div className="relative aspect-[4/3] sm:aspect-[16/10] rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-stone-900 group">
-              <motion.img
-                key={selectedImageIndex}
-                initial={{ opacity: 0, scale: 0.98 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.35 }}
-                src={DEITY_GALLERY[selectedImageIndex].src}
-                alt={DEITY_GALLERY[selectedImageIndex].title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
-              <div className="absolute bottom-4 left-4 right-4 text-white z-10 flex items-end justify-between gap-4">
-                <div>
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-[var(--gold)] bg-black/60 px-2.5 py-0.5 rounded-full border border-[var(--gold)]/40 inline-block mb-1">
-                    Photo {selectedImageIndex + 1} of {DEITY_GALLERY.length}
-                  </span>
-                  <h4 className="font-serif text-lg sm:text-xl font-bold text-white drop-shadow-md">
-                    {DEITY_GALLERY[selectedImageIndex].title}
-                  </h4>
-                  <p className="text-xs text-amber-100/90 drop-shadow-xs font-normal">
-                    {DEITY_GALLERY[selectedImageIndex].caption}
-                  </p>
-                </div>
-              </div>
-            </div>
+          {/* Vintage Photo Mounts Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 pt-2">
+            {VINTAGE_PHOTOS.map((photo, i) => (
+              <motion.div
+                key={i}
+                whileHover={{ y: -8, scale: 1.02 }}
+                transition={{ duration: 0.25 }}
+                onClick={() => setActivePhoto(photo)}
+                className={`group cursor-pointer bg-[#FFFDF9] p-3.5 sm:p-4 pb-6 sm:pb-7 rounded-2xl border-2 border-amber-200/90 shadow-md hover:shadow-2xl hover:border-amber-400 transition-all duration-300 relative ${photo.tilt} hover:rotate-0 hover:z-20`}
+              >
+                {/* Vintage Tape Pin on Top */}
+                <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 w-14 h-4 bg-amber-200/60 backdrop-blur-xs border-x border-amber-300/80 -rotate-1 shadow-2xs pointer-events-none z-10" />
 
-            {/* Thumbnail Navigation Strip */}
-            <div className="grid grid-cols-6 gap-2 sm:gap-3">
-              {DEITY_GALLERY.map((item, index) => {
-                const isSelected = selectedImageIndex === index;
-                return (
-                  <button
-                    key={index}
-                    onClick={() => setSelectedImageIndex(index)}
-                    className={`relative aspect-square rounded-xl overflow-hidden border-2 transition-all cursor-pointer ${
-                      isSelected
-                        ? "border-[var(--gold)] shadow-md scale-105 ring-2 ring-amber-400/50"
-                        : "border-stone-200/90 hover:border-amber-400 opacity-70 hover:opacity-100"
-                    }`}
-                    title={item.title}
-                  >
-                    <img
-                      src={item.src}
-                      alt={item.title}
-                      className="w-full h-full object-cover"
-                    />
-                  </button>
-                );
-              })}
-            </div>
+                {/* Photo Frame Container */}
+                <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-stone-900 shadow-inner">
+                  <img
+                    src={photo.src}
+                    alt={photo.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 filter sepia-[0.10] contrast-[1.03]"
+                  />
+                  {/* Subtle Grain & Hover Shimmer Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+                    <span className="text-[11px] text-white font-medium flex items-center gap-1 drop-shadow-sm">
+                      <ZoomIn className="size-3.5" />
+                      <span>Click to view photo</span>
+                    </span>
+                  </div>
+                </div>
+
+                {/* Vintage Handwritten / Serif Caption */}
+                <div className="pt-3.5 px-1 flex items-start justify-between gap-2">
+                  <div>
+                    <h3 className="font-serif text-base font-bold text-stone-900 group-hover:text-amber-900 transition-colors">
+                      {photo.title}
+                    </h3>
+                    <p className="text-xs text-amber-900/70 font-serif italic mt-0.5">
+                      {photo.caption}
+                    </p>
+                  </div>
+                  <span className="text-[10px] font-mono font-bold text-amber-900/50 bg-amber-100/70 px-2 py-0.5 rounded-md border border-amber-200/60 shrink-0">
+                    #{i + 1}
+                  </span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Simple Link to Full Gallery */}
+          <div className="text-center pt-2">
+            <Link
+              href="/gallery"
+              className="inline-flex items-center gap-2 text-xs font-bold text-amber-900 hover:text-amber-700 underline decoration-amber-400 decoration-2 underline-offset-4 transition-colors"
+            >
+              <span>Explore All Sacred Photos in Temple Gallery</span>
+              <span>→</span>
+            </Link>
           </div>
 
         </div>
       </section>
+
+      {/* Lightbox Modal for Full View */}
+      {activePhoto && (
+        <div
+          onClick={() => setActivePhoto(null)}
+          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 cursor-pointer"
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            onClick={(e) => e.stopPropagation()}
+            className="relative max-w-4xl w-full bg-[#FAF7F2] p-4 sm:p-6 rounded-3xl shadow-2xl border-2 border-amber-300 space-y-4"
+          >
+            <button
+              onClick={() => setActivePhoto(null)}
+              className="absolute top-4 right-4 size-10 rounded-full bg-stone-900/80 hover:bg-stone-900 text-white flex items-center justify-center cursor-pointer transition-colors shadow-md z-10"
+              title="Close"
+            >
+              <X className="size-5" />
+            </button>
+            <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-stone-950 border border-stone-200">
+              <img
+                src={activePhoto.src}
+                alt={activePhoto.title}
+                className="w-full h-full object-contain"
+              />
+            </div>
+            <div className="text-center space-y-1">
+              <h3 className="font-serif text-xl sm:text-2xl font-bold text-stone-900">
+                {activePhoto.title}
+              </h3>
+              <p className="text-xs sm:text-sm text-amber-900/70 font-serif italic">
+                {activePhoto.caption}
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      )}
 
       {/* 4. Temple Information */}
       <section className="py-16 sm:py-20 px-4 sm:px-6 max-w-5xl mx-auto w-full space-y-8">
