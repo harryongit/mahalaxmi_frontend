@@ -3,27 +3,28 @@
 import { useEffect, useRef, useState } from "react";
 import { Volume2, VolumeX, Music, Sparkles } from "lucide-react";
 
-const AUDIO_SRC = "/assets/Ya Devi Sarvabhuteshu by Om Voices .mp3.mpeg";
+const PRIMARY_AUDIO_SRC = "/assets/ya-devi-sarvabhuteshu.mp3";
+const FALLBACK_AUDIO_SRC = "/assets/Ya%20Devi%20Sarvabhuteshu%20by%20Om%20Voices%20.mp3.mpeg";
 
 export function MusicPlayer() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  // Default to ON as requested
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    audio.volume = 0.7;
+    audio.volume = 0.75;
     audio.loop = true;
 
-    const onPlay = () => setIsPlaying(true);
-    const onPause = () => setIsPlaying(false);
+    const handlePlay = () => setIsPlaying(true);
+    const handlePause = () => setIsPlaying(false);
 
-    audio.addEventListener("play", onPlay);
-    audio.addEventListener("pause", onPause);
+    audio.addEventListener("play", handlePlay);
+    audio.addEventListener("playing", handlePlay);
+    audio.addEventListener("pause", handlePause);
 
-    // 1. Attempt immediate unmuted play on load
+    // 1. Try immediate unmuted autoplay
     const playPromise = audio.play();
     if (playPromise !== undefined) {
       playPromise
@@ -31,47 +32,49 @@ export function MusicPlayer() {
           setIsPlaying(true);
         })
         .catch(() => {
-          // If browser policy delays unmuted audio until user interaction,
-          // listen to any gentle user event to start playback immediately.
+          // Browser autoplay policy blocked unmuted sound on direct load.
+          // Listen to the very first user interaction anywhere on the screen to trigger sound.
           const triggerEvents = [
+            "click",
             "pointerdown",
-            "pointermove",
             "touchstart",
             "touchend",
             "scroll",
             "wheel",
-            "click",
             "keydown",
-            "focus",
           ];
 
-          const unlockAndPlay = () => {
+          const unlockOnInteraction = () => {
             if (audioRef.current && audioRef.current.paused) {
               audioRef.current
                 .play()
                 .then(() => {
                   setIsPlaying(true);
-                  removeUnlockListeners();
+                  cleanup();
                 })
                 .catch(() => {});
             }
           };
 
-          const removeUnlockListeners = () => {
+          const cleanup = () => {
             triggerEvents.forEach((evt) => {
-              window.removeEventListener(evt, unlockAndPlay);
+              window.removeEventListener(evt, unlockOnInteraction);
             });
           };
 
           triggerEvents.forEach((evt) => {
-            window.addEventListener(evt, unlockAndPlay, { once: true, passive: true });
+            window.addEventListener(evt, unlockOnInteraction, {
+              once: true,
+              passive: true,
+            });
           });
         });
     }
 
     return () => {
-      audio.removeEventListener("play", onPlay);
-      audio.removeEventListener("pause", onPause);
+      audio.removeEventListener("play", handlePlay);
+      audio.removeEventListener("playing", handlePlay);
+      audio.removeEventListener("pause", handlePause);
     };
   }, []);
 
@@ -79,31 +82,25 @@ export function MusicPlayer() {
     const audio = audioRef.current;
     if (!audio) return;
 
-    if (isPlaying) {
-      audio.pause();
-      setIsPlaying(false);
-    } else {
+    if (audio.paused) {
       audio
         .play()
-        .then(() => {
-          setIsPlaying(true);
-        })
+        .then(() => setIsPlaying(true))
         .catch((err) => {
           console.warn("Audio playback error:", err);
         });
+    } else {
+      audio.pause();
+      setIsPlaying(false);
     }
   };
 
   return (
     <>
-      <audio
-        ref={audioRef}
-        src={AUDIO_SRC}
-        autoPlay
-        playsInline
-        loop
-        preload="auto"
-      />
+      <audio ref={audioRef} autoPlay playsInline loop preload="auto">
+        <source src={PRIMARY_AUDIO_SRC} type="audio/mpeg" />
+        <source src={FALLBACK_AUDIO_SRC} type="audio/mpeg" />
+      </audio>
 
       {/* Floating Bottom-Right Music Control Pill */}
       <div className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-40 flex items-center gap-2 select-none">
@@ -113,18 +110,20 @@ export function MusicPlayer() {
           className={`group relative flex items-center gap-3 px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-full border transition-all duration-300 shadow-xl cursor-pointer ${
             isPlaying
               ? "bg-gradient-to-r from-[#2B0812] via-[#1A040A] to-[#2B0812] border-amber-400/60 shadow-[0_10px_25px_-5px_rgba(180,83,9,0.4)] text-amber-200"
-              : "bg-stone-900/90 hover:bg-stone-900 border-stone-700/80 text-stone-300 shadow-lg"
+              : "bg-stone-900/95 hover:bg-stone-900 border-amber-500/50 text-stone-200 shadow-2xl animate-bounce-subtle"
           }`}
         >
-          {/* Animated Glowing Ring when playing */}
-          {isPlaying && (
-            <span
-              aria-hidden
-              className="absolute -inset-0.5 rounded-full bg-gradient-to-r from-amber-400/40 via-yellow-400/20 to-amber-500/40 blur-xs animate-pulse pointer-events-none"
-            />
-          )}
+          {/* Animated Glowing Ring */}
+          <span
+            aria-hidden
+            className={`absolute -inset-0.5 rounded-full blur-xs pointer-events-none transition-opacity duration-300 ${
+              isPlaying
+                ? "bg-gradient-to-r from-amber-400/40 via-yellow-400/20 to-amber-500/40 animate-pulse opacity-100"
+                : "bg-amber-400/30 opacity-75"
+            }`}
+          />
 
-          {/* Equalizer Sound Waves when playing */}
+          {/* Icon / Sound Visualizer Bars */}
           <div className="relative z-10 flex items-center justify-center size-7 rounded-full bg-amber-400/15 border border-amber-400/30 text-amber-300 shrink-0">
             {isPlaying ? (
               <div className="flex items-end gap-0.5 h-3.5 px-0.5">
@@ -134,7 +133,7 @@ export function MusicPlayer() {
                 <span className="w-0.5 bg-amber-300 rounded-full animate-[bounce_0.9s_infinite_0.1s] h-3" />
               </div>
             ) : (
-              <VolumeX className="size-4 text-stone-400 group-hover:text-amber-200 transition-colors" />
+              <VolumeX className="size-4 text-amber-300" />
             )}
           </div>
 
@@ -154,7 +153,7 @@ export function MusicPlayer() {
             {isPlaying ? (
               <Volume2 className="size-4 text-amber-300 hover:scale-110 transition-transform" />
             ) : (
-              <Music className="size-4 text-stone-400 group-hover:text-amber-300 transition-colors" />
+              <Music className="size-4 text-amber-300 group-hover:scale-110 transition-transform" />
             )}
           </div>
         </button>
