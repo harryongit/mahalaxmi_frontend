@@ -183,7 +183,7 @@ export function ContactSection() {
                       Shri Ambabai Temple, Kolhapur, Bhavani Mandap, Mahadwar Rd, B Ward, C Ward, Kolhapur, Maharashtra 416012
                     </p>
                     <a
-                      href="https://www.google.com/maps/search/?api=1&query=Shri+Ambabai+Temple,+Kolhapur,+Bhavani+Mandap,+Mahadwar+Rd,+B+Ward,+C+Ward,+Kolhapur,+Maharashtra+416012"
+                      href="https://www.google.com/maps/place/Shri+Ambabai+Temple,+Kolhapur/@17.6389066,72.7138336,8z/data=!4m22!1m15!4m14!1m6!1m2!1s0x3bc2b8c684c414d3:0x4756a62035babeb2!2sPimple+Gurav,+Pimpri-Chinchwad,+Maharashtra!2m2!1d73.8134424!2d18.5865962!1m6!1m2!1s0x3bc0555a31825e95:0x48d3dac4a165bedf!2sShri+Ambabai+Temple,+Kolhapur,+Bhavani+Mandap,+Mahadwar+Rd,+B+Ward,+C+Ward,+Kolhapur,+Maharashtra+416012!2m2!1d74.2226431!2d16.6948594!3m5!1s0x3bc0555a31825e95:0x48d3dac4a165bedf!8m2!3d16.6948594!4d74.2226431!16zL20vMDZqczNz?entry=ttu&g_ep=EgoyMDI2MTEyMy4wIKXMDSoASAFQAw%3D%3D"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1 text-xs font-bold text-amber-800 hover:text-amber-950 mt-1.5 underline decoration-amber-500/60"
