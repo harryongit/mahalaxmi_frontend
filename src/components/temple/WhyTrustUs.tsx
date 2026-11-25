@@ -112,7 +112,7 @@ export function WhyTrustUs() {
         {/* ========================================================================= */}
         {/* 2. THREE PILLARS OF DEVOTEE TRUST                                         */}
         {/* ========================================================================= */}
-        <div className="grid md:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
           {TRUST_PILLARS.map((pillar, idx) => {
             const Icon = pillar.icon;
             return (
@@ -121,50 +121,53 @@ export function WhyTrustUs() {
                 initial={{ opacity: 0, y: 25 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.6, delay: idx * 0.15 }}
-                className="group relative rounded-3xl bg-white p-7 sm:p-8 border border-amber-200/90 shadow-[0_15px_40px_-15px_rgba(180,83,9,0.1)] hover:shadow-[0_25px_60px_-15px_rgba(180,83,9,0.22)] transition-all duration-300 flex flex-col justify-between hover:-translate-y-1"
+                transition={{ duration: 0.5, delay: idx * 0.12 }}
+                className="group relative rounded-3xl bg-gradient-to-b from-white via-[#FCFBF7] to-[#FDF9F0] p-7 sm:p-8 border border-amber-200/80 hover:border-amber-400/90 shadow-[0_10px_30px_-10px_rgba(180,83,9,0.08)] hover:shadow-[0_22px_50px_-12px_rgba(217,119,6,0.20)] transition-all duration-300 flex flex-col justify-between hover:-translate-y-1.5 overflow-hidden"
               >
-                {/* Top Badge & Metric Row */}
-                <div className="space-y-5">
-                  <div className="flex items-center justify-between">
-                    <span
-                      className={`px-3 py-1 rounded-full border text-[11px] font-bold tracking-wider uppercase ${pillar.badgeColor}`}
-                    >
-                      {pillar.badge}
-                    </span>
+                {/* Top Subtle Radiant Bar */}
+                <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-600 opacity-80 group-hover:opacity-100 transition-opacity" />
+
+                <div className="space-y-6">
+                  {/* Header Row: Icon Medallion & Stat */}
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="relative">
+                      <div
+                        className={`size-14 rounded-2xl bg-gradient-to-br ${pillar.iconBg} flex items-center justify-center shadow-md group-hover:scale-105 group-hover:rotate-1 transition-all duration-300`}
+                      >
+                        <Icon className="size-7" />
+                      </div>
+                      <span
+                        className={`absolute -bottom-2 -right-2 px-2 py-0.5 rounded-full border text-[9px] font-black tracking-wider uppercase shadow-2xs ${pillar.badgeColor} bg-white`}
+                      >
+                        {pillar.badge}
+                      </span>
+                    </div>
 
                     <div className="text-right">
-                      <div className="font-serif font-bold text-xl sm:text-2xl text-[var(--maroon)] leading-none">
+                      <div className="font-serif font-extrabold text-2xl sm:text-3xl text-[var(--maroon)] leading-none tracking-tight">
                         {pillar.stat}
                       </div>
-                      <div className="text-[10px] text-stone-500 font-medium">
+                      <div className="text-[11px] text-amber-800/80 font-semibold tracking-wide uppercase mt-1">
                         {pillar.statLabel}
                       </div>
                     </div>
                   </div>
 
-                  {/* Icon Avatar */}
-                  <div
-                    className={`size-14 rounded-2xl bg-gradient-to-tr ${pillar.iconBg} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}
-                  >
-                    <Icon className="size-7" />
+                  {/* Title & Description */}
+                  <div className="space-y-2.5">
+                    <h3 className="font-serif text-xl sm:text-2xl font-bold text-stone-900 group-hover:text-[var(--maroon)] transition-colors leading-snug">
+                      {pillar.title}
+                    </h3>
+                    <p className="text-stone-600 text-sm sm:text-base leading-relaxed font-normal">
+                      {pillar.description}
+                    </p>
                   </div>
-
-                  {/* Card Title */}
-                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-stone-900 group-hover:text-[var(--maroon)] transition-colors">
-                    {pillar.title}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-stone-600 text-sm sm:text-base leading-relaxed font-normal">
-                    {pillar.description}
-                  </p>
                 </div>
 
-                {/* Bottom Footer Micro-Tag */}
-                <div className="pt-6 mt-6 border-t border-amber-100 flex items-center gap-2 text-xs font-semibold text-amber-900/90">
+                {/* Bottom Verified Seal */}
+                <div className="mt-6 pt-5 border-t border-amber-200/60 flex items-center gap-2.5 text-xs font-semibold text-stone-700 bg-amber-500/5 -mx-7 -mb-7 sm:-mx-8 sm:-mb-8 px-7 py-3.5 sm:px-8 sm:py-4 rounded-b-3xl">
                   <CheckCircle2 className="size-4 text-emerald-600 shrink-0" />
-                  <span>{pillar.footerTag}</span>
+                  <span className="text-stone-800">{pillar.footerTag}</span>
                 </div>
               </motion.div>
             );
