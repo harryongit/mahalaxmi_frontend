@@ -6,7 +6,16 @@ import { Footer } from "@/src/components/temple/Footer";
 import { AboutHeroCanvas } from "@/src/components/temple/AboutHeroCanvas";
 import { IMG } from "@/src/components/temple/images";
 import { motion } from "framer-motion";
-import { ShieldCheck, Heart, Zap, Users } from "lucide-react";
+import {
+  ShieldCheck,
+  Heart,
+  Zap,
+  Users,
+  Compass,
+  Eye,
+  HeartHandshake,
+  CheckCircle2,
+} from "lucide-react";
 import Link from "next/link";
 
 export default function AboutPage() {
@@ -116,9 +125,9 @@ export default function AboutPage() {
             <div>
               <div className="text-xs uppercase tracking-widest text-amber-900/50 mb-2">Address</div>
               <p className="text-sm font-medium text-stone-800">
-                Mahalaxmi Temple, <br />
-                Shivaji Chowk, Kolhapur, <br />
-                Maharashtra 416012
+                Shri Ambabai Temple, Bhavani Mandap, <br />
+                Mahadwar Rd, B Ward, C Ward, <br />
+                Kolhapur, Maharashtra 416012
               </p>
             </div>
             <div>
@@ -139,28 +148,204 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 7. Mission / Vision / Values */}
-      <section className="py-24 px-4 sm:px-6 w-full bg-amber-950 text-amber-50 border-y border-amber-900">
-        <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-12 text-center md:text-left">
-          <div>
-            <h3 className="text-xs uppercase tracking-[0.3em] font-bold text-amber-500 mb-4">MISSION</h3>
-            <p className="font-serif text-xl text-amber-100">
-              To preserve sacred tradition with grace and openness.
+      {/* 7. Mission / Vision / Values — Elevated Sacred Sanctuary Section */}
+      <section className="relative py-24 sm:py-32 px-4 sm:px-6 w-full bg-gradient-to-b from-[#2A060E] via-[#380D14] to-[#1F040A] text-amber-50 border-y border-amber-900/50 overflow-hidden">
+        {/* Background Ambient Glows */}
+        <div className="absolute top-0 left-1/4 size-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 size-96 bg-rose-500/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="max-w-6xl mx-auto relative z-10 space-y-16">
+          {/* Section Header */}
+          <div className="text-center max-w-2xl mx-auto space-y-4">
+            <span className="text-[11px] uppercase tracking-[0.3em] font-bold text-[var(--gold)] bg-[var(--gold)]/10 px-4 py-1.5 rounded-full border border-[var(--gold)]/30 inline-block shadow-xs">
+              Sacred Guiding Pillars
+            </span>
+            <h2 className="font-serif text-3xl sm:text-5xl font-bold text-gradient-gold tracking-tight leading-tight">
+              Dharma, Devotion &amp; Divine Vision
+            </h2>
+            <p className="text-xs sm:text-sm text-amber-100/70 leading-relaxed font-light">
+              Centuries of unbroken Vedic heritage guide our pledge to protect sacred rituals, empower pilgrims, and serve seekers across the globe.
             </p>
           </div>
-          <div>
-            <h3 className="text-xs uppercase tracking-[0.3em] font-bold text-amber-500 mb-4">VISION</h3>
-            <p className="font-serif text-xl text-amber-100">
-              A spiritual home for every seeker, of every path.
-            </p>
+
+          {/* 3 Elevated Feature Cards */}
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Card 1: Mission */}
+            <motion.div
+              whileHover={{ y: -6, scale: 1.01 }}
+              transition={{ duration: 0.3 }}
+              className="relative rounded-3xl border-2 border-amber-500/30 bg-gradient-to-b from-[#4A101C]/80 via-[#320812]/90 to-[#20050B] p-7 sm:p-8 shadow-2xl backdrop-blur-md flex flex-col justify-between group hover:border-[var(--gold)] hover:shadow-[0_0_35px_rgba(212,160,23,0.25)] transition-all duration-300"
+            >
+              <div className="space-y-5">
+                <div className="flex items-center justify-between">
+                  <div className="size-14 rounded-2xl bg-gradient-to-br from-amber-400/20 via-amber-500/10 to-transparent border border-amber-400/40 text-[var(--gold)] flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <Compass className="size-7" />
+                  </div>
+                  <span className="text-[10px] uppercase font-bold tracking-widest text-amber-300/80 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">
+                    Parampara
+                  </span>
+                </div>
+
+                <div>
+                  <span className="text-[11px] uppercase font-bold tracking-[0.25em] text-amber-400/90 block mb-1">
+                    Our Mission
+                  </span>
+                  <h3 className="font-serif text-2xl font-bold text-amber-50 leading-snug">
+                    Preserving Sacred Tradition
+                  </h3>
+                </div>
+
+                <div className="h-px w-full bg-gradient-to-r from-amber-500/40 via-amber-300/20 to-transparent" />
+
+                <p className="font-serif text-base text-amber-100/90 leading-relaxed italic">
+                  &ldquo;To preserve sacred tradition with grace, transparency, and openness for all seekers.&rdquo;
+                </p>
+
+                <ul className="space-y-2.5 text-xs text-amber-100/75 pt-2">
+                  <li className="flex items-start gap-2.5">
+                    <CheckCircle2 className="size-4 text-[var(--gold)] shrink-0 mt-0.5" />
+                    <span>Pure Vedic rites performed by hereditary Shreepujaks.</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <CheckCircle2 className="size-4 text-[var(--gold)] shrink-0 mt-0.5" />
+                    <span>Live Gotra Sankalpa video &amp; photo proof delivered to devotees.</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <CheckCircle2 className="size-4 text-[var(--gold)] shrink-0 mt-0.5" />
+                    <span>Consecrated Mahaprasad securely dispatched worldwide.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="mt-8 pt-4 border-t border-amber-500/15 flex items-center justify-between text-[11px] text-amber-300/60 font-mono">
+                <span>Sansthan Seva</span>
+                <span className="text-amber-400/90 font-bold">Pillar 01</span>
+              </div>
+            </motion.div>
+
+            {/* Card 2: Vision */}
+            <motion.div
+              whileHover={{ y: -6, scale: 1.01 }}
+              transition={{ duration: 0.3 }}
+              className="relative rounded-3xl border-2 border-[var(--gold)]/50 bg-gradient-to-b from-[#551422]/90 via-[#3B0A16]/90 to-[#26060E] p-7 sm:p-8 shadow-2xl backdrop-blur-md flex flex-col justify-between group hover:border-amber-300 hover:shadow-[0_0_40px_rgba(251,191,36,0.3)] transition-all duration-300"
+            >
+              {/* Highlight Ribbon */}
+              <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-amber-600 via-[var(--gold)] to-amber-600 text-stone-950 text-[10px] font-extrabold uppercase tracking-widest px-4 py-0.5 rounded-full shadow-md border border-amber-200">
+                Core Sanctuary Vision
+              </div>
+
+              <div className="space-y-5">
+                <div className="flex items-center justify-between">
+                  <div className="size-14 rounded-2xl bg-gradient-to-br from-amber-400/25 via-amber-500/15 to-transparent border border-[var(--gold)] text-amber-300 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <Eye className="size-7" />
+                  </div>
+                  <span className="text-[10px] uppercase font-bold tracking-widest text-amber-300 bg-amber-500/15 px-3 py-1 rounded-full border border-amber-500/30">
+                    Sarva Seva
+                  </span>
+                </div>
+
+                <div>
+                  <span className="text-[11px] uppercase font-bold tracking-[0.25em] text-amber-400 block mb-1">
+                    Our Vision
+                  </span>
+                  <h3 className="font-serif text-2xl font-bold text-amber-50 leading-snug">
+                    A Universal Spiritual Home
+                  </h3>
+                </div>
+
+                <div className="h-px w-full bg-gradient-to-r from-amber-500/40 via-amber-300/20 to-transparent" />
+
+                <p className="font-serif text-base text-amber-100/90 leading-relaxed italic">
+                  &ldquo;A spiritual home for every seeker, of every path, transcending geographical limits.&rdquo;
+                </p>
+
+                <ul className="space-y-2.5 text-xs text-amber-100/75 pt-2">
+                  <li className="flex items-start gap-2.5">
+                    <CheckCircle2 className="size-4 text-[var(--gold)] shrink-0 mt-0.5" />
+                    <span>Connecting millions globally with the chief abode of Ambabai.</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <CheckCircle2 className="size-4 text-[var(--gold)] shrink-0 mt-0.5" />
+                    <span>Digitally accessible darshan timings, aartis &amp; sacred festal guides.</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <CheckCircle2 className="size-4 text-[var(--gold)] shrink-0 mt-0.5" />
+                    <span>Empowering genuine faith, peace, and family spiritual well-being.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="mt-8 pt-4 border-t border-amber-500/15 flex items-center justify-between text-[11px] text-amber-300/60 font-mono">
+                <span>Sansthan Seva</span>
+                <span className="text-amber-400/90 font-bold">Pillar 02</span>
+              </div>
+            </motion.div>
+
+            {/* Card 3: Values */}
+            <motion.div
+              whileHover={{ y: -6, scale: 1.01 }}
+              transition={{ duration: 0.3 }}
+              className="relative rounded-3xl border-2 border-amber-500/30 bg-gradient-to-b from-[#4A101C]/80 via-[#320812]/90 to-[#20050B] p-7 sm:p-8 shadow-2xl backdrop-blur-md flex flex-col justify-between group hover:border-[var(--gold)] hover:shadow-[0_0_35px_rgba(212,160,23,0.25)] transition-all duration-300"
+            >
+              <div className="space-y-5">
+                <div className="flex items-center justify-between">
+                  <div className="size-14 rounded-2xl bg-gradient-to-br from-rose-400/20 via-amber-500/10 to-transparent border border-rose-400/40 text-amber-300 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <HeartHandshake className="size-7" />
+                  </div>
+                  <span className="text-[10px] uppercase font-bold tracking-widest text-amber-300/80 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">
+                    Chaturvidha
+                  </span>
+                </div>
+
+                <div>
+                  <span className="text-[11px] uppercase font-bold tracking-[0.25em] text-amber-400/90 block mb-1">
+                    Our Values
+                  </span>
+                  <h3 className="font-serif text-2xl font-bold text-amber-50 leading-snug">
+                    Four Sacred Virtues
+                  </h3>
+                </div>
+
+                <div className="h-px w-full bg-gradient-to-r from-amber-500/40 via-amber-300/20 to-transparent" />
+
+                <div className="grid grid-cols-2 gap-2.5 pt-1">
+                  <div className="p-3 rounded-2xl bg-white/5 border border-white/10 space-y-0.5 hover:border-[var(--gold)]/50 transition-colors">
+                    <div className="font-serif text-base font-bold text-[var(--gold)]">Reverence</div>
+                    <div className="text-[11px] text-amber-100/70">Unwavering devotion (श्रद्धा)</div>
+                  </div>
+                  <div className="p-3 rounded-2xl bg-white/5 border border-white/10 space-y-0.5 hover:border-[var(--gold)]/50 transition-colors">
+                    <div className="font-serif text-base font-bold text-[var(--gold)]">Service</div>
+                    <div className="text-[11px] text-amber-100/70">Selfless pilgrim seva (सेवा)</div>
+                  </div>
+                  <div className="p-3 rounded-2xl bg-white/5 border border-white/10 space-y-0.5 hover:border-[var(--gold)]/50 transition-colors">
+                    <div className="font-serif text-base font-bold text-[var(--gold)]">Compassion</div>
+                    <div className="text-[11px] text-amber-100/70">Heartfelt warmth (करुणा)</div>
+                  </div>
+                  <div className="p-3 rounded-2xl bg-white/5 border border-white/10 space-y-0.5 hover:border-[var(--gold)]/50 transition-colors">
+                    <div className="font-serif text-base font-bold text-[var(--gold)]">Sanctity</div>
+                    <div className="text-[11px] text-amber-100/70">Vedic purity &amp; beauty (सौंदर्य)</div>
+                  </div>
+                </div>
+
+                <p className="text-xs text-amber-100/75 leading-relaxed pt-1">
+                  Every ritual, blessing, and interaction reflects these ancient principles of devotion.
+                </p>
+              </div>
+
+              <div className="mt-8 pt-4 border-t border-amber-500/15 flex items-center justify-between text-[11px] text-amber-300/60 font-mono">
+                <span>Sansthan Seva</span>
+                <span className="text-amber-400/90 font-bold">Pillar 03</span>
+              </div>
+            </motion.div>
           </div>
-          <div>
-            <h3 className="text-xs uppercase tracking-[0.3em] font-bold text-amber-500 mb-4">VALUES</h3>
-            <p className="font-serif text-xl text-amber-100 space-y-1">
-              <span className="block">Reverence.</span>
-              <span className="block">Service.</span>
-              <span className="block">Compassion.</span>
-              <span className="block">Beauty.</span>
+
+          {/* Bottom Vedic Shloka Ribbon */}
+          <div className="text-center pt-8 border-t border-amber-900/60">
+            <p className="font-serif text-base sm:text-lg text-[var(--gold)]/90 tracking-wide font-medium">
+              ॥ सर्वमङ्गलमाङ्गल्ये शिवे सर्वार्थसाधिके । शरण्ये त्र्यम्बके गौरि नारायणि नमोऽस्तु ते ॥
+            </p>
+            <p className="text-[11px] uppercase tracking-widest text-amber-200/50 mt-1">
+              Shri Karveer Nivasini Ambabai Mahalaxmi Temple Sansthan
             </p>
           </div>
         </div>
@@ -199,8 +384,6 @@ export default function AboutPage() {
               { icon: "🕉️", title: "Online Puja Booking", desc: "Book personalized pujas performed by hereditary Shreepujak." },
               { icon: "📿", title: "Chadhava / Arpan", desc: "Offer Regular Otee, Saree Otee, directly to Goddess Mahalaxmi." },
               { icon: "🍃", title: "Naivedya / Bhog", desc: "Offer Puranpoli Naivedya and sacred Bhojan in your family name." },
-              { icon: "📺", title: "Online Darshan", desc: "Watch live aarti and darshan of Goddess Ambabai 24/7." },
-              { icon: "🛕", title: "Offline Darshan Pass", desc: "Book VIP darshan passes for priority temple entry." },
               { icon: "🙏", title: "Annadan & Gou Seva", desc: "Contribute to sacred Annadan and Goushala Gou Seva." }
             ].map((s, i) => (
               <div key={i} className="p-6 rounded-2xl bg-white border border-amber-900/10 shadow-sm flex gap-4 items-start">
