@@ -73,52 +73,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 4. Kirnotsav */}
-      <section className="py-24 sm:py-32 px-4 sm:px-6 max-w-4xl mx-auto w-full text-center">
-        <h2 className="text-xs uppercase tracking-[0.3em] font-bold text-amber-800 mb-6">
-          KIRNOTSAV
-        </h2>
-        <p className="font-serif text-3xl sm:text-4xl leading-tight mb-8 text-amber-950">
-          A rare alignment of <br className="hidden sm:block" /> light and devotion.
-        </p>
-        <p className="text-sm sm:text-base text-stone-700 leading-relaxed max-w-2xl mx-auto">
-          The annual Kirnotsav (Festival of Sun Rays) is a unique architectural and astronomical phenomenon. Twice a year, in January and November, the setting sun aligns perfectly with the temple's western entrance. The golden rays travel across the mandapam, illuminating the Goddess's feet on the first day, her chest on the second, and finally resting upon her face on the third day.
-        </p>
-      </section>
-
-      {/* 5. Architecture Grid */}
-      <section className="py-24 px-4 sm:px-6 w-full bg-[#1A1412] text-amber-50">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-xs uppercase tracking-[0.3em] font-bold text-amber-500 mb-4">
-              ARCHITECTURE
-            </h2>
-            <h3 className="font-serif text-3xl sm:text-4xl text-white">
-              A Geometry of Devotion
-            </h3>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-y-12 gap-x-8 text-center">
-            {[
-              { id: "01", title: "Gopuram", desc: "The towering, intricately carved entrance gateway." },
-              { id: "02", title: "Main Entrance", desc: "Sacred thresholds leading inward to the divine." },
-              { id: "03", title: "Mandapam", desc: "The grand assembly hall supported by master-crafted pillars." },
-              { id: "04", title: "Sanctum", desc: "Garbhagriha — the innermost sacred chamber." },
-              { id: "05", title: "Pillars", desc: "Monolithic columns bearing ancient stories and geometry." },
-              { id: "06", title: "Carvings", desc: "Centuries-old bas-reliefs of celestial dancers and deities." }
-            ].map((item) => (
-              <div key={item.id} className="flex flex-col items-center">
-                <span className="text-sm font-mono text-amber-500/70 mb-3">{item.id}</span>
-                <h4 className="font-serif text-xl text-amber-100 mb-2">{item.title}</h4>
-                <div className="w-8 h-[1px] bg-amber-500/30 mb-3" />
-                <p className="text-xs text-amber-50/60 max-w-[200px]">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 6. Temple Information */}
+      {/* 4. Temple Information */}
       <section className="py-16 sm:py-20 px-4 sm:px-6 max-w-5xl mx-auto w-full space-y-8">
         <div className="text-center space-y-2">
           <span className="text-xs uppercase tracking-[0.25em] font-bold text-amber-800 bg-amber-100 px-3.5 py-1 rounded-full border border-amber-300">
