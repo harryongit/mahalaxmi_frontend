@@ -31,20 +31,29 @@ export default function AboutPage() {
       {/* 1. Immersive Temple Hero */}
       <AboutHeroCanvas />
 
-      {/* 2. About the Temple */}
-      <section className="py-24 sm:py-32 px-4 sm:px-6 max-w-4xl mx-auto w-full text-center">
-        <h2 className="text-xs uppercase tracking-[0.3em] font-bold text-amber-800 mb-6">
-          ABOUT THE TEMPLE
-        </h2>
-        <p className="font-serif text-3xl sm:text-5xl leading-tight mb-12 text-amber-950">
-          A sanctuary woven <br className="hidden sm:block" /> from stone, fire and song.
-        </p>
-        <div className="space-y-6 text-sm sm:text-base text-stone-700 leading-relaxed max-w-2xl mx-auto text-left">
-          <p>
-            Shri Mahalaxmi Mandir in Kolhapur is one of the most sacred Shakti Peethas in India, dedicated to Goddess Mahalaxmi (Ambabai). Built originally during the Chalukya period in the 7th century CE, the <Link href="/temple-history" className="text-amber-900 font-bold underline">temple has been expanded over centuries</Link> by various dynasties including the Shilahara, Yadava, and Maratha rulers.
+      {/* 2. Our Sacred Journey */}
+      <section className="py-20 sm:py-28 px-4 sm:px-6 max-w-4xl mx-auto w-full text-center space-y-8">
+        <div className="space-y-3">
+          <span className="text-xs uppercase tracking-[0.3em] font-bold text-amber-800 bg-amber-100 px-3.5 py-1 rounded-full border border-amber-300 inline-block">
+            Our Sacred Journey
+          </span>
+          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-amber-950 leading-tight">
+            Bridging Devotion &amp; Divine Grace
+          </h2>
+          <p className="text-sm sm:text-base text-amber-900/80 font-medium max-w-2xl mx-auto">
+            Connecting devotees worldwide to Goddess Shree Mahalaxmi Ambabai.
+          </p>
+        </div>
+
+        <div className="space-y-6 text-sm sm:text-base text-stone-700 leading-relaxed max-w-3xl mx-auto text-left bg-white/70 border border-amber-200/80 p-8 sm:p-10 rounded-3xl shadow-sm">
+          <p className="font-serif text-lg text-amber-950/90 leading-relaxed italic border-l-4 border-[var(--gold)] pl-4">
+            MahalaxmiPuja was born from a vision to bring divine blessing to devotees who can not visit physically, in a virtual format, by using modern technology.
           </p>
           <p>
-            It holds immense importance in Hindu tradition, standing as an enduring symbol of spiritual devotion, cultural heritage, and incredible ancient architectural mastery. The temple remains a living, breathing space where centuries-old <Link href="/darshan-timings" className="text-amber-900 font-bold underline">traditions and daily aartis</Link> are performed every single day without interruption.
+            We believe that distance should never be a barrier to seeking divine blessings. Through our innovative online platform, we bring the sacred rituals of Shree Mahalaxmi Ambabai directly to your homes, maintaining the authenticity and sanctity of traditional temple worship.
+          </p>
+          <p>
+            Our experienced pandits perform each puja with complete dedication and devotion, ensuring that every ritual follows the ancient Vedic traditions. From simple offerings to elaborate ceremonies, we treat each service with equal reverence and care.
           </p>
         </div>
       </section>
@@ -287,21 +296,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 8. MahalaxmiPuja Story */}
-      <section className="py-24 sm:py-32 px-4 sm:px-6 max-w-3xl mx-auto w-full text-center">
-        <h2 className="text-xs uppercase tracking-[0.3em] font-bold text-amber-800 mb-6">
-          OUR SACRED JOURNEY
-        </h2>
-        <p className="text-sm sm:text-base text-stone-700 leading-relaxed mb-8">
-          MahalaxmiPuja was born from a vision to bring authentic temple rituals closer to devotees who cannot physically visit Kolhapur. We understand that devotion knows no geographical boundaries.
-        </p>
-        <p className="text-sm sm:text-base text-stone-700 leading-relaxed mb-10">
-          Our platform serves as a digital bridge to the divine, ensuring that every seva, chadhava, and naivedya is offered with exact Vedic precision by the hereditary Shreepujaks of the temple, directly in your name.
-        </p>
-        <div className="w-16 h-[1px] bg-amber-900/20 mx-auto" />
-      </section>
-
-      {/* 9. Services & Statistics */}
+      {/* 7. Services & Statistics */}
       <section className="py-16 px-4 sm:px-6 max-w-6xl mx-auto w-full space-y-20">
 
         {/* Services List */}
